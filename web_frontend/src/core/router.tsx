@@ -1,9 +1,12 @@
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 
 function Router() {
   return (
     <BrowserRouter>
-      <Routes>{/* <Route path="/home" element={<Homeview />} /> */}</Routes>
+      <Routes>
+        <Route path="/schedule" element={<SeniorSchedule />} />
+      </Routes>
     </BrowserRouter>
   );
 }
