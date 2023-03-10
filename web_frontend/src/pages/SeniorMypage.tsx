@@ -12,15 +12,15 @@ function SeniorMypage() {
         <StUserCode>#7732</StUserCode>
       </StInfoContainer>
 
-      <StButtonContainer>
+      <StButtonContainer onClick={() => navigate("#")}>
         <StButtonInfo>개인정보 변경하기</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
-      <StButtonContainer>
+      <StButtonContainer onClick={() => navigate("#")}>
         <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
-      <StButtonContainer>
+      <StButtonContainer onClick={() => navigate("#")}>
         <StButtonInfo>연결된 카메라 확인하기</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
@@ -75,6 +75,7 @@ const StButtonContainer = styled.div`
   justify-content: space-between;
   margin-left: 2.3rem;
   margin-right: 2.3rem;
+  cursor: pointer;
 `;
 
 const StButtonInfo = styled.span`
