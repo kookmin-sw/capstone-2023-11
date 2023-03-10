@@ -24,8 +24,9 @@ function SeniorMypage() {
         <StButtonInfo>연결된 카메라 확인하기</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
-
-      <StLoginButton onClick={() => navigate(-1)}>로그아웃</StLoginButton>
+      <StLogContainer>
+        <StLogoutButton onClick={() => navigate(-1)}>로그아웃</StLogoutButton>
+      </StLogContainer>
     </StSeniorMypage>
   );
 }
@@ -88,7 +89,12 @@ const StButtonIcon = styled.img`
   margin-top: 1.7rem;
   margin-right: 1.6rem;
 `;
-const StLoginButton = styled.button`
+const StLogContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+const StLogoutButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,7 +106,5 @@ const StLoginButton = styled.button`
   font-family: "Pretendard-Regular";
   font-size: 1.2rem;
   background-color: white;
-  margin-left: 9rem;
-  margin-right: 9rem;
   margin-top: 9rem;
 `;
