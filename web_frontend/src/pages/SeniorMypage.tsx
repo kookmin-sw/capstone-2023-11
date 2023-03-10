@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 function SeniorMypage() {
+  const navigate = useNavigate();
   return (
     <StSeniorMypage>
       <StIntroText>안녕하세요 김딸기님.</StIntroText>
@@ -21,6 +24,8 @@ function SeniorMypage() {
         <StButtonInfo>연결된 카메라 확인하기</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
+
+      <StLoginButton onClick={() => navigate(-1)}>로그아웃</StLoginButton>
     </StSeniorMypage>
   );
 }
@@ -82,4 +87,20 @@ const StButtonIcon = styled.img`
   height: 1.2rem;
   margin-top: 1.7rem;
   margin-right: 1.6rem;
+`;
+const StLoginButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 19.6rem;
+  height: 4rem;
+  border: 0.15rem solid #006ffd;
+  border-radius: 1.2rem;
+  color: #006ffd;
+  font-family: "Pretendard-Regular";
+  font-size: 1.2rem;
+  background-color: white;
+  margin-left: 9rem;
+  margin-right: 9rem;
+  margin-top: 9rem;
 `;
