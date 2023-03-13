@@ -1,4 +1,4 @@
-package capstone.server.user_ward.entity;
+package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
 import lombok.Getter;
