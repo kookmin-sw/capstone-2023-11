@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Getter @Setter @ToString
+@Getter @ToString
 @Table(name = "userGuardian")
 @Entity
 public class UserGuardian extends BaseTimeEntity {

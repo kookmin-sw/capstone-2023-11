@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Getter @Setter @ToString
+@Getter @ToString
 @Table(name = "userWard")
 @Entity
 public class UserWard extends BaseTimeEntity {
@@ -16,6 +16,7 @@ public class UserWard extends BaseTimeEntity {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")
   private Long userId;
+
 
   @Column(name = "kakao_account_id")
   private Long kakaoAccountId;
