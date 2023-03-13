@@ -46,6 +46,6 @@ public class Medicine extends BaseTimeEntity {
     private LocalDateTime dueAt;
 
     @ManyToOne
-    @JoinColumn(name = "user+_ward_user_id")
+    @JoinColumn(name = "user_ward_user_id")
     private UserWard userWard;
 }
