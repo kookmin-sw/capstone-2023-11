@@ -45,6 +45,6 @@ public class Medicine {
     private LocalDateTime dueAt;
 
     @ManyToOne
-    @JoinColumn(name = "userWard_user_id")
+    @JoinColumn(name = "user+_ward_user_id")
     private UserWard userWard;
 }
