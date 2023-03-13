@@ -1,5 +1,6 @@
 package capstone.server.entity;
 
+import capstone.server.utils.BaseTimeEntity;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -9,10 +10,10 @@ import java.time.LocalDateTime;
 @Getter @ToString
 @Table(name = "madicine")
 @Entity
-public class Medicine {
+public class Medicine extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
