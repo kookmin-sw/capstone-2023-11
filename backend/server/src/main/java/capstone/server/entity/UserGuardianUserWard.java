@@ -8,9 +8,9 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Getter @ToString
-@Table(name = "userGuardianUserWardEach")
+@Table(name = "userGuardian_userWard")
 @Entity
-public class UserGuardianUserWardEach extends BaseTimeEntity {
+public class UserGuardianUserWard extends BaseTimeEntity {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
