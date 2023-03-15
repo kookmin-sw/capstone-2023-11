@@ -9,52 +9,6 @@ import {
 } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-const StSeniorMain = styled.div`
-  padding: 0rem 2rem;
-  margin: 0;
-`;
-
-const Header = styled.header`
-  display: flex;
-  width: 100%;
-  padding-top: 3rem;
-  padding-bottom: 15rem;
-`;
-
-const User = styled.div`
-  margin-left: auto;
-  font-size: 1.5rem;
-  display: flex;
-  &:hover {
-    color: gray;
-  }
-`;
-
-//const TopItem = styled.div``;
-
-const MenuList = styled.ul``;
-
-const MenuItem = styled.li`
-  background-color: white;
-  width: 100%;
-  color: black;
-  display: inline-flex;
-  margin-left: 1rem;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
-  border-radius: 0.5rem;
-  font-size: 2rem;
-  &:hover {
-    color: gray;
-  }
-`;
-
-const Arrow = styled.div`
-  width: 3rem;
-  height: 3rem;
-  margin-left: auto;
-`;
-
 function SeniorMain() {
   const [isRecoding, setRecoding] = useState(true);
   useEffect(() => {
@@ -93,5 +47,49 @@ function SeniorMain() {
     </StSeniorMain>
   );
 }
+
+const StSeniorMain = styled.div`
+  padding: 0rem 2rem;
+  margin: 0;
+`;
+
+const Header = styled.header`
+  display: flex;
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 15rem;
+`;
+
+const User = styled.div`
+  margin-left: auto;
+  font-size: 1.5rem;
+  display: flex;
+  &:hover {
+    color: gray;
+  }
+`;
+
+const MenuList = styled.ul``;
+
+const MenuItem = styled.li`
+  background-color: white;
+  width: 100%;
+  color: black;
+  display: inline-flex;
+  margin-left: 1rem;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+  &:hover {
+    color: gray;
+  }
+`;
+
+const Arrow = styled.div`
+  width: 3rem;
+  height: 3rem;
+  margin-left: auto;
+`;
 
 export default SeniorMain;
