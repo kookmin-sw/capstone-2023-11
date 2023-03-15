@@ -8,8 +8,8 @@ function Router() {
       <Routes>
         <Route path="/senior/myPage" element={<SeniorMypage />} />
         <Route path="/schedule" element={<SeniorSchedule />} />
+        <Route path="/senior/main" element={<SeniorMain />} />
       </Routes>
-      <SeniorMain />
     </BrowserRouter>
   );
 }
