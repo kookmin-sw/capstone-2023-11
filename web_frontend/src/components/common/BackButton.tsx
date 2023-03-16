@@ -8,9 +8,10 @@ const StButtonBack = styled.img`
 `;
 const BackButton = (props: { to: string }) => {
   return (
-    <StButtonBack src={require("../../assets/images/img_left.png")}>
+    <>
+      <StButtonBack src={require("../../assets/images/img_left.png")}></StButtonBack>
       <Link to={props.to}></Link>
-    </StButtonBack>
+    </>
   );
 };
 
