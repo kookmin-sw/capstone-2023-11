@@ -3,6 +3,7 @@ import SeniorMypage from "../pages/SeniorMypage";
 import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 // import SeniorMain from "../components/SeniorMain";
 import LoginPage from "../pages/LoginPage";
+import KakaoAuthPage from "../pages/KakaoAuthPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -10,6 +11,7 @@ function Router() {
         <Route path="/senior/myPage" element={<SeniorMypage />} />
         <Route path="/schedule" element={<SeniorSchedule />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/kakao" element={<KakaoAuthPage />} />
       </Routes>
     </BrowserRouter>
   );
