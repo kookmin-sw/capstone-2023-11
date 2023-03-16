@@ -89,6 +89,9 @@ function NutrientChart() {
             highlightDataSeries: false,
           },
         },
+        tooltip: {
+          enabled: false,
+        },
       }}
     />
   );

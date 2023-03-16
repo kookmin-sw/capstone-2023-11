@@ -46,8 +46,9 @@ const CommentContainer = styled(ChartContainer)`
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
   font-size: 2rem;
-  padding: 2rem 2rem;
+  padding: 1rem 2rem;
   text-align: center;
+  margin-top: 1rem;
 `;
 
 const StText = styled.div`
