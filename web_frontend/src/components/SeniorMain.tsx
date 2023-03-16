@@ -43,7 +43,7 @@ const MenuItem = styled.li`
   margin-bottom: 3rem;
   margin-top: 3rem;
   border-radius: 0.5rem;
-  font-size: 3rem;
+  font-size: 2rem;
   &:hover {
     color: gray;
   }
