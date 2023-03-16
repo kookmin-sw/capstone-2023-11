@@ -3,6 +3,7 @@ import CalChart from "../components/seniorSummary/CalChart";
 import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
+import { BlueButton } from "../components/common/BlueButton";
 
 const StHeader = styled.header`
   position: fixed;
@@ -87,6 +88,7 @@ function SeniorSummaryPage() {
           <CalChart />
           <CommentContainer>{nutrientText[1]}</CommentContainer>
         </ChartContainer>
+        <BlueButton>먹은 음식 기록 보기</BlueButton>
       </STContainer>
     </>
   );
