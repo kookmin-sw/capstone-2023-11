@@ -6,11 +6,17 @@ const StButtonBack = styled.img`
   height: 2rem;
   margin: 1rem;
 `;
+function handleClick(props: string) {
+  console.log(props);
+  return <Link to={`/addschedule`}></Link>;
+}
+
 const BackButton = (props: { to: string }) => {
   return (
     <>
-      <StButtonBack src={require("../../assets/images/img_left.png")}></StButtonBack>
-      <Link to={props.to}></Link>
+      <StButtonBack
+        src={require("../../assets/images/img_left.png")}
+        onClick={() => handleClick(props.to)}></StButtonBack>
     </>
   );
 };

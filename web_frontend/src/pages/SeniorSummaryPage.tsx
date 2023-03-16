@@ -2,6 +2,7 @@ import styled from "styled-components";
 import CalChart from "../components/seniorSummary/CalChart";
 import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
+import ScoreChart from "../components/seniorSummary/ScoreChart";
 
 const StHeader = styled.header`
   position: fixed;
@@ -11,7 +12,8 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
+  z-index: 9999;
 `;
 const HeaderText = styled.div`
   font-size: 1.8rem;
@@ -19,6 +21,7 @@ const HeaderText = styled.div`
   font-family: "Pretendard-Regular";
   align-self: center;
   color: #71727a;
+  flex: 1 1 0;
 `;
 
 const ChartContainer = styled.div`
@@ -61,7 +64,7 @@ const STContainer = styled.div`
 
 const nutrientText = {
   0: `이번주에는 지방과 탄수화물은 적당하지만\n단백질이 부족합니다\n고기나 계란류를 더 먹으면 좋을 것 같습니다`,
-  1: `한끼를 거르게 되면 식단이 불균형해지니 되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
+  1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
 };
 function SeniorSummaryPage() {
   return (
@@ -71,7 +74,8 @@ function SeniorSummaryPage() {
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
-        <StTitle>김딸기님의 건강 점수는 80점! 😃</StTitle>
+        <StTitle>김딸기님의 건강 점수는?? 😃</StTitle>
+        <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
           <NutrientChart />
