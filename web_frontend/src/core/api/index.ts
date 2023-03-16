@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DOMAIN } from "../../constants/domain";
 
 export const getKakaoAccessToken = async (authorization: string) => {
   const data = axios.post(
@@ -7,11 +8,12 @@ export const getKakaoAccessToken = async (authorization: string) => {
     {
       params: {
         grant_type: "authorization_code",
-        client_id: process.env.NEXT_PUBLIC_KAKAO_API_KEY,
-        redirect_uri: "/auth/kakao",
+        client_id: process.env.REACT_APP_KAKAOKEY,
+        redirect_uri: `${DOMAIN}/auth/kakao`,
         code: authorization,
       },
     },
   );
+
   return data;
 };
