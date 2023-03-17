@@ -69,7 +69,7 @@ function NutrientChart() {
               maxItems: 50,
               hideOverflowingLabels: true,
               total: {
-                enabled: true,
+                enabled: false,
                 style: {
                   fontSize: "1.3rem",
                   fontWeight: 900,
