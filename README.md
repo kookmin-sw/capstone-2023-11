@@ -1,7 +1,7 @@
 
 ## 🔉 프로젝트 소개 
 
-## 📱 나만의 작은 복지사, 복실이
+## 📱 나만의 작은 복지사 서비스, 복실이
 
 부모님의 건강정보가 궁금하시지 않으신가요?
 부모님의 건강 상태를 모니터링하고 건강한 삶을 유지하는데 필요한 다양한 정보와 조언을 제공합니다.
@@ -22,6 +22,8 @@
               <br />
               <b>박동재 (jea0716)</b>
             </a> 
+            <br/>
+              20181609
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/hayounSong">
@@ -29,6 +31,8 @@
               <br />
               <b>송하윤 (hayounSong)</b>
             </a>
+                       <br/>
+              20181633
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/jjun990908">
@@ -37,6 +41,8 @@
               <b>박준영 (
 jjun990908)</b>
             </a> 
+                       <br/>
+              20181620
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/ho-jun99">
@@ -44,6 +50,8 @@ jjun990908)</b>
               <br />
               <b>김호준 (ho-jun99)</b>
             </a> 
+                       <br/>
+              20181605
         </td>
                 <td style="min-width: 150px;">
             <a href="https://github.com/CULRRY">
@@ -51,6 +59,8 @@ jjun990908)</b>
               <br />
               <b>김호준 (CULRRY)</b>
             </a> 
+                       <br/>
+              20181604
         </td>
     </tr>
     <tr align="center">
