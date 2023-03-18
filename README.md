@@ -23,7 +23,7 @@
               <b>박동재 (jea0716)</b>
             </a> 
             <br/>
-              20181609
+              ****1609
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/hayounSong">
@@ -32,7 +32,7 @@
               <b>송하윤 (hayounSong)</b>
             </a>
                        <br/>
-              20181633
+              ****1633
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/jjun990908">
@@ -42,7 +42,7 @@
 jjun990908)</b>
             </a> 
                        <br/>
-              20181620
+              ****1620
         </td>
         <td style="min-width: 150px;">
             <a href="https://github.com/ho-jun99">
@@ -51,7 +51,7 @@ jjun990908)</b>
               <b>김호준 (ho-jun99)</b>
             </a> 
                        <br/>
-              20181605
+              ****1605
         </td>
                 <td style="min-width: 150px;">
             <a href="https://github.com/CULRRY">
@@ -60,7 +60,7 @@ jjun990908)</b>
               <b>김호준 (CULRRY)</b>
             </a> 
                        <br/>
-              20181604
+              ****1604
         </td>
     </tr>
     <tr align="center">
