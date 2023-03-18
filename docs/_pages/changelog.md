@@ -1,6 +1,6 @@
 ---
 layout: page
-title: What's New
+title: Release Note
 include_in_header: true
 ---
 

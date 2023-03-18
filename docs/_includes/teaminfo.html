@@ -1,0 +1,26 @@
+<div class="teams">
+
+    {% for info in site.team_info %}
+
+    {% if info.name %}
+    <div class="team">
+        <div>
+            <span class="fa-stack fa-1x">
+                <i class="iconBack fas fa-circle fa-stack-2x"></i>
+                <i class="iconTop fas fa-{{ feature.fontawesome_icon_name }} fa-stack-1x"></i>
+            </span>
+        </div>
+        <div class="featureText">
+            <h3>
+                {{ info.name }}
+            </h3>
+            <p>
+                {{ info.description }}
+            </p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+
+</div>

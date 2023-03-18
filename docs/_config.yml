@@ -1,5 +1,5 @@
 #page title
-page_title                                :                                           # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
+page_title                                : 복실이 - 캡스톤 11팀                                          # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
 
 # App Info
 ios_app_id                                : 1234793120                                # Required. Enter iOS app ID to automatically populate name, price and icons (e.g. 718043190).
@@ -10,10 +10,10 @@ playstore_link                            :                                     
 presskit_download_link                    : https://emilbaehr.com                                          # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file). 
                                                                                       # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
 
-app_icon                                  : # assets/appicon.png                      # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
-app_name                                  :                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
-app_price                                 :                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
-app_description                           : Write a short tagline for your app.
+app_icon                                  : assets/appicon.png                      # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
+app_name                                  : 복실이                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_price                                 : 나만의 작은 복지사                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_description                           : 부모님의 건강정보가 궁금하시지 않으신가요? <br>부모님의 건강 상태를 모니터링하고 건강한 삶을 유지하는데 필요한 다양한 정보와 조언을 제공합니다. <br>복실이를 통해 부모님의 건강을 보다 적극적으로 관리해보세요!
 
 enable_smart_app_banner                   : true                                      # Set to true to show a smart app banner at top of page on mobile devices.
 
@@ -35,47 +35,47 @@ youtube_username                          :
 # Feature List                            Edit, add or remove features to be presented.
 features                                  :
 
-  - title                                 : GitHub Pages Jekyll Theme
-    description                           : Designed for GitHub Pages. Fork. Edit _config.yml. Upload screenshot/video. Push to gh-pages branch. Voilá!
-    fontawesome_icon_name                 : magic
-    
-  - title                                 : iPhone Device Preview
-    description                           : Preview your app in the context of an iPhone device. Five different device colors included.
-    fontawesome_icon_name                 : mobile
-
-  - title                                 : Video Support
-    description                           : Preview app video on the iPhone device simply by placing your video files in the videos folder.
-    fontawesome_icon_name                 : play-circle
-
-  - title                                 : Automatic Icon and Metadata
-    description                           : Enter iOS app ID in the _config.yml file to automatically fetch app icon, price and App Store Link.
-    fontawesome_icon_name                 : sync
-
-  - title                                 : Easy to Tweak
-    description                           : Tweak accent color, images, icons and transparency via the _config.yml file. No HTML/CSS needed.
-    fontawesome_icon_name                 : adjust
+  - title                                 : 건강 데이터 분석
+    description                           : 부가 설명 필요
+    fontawesome_icon_name                 : heart-pulse
   
-  - title                                 : Feature List
-    description                           : Add features (like this one) to your site via the _config.yml file. No HTML/CSS needed.
-    fontawesome_icon_name                 : star
+  - title                                 : 이미지 인식을 활용한, 간단한 식단 등록
+    description                           : 부가 설명 필요
+    fontawesome_icon_name                 : mortar-pestle
 
-  - title                                 : Smart App Banner
-    description                           : Display a smart app banner on iOS devices.
-    fontawesome_icon_name                 : arrow-alt-circle-down
+  - title                                 : 이미지 인식을 활용한, 복용중인 약 관리
+    description                           : 부가 설명 필요
+    fontawesome_icon_name                 : capsules
 
-  - title                                 : Social Links
-    description                           : Easily add social media accounts and contact info in the footer via the _config.yml file. No HTML/CSS needed.
-    fontawesome_icon_name                 : link
+  - title                                 : AI 복지사의 건강 피드백
+    description                           : 부가 설명 필요
+    fontawesome_icon_name                 : message-medical
 
-  - title                                 : FontAwesome Support
-    description                           : Pick custom Font Awesome icons for the feature list via the _config.yml file. No HTML/CSS needed.
-    fontawesome_icon_name                 : info-circle
+  - title                                 : 보호자가 언제든 확인할 수 있는 부모님의 건강 정보
+    description                           : 🔹쉬운 요약 그래프<br> 🔹AI의 피드백으로 알림
+    fontawesome_icon_name                 : display-medical
 
-  - title                                 : # New Feature Title
-    description                           : # New Feature Description
-    fontawesome_icon_name                 : # Enter Font Awesome icon name (e.g. star). Find icons on fontawesome.com/icons.
+  - title                                 : 앓고있는 지병에 따른 식단 추천, 운동 추천 …
+    description                           : 부가 설명 필요
+    fontawesome_icon_name                 : user-doctor-message
 
 
+team_info                                 :
+  - name                                  : 김호준(XXXX1604)
+    description                           : Backend
+    fontawesome_icon_name                 : heart-pulse
+  - name                                  : 김호준(XXXX1604)
+    description                           : Backend
+    fontawesome_icon_name                 : heart-pulse
+  - name                                  : 김호준(XXXX1604)
+    description                           : Backend
+    fontawesome_icon_name                 : heart-pulse
+  - name                                  : 김호준(XXXX1604)
+    description                           : Backend
+    fontawesome_icon_name                 : heart-pulse
+  - name                                  : 김호준(XXXX1604)
+    description                           : Backend
+    fontawesome_icon_name                 : heart-pulse
 
 # Theme Settings
 topbar_color                              : "#000000"
