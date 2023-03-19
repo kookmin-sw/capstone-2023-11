@@ -12,7 +12,7 @@ html {
 }
 
 body {
-	font-size: 2rem;
+	font-size: 1.6rem;
 	background-color: $body-color;
 }
 
@@ -26,10 +26,13 @@ h1 {
 
 h2 {
 	font-size: 2rem;
+	padding-top: 2rem;
+	text-align: center;
 }
 
 h3 {
     font-size: 2rem;
+	letter-spacing: 0.1rem;
 }
 
 // Better font rendering

@@ -36,28 +36,25 @@ youtube_username                          :
 features                                  :
 
   - title                                 : 건강 데이터 분석
-    description                           : 부가 설명 필요
-    fontawesome_icon_name                 : heart-pulse
+    description                           : 영양소 및 운동 정보, 복용중인 약 정보를 통해, 건강 분석을 받아볼 수 있습니다.
+    fontawesome_icon_name                 : notes-medical
   
-  - title                                 : 이미지 인식을 활용한, 간단한 식단 등록
-    description                           : 부가 설명 필요
+  - title                                 : 간단한 식단 등록
+    description                           : 이미지 인식을 활용하여 사진 한장으로 자신이 식단을 간편하게 등록할 수 있습니다.
     fontawesome_icon_name                 : mortar-pestle
 
-  - title                                 : 이미지 인식을 활용한, 복용중인 약 관리
-    description                           : 부가 설명 필요
+  - title                                 : 간편하게 관리하는 내 약
+    description                           : OCR기술을 활용하여 처방약부터 시판약까지 한눈에 관리가 가능합니다.
     fontawesome_icon_name                 : capsules
 
   - title                                 : AI 복지사의 건강 피드백
-    description                           : 부가 설명 필요
+    description                           : 분석된 데이터를 통하여 AI 복지사의 개인 맞춤형 조언을 얻을 수 있습니다.
     fontawesome_icon_name                 : message-medical
 
-  - title                                 : 보호자가 언제든 확인할 수 있는 부모님의 건강 정보
-    description                           : 🔹쉬운 요약 그래프<br> 🔹AI의 피드백으로 알림
+  - title                                 : 실시간으로 확인하는 부모님의 건강 정보
+    description                           : 등록된 보호자라면, 언제 어디서든 부모님의 건강 정보를 확인할 수 있습니다.
     fontawesome_icon_name                 : display-medical
 
-  - title                                 : 앓고있는 지병에 따른 식단 추천, 운동 추천 …
-    description                           : 부가 설명 필요
-    fontawesome_icon_name                 : user-doctor-message
 
 
 team_info                                 :

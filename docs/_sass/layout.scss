@@ -78,7 +78,7 @@
 .page {
 	margin-top: 30px;
 	margin-bottom: 70px;
-	grid-column: 3/11;
+	grid-column: 1/13;
 }
 
 @media only screen and (max-width: 768px) {
@@ -510,6 +510,7 @@ nav > ul li a:active {
 	flex-grow: 1;
 	flex-wrap: wrap;
 	margin-top: 93px;
+	margin-bottom: 10rem;
 }
 
 .feature {
