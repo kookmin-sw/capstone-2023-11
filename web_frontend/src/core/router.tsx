@@ -3,6 +3,7 @@ import SeniorMypage from "../pages/SeniorMypage";
 import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 // import SeniorMain from "../components/SeniorMain";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
+import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -10,6 +11,7 @@ function Router() {
         <Route path="/senior/myPage" element={<SeniorMypage />} />
         <Route path="/schedule" element={<SeniorSchedule />} />
         <Route path="/summary" element={<SeniorSummaryPage />} />
+        <Route path="/senior/MealCheck" element={<SeniorMealCheckPage />} />
       </Routes>
     </BrowserRouter>
   );
