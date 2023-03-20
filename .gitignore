@@ -729,3 +729,6 @@ MigrationBackup/
 
 # 스프링 프로젝트 properties 이그노어 추가
 *.properties
+
+# backend 브랜치에서 docs 폴더 이그노어
+docs/
