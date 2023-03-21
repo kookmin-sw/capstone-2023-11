@@ -96,6 +96,30 @@ function SeniorJoinPage() {
         </StButtonContainer>
       </StSeniorPage>
     );
+  } else {
+    return (
+      <StSeniorPage>
+        <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+        <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
+        <StIllInfo>
+          💊 혹시 따로 앓고 있는 질병이 있으신가요?
+          <p /> 해당하는 질병에 모두 체크해주세요!
+        </StIllInfo>
+        <div>
+          {ills.includes("고혈압") ? (
+            <StButtonClicked
+              onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+              고혈압
+            </StButtonClicked>
+          ) : (
+            <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+              고혈압
+            </StButtonUnClicked>
+          )}
+        </div>
+      </StSeniorPage>
+    );
+  }
 }
 export default SeniorJoinPage;
 
