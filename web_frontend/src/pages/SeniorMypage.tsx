@@ -79,7 +79,7 @@ const StButtonContainer = styled.div`
 `;
 
 const StButtonInfo = styled.span`
-  font-size: 1.4rem;
+  font-size: 2rem;
   font-family: "Pretendard-Regular";
   padding: 1.6rem;
 `;

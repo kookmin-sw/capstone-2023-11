@@ -14,6 +14,7 @@ function Router() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/kakao" element={<KakaoAuthPage />} />
         <Route path="/join/senior" element={<SeniorJoinPage />} />
+        <Route path="/summary" element={<SeniorSummaryPage />} />
       </Routes>
     </BrowserRouter>
   );
