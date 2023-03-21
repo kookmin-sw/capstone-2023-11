@@ -1,4 +1,11 @@
 package capstone.server.medicine.service;
 
-public class MedicineService implements MedicineServiceImpl {
+import capstone.server.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.medicine.dto.PrescriptionDto;
+import org.springframework.stereotype.Service;
+
+@Service
+public interface MedicineService {
+
+    public void registerMedicineByBarcode(RegisterMedicineRequestDto barcodeDto);
 }

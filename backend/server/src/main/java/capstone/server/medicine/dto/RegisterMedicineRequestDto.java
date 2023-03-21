@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BarcodeDto {
+public class RegisterMedicineRequestDto {
     private String name;
 }
