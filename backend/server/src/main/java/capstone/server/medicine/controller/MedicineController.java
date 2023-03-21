@@ -19,8 +19,8 @@ public class MedicineController {
 
     @PostMapping(value = "/medicine/register")
     public ResponseEntity<?> registerMedicine(@RequestBody RegisterMedicineRequestDto barcodeDto) {
-        medicineService.registerMedicineByBarcode(barcodeDto);
+        medicineService.registerMedicine(barcodeDto);
         return ResponseEntity.ok().body("Success");
     }
-    
+
 }

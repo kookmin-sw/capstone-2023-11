@@ -19,9 +19,9 @@ public class MedicineServiceImpl implements MedicineService{
 
     @Override
     @Transactional
-    public void registerMedicineByBarcode(RegisterMedicineRequestDto barcodeDto) {
+    public void registerMedicine(RegisterMedicineRequestDto barcodeDto) {
+
         Medicine medicine = new Medicine();
     }
 
-    }
 }

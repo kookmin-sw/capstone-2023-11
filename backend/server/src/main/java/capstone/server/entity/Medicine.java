@@ -30,12 +30,6 @@ public class Medicine extends BaseTimeEntity {
     @Column(name = "caution")
     private String caution;
 
-    @Column(name = "interaction")
-    private String interaction;
-
-    @Column(name = "side_effect")
-    private String sideEffect;
-
     @Column(name = "deposit_method")
     private String depositMethod;
 

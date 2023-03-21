@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MedicineService {
 
-    public void registerMedicineByBarcode(RegisterMedicineRequestDto barcodeDto);
+    public void registerMedicine(RegisterMedicineRequestDto barcodeDto);
 }
