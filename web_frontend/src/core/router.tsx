@@ -5,6 +5,7 @@ import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
+import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 function Router() {
   return (
     <BrowserRouter>
