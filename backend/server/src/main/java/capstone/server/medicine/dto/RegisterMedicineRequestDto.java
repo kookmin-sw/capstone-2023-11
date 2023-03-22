@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Data
 public class RegisterMedicineRequestDto {
     private String userToken;
