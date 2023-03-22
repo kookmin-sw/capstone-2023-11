@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
+import GuardianJoinPage from "../pages/GuardianJoinPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function Router() {
         <Route path="/auth/kakao" element={<KakaoAuthPage />} />
         <Route path="/join/senior" element={<SeniorJoinPage />} />
         <Route path="/summary" element={<SeniorSummaryPage />} />
+        <Route path="/join/guardian" element={<GuardianJoinPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -387,7 +387,7 @@ const StIllInfo = styled.p`
 const StIllContainer = styled.div`
   margin-top: 3rem;
   text-align: center;
-  width: 80%;
+  width: 90%;
   margin-bottom: 10rem;
 `;
 const StSecondContainer = styled.div`
