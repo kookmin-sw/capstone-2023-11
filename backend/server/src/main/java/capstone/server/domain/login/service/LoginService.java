@@ -2,6 +2,7 @@ package capstone.server.domain.login.service;
 
 import capstone.server.domain.login.dto.KakaoTokenCheckRequest;
 import capstone.server.domain.login.dto.KakaoUserInfoRes;
+import org.springframework.http.ResponseEntity;
 
 public interface LoginService {
 

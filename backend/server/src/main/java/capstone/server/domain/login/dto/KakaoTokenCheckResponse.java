@@ -23,6 +23,11 @@ public class KakaoTokenCheckResponse {
 	this.result = "login";
   }
 
+  public void setError() {
+	this.result = "error";
+	this.userType = "error";
+  }
+
   public void setSignUp() {
 	this.result = "signUp";
   }
