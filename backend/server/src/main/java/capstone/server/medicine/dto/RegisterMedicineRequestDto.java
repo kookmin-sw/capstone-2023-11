@@ -5,15 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 
 @Data
 public class RegisterMedicineRequestDto {
     private String userToken;
-    private String name;
-    private String companyName;
-    private String depositMethod;
-    private String effect;
-    private String useMethod;
-    private String caution;
-    private String imageUrl;
+    private List<MedicalInfo> medicalInfos;
 }

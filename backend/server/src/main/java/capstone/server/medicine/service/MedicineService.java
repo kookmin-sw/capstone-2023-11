@@ -8,5 +8,5 @@ import java.util.List;
 @Service
 public interface MedicineService {
 
-    public void registerMedicine(List<RegisterMedicineRequestDto> registerMedicineRequestDtoList);
+    public void registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto);
 }

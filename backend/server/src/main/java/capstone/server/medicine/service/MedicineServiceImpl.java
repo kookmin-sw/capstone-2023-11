@@ -2,6 +2,7 @@ package capstone.server.medicine.service;
 
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
+import capstone.server.medicine.dto.MedicalInfo;
 import capstone.server.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.medicine.repository.MedicineRepository;
 import capstone.server.medicine.repository.UserWardRepository;
@@ -30,7 +31,7 @@ public class MedicineServiceImpl implements MedicineService{
 
     @Override
     @Transactional
-    public void registerMedicine(List<RegisterMedicineRequestDto> registerMedicineRequestDtoList) {
+    public void registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto) {
         // TODO
         // user Token으로 id뽑아오기
         // dueAt 계산 구현
@@ -47,15 +48,16 @@ public class MedicineServiceImpl implements MedicineService{
                 .build();
 
         userWardRepository.save(dummy);
-        for (RegisterMedicineRequestDto dto : registerMedicineRequestDtoList) {
+
+        for (MedicalInfo info : registerMedicineRequestDto.getMedicalInfos()) {
             Medicine medicine = Medicine.builder()
-                    .name(dto.getName())
-                    .companyName(dto.getCompanyName())
-                    .caution(dto.getCaution())
-                    .useMethod(dto.getUseMethod())
-                    .depositMethod(dto.getDepositMethod())
-                    .effect(dto.getEffect())
-                    .imageUrl(dto.getImageUrl())
+                    .name(info.getName())
+                    .companyName(info.getCompanyName())
+                    .caution(info.getCaution())
+                    .useMethod(info.getUseMethod())
+                    .depositMethod(info.getDepositMethod())
+                    .effect(info.getEffect())
+                    .imageUrl(info.getImageUrl())
                     .userWard(userWardRepository.findByName("test"))
                     .dueAt(LocalDateTime.now()).build();
 
