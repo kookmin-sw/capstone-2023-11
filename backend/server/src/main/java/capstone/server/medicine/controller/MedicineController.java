@@ -18,7 +18,7 @@ public class MedicineController {
     @Autowired
     private MedicineService medicineService;
 
-    @PostMapping(value = "/medicine/register")
+    @PostMapping(value = "/medicine")
     public ResponseEntity<?> registerMedicine(@RequestBody List<RegisterMedicineRequestDto> registerMedicineRequestDtoList) {
         medicineService.registerMedicine(registerMedicineRequestDtoList);
         return ResponseEntity.ok().body("Success");
