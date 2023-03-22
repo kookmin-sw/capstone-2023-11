@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SeniorJoinPage() {
   const [process, setProcess] = useState(1);
@@ -11,6 +12,7 @@ function SeniorJoinPage() {
   const [ills, setIlls] = useState<string[]>([]);
   const body = { height: height, weight: weight, birth: birth, drinkings: drinkings, smoke: smoke };
   console.log(body);
+  const navigate = useNavigate();
   if (process == 1) {
     return (
       <StSeniorPage>
@@ -19,11 +21,11 @@ function SeniorJoinPage() {
         <StMedicalContainer>
           <StHeight>
             <StInfoInput>키</StInfoInput>
-            <StMedicalInput type="number" onChange={(e) => setHeight(e.target.value)} placeholder="cm 단위" />
+            <StMedicalInput type="tel" onChange={(e) => setHeight(e.target.value)} placeholder="cm 단위" />
           </StHeight>
           <StWeight>
             <StInfoInput>몸무게</StInfoInput>
-            <StMedicalInput type="number" onChange={(e) => setWeight(e.target.value)} placeholder="kg 단위" />
+            <StMedicalInput type="tel" onChange={(e) => setWeight(e.target.value)} placeholder="kg 단위" />
           </StWeight>
         </StMedicalContainer>
         <StMedicalContainer>
@@ -101,22 +103,168 @@ function SeniorJoinPage() {
       <StSeniorPage>
         <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
         <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
-        <StIllInfo>
-          💊 혹시 따로 앓고 있는 질병이 있으신가요?
-          <p /> 해당하는 질병에 모두 체크해주세요!
-        </StIllInfo>
-        <div>
-          {ills.includes("고혈압") ? (
-            <StButtonClicked
-              onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
-              고혈압
-            </StButtonClicked>
-          ) : (
-            <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-              고혈압
-            </StButtonUnClicked>
-          )}
-        </div>
+        <StSecondContainer>
+          <StIllInfo>
+            💊 혹시 따로 앓고 있는 질병이 있으신가요?
+            <p /> 해당하는 질병에 모두 체크해주세요!
+          </StIllInfo>
+
+          <StIllContainer>
+            {ills.includes("고혈압") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                고혈압
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                고혈압
+              </StButtonUnClicked>
+            )}
+            {ills.includes("당뇨") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                당뇨
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                당뇨
+              </StButtonUnClicked>
+            )}
+            {ills.includes("관절염") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                관절염
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                관절염
+              </StButtonUnClicked>
+            )}
+            {ills.includes("고지혈증") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                고지혈증
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                고지혈증
+              </StButtonUnClicked>
+            )}
+            {ills.includes("저혈압") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                저혈압
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                저혈압
+              </StButtonUnClicked>
+            )}
+            {ills.includes("관상동맥질환") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                관상동맥질환
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                관상동맥질환
+              </StButtonUnClicked>
+            )}
+            {ills.includes("뇌졸증") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                뇌졸증
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                뇌졸증
+              </StButtonUnClicked>
+            )}
+            {ills.includes("만성폐쇄성폐질환") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                만성폐쇄성폐질환
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                만성폐쇄성폐질환
+              </StButtonUnClicked>
+            )}
+            {ills.includes("암") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                암
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                암
+              </StButtonUnClicked>
+            )}
+            {ills.includes("우울증") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                우울증
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                우울증
+              </StButtonUnClicked>
+            )}
+            {ills.includes("간질환") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                간질환
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                간질환
+              </StButtonUnClicked>
+            )}
+            {ills.includes("간경변증") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                간경변증
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                간경변증
+              </StButtonUnClicked>
+            )}
+
+            {ills.includes("신장질환") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                신장질환
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                신장질환
+              </StButtonUnClicked>
+            )}
+            {ills.includes("갑상선 질환") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                갑상선 질환
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                갑상선 질환
+              </StButtonUnClicked>
+            )}
+            {ills.includes("골다공증") ? (
+              <StButtonClicked
+                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                골다공증
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+                골다공증
+              </StButtonUnClicked>
+            )}
+          </StIllContainer>
+
+          <StJoinButton onClick={() => navigate("/#")}>다음으로</StJoinButton>
+        </StSecondContainer>
       </StSeniorPage>
     );
   }
@@ -179,6 +327,7 @@ const StNormalInput = styled.input`
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   font-size: 1.5rem;
+  background-color: white;
 `;
 const StJoinButton = styled.button`
   display: flex;
@@ -206,7 +355,7 @@ const StButtonContainer = styled.div`
 `;
 const StButtonUnClicked = styled.button`
   height: 3rem;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-family: "Pretendard-Bold";
   background: #eaf2ff;
   border-radius: 1.2rem;
@@ -215,11 +364,11 @@ const StButtonUnClicked = styled.button`
   padding-right: 1.2rem;
   color: #006ffd;
   margin-right: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 `;
 const StButtonClicked = styled.button`
   height: 3rem;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-family: "Pretendard-Bold";
   color: #eaf2ff;
   border-radius: 1.2rem;
@@ -228,11 +377,21 @@ const StButtonClicked = styled.button`
   padding-right: 1.2rem;
   background: #006ffd;
   margin-right: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 `;
 const StIllInfo = styled.p`
   font-family: "Pretendard-Bold";
   font-size: 1.8rem;
   line-height: 3.2rem;
-  margin-left: 2.4rem;
+`;
+const StIllContainer = styled.div`
+  margin-top: 3rem;
+  text-align: center;
+  width: 80%;
+  margin-bottom: 10rem;
+`;
+const StSecondContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
