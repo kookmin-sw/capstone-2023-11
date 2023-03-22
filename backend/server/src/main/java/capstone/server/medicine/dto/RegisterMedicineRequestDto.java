@@ -8,5 +8,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class RegisterMedicineRequestDto {
+    private String userToken;
     private String name;
+    private String companyName;
+    private String depositMethod;
+    private String effect;
+    private String usage;
+    private String caution;
+    private String imageUrl;
 }
