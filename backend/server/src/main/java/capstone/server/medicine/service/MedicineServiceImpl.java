@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
 public class MedicineServiceImpl implements MedicineService{
@@ -33,12 +34,14 @@ public class MedicineServiceImpl implements MedicineService{
                     .name(dto.getName())
                     .companyName(dto.getCompanyName())
                     .caution(dto.getCaution())
-                    .usage(dto.getUsage())
+                    .useMethod(dto.getUseMethod())
                     .depositMethod(dto.getDepositMethod())
                     .effect(dto.getEffect())
                     .imageUrl(dto.getImageUrl())
                     .userWard(dummyUser)
                     .dueAt(LocalDateTime.now()).build();
+
+            System.out.println(medicine);
             medicineRepository.save(medicine);
         }
 

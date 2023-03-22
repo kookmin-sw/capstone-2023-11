@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 public class Medicine extends BaseTimeEntity {
 
     @Builder
-    public Medicine(String name, String companyName, String effect, String usage, String caution, String depositMethod, String imageUrl, LocalDateTime dueAt, UserWard userWard) {
+    public Medicine(String name, String companyName, String effect, String useMethod, String caution, String depositMethod, String imageUrl, LocalDateTime dueAt, UserWard userWard) {
         this.name = name;
         this.companyName = companyName;
         this.effect = effect;
-        this.usage = usage;
+        this.useMethod = useMethod;
         this.caution = caution;
         this.depositMethod = depositMethod;
         this.imageUrl = imageUrl;
@@ -40,8 +40,8 @@ public class Medicine extends BaseTimeEntity {
     @Column(name = "effect")
     private String effect;
 
-    @Column(name = "usage")
-    private String usage;
+    @Column(name = "use_method")
+    private String useMethod;
 
     @Column(name = "caution")
     private String caution;
