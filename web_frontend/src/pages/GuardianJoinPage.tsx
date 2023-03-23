@@ -61,7 +61,9 @@ function GuardianJoinPage() {
           ),
         )}
       </StCodeContainer>
-      <StJoinButton onClick={() => navigate("/#")}>다음으로</StJoinButton>
+      <StButtonContainer>
+        <StJoinButton onClick={() => navigate("/#")}>다음으로</StJoinButton>
+      </StButtonContainer>
     </StGuardianPage>
   );
 }
@@ -127,10 +129,16 @@ const StCodeButton = styled.button`
   color: white;
   font-size: 1.5rem;
   width: 4.6rem;
-  height: 4.8rem;
+  height: 5.1rem;
   position: relative;
-  right: 2rem;
+  right: 3.3rem;
+  bottom: 0.1rem;
   z-index: 2;
+  font-family: "Pretendard-Bold";
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const StCodeContainer = styled.div`
   display: flex;
@@ -177,4 +185,9 @@ const StJoinButton = styled.button`
   background-color: #006ffd;
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
+`;
+const StButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;

@@ -10,7 +10,7 @@ function LoginPage() {
   }, [userStatus]);
   return (
     <StLoginPage>
-      <img src="" />
+      <StLogo src={require("../../src/assets/images/img_logo.png")} />
       <StTitle>사용할 서비스를 선택하세요</StTitle>
       <StSelectContainer>
         {userStatus == "userGuardian" ? (
@@ -98,4 +98,7 @@ const StClickedButton = styled.button`
   display: flex;
   align-items: center;
   margin-bottom: 2.3rem;
+`;
+const StLogo = styled.img`
+  max-width: 100vw;
 `;

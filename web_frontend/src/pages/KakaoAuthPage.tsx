@@ -1,9 +1,10 @@
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
 
 function KakaoAuthPage() {
+  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const router = useLocation();
   const authenticationCode = router.search.split("=")[1];
@@ -21,7 +22,20 @@ function KakaoAuthPage() {
   useEffect(() => {
     setAccessToken(data?.data.access_token);
   }, [data, accessToken]);
-
+  useEffect(() => {
+    if (loginData) {
+      if (loginData.data.result == "signIn") {
+        navigate("#");
+      } else {
+        if (loginData.data.userType == "userGuardian") {
+          navigate("/join/senior");
+        }
+        if (loginData.data.userType == "userWard") {
+          navigate("/join/guardian");
+        }
+      }
+    }
+  });
   return <></>;
 }
 export default KakaoAuthPage;
