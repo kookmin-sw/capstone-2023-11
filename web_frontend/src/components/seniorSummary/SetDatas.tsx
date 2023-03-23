@@ -1,54 +1,7 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { BMRAtom, carboAtom, dateAtom, fatAtom, IUserData, proteinAtom } from "../../core/atom";
-import { calText, nutText } from "./CommentTexts";
 
-export function CalComment(prop: IUserData) {
-  const BMR = useRecoilValue(BMRAtom);
-  const score: number[] = [];
-  prop.calories.map((calorie) => score.push(calorie - BMR));
-  const sum = score.reduce(function add(sum, currValue) {
-    return sum + currValue;
-  }, 0);
-  const avg = sum / 7;
-  return avg < 0 ? (avg < -200 ? calText[1] : calText[5]) : avg < 200 ? calText[4] : calText[8];
-}
-
-export function NutComment() {
-  const fatPercent = useRecoilValue(fatAtom);
-  const proPercent = useRecoilValue(proteinAtom);
-  const carPercent = useRecoilValue(carboAtom);
-  const resultFat = fatPercent.reduce(function add(sum, currValue) {
-    return sum + currValue;
-  }, 0);
-  const resultPro = proPercent.reduce(function add(sum, currValue) {
-    return sum + currValue;
-  }, 0);
-  const resultCar = carPercent.reduce(function add(sum, currValue) {
-    return sum + currValue;
-  }, 0);
-  const averageFat = resultFat / 7;
-  const averagePro = resultPro / 7;
-  const averageCar = resultCar / 7;
-  console.log(averageFat);
-
-  return (
-    <>
-      {averageFat > 0 ? nutText[4] : nutText[5]}
-      {averageCar > 0 ? nutText[2] : nutText[3]}
-      {averagePro > 0 ? nutText[0] : nutText[1]}
-    </>
-  );
-}
-
-export function SickComment() {
-  return null;
-}
-
-export function Score() {
-  return null;
-}
-
-export function getDatas(prop: IUserData) {
+export function setDatas(prop: IUserData) {
   const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
   const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
   const setBMR = useSetRecoilState(BMRAtom);

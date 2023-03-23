@@ -4,9 +4,10 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { CalComment, getDatas, NutComment } from "../components/seniorSummary/Comment";
 import { IUserData } from "../core/atom";
-// import { CalComment } from "../components/seniorSummary/Comment";
+import { setDatas } from "../components/seniorSummary/SetDatas";
+import { NutComment } from "../components/seniorSummary/NutComment";
+import { CalComment } from "../components/seniorSummary/CalComment";
 
 const StHeader = styled.header`
   position: fixed;
@@ -72,7 +73,7 @@ const STContainer = styled.div`
 //   1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
 // };
 function SeniorSummaryPage() {
-  getDatas(dummyData);
+  setDatas(dummyData);
   return (
     <>
       <StHeader>
