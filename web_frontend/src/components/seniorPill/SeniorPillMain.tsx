@@ -67,6 +67,7 @@ const StPillItem = styled.li`
   border-radius: 2rem;
   align-self: stretch;
   font-family: "Pretendard-Bold";
+  padding: 3rem;
 `;
 
 const StPillAdd = styled.div`
@@ -80,6 +81,7 @@ const StPillAdd = styled.div`
   align-self: stretch;
   text-align: center;
   font-family: "Pretendard-Bold";
+  padding: 3rem;
 `;
 
 export default SeniorPillMain;
