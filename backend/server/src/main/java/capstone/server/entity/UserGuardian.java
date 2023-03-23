@@ -1,13 +1,14 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter @ToString
 @Table(name = "userGuardian")
 @Entity
@@ -43,5 +44,14 @@ public class UserGuardian extends BaseTimeEntity {
 
     @Column(name = "height")
     private Long height;
+
+    /**
+     * 음주량, 흡연, 병 추가
+     */
+
+    @Column(name = "drinkings")
+    private Integer drinkings;
+    @Column(name = "smoke")
+    private Integer smoke;
 }
 
