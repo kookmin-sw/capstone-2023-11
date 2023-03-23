@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Pill from "./Pill";
+import Pill from "./SeniorMainPill";
 
 function SeniorMai() {
   return (
@@ -10,11 +10,12 @@ function SeniorMai() {
       <MenuList>
         <StMainItem>
           <Pill />
+          <StItemHeader>내 건강 점수는 몇점?</StItemHeader>
+          <WhiteButton>건강 분석하러 가기</WhiteButton>
+          <StItemHeader>식단, 운동</StItemHeader>
+          <WhiteButton>끼니 추가하러 가기</WhiteButton>
+          <WhiteButton>운동 기록하러 가기</WhiteButton>
         </StMainItem>
-        <StTodo>할일</StTodo>
-        <StAIDoc>AI</StAIDoc>
-        <StFood>음식</StFood>
-        <StExercise>운동</StExercise>
       </MenuList>
     </>
   );
@@ -37,43 +38,40 @@ const StUser = styled.div`
   }
 `;
 
-//const TopItem = styled.div``;
-
 const MenuList = styled.ul``;
 
-// const MenuItem = styled.li`
-//   background-color: white;
-//   width: 100%;
-//   color: black;
-//   display: inline-flex;
-//   margin-left: 1rem;
-//   margin-bottom: 3rem;
-//   margin-top: 3rem;
-//   border-radius: 0.5rem;
-//   font-size: 2rem;
-//   &:hover {
-//     color: gray;
-//   }
-// `;
+const StItemHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0rem 0rem 0rem 1rem;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+`;
 
 const StMainItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 2.4rem 1.6rem;
-  gap: 4rem;
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
+  gap: 3rem;
+  border: 0;
+  background-color: transparent;
 `;
 
-const StTodo = styled.div``;
-
-const StAIDoc = styled.div``;
-
-const StFood = styled.div``;
-
-const StExercise = styled.div``;
+export const WhiteButton = styled.button`
+  display: flex;
+  padding: 3rem;
+  align-items: center;
+  width: 32.7rem;
+  height: 4.8rem;
+  color: #006ffd;
+  font-family: "Pretendard-Regular";
+  font-size: 2rem;
+  background-color: white;
+  border: 0.15rem solid gray;
+  border-radius: 1.2rem;
+`;
 
 export default SeniorMai;
