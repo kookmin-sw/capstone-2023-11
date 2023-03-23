@@ -82,7 +82,7 @@ function SeniorSummaryPage() {
         <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
-          <NutrientChart />
+          {NutrientChart(dummyData)}
           <CommentContainer>{nutrientText[0]}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
@@ -107,4 +107,11 @@ const dummyData: IUserData = {
   isSmoke: false,
   exercise: 3,
   calories: [2057, 1673, 1912, 1786, 2098, 1561, 2245],
+  nutrient: {
+    protein: [85, 68, 78, 73, 86, 64, 92],
+    carbohydrate: [329, 268, 306, 286, 336, 249, 360],
+    fat: [83, 70, 100, 62, 96, 87, 71],
+    cholesterol: [77, 54, 93, 63, 60, 44, 92],
+    sodium: [2071, 1632, 1864, 1754, 2054, 1524, 2209],
+  },
 };

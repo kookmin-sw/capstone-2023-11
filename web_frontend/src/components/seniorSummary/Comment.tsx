@@ -1,4 +1,4 @@
-import { calText } from "./testData";
+import { calText } from "./CommentTexts";
 
 export interface IUserData {
   isMale: boolean;
@@ -9,6 +9,13 @@ export interface IUserData {
   isSmoke: boolean;
   exercise: number;
   calories: number[];
+  nutrient: {
+    protein: number[];
+    carbohydrate: number[];
+    fat: number[];
+    cholesterol: number[];
+    sodium: number[];
+  };
 }
 
 export function CalComment(prop: IUserData) {
@@ -25,14 +32,24 @@ export function CalComment(prop: IUserData) {
   }, 0);
   const avg = sum / 7;
   console.log(avg);
-  return avg < -100 ? (avg < -300 ? calText[1] : calText[5]) : avg < 300 ? calText[4] : calText[8];
+  return avg < 0 ? (avg < -200 ? calText[1] : calText[5]) : avg < 200 ? calText[4] : calText[8];
 }
 
-export function NutComment() {
+export function NutComment(prop: IUserData) {
+  const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
+  const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
+  const goals = {
+    protein: prop.weight * 0.8,
+    carbohydrate: (BMR * 0.55) / 4,
+    fat: (BMR * 0.25) / 9,
+    cholesterol: 200,
+    sodium: 2000,
+  };
+  console.log(goals);
   return null;
 }
 
-export function SickCommnet() {
+export function SickComment() {
   return null;
 }
 

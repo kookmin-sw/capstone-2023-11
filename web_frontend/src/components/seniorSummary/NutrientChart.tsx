@@ -1,21 +1,32 @@
 import ApexChart from "react-apexcharts";
+import { IUserData } from "./Comment";
 
-function NutrientChart() {
+function NutrientChart(prop: IUserData) {
+  const dateStrings = [];
+  for (let i = 7; i >= 1; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dateString = `${month}/${day}`;
+    dateStrings.push(dateString);
+    console.log(dateString);
+  }
   return (
     <ApexChart
       type="bar"
       series={[
         {
           name: "지방",
-          data: [17, 23, 7, 16, 28, 7, 9],
+          data: prop.nutrient.fat,
         },
         {
           name: "단백질",
-          data: [22, 45, 80, 31, 88, 12, 0],
+          data: prop.nutrient.protein,
         },
         {
           name: "탄수화물",
-          data: [32, 50, 60, 45, 40, 30, 25],
+          data: prop.nutrient.carbohydrate,
         },
       ]}
       options={{
@@ -46,7 +57,7 @@ function NutrientChart() {
           axisBorder: { show: false },
           axisTicks: { show: false },
           labels: { show: true },
-          categories: ["3/15", "3/16", "3/17", "3/18", "3/19", "3/20", "3/21"],
+          categories: dateStrings,
         },
         fill: {
           opacity: 1,

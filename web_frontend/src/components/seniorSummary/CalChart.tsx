@@ -4,6 +4,16 @@ import { IUserData } from "./Comment";
 function CalChart(prop: IUserData) {
   const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
   const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
+  const dateStrings = [];
+  for (let i = 7; i >= 1; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dateString = `${month}/${day}`;
+    dateStrings.push(dateString);
+    console.log(dateString);
+  }
   return (
     <ApexChart
       type="line"
@@ -40,7 +50,7 @@ function CalChart(prop: IUserData) {
           axisBorder: { show: false },
           axisTicks: { show: true },
           labels: { show: true },
-          categories: ["3/15", "3/16", "3/17", "3/18", "3/19", "3/20", "3/21"],
+          categories: dateStrings,
         },
         stroke: {
           curve: "smooth",
