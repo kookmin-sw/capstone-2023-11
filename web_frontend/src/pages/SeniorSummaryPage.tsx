@@ -4,7 +4,7 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { CalComment, IUserData } from "../components/seniorSummary/Comment";
+import { CalComment, getDatas, IUserData } from "../components/seniorSummary/Comment";
 // import { CalComment } from "../components/seniorSummary/Comment";
 
 const StHeader = styled.header`
@@ -71,6 +71,7 @@ const nutrientText = {
   1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
 };
 function SeniorSummaryPage() {
+  getDatas(dummyData);
   return (
     <>
       <StHeader>
@@ -82,7 +83,7 @@ function SeniorSummaryPage() {
         <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
-          {NutrientChart(dummyData)}
+          <NutrientChart />
           <CommentContainer>{nutrientText[0]}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>

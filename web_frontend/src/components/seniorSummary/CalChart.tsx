@@ -1,19 +1,11 @@
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { BMRAtom, dateAtom } from "../../core/atom";
 import { IUserData } from "./Comment";
 
 function CalChart(prop: IUserData) {
-  const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
-  const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
-  const dateStrings = [];
-  for (let i = 7; i >= 1; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const dateString = `${month}/${day}`;
-    dateStrings.push(dateString);
-    console.log(dateString);
-  }
+  const BMR = useRecoilValue(BMRAtom);
+  const dateStrings = useRecoilValue(dateAtom);
   return (
     <ApexChart
       type="line"
