@@ -17,3 +17,15 @@ export const getKakaoAccessToken = async (authorization: string) => {
 
   return data;
 };
+export const getUserStatus = async (userStatus: string | null, accessToken: string | undefined) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/login/token-check`,
+    {
+      token: accessToken,
+      userType: userStatus,
+    },
+    {},
+  );
+
+  return data;
+};
