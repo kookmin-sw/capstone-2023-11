@@ -2,6 +2,7 @@ package capstone.server.medicine.service;
 
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
+import capstone.server.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.medicine.dto.MedicalInfo;
 import capstone.server.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.medicine.repository.MedicineRepository;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -96,7 +94,13 @@ public class MedicineServiceImpl implements MedicineService{
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(OCR_API_URL, requestEntity, String.class);
         log.info(response.getBody());
+        List<String> infos = new ArrayList<>();
 
+        if (response.getStatusCode() != HttpStatus.OK)
+        {
+            infos.add(String.valueOf(response.getStatusCode()));
+            return infos;
+        }
 
         JSONObject object = new JSONObject(response.getBody());
         JSONArray responses = object.getJSONArray("responses");
@@ -118,7 +122,7 @@ public class MedicineServiceImpl implements MedicineService{
         log.info(recognizedWordsString);
         Pattern pattern = Pattern.compile("(\\S+)\\s+\\[[^\\]]+\\]");
         Matcher matcher = pattern.matcher(recognizedWordsString);
-        List<String> infos = new ArrayList<>();
+
         while (matcher.find()) {
             String drugName = matcher.group(1);
             infos.add(drugName);
@@ -126,6 +130,17 @@ public class MedicineServiceImpl implements MedicineService{
 
         return infos;
 
+    }
+
+    @Override
+    public GetMedicineInfoResponseDto getMedicineInfo(String userToken) {
+        // TODO
+        // userWardRepository FindByToken;
+        Long userId = userWardRepository.findByName(userToken).getUserId();
+        GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
+                .medicines(medicineRepository.findAllByUserWardUserId(userId)).build();
+
+        return medicineInfos;
     }
 
 }

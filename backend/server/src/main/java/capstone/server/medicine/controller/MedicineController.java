@@ -1,5 +1,7 @@
 package capstone.server.medicine.controller;
 
+import capstone.server.entity.Medicine;
+import capstone.server.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.medicine.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +30,22 @@ public class MedicineController {
     }
 
     @PostMapping(value = "/medicine/ocr")
-    public List<String> recognizeImage(@RequestParam("image")String image) throws IOException {
+    public ResponseEntity<?> recognizeImage(@RequestParam("image")String image) throws IOException {
 //        byte[] imageBytes = image.getBytes();
         File file = new File("C:\\KakaoTalk_20230321_203045442.jpg");
         byte[] imageBytes = Files.readAllBytes(file.toPath());
 
         List<String> result = medicineService.recognizeImage(imageBytes);
-        return result;
+        return ResponseEntity.ok().body(result);
     }
 
+    @GetMapping(value = "/medicine")
+    public ResponseEntity<?> getMedicineInfo(@RequestParam("userToken")String userToken) {
 
+        GetMedicineInfoResponseDto infos = medicineService.getMedicineInfo(userToken);
+        return ResponseEntity.ok().body(infos);
+
+    }
 
 }
 

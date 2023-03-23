@@ -1,10 +1,7 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @Table(name = "userWard")
 @Entity
 @Setter
+@NoArgsConstructor
 public class UserWard extends BaseTimeEntity {
 
   @Builder

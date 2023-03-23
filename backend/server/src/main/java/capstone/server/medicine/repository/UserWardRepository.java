@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface UserWardRepository extends JpaRepository<UserWard, Long> {
     @Query(value = "select uw from UserWard uw where uw.name = :name")
     public UserWard findByName(@Param("name") String name);
+
 }
