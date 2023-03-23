@@ -17,6 +17,10 @@ public class LoginController {
 
   @PostMapping("/token-check")
   private ResponseEntity<KakaoTokenCheckResponse> tokenCheck(@RequestBody KakaoTokenCheckRequest tokenCheckRequest) {
+	/**
+	 * TODO 이미 회원가입 정보가 있던 유저라면, JWT토큰 만들어서 돌려줘야함
+	 */
+
 	KakaoTokenCheckResponse kakaoTokenCheckResponse = new KakaoTokenCheckResponse();
 
 	// UserType 확인
