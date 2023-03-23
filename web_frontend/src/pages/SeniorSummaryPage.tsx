@@ -4,7 +4,7 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { CalComment, getDatas } from "../components/seniorSummary/Comment";
+import { CalComment, getDatas, NutComment } from "../components/seniorSummary/Comment";
 import { IUserData } from "../core/atom";
 // import { CalComment } from "../components/seniorSummary/Comment";
 
@@ -67,10 +67,10 @@ const STContainer = styled.div`
   margin: 1rem auto;
 `;
 
-const nutrientText = {
-  0: `이번주에는 지방과 탄수화물은 적당하지만\n단백질이 부족합니다\n고기나 계란류를 더 먹으면 좋을 것 같습니다`,
-  1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
-};
+// const nutrientText = {
+//   0: `이번주에는 지방과 탄수화물은 적당하지만\n단백질이 부족합니다\n고기나 계란류를 더 먹으면 좋을 것 같습니다`,
+//   1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
+// };
 function SeniorSummaryPage() {
   getDatas(dummyData);
   return (
@@ -85,7 +85,7 @@ function SeniorSummaryPage() {
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
           <NutrientChart />
-          <CommentContainer>{nutrientText[0]}</CommentContainer>
+          <CommentContainer>{NutComment()}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>

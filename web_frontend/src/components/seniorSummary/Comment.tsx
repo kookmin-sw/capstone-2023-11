@@ -1,34 +1,43 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { BMRAtom, carboAtom, dateAtom, fatAtom, IUserData, proteinAtom } from "../../core/atom";
-import { calText } from "./CommentTexts";
+import { calText, nutText } from "./CommentTexts";
 
 export function CalComment(prop: IUserData) {
   const BMR = useRecoilValue(BMRAtom);
-  const BMI = Math.round(prop.weight / (prop.height / 100) ** 2);
   const score: number[] = [];
   prop.calories.map((calorie) => score.push(calorie - BMR));
-  console.log(score);
-  console.log(BMR);
-  console.log(BMI);
   const sum = score.reduce(function add(sum, currValue) {
     return sum + currValue;
   }, 0);
   const avg = sum / 7;
-  console.log(avg);
   return avg < 0 ? (avg < -200 ? calText[1] : calText[5]) : avg < 200 ? calText[4] : calText[8];
 }
 
-export function NutComment(prop: IUserData) {
-  const BMR = useRecoilValue(BMRAtom);
-  const goals = {
-    protein: prop.weight * 0.8,
-    carbohydrate: (BMR * 0.55) / 4,
-    fat: (BMR * 0.25) / 9,
-    cholesterol: 200,
-    sodium: 2000,
-  };
-  console.log(goals);
-  return null;
+export function NutComment() {
+  const fatPercent = useRecoilValue(fatAtom);
+  const proPercent = useRecoilValue(proteinAtom);
+  const carPercent = useRecoilValue(carboAtom);
+  const resultFat = fatPercent.reduce(function add(sum, currValue) {
+    return sum + currValue;
+  }, 0);
+  const resultPro = proPercent.reduce(function add(sum, currValue) {
+    return sum + currValue;
+  }, 0);
+  const resultCar = carPercent.reduce(function add(sum, currValue) {
+    return sum + currValue;
+  }, 0);
+  const averageFat = resultFat / 7;
+  const averagePro = resultPro / 7;
+  const averageCar = resultCar / 7;
+  console.log(averageFat);
+
+  return (
+    <>
+      {averageFat > 0 ? nutText[4] : nutText[5]}
+      {averageCar > 0 ? nutText[2] : nutText[3]}
+      {averagePro > 0 ? nutText[0] : nutText[1]}
+    </>
+  );
 }
 
 export function SickComment() {
@@ -47,7 +56,6 @@ export function getDatas(prop: IUserData) {
   const setPro = useSetRecoilState(proteinAtom);
   const setCar = useSetRecoilState(carboAtom);
   const setDate = useSetRecoilState(dateAtom);
-
   setBMR(BMR);
   const goals = {
     protein: prop.weight * 0.8,
