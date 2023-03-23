@@ -19,7 +19,7 @@ public class JoinServiceImpl implements JoinService{
   private final LoginService loginService;
 
   @Override
-  public String joinGuardian(GuardianJoinRequest guardianJoinRequest) {
+  public Long joinGuardian(GuardianJoinRequest guardianJoinRequest) {
 	KakaoUserInfoRes userInfo = loginService.getUserInfo(guardianJoinRequest.getKakaoAccesstoken());
 
 	// 혹시 모르니까 유저 중복 체크
@@ -46,6 +46,6 @@ public class JoinServiceImpl implements JoinService{
 	);
 
 
-	return "SAVED " + userInfo.getId();
+	return userInfo.getId();
   }
 }

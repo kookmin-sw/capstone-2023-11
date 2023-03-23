@@ -10,9 +10,14 @@ import lombok.NoArgsConstructor;
 public class KakaoTokenCheckResponse {
   private String result;
   private String userType;
+  private String token = null;
 
   public void setUserGuardian(){
 	this.userType = UserType.USER_GUARDIAN;
+  }
+
+  public void setToken(String token){
+	this.token = token;
   }
 
   public void setUserWard(){

@@ -16,7 +16,7 @@ public class LoginController {
   private final LoginService loginService;
 
   @PostMapping("/token-check")
-  private ResponseEntity<KakaoTokenCheckResponse> tokenCheck(@RequestBody KakaoTokenCheckRequest tokenCheckRequest) {
+  public ResponseEntity<?> tokenCheck(@RequestBody KakaoTokenCheckRequest tokenCheckRequest) {
 	/**
 	 * TODO 이미 회원가입 정보가 있던 유저라면, JWT토큰 만들어서 돌려줘야함
 	 */
@@ -31,7 +31,11 @@ public class LoginController {
 	// User 회원가입 이력 확인
 	try {
 	  if (loginService.isUserAlreadySignUp(tokenCheckRequest)) {
+		// TODO 토큰 발급  , return시 Body에 token 담아서 주기
 		kakaoTokenCheckResponse.setLogin();
+		kakaoTokenCheckResponse.setToken(null);
+		return ResponseEntity.ok()
+				.body(kakaoTokenCheckResponse);
 	  } else {
 		kakaoTokenCheckResponse.setSignUp();
 	  }
