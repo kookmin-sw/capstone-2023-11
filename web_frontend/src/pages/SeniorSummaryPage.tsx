@@ -4,7 +4,8 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { CalComment, getDatas, IUserData } from "../components/seniorSummary/Comment";
+import { CalComment, getDatas } from "../components/seniorSummary/Comment";
+import { IUserData } from "../core/atom";
 // import { CalComment } from "../components/seniorSummary/Comment";
 
 const StHeader = styled.header`

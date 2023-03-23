@@ -1,7 +1,6 @@
 import ApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
-import { BMRAtom, dateAtom } from "../../core/atom";
-import { IUserData } from "./Comment";
+import { BMRAtom, dateAtom, IUserData } from "../../core/atom";
 
 function CalChart(prop: IUserData) {
   const BMR = useRecoilValue(BMRAtom);

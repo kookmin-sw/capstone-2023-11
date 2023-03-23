@@ -18,20 +18,6 @@ export interface IUserData {
   };
 }
 
-export interface ICustomData {
-  BMR: number;
-  goals: {
-    protein: number;
-    carbohydrate: number;
-    fat: number;
-    cholesterol: number;
-    sodium: number;
-  };
-  fatPercent: number[];
-  proPercent: number[];
-  carPercent: number[];
-}
-
 export const BMRAtom = atom({
   key: "getBMR",
   default: 0,
