@@ -4,6 +4,8 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
+import { CalComment } from "../components/seniorSummary/Comment";
+// import { CalComment } from "../components/seniorSummary/Comment";
 
 const StHeader = styled.header`
   position: fixed;
@@ -89,9 +91,36 @@ function SeniorSummaryPage() {
           <CommentContainer>{nutrientText[1]}</CommentContainer>
         </ChartContainer>
         <BlueButton>먹은 음식 기록 보기</BlueButton>
+        {CalComment(dummyData)}
       </STContainer>
     </>
   );
 }
 
 export default SeniorSummaryPage;
+
+interface IUserData {
+  isMale: boolean;
+  age: number;
+  weight: number;
+  height: number;
+  sick: {
+    name: string;
+  };
+  isSmoke: boolean;
+  exercise: number;
+  calories: number[];
+}
+
+const dummyData: IUserData = {
+  isMale: true,
+  age: 25,
+  weight: 70,
+  height: 175,
+  sick: {
+    name: "flu",
+  },
+  isSmoke: false,
+  exercise: 3,
+  calories: [1500, 1600, 1700, 1800, 1900, 2000, 2100],
+};
