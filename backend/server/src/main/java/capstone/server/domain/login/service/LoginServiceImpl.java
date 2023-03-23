@@ -4,10 +4,12 @@ import capstone.server.domain.login.dto.KakaoTokenCheckRequest;
 import capstone.server.domain.login.dto.KakaoUserInfoRes;
 import capstone.server.domain.user.repository.UserGuardianRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
+import capstone.server.utils.JwtUtil;
 import capstone.server.utils.KaKaoUtil;
 import capstone.server.utils.UserType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,17 @@ public class LoginServiceImpl implements LoginService {
   private final UserWardRepository userWardRepository;
   private final UserGuardianRepository userGuardianRepository;
 
+	@Value("${jwt.secret}")
+	private String secretKey;
+
+	private Long expiredAtMs = 1000L * 60 * 60; //1시간
+
+  @Override
+  public String login(KakaoTokenCheckRequest kakaoTokenCheckRequest) {
+	KakaoUserInfoRes userInfo = getUserInfo(kakaoTokenCheckRequest.getToken());
+	return JwtUtil.createJwt(kakaoTokenCheckRequest.getUserType(), userInfo.getId(), secretKey, expiredAtMs);
+
+  }
 
   /*
    회원가입한 이력이 있는지 확인하는 메소드
