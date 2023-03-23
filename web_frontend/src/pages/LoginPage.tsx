@@ -1,36 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { GuardianIcn, RadioButton, RadioUnclickedButton, SeniorIcn } from "../assets/icons";
 import KakaoLoginButton from "../components/common/KakaoLoginButton";
 
 function LoginPage() {
-  const [userStatus, setUserStatus] = useState("senior");
+  const [userStatus, setUserStatus] = useState("userGuardian");
+  useEffect(() => {
+    localStorage.setItem("userStatus", userStatus);
+  }, [userStatus]);
   return (
     <StLoginPage>
       <img src="" />
       <StTitle>사용할 서비스를 선택하세요</StTitle>
       <StSelectContainer>
-        {userStatus == "guardian" ? (
+        {userStatus == "userGuardian" ? (
           <StClickedButton>
             <StIcon src={RadioButton} />
             <StButtonText>보호자 서비스</StButtonText>
             <StUserIcon src={GuardianIcn} />
           </StClickedButton>
         ) : (
-          <StUnclickedButton onClick={() => setUserStatus("guardian")}>
+          <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
             <StIcon src={RadioUnclickedButton} />
             <StButtonText>보호자 서비스</StButtonText>
             <StUserIcon src={GuardianIcn} />
           </StUnclickedButton>
         )}
-        {userStatus == "senior" ? (
+        {userStatus == "userWard" ? (
           <StClickedButton>
             <StIcon src={RadioButton} />
             <StButtonText>시니어 서비스</StButtonText>
             <StUserIcon src={SeniorIcn} />
           </StClickedButton>
         ) : (
-          <StUnclickedButton onClick={() => setUserStatus("senior")}>
+          <StUnclickedButton onClick={() => setUserStatus("userWard")}>
             <StIcon src={RadioUnclickedButton} />
             <StButtonText>시니어 서비스</StButtonText>
             <StUserIcon src={SeniorIcn} />
