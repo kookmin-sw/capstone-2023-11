@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserGuardianRepository extends JpaRepository<UserGuardian,Long> {
 
   boolean existsByKakaoAccountId(Long kakaoAccountId);
+  Optional<UserGuardian> findUserGuardianByKakaoAccountId(Long kakaoAccountId);
 }
