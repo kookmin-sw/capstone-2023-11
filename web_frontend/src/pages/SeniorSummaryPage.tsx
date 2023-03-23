@@ -4,7 +4,7 @@ import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { CalComment } from "../components/seniorSummary/Comment";
+import { CalComment, IUserData } from "../components/seniorSummary/Comment";
 // import { CalComment } from "../components/seniorSummary/Comment";
 
 const StHeader = styled.header`
@@ -87,11 +87,10 @@ function SeniorSummaryPage() {
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>
-          <CalChart />
-          <CommentContainer>{nutrientText[1]}</CommentContainer>
+          {CalChart(dummyData)}
+          <CommentContainer>{CalComment(dummyData)}</CommentContainer>
         </ChartContainer>
         <BlueButton>먹은 음식 기록 보기</BlueButton>
-        {CalComment(dummyData)}
       </STContainer>
     </>
   );
@@ -99,28 +98,13 @@ function SeniorSummaryPage() {
 
 export default SeniorSummaryPage;
 
-interface IUserData {
-  isMale: boolean;
-  age: number;
-  weight: number;
-  height: number;
-  sick: {
-    name: string;
-  };
-  isSmoke: boolean;
-  exercise: number;
-  calories: number[];
-}
-
 const dummyData: IUserData = {
   isMale: true,
   age: 25,
-  weight: 70,
-  height: 175,
-  sick: {
-    name: "flu",
-  },
+  weight: 72,
+  height: 170,
+  sick: ["flu"],
   isSmoke: false,
   exercise: 3,
-  calories: [1500, 1600, 1700, 1800, 1900, 2000, 2100],
+  calories: [2057, 1673, 1912, 1786, 2098, 1561, 2245],
 };

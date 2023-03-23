@@ -1,13 +1,16 @@
 import ApexChart from "react-apexcharts";
+import { IUserData } from "./Comment";
 
-function CalChart() {
+function CalChart(prop: IUserData) {
+  const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
+  const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
   return (
     <ApexChart
       type="line"
       series={[
         {
           name: "칼로리",
-          data: [560, 900, 670, 1100, 720, 520, 950],
+          data: prop.calories,
         },
       ]}
       options={{
@@ -53,7 +56,7 @@ function CalChart() {
         annotations: {
           yaxis: [
             {
-              y: 1000,
+              y: BMR,
               borderColor: "#ff616d",
             },
           ],
