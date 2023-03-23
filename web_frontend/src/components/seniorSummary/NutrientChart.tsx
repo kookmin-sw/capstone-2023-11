@@ -2,6 +2,8 @@ import ApexChart from "react-apexcharts";
 import { IUserData } from "./Comment";
 
 function NutrientChart(prop: IUserData) {
+  const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
+  const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
   const dateStrings = [];
   for (let i = 7; i >= 1; i--) {
     const date = new Date();
@@ -10,7 +12,24 @@ function NutrientChart(prop: IUserData) {
     const day = date.getDate();
     const dateString = `${month}/${day}`;
     dateStrings.push(dateString);
-    console.log(dateString);
+  }
+  const goals = {
+    protein: prop.weight * 0.8,
+    carbohydrate: (BMR * 0.55) / 4,
+    fat: (BMR * 0.25) / 9,
+    cholesterol: 200,
+    sodium: 2000,
+  };
+  const fatPercent = [];
+  const proPercent = [];
+  const carPercent = [];
+  for (let i = 0; i < 7; i++) {
+    const fat = Math.round((prop.nutrient.fat[i] / goals.fat) * 100);
+    const protein = Math.round((prop.nutrient.protein[i] / goals.protein) * 100);
+    const carbohydrate = Math.round((prop.nutrient.carbohydrate[i] / goals.carbohydrate) * 100);
+    fatPercent.push(fat);
+    proPercent.push(protein);
+    carPercent.push(carbohydrate);
   }
   return (
     <ApexChart
@@ -18,15 +37,15 @@ function NutrientChart(prop: IUserData) {
       series={[
         {
           name: "지방",
-          data: prop.nutrient.fat,
+          data: fatPercent,
         },
         {
           name: "단백질",
-          data: prop.nutrient.protein,
+          data: proPercent,
         },
         {
           name: "탄수화물",
-          data: prop.nutrient.carbohydrate,
+          data: carPercent,
         },
       ]}
       options={{
