@@ -10,6 +10,5 @@ import java.util.List;
 
 @Data
 public class RegisterMedicineRequestDto {
-    private String userToken;
     private List<MedicalInfo> medicalInfos;
 }
