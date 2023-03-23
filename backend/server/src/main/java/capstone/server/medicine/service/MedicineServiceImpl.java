@@ -7,16 +7,31 @@ import capstone.server.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.medicine.repository.MedicineRepository;
 import capstone.server.medicine.repository.UserWardRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.json.JSONArray;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -27,7 +42,7 @@ public class MedicineServiceImpl implements MedicineService{
     @Autowired
     private UserWardRepository userWardRepository;
 
-
+    private static final String OCR_API_URL = "https://2930a5f2-4986-4c91-af31-a632271e9ffc.api.kr-central-1.kakaoi.io/ai/ocr/b394473530514a6783e2e527424900f5";
 
     @Override
     @Transactional
@@ -64,6 +79,52 @@ public class MedicineServiceImpl implements MedicineService{
 
             medicineRepository.save(medicine);
         }
+
+    }
+
+    @Override
+    public List<String> recognizeImage(byte[] imageBytes) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.set("x-api-key", "ab97f873303a3a06defcde9a6348912a");
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("image",  new FileSystemResource("/KakaoTalk_20230323_181804078_01.jpg"));
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(OCR_API_URL, requestEntity, String.class);
+        log.info(response.getBody());
+
+
+        JSONObject object = new JSONObject(response.getBody());
+        JSONArray responses = object.getJSONArray("responses");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < responses.length(); i++) {
+            JSONObject page = responses.getJSONObject(i);
+            JSONArray results = page.getJSONArray("results");
+            for (int j = 0; j < results.length(); j++) {
+                JSONObject result = results.getJSONObject(j);
+                JSONArray recognizedWords = result.getJSONArray("recognized_word");
+                for (int k = 0; k < recognizedWords.length(); k++) {
+                    sb.append(recognizedWords.getString(k));
+                    sb.append(" ");
+                }
+            }
+        }
+
+        String recognizedWordsString = sb.toString().trim();
+        log.info(recognizedWordsString);
+        Pattern pattern = Pattern.compile("(\\S+)\\s+\\[[^\\]]+\\]");
+        Matcher matcher = pattern.matcher(recognizedWordsString);
+        List<String> infos = new ArrayList<>();
+        while (matcher.find()) {
+            String drugName = matcher.group(1);
+            infos.add(drugName);
+        }
+
+        return infos;
 
     }
 
