@@ -30,12 +30,13 @@ public class AuthenticationConfig {
 			.cors().and()
 			.authorizeRequests()
 			.antMatchers("/api/join/**","/api/login/**").permitAll()
-			.antMatchers(HttpMethod.POST,"/api/**").authenticated() // 접근 막기
+//			.antMatchers(HttpMethod.POST,"/api/**").authenticated() // 접근 막기
+			.anyRequest().authenticated() 
 			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.addFilterBefore(new JwtFilter(loginService, secretKey), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtFilter(loginService, secretKey), UsernamePasswordAuthenticationFilter.class) // TODO 여기 살펴봐라 다시
 			.build();
   }
 }
