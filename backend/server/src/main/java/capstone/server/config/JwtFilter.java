@@ -1,5 +1,6 @@
 package capstone.server.config;
 
+import capstone.server.domain.login.dto.KaKaoAccountIdAndUserTypeDto;
 import capstone.server.domain.login.service.LoginService;
 import capstone.server.utils.JwtUtil;
 import lombok.AllArgsConstructor;
@@ -52,10 +53,19 @@ public class JwtFilter extends OncePerRequestFilter { // JWT를 계속해서 확
       return;
     };
 
+    Long kakaoAccountId = JwtUtil.getKakaoAccountId(token, secretKey);
+    String userType = JwtUtil.getUserType(token, secretKey);
+    log.info("kakaoAccountId : " + kakaoAccountId);
+    log.info("userType : " + userType);
+
+    KaKaoAccountIdAndUserTypeDto kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserTypeDto.builder()
+            .kakaoAccountId(kakaoAccountId)
+            .userType(userType)
+            .build();
 
 
     // 권한 부여
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken("",null, List.of(new SimpleGrantedAuthority("USER")));
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(kaKaoAccountIdAndUserType,null, List.of(new SimpleGrantedAuthority("USER")));
 
     // 디테일을 넣어준다
     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
