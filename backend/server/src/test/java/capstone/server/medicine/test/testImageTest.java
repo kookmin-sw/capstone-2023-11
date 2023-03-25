@@ -1,15 +1,12 @@
 package capstone.server.medicine.test;
 
-import capstone.server.medicine.controller.MedicineController;
+import capstone.server.domain.medicine.controller.MedicineController;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;

@@ -1,4 +1,4 @@
-package capstone.server.medicine.repository;
+package capstone.server.domain.medicine.repository;
 
 import capstone.server.entity.Medicine;
 import org.springframework.data.jpa.repository.JpaRepository;

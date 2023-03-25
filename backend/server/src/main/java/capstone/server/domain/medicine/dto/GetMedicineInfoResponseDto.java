@@ -1,4 +1,4 @@
-package capstone.server.medicine.dto;
+package capstone.server.domain.medicine.dto;
 
 import capstone.server.entity.Medicine;
 import lombok.Builder;

@@ -1,12 +1,12 @@
-package capstone.server.medicine.service;
+package capstone.server.domain.medicine.service;
 
+import capstone.server.domain.medicine.dto.MedicalInfo;
+import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.domain.medicine.repository.MedicineRepository;
+import capstone.server.domain.medicine.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
-import capstone.server.medicine.dto.GetMedicineInfoResponseDto;
-import capstone.server.medicine.dto.MedicalInfo;
-import capstone.server.medicine.dto.RegisterMedicineRequestDto;
-import capstone.server.medicine.repository.MedicineRepository;
-import capstone.server.medicine.repository.UserWardRepository;
+import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 import org.json.JSONArray;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

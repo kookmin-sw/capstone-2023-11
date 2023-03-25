@@ -1,19 +1,15 @@
-package capstone.server.medicine.controller;
+package capstone.server.domain.medicine.controller;
 
-import capstone.server.entity.Medicine;
-import capstone.server.medicine.dto.GetMedicineInfoResponseDto;
-import capstone.server.medicine.dto.RegisterMedicineRequestDto;
-import capstone.server.medicine.service.MedicineService;
+import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
+import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.domain.medicine.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.ParseException;
 import java.util.List;
 
 @RestController
