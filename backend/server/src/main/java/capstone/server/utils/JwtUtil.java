@@ -7,6 +7,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 
 public class JwtUtil {
+  public static Long getKakaoAccountId(String token, String secretKey) {
+	return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("kakaoAccountId",Long.class);
+  }
+
+  public static String getUserType(String token, String secretKey){
+	return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("userType",String.class);
+  }
+
+  public static boolean isExpired(String token, String secretKey){
+	return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration().before(new Date());
+  }
 
   public static String createJwt(String userType, Long kakaoAccountId, String secretKey, Long expiredMs) {
 	Claims claims = Jwts.claims();
