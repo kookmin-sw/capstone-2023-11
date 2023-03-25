@@ -77,7 +77,7 @@ public class LoginServiceImpl implements LoginService {
 			kakaoUserInfoReq,
 			KakaoUserInfoRes.class
 	);
-	log.info(response.toString());
+	log.info("response.toString() : " + response.toString());
 
 	return response.getBody();
   }
