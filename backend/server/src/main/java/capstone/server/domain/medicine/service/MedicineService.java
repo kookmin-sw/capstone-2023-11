@@ -13,7 +13,7 @@ public interface MedicineService {
 
     public ResponseEntity registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto);
 
-    public Object recognizeImage(MultipartFile image) throws IOException;
+    public Object recognizeImage(MultipartFile image);
 
     public GetMedicineInfoResponseDto getMedicineInfo(String userToken);
 }

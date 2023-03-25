@@ -85,14 +85,14 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException, IOException {
+    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("x-api-key", "ab97f873303a3a06defcde9a6348912a");
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        
+
         body.add("image", image.getResource());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);

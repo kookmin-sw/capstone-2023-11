@@ -47,10 +47,7 @@ public class MedicineController {
             }
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
 
