@@ -20,26 +20,7 @@ public class UserGuardian extends BaseTimeEntity {
 
     @Column(name = "kakao_account_id")
     private Long kakaoAccountId;
-
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
-
-    @Column(name = "thumbnail_image_url")
-    private String thumbnailImageUrl;
-
     @Column(name = "name")
     private String name;
-
-    @Column(name = "birthday")
-    private LocalDate birthday;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "weight")
-    private Long weight;
-
-    @Column(name = "height")
-    private Long height;
 }
 

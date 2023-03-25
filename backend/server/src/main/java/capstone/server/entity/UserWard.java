@@ -1,14 +1,15 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Builder
 @Getter @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "userWard")
 @Entity
 public class UserWard extends BaseTimeEntity {
@@ -20,12 +21,6 @@ public class UserWard extends BaseTimeEntity {
 
   @Column(name = "kakao_account_id")
   private Long kakaoAccountId;
-
-  @Column(name = "profile_image_url")
-  private String profileImageUrl;
-
-  @Column(name = "thumbnail_image_url")
-  private String thumbnailImageUrl;
 
   @Column(name = "name")
   private String name;
@@ -41,10 +36,6 @@ public class UserWard extends BaseTimeEntity {
 
   @Column(name="height")
   private int height;
-
-  /**
-   * 음주량, 흡연, 병 추가
-   */
 
   @Column(name = "drinkings")
   private Integer drinkings;
