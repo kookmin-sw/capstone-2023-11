@@ -3,10 +3,11 @@ package capstone.server.domain.login.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
-public class KaKaoAccountIdAndUserTypeDto {
+public class KaKaoAccountIdAndUserType {
 
   private Long kakaoAccountId;
   private String userType;
