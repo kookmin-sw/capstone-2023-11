@@ -3,17 +3,21 @@ package capstone.server.domain.medicine.controller;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.domain.medicine.service.MedicineService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class MedicineController {
 
     @Autowired
@@ -21,27 +25,45 @@ public class MedicineController {
 
     @PostMapping(value = "/medicine")
     public ResponseEntity<?> registerMedicine(@RequestBody RegisterMedicineRequestDto registerMedicineRequestDto) {
-        medicineService.registerMedicine(registerMedicineRequestDto);
-        return ResponseEntity.ok().body("Success");
+        try {
+            return medicineService.registerMedicine(registerMedicineRequestDto);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+
     }
 
     @PostMapping(value = "/medicine/ocr")
-    public ResponseEntity<?> recognizeImage(@RequestParam("image")String image) throws IOException {
-//        byte[] imageBytes = image.getBytes();
-        File file = new File("C:\\KakaoTalk_20230321_203045442.jpg");
-        byte[] imageBytes = Files.readAllBytes(file.toPath());
+    public ResponseEntity<?> recognizeImage(@RequestPart(value = "image") MultipartFile image) {
 
-        List<String> result = medicineService.recognizeImage(imageBytes);
-        return ResponseEntity.ok().body(result);
+        try {
+            Object result = medicineService.recognizeImage(image);
+            if (result instanceof List) {
+                return ResponseEntity.ok().body(result);
+            } else {
+                ResponseEntity<?> response = (ResponseEntity<?>) result;
+                log.info(String.valueOf(response.getStatusCode()));
+                return response;
+            }
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
+
 
     @GetMapping(value = "/medicine")
-    public ResponseEntity<?> getMedicineInfo(@RequestParam("userToken")String userToken) {
-
-        GetMedicineInfoResponseDto infos = medicineService.getMedicineInfo(userToken);
-        return ResponseEntity.ok().body(infos);
-
+    public ResponseEntity<?> getMedicineInfo(@RequestParam("userToken") String userToken) {
+        try {
+            GetMedicineInfoResponseDto result = medicineService.getMedicineInfo(userToken);
+            return ResponseEntity.ok().body(result);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
+        }
     }
-
 }
 

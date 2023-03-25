@@ -16,10 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.regex.Pattern;
 
 @Service
 @Slf4j
-public class MedicineServiceImpl implements MedicineService{
+public class MedicineServiceImpl implements MedicineService {
 
     @Autowired
     private MedicineRepository medicineRepository;
@@ -39,23 +43,27 @@ public class MedicineServiceImpl implements MedicineService{
 
     @Override
     @Transactional
-    public void registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto) {
+    public ResponseEntity registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto) throws HttpClientErrorException{
         // TODO
         // user Token으로 id뽑아오기
         // dueAt 계산 구현
-        UserWard dummy = UserWard.builder()
-                .kakaoAccountId(123L)
-                .gender("ge")
-                .height(123)
-                .birthday(LocalDate.now())
-                .phoneNumber("123")
-                .weight(123)
-                .profileImageUrl("dsad")
-                .thumbnailImageUrl("dsad")
-                .name("test")
-                .build();
+//        UserWard dummy = UserWard.builder()
+//                .kakaoAccountId(123L)
+//                .gender("ge")
+//                .height(123)
+//                .birthday(LocalDate.now())
+//                .phoneNumber("123")
+//                .weight(123)
+//                .profileImageUrl("dsad")
+//                .thumbnailImageUrl("dsad")
+//                .name("test")
+//                .build();
+//
+//        userWardRepository.save(dummy);
 
-        userWardRepository.save(dummy);
+        UserWard userWard = userWardRepository.findByName("test");
+        if (userWard == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
 
         for (MedicalInfo info : registerMedicineRequestDto.getMedicalInfos()) {
             Medicine medicine = Medicine.builder()
@@ -73,16 +81,20 @@ public class MedicineServiceImpl implements MedicineService{
             medicineRepository.save(medicine);
         }
 
+        return ResponseEntity.ok().body("Success");
     }
 
     @Override
-    public List<String> recognizeImage(byte[] imageBytes) {
+    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException, IOException {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("x-api-key", "ab97f873303a3a06defcde9a6348912a");
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("image",  new FileSystemResource("/KakaoTalk_20230323_181804078_01.jpg"));
+        image.transferTo(new File("D:\\" + image.getOriginalFilename()));
+
+        body.add("image", new FileSystemResource("D:\\" + image.getOriginalFilename()));
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -90,13 +102,6 @@ public class MedicineServiceImpl implements MedicineService{
         ResponseEntity<String> response = restTemplate.postForEntity(OCR_API_URL, requestEntity, String.class);
         log.info(response.getBody());
         List<String> infos = new ArrayList<>();
-
-        if (response.getStatusCode() != HttpStatus.OK)
-        {
-            infos.add(String.valueOf(response.getStatusCode()));
-            return infos;
-        }
-
         JSONObject object = new JSONObject(response.getBody());
         JSONArray responses = object.getJSONArray("responses");
         StringBuilder sb = new StringBuilder();
@@ -124,7 +129,6 @@ public class MedicineServiceImpl implements MedicineService{
         }
 
         return infos;
-
     }
 
     @Override
@@ -132,6 +136,8 @@ public class MedicineServiceImpl implements MedicineService{
         // TODO
         // userWardRepository FindByToken;
         Long userId = userWardRepository.findByName(userToken).getUserId();
+        if (userId == null)
+            return null;
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
                 .medicines(medicineRepository.findAllByUserWardUserId(userId)).build();
 
