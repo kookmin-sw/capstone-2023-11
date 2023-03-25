@@ -1,5 +1,6 @@
 package capstone.server.entity;
 
+import capstone.server.domain.login.enums.GenderType;
 import capstone.server.utils.BaseTimeEntity;
 import lombok.*;
 
@@ -29,7 +30,8 @@ public class UserWard extends BaseTimeEntity {
   private LocalDate birthday;
 
   @Column(name= "gender")
-  private String gender;
+  @Enumerated(EnumType.STRING)
+  private GenderType gender;
 
   @Column(name = "weight")
   private int weight;

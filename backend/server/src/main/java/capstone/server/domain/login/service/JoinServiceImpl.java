@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class JoinServiceImpl implements JoinService{
 	UserGuardian savedUserGuardian = userGuardianRepository.save(
 			UserGuardian.builder()
 					.kakaoAccountId(userInfo.getId())
-					.name(userInfo.getProperties().getNickname())
+					.name(userInfo.getKakao_account().getProfile().getNickname())
 					.build()
 	);
 
@@ -62,12 +64,11 @@ public class JoinServiceImpl implements JoinService{
 	KakaoUserInfoRes userInfo = loginService.getUserInfo(wardJoinRequest.getKakaoAccesstoken());
 
 	log.info("userInfo : " + userInfo.toString());
-
 	UserWard savedUserWard = userWardRepository.save(UserWard.builder()
 			.kakaoAccountId(userInfo.getId())
-			.name(userInfo.getProperties().getNickname())
-			.birthday(null)
-			.gender(null)
+			.name(userInfo.getKakao_account().getProfile().getNickname())
+			.birthday(LocalDate.of(wardJoinRequest.getYear(), wardJoinRequest.getMonth(), wardJoinRequest.getDay()))
+			.gender(wardJoinRequest.getGenderType())
 			.weight(wardJoinRequest.getWeight())
 			.height(wardJoinRequest.getHeight())
 			.drinkings(wardJoinRequest.getDrinkings())

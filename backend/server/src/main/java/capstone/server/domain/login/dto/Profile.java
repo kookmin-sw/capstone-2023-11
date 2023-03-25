@@ -1,11 +1,9 @@
 package capstone.server.domain.login.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
-public class KakaoProperties {
-
+public class Profile {
   private String nickname;
-  private String profileImage;
-  private String thumbnailImage;
 }

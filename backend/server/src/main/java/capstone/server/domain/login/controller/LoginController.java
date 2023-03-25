@@ -42,6 +42,8 @@ public class LoginController {
 	  }
 	  return ResponseEntity.ok()
 			  .body(kakaoTokenCheckResponse);
+
+
 	} catch (HttpClientErrorException httpClientErrorException) {
 	  kakaoTokenCheckResponse.setError();
 	  return ResponseEntity.status(httpClientErrorException.getStatusCode())

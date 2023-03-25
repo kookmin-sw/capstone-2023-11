@@ -12,6 +12,12 @@ public class KakaoTokenCheckResponse {
   private String userType;
   private String token = null;
 
+  private String name;
+
+  public void setName(String nickName) {
+	this.name= nickName;
+  }
+
   public void setUserGuardian(){
 	this.userType = UserType.USER_GUARDIAN;
   }
