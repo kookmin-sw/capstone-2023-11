@@ -92,9 +92,8 @@ public class MedicineServiceImpl implements MedicineService {
         headers.set("x-api-key", "ab97f873303a3a06defcde9a6348912a");
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        image.transferTo(new File("D:\\" + image.getOriginalFilename()));
-
-        body.add("image", new FileSystemResource("D:\\" + image.getOriginalFilename()));
+        
+        body.add("image", image.getResource());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
