@@ -33,15 +33,12 @@ public class JoinServiceImpl implements JoinService{
 			UserGuardian.builder()
 			.height(guardianJoinRequest.getHeight())
 			.weight(guardianJoinRequest.getWeight())
-			.drinkings(guardianJoinRequest.getDrinkings())
-			.smoke(guardianJoinRequest.getSmoke())
 			.kakaoAccountId(userInfo.getId())
 			.profileImageUrl(userInfo.getProperties().getProfileImage())
 			.thumbnailImageUrl(userInfo.getProperties().getThumbnailImage())
 			.name(userInfo.getProperties().getNickname())
 			.birthday(null)
 			.gender(userInfo.getGender())
-			.phoneNumber(null)
 			.build()
 	);
 

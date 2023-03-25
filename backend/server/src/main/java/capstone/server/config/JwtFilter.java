@@ -1,9 +1,12 @@
 package capstone.server.config;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.login.exception.ExceptionCode;
 import capstone.server.domain.login.service.LoginService;
 import capstone.server.utils.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -40,35 +43,65 @@ public class JwtFilter extends OncePerRequestFilter { // JWT를 계속해서 확
 	  return;
 	}
 
-
-	// 토큰 만료일 검증
 	String token = authorization.split(" ")[1]; // Bearer 다음 값인 토큰 값 파싱
-	log.info("token : " + token);
-	// Token Expired(만료) 여부 확인
-	if (JwtUtil.isExpired(token.toString(), secretKey)) {
-	  log.error("token이 만료 됨");
+	try {// 토큰 만료일 검증
+	  log.info("token : " + token);
+	  Long kakaoAccountId = JwtUtil.getKakaoAccountId(token, secretKey);
+	  String userType = JwtUtil.getUserType(token, secretKey);
+	  log.info("kakaoAccountId : " + kakaoAccountId);
+	  log.info("userType : " + userType);
+
+
+	  KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+			  .kakaoAccountId(kakaoAccountId)
+			  .userType(userType)
+			  .build();
+
+
+	  // 권한 부여
+	  UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(kaKaoAccountIdAndUserType, null, List.of(new SimpleGrantedAuthority("USER")));
+
+	  // 디테일을 넣어준다
+	  authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+	  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+	  filterChain.doFilter(request, response);
+
+
+	} catch (SecurityException | MalformedJwtException e) {
+	  request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.toString());
+	  filterChain.doFilter(request, response);
+	  return;
+
+	} catch (ExpiredJwtException e) {
+	  request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN.toString());
+	  filterChain.doFilter(request, response);
+	  return;
+
+	} catch (UnsupportedJwtException e) {
+	  request.setAttribute("exception", ExceptionCode.UNSUPPORTED_TOKEN.toString());
+	  filterChain.doFilter(request, response);
+	  return;
+
+	} catch (IllegalArgumentException e) {
+	  request.setAttribute("exception", ExceptionCode.WRONG_TYPE_TOKEN.toString());
+	  filterChain.doFilter(request, response);
+	  return;
+
+	} catch (Exception e) {
+	  log.error("================================================");
+	  log.error("JwtFilter - doFilterInternal() 오류발생");
+	  log.error("token : {}", token);
+	  log.error("Exception Message : {}", e.getMessage());
+	  log.error("Exception StackTrace : {");
+	  e.printStackTrace();
+	  log.error("}");
+	  log.error("================================================");
+	  request.setAttribute("exception", ExceptionCode.UNKNOWN_ERROR.toString());
 	  filterChain.doFilter(request, response);
 	  return;
 	}
 
-	Long kakaoAccountId = JwtUtil.getKakaoAccountId(token, secretKey);
-	String userType = JwtUtil.getUserType(token, secretKey);
-	log.info("kakaoAccountId : " + kakaoAccountId);
-	log.info("userType : " + userType);
 
-	KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
-			.kakaoAccountId(kakaoAccountId)
-			.userType(userType)
-			.build();
-
-
-	// 권한 부여
-	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(kaKaoAccountIdAndUserType, null, List.of(new SimpleGrantedAuthority("USER")));
-
-	// 디테일을 넣어준다
-	authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-	SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-	filterChain.doFilter(request, response);
 
 
   }

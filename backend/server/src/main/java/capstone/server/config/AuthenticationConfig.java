@@ -1,5 +1,6 @@
 package capstone.server.config;
 
+import capstone.server.domain.login.exception.CustomAuthenticationEntryPoint;
 import capstone.server.domain.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,10 +35,12 @@ public class AuthenticationConfig {
 			.antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 스웨거 페이지에 대한 접근 권한 설정
 			.anyRequest().authenticated()
 			.and()
+			.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.addFilterBefore(new JwtFilter(loginService, secretKey), UsernamePasswordAuthenticationFilter.class) // TODO 여기 살펴봐라 다시
+			.addFilterBefore(new JwtFilter(loginService, secretKey), UsernamePasswordAuthenticationFilter.class)// TODO 여기 살펴봐라 다시
 			.build();
   }
 }
