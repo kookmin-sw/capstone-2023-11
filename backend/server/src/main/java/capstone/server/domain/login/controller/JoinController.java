@@ -24,8 +24,8 @@ public class JoinController {
 
   @PostMapping("/ward")
   public ResponseEntity<?> wardJoin(@RequestBody WardJoinRequest wardJoinRequest) {
-	joinService.joinWard(wardJoinRequest);
-	return ResponseEntity.ok().body("성공했수다");
+	Long accountID = joinService.joinWard(wardJoinRequest);
+	return ResponseEntity.ok().body(accountID + " 회원가입에 성공 했습니다.");
   }
 
   @PostMapping("/guardian")

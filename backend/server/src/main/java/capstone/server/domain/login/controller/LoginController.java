@@ -34,11 +34,12 @@ public class LoginController {
 	  if (loginService.isUserAlreadySignUp(tokenCheckRequest)) {
 		// TODO 토큰 발급  , return시 Body에 token 담아서 주기
 		kakaoTokenCheckResponse.setLogin();
-		kakaoTokenCheckResponse.setToken(loginService.login(tokenCheckRequest));
+		kakaoTokenCheckResponse.setToken(loginService.login(tokenCheckRequest)); // jwt토큰
 		return ResponseEntity.ok()
 				.body(kakaoTokenCheckResponse);
 	  } else {
 		kakaoTokenCheckResponse.setSignUp();
+		kakaoTokenCheckResponse.setName(loginService.getUserInfo(tokenCheckRequest.getToken()).getKakao_account().getProfile().getNickname());
 	  }
 	  return ResponseEntity.ok()
 			  .body(kakaoTokenCheckResponse);
