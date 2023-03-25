@@ -30,8 +30,9 @@ public class AuthenticationConfig {
 			.cors().and()
 			.authorizeRequests()
 			.antMatchers("/api/join/**","/api/login/**").permitAll()
-//			.antMatchers(HttpMethod.POST,"/api/**").authenticated() // 접근 막기
-			.anyRequest().authenticated() 
+//			.antMatchers("/swagger-ui/index.html","/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**").permitAll() // swagger 예외 적용
+			.antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // 스웨거 페이지에 대한 접근 권한 설정
+			.anyRequest().authenticated()
 			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
