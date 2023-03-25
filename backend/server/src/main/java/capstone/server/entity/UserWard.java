@@ -36,12 +36,18 @@ public class UserWard extends BaseTimeEntity {
   @Column(name= "gender")
   private String gender;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
-
   @Column(name = "weight")
   private int weight;
 
   @Column(name="height")
   private int height;
+
+  /**
+   * 음주량, 흡연, 병 추가
+   */
+
+  @Column(name = "drinkings")
+  private Integer drinkings;
+  @Column(name = "smoke")
+  private Integer smoke;
 }
