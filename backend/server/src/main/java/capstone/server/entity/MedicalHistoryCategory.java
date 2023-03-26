@@ -1,12 +1,15 @@
 package capstone.server.entity;
 
+import capstone.server.domain.login.enums.MedicalCategory;
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter @ToString
 @Table(name = "medicalHistoryCategory")
 @Entity
@@ -16,7 +19,14 @@ public class MedicalHistoryCategory {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private MedicalCategory name;
+
+    private String kor;
+
+    private String eng;
+
+    private String description;
 
     /*
      TODO

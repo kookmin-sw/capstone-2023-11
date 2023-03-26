@@ -1,11 +1,13 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter @ToString
 @Table(name = "medicalHistoryUserWardHas")
 @Entity
