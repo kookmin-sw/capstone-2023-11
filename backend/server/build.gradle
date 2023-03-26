@@ -18,17 +18,31 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.13.1'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.9' // swgaer
+    implementation 'org.json:json:20211205' //JSON Parser
+    implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' // jwt
+
 }
 
 tasks.named('test') {
