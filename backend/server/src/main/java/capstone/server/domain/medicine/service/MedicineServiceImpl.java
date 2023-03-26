@@ -3,7 +3,7 @@ package capstone.server.domain.medicine.service;
 import capstone.server.domain.medicine.dto.MedicalInfo;
 import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
 import capstone.server.domain.medicine.repository.MedicineRepository;
-import capstone.server.domain.medicine.repository.UserWardRepository;
+import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
@@ -47,7 +47,7 @@ public class MedicineServiceImpl implements MedicineService {
         // TODO
         // user Token으로 id뽑아오기
 
-        UserWard userWard = userWardRepository.findByName("test");
+        UserWard userWard = null;
         if (userWard == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
 
@@ -60,7 +60,7 @@ public class MedicineServiceImpl implements MedicineService {
                     .depositMethod(info.getDepositMethod())
                     .effect(info.getEffect())
                     .imageUrl(info.getImageUrl())
-                    .userWard(userWardRepository.findByName("test"))
+                    .userWard(null)
                     .dueAt(LocalDateTime.now().plusDays(info.getDaysToTake()))
                     .breakfast(info.getBreakfast())
                     .lunch((info.getLunch()))
@@ -122,7 +122,7 @@ public class MedicineServiceImpl implements MedicineService {
     public GetMedicineInfoResponseDto getMedicineInfo(String userToken) {
         // TODO
         // userWardRepository FindByToken;
-        Long userId = userWardRepository.findByName(userToken).getUserId();
+        Long userId = 0L;
         if (userId == null)
             return null;
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()

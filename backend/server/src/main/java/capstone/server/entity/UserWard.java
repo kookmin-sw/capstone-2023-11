@@ -14,18 +14,14 @@ import java.time.LocalDate;
 @Table(name = "userWard")
 @Entity
 @Setter
-@NoArgsConstructor
 public class UserWard extends BaseTimeEntity {
 
   @Builder
-  public UserWard(Long kakaoAccountId, String profileImageUrl, String thumbnailImageUrl, String name, LocalDate birthday, String gender, String phoneNumber, int weight, int height) {
+  public UserWard(Long kakaoAccountId, String name, LocalDate birthday, GenderType gender,int weight, int height) {
     this.kakaoAccountId = kakaoAccountId;
-    this.profileImageUrl = profileImageUrl;
-    this.thumbnailImageUrl = thumbnailImageUrl;
     this.name = name;
     this.birthday = birthday;
     this.gender = gender;
-    this.phoneNumber = phoneNumber;
     this.weight = weight;
     this.height = height;
   }

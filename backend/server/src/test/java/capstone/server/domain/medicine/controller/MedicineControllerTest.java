@@ -1,13 +1,8 @@
 package capstone.server.domain.medicine.controller;
 
-import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.domain.medicine.dto.MedicalInfo;
 import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
-import capstone.server.domain.medicine.repository.UserWardRepository;
-import capstone.server.entity.UserWard;
-import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -15,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.io.File;
 import java.net.URI;
-import java.nio.file.Files;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
