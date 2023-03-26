@@ -46,20 +46,6 @@ public class MedicineServiceImpl implements MedicineService {
     public ResponseEntity registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto) throws HttpClientErrorException{
         // TODO
         // user Token으로 id뽑아오기
-        // dueAt 계산 구현
-//        UserWard dummy = UserWard.builder()
-//                .kakaoAccountId(123L)
-//                .gender("ge")
-//                .height(123)
-//                .birthday(LocalDate.now())
-//                .phoneNumber("123")
-//                .weight(123)
-//                .profileImageUrl("dsad")
-//                .thumbnailImageUrl("dsad")
-//                .name("test")
-//                .build();
-//
-//        userWardRepository.save(dummy);
 
         UserWard userWard = userWardRepository.findByName("test");
         if (userWard == null)
@@ -75,8 +61,10 @@ public class MedicineServiceImpl implements MedicineService {
                     .effect(info.getEffect())
                     .imageUrl(info.getImageUrl())
                     .userWard(userWardRepository.findByName("test"))
-                    .dueAt(LocalDateTime.now()).build();
-
+                    .dueAt(LocalDateTime.now().plusDays(info.getDaysToTake()))
+                    .breakfast(info.getBreakfast())
+                    .lunch((info.getLunch()))
+                    .dinner(info.getDinner()).build();
 
             medicineRepository.save(medicine);
         }
