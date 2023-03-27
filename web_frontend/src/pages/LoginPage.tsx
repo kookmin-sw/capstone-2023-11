@@ -13,27 +13,27 @@ function LoginPage() {
       <StLogo src={require("../../src/assets/images/img_logo.png")} />
       <StTitle>사용할 서비스를 선택하세요</StTitle>
       <StSelectContainer>
-        {userStatus == "userWard" ? (
+        {userStatus == "userGuardian" ? (
           <StClickedButton>
             <StIcon src={RadioButton} />
             <StButtonText>보호자 서비스</StButtonText>
             <StUserIcon src={GuardianIcn} />
           </StClickedButton>
         ) : (
-          <StUnclickedButton onClick={() => setUserStatus("userWard")}>
+          <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
             <StIcon src={RadioUnclickedButton} />
             <StButtonText>보호자 서비스</StButtonText>
             <StUserIcon src={GuardianIcn} />
           </StUnclickedButton>
         )}
-        {userStatus == "userGuardian" ? (
+        {userStatus == "userWard" ? (
           <StClickedButton>
             <StIcon src={RadioButton} />
             <StButtonText>시니어 서비스</StButtonText>
             <StUserIcon src={SeniorIcn} />
           </StClickedButton>
         ) : (
-          <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
+          <StUnclickedButton onClick={() => setUserStatus("userWard")}>
             <StIcon src={RadioUnclickedButton} />
             <StButtonText>시니어 서비스</StButtonText>
             <StUserIcon src={SeniorIcn} />

@@ -25,20 +25,21 @@ function KakaoAuthPage() {
   }, [data, accessToken]);
   useEffect(() => {
     if (loginData) {
-      if (loginData.data.result == "signIn") {
-        navigate("#");
+      if (loginData.data.result == "login") {
+        localStorage.setItem("accessToken", loginData.data.jwt);
+        navigate("/main");
       } else {
         if (loginData.data.userType == "userGuardian") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
-          navigate("/join/senior");
+          navigate("/join/guardian");
         }
         if (loginData.data.userType == "userWard") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
-          navigate("/join/guardian");
+          navigate("/join/senior");
         }
       }
     }

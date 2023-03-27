@@ -2,19 +2,25 @@ import styled from "styled-components";
 import { useState } from "react";
 import { GrandFather, GrandMother } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
+import { guardianJoin } from "../core/api";
+import { useQuery } from "react-query";
 
 function GuardianJoinPage() {
-  const [seniors, setSeniors] = useState<string[]>([]);
+  const [seniors, setSeniors] = useState<number[]>([]);
   const [code, setCode] = useState("");
+  const [joinState, setJoinState] = useState(false);
   const navigate = useNavigate();
   const ControllJoin = () => {
     if (seniors.length < 1) {
       alert("피보호인 유저코드를 입력해주세요!");
     } else {
-      const data = guardianJoin();
+      setJoinState(true);
+
       navigate("/#");
     }
   };
+  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: joinState == true });
+  console.log(data);
   return (
     <StGuardianPage>
       <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
@@ -33,7 +39,7 @@ function GuardianJoinPage() {
             onClick={() => {
               if (code.length >= 8) {
                 setCode("");
-                setSeniors([...seniors, code]);
+                setSeniors([...seniors, Number(code)]);
               } else {
                 alert("유저코드를 제대로 입력해주세요!");
               }
@@ -49,7 +55,7 @@ function GuardianJoinPage() {
               onClick={(e) =>
                 setSeniors(
                   seniors.filter(
-                    (senior) => senior !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
+                    (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
                   ),
                 )
               }>
@@ -60,7 +66,7 @@ function GuardianJoinPage() {
               onClick={(e) =>
                 setSeniors(
                   seniors.filter(
-                    (senior) => senior !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
+                    (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
                   ),
                 )
               }>
