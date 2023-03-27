@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 public class DuplicateUserException extends RuntimeException{
   private boolean success;
-  private HttpStatus status = HttpStatus.CONFLICT;
+  private int status = HttpStatus.CONFLICT.value();
   public DuplicateUserException(String message,boolean success) {
 	super(message);
 	this.success = success;
