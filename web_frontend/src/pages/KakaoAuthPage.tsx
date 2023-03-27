@@ -21,6 +21,7 @@ function KakaoAuthPage() {
   console.log(loginData);
   useEffect(() => {
     setAccessToken(data?.data.access_token);
+    console.log(accessToken);
   }, [data, accessToken]);
   useEffect(() => {
     if (loginData) {
@@ -28,9 +29,15 @@ function KakaoAuthPage() {
         navigate("#");
       } else {
         if (loginData.data.userType == "userGuardian") {
+          if (accessToken) {
+            localStorage.setItem("kakaoAccesstoken", accessToken);
+          }
           navigate("/join/senior");
         }
         if (loginData.data.userType == "userWard") {
+          if (accessToken) {
+            localStorage.setItem("kakaoAccesstoken", accessToken);
+          }
           navigate("/join/guardian");
         }
       }
