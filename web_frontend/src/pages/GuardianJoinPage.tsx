@@ -7,6 +7,14 @@ function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<string[]>([]);
   const [code, setCode] = useState("");
   const navigate = useNavigate();
+  const ControllJoin = () => {
+    if (seniors.length < 1) {
+      alert("피보호인 유저코드를 입력해주세요!");
+    } else {
+      const data = guardianJoin();
+      navigate("/#");
+    }
+  };
   return (
     <StGuardianPage>
       <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
@@ -62,13 +70,12 @@ function GuardianJoinPage() {
         )}
       </StCodeContainer>
       <StButtonContainer>
-        <StJoinButton onClick={() => navigate("/#")}>다음으로</StJoinButton>
+        <StJoinButton onClick={() => ControllJoin()}>다음으로</StJoinButton>
       </StButtonContainer>
     </StGuardianPage>
   );
 }
 export default GuardianJoinPage;
-
 const StGuardianPage = styled.div`
   display: flex;
   flex-direction: column;
