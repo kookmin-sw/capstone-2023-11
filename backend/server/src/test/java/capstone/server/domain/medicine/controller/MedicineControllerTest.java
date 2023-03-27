@@ -1,7 +1,7 @@
 package capstone.server.domain.medicine.controller;
 
 import capstone.server.domain.medicine.dto.MedicalInfo;
-import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.FileSystemResource;
@@ -47,11 +47,11 @@ class MedicineControllerTest {
                 .imageUrl("test2")
                 .build());
 
-        RegisterMedicineRequestDto dto = RegisterMedicineRequestDto.builder().medicalInfos(infos).build();
+        RegisterMedicineDto dto = RegisterMedicineDto.builder().medicalInfos(infos).build();
 
         HttpHeaders headers = new HttpHeaders();
         TestRestTemplate restTemplate = new TestRestTemplate();
-        HttpEntity<RegisterMedicineRequestDto> requestEntity = new HttpEntity<>(dto, headers);
+        HttpEntity<RegisterMedicineDto> requestEntity = new HttpEntity<>(dto, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(uri, requestEntity, String.class);
 
 

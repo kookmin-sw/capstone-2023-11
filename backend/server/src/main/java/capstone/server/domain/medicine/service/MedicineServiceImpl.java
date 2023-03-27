@@ -1,7 +1,8 @@
 package capstone.server.domain.medicine.service;
 
+import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.MedicalInfo;
-import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
@@ -10,7 +11,6 @@ import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +19,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,15 +41,13 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     @Transactional
-    public ResponseEntity registerMedicine(RegisterMedicineRequestDto registerMedicineRequestDto) throws HttpClientErrorException{
+    public ResponseEntity registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
         // TODO
         // user Token으로 id뽑아오기
 
-        UserWard userWard = null;
-        if (userWard == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
+        Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(registerMedicineDto.getKaKaoAccountIdAndUserType().getKakaoAccountId());
 
-        for (MedicalInfo info : registerMedicineRequestDto.getMedicalInfos()) {
+        for (MedicalInfo info : registerMedicineDto.getMedicalInfos()) {
             Medicine medicine = Medicine.builder()
                     .name(info.getName())
                     .companyName(info.getCompanyName())
@@ -60,7 +56,7 @@ public class MedicineServiceImpl implements MedicineService {
                     .depositMethod(info.getDepositMethod())
                     .effect(info.getEffect())
                     .imageUrl(info.getImageUrl())
-                    .userWard(null)
+                    .userWard(userWard.orElse(null))
                     .dueAt(LocalDateTime.now().plusDays(info.getDaysToTake()))
                     .breakfast(info.getBreakfast())
                     .lunch((info.getLunch()))
@@ -81,7 +77,7 @@ public class MedicineServiceImpl implements MedicineService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        body.add("image", image.getResource());
+        body.add("image",   image.getResource());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -119,14 +115,12 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public GetMedicineInfoResponseDto getMedicineInfo(String userToken) {
+    public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         // TODO
         // userWardRepository FindByToken;
-        Long userId = 0L;
-        if (userId == null)
-            return null;
+        Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId());
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
-                .medicines(medicineRepository.findAllByUserWardUserId(userId)).build();
+                .medicines(medicineRepository.findAllByUserWardUserId(userWard.get().getUserId())).build();
 
         return medicineInfos;
     }
