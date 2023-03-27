@@ -110,156 +110,117 @@ function SeniorJoinPage() {
           </StIllInfo>
 
           <StIllContainer>
-            {ills.includes("고혈압") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("HIGH_BLOOD_PRESSURE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "HIGH_BLOOD_PRESSURE"))}>
                 고혈압
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                고혈압
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "HIGH_BLOOD_PRESSURE"])}>고혈압</StButtonUnClicked>
             )}
-            {ills.includes("당뇨") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
-                당뇨
-              </StButtonClicked>
+            {ills.includes("DIABETES") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "DIABETES"))}>당뇨</StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                당뇨
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "DIABETES"])}>당뇨</StButtonUnClicked>
             )}
-            {ills.includes("관절염") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("ARTHRITIS") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "ARTHRITIS"))}>
                 관절염
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                관절염
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "ARTHRITIS"])}>관절염</StButtonUnClicked>
             )}
-            {ills.includes("고지혈증") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("HIGH_CHOLESTEROL") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "HIGH_CHOLESTEROL"))}>
                 고지혈증
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                고지혈증
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "HIGH_CHOLESTEROL"])}>고지혈증</StButtonUnClicked>
             )}
-            {ills.includes("저혈압") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("LOW_BLOOD_PRESSURE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "LOW_BLOOD_PRESSURE"))}>
                 저혈압
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                저혈압
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "LOW_BLOOD_PRESSURE"])}>저혈압</StButtonUnClicked>
             )}
-            {ills.includes("관상동맥질환") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("CORONARY_ARTERY_DISEASE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "CORONARY_ARTERY_DISEASE"))}>
                 관상동맥질환
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "CORONARY_ARTERY_DISEASE"])}>
                 관상동맥질환
               </StButtonUnClicked>
             )}
-            {ills.includes("뇌졸증") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
-                뇌졸증
-              </StButtonClicked>
+            {ills.includes("STROKE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "STROKE"))}>뇌졸증</StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                뇌졸증
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "STROKE"])}>뇌졸증</StButtonUnClicked>
             )}
-            {ills.includes("만성폐쇄성폐질환") ? (
+            {ills.includes("CHRONIC_OBSTRUCTIVE_PULMONARY_DISEASE") ? (
               <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+                onClick={() => setIlls(ills.filter((ill) => ill !== "CHRONIC_OBSTRUCTIVE_PULMONARY_DISEASE"))}>
                 만성폐쇄성폐질환
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "CHRONIC_OBSTRUCTIVE_PULMONARY_DISEASE"])}>
                 만성폐쇄성폐질환
               </StButtonUnClicked>
             )}
-            {ills.includes("암") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
-                암
-              </StButtonClicked>
+            {ills.includes("CANCER") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "CANCER"))}>암</StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                암
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "CANCER"])}>암</StButtonUnClicked>
             )}
-            {ills.includes("우울증") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("DEPRESSION") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "DEPRESSION"))}>
                 우울증
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                우울증
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "DEPRESSION"])}>우울증</StButtonUnClicked>
             )}
-            {ills.includes("간질환") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("LIVER_DISEASE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "LIVER_DISEASE"))}>
                 간질환
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                간질환
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "LIVER_DISEASE"])}>간질환</StButtonUnClicked>
             )}
-            {ills.includes("간경변증") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("CIRRHOSIS") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "CIRRHOSIS"))}>
                 간경변증
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                간경변증
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "CIRRHOSIS"])}>간경변증</StButtonUnClicked>
             )}
 
-            {ills.includes("신장질환") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("KIDNEY_DISEASE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "KIDNEY_DISEASE"))}>
                 신장질환
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                신장질환
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "KIDNEY_DISEASE"])}>신장질환</StButtonUnClicked>
             )}
-            {ills.includes("갑상선 질환") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("THYROID_DISEASE") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "THYROID_DISEASE"))}>
                 갑상선 질환
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                갑상선 질환
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "THYROID_DISEASE"])}>갑상선 질환</StButtonUnClicked>
             )}
-            {ills.includes("골다공증") ? (
-              <StButtonClicked
-                onClick={(e) => setIlls(ills.filter((ill) => ill !== (e.target as HTMLLIElement).innerHTML))}>
+            {ills.includes("HEARING_LOSS") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "HEARING_LOSS"))}>
+                난청
+              </StButtonClicked>
+            ) : (
+              <StButtonUnClicked onClick={() => setIlls([...ills, "HEARING_LOSS"])}>난청</StButtonUnClicked>
+            )}
+            {ills.includes("OSTEOPOROSIS") ? (
+              <StButtonClicked onClick={() => setIlls(ills.filter((ill) => ill !== "OSTEOPOROSIS"))}>
                 골다공증
               </StButtonClicked>
             ) : (
-              <StButtonUnClicked onClick={(e) => setIlls([...ills, (e.target as HTMLLIElement).innerHTML])}>
-                골다공증
-              </StButtonUnClicked>
+              <StButtonUnClicked onClick={() => setIlls([...ills, "OSTEOPOROSIS"])}>골다공증</StButtonUnClicked>
             )}
           </StIllContainer>
 
