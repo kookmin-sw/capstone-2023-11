@@ -1,18 +1,20 @@
 package capstone.server.domain.medicine.controller;
 
+import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
-import capstone.server.domain.medicine.dto.RegisterMedicineRequestDto;
+import capstone.server.domain.medicine.dto.MedicalInfo;
+import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.service.MedicineService;
+import capstone.server.utils.KaKaoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,15 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @PostMapping(value = "/medicine")
-    public ResponseEntity<?> registerMedicine(@RequestBody RegisterMedicineRequestDto registerMedicineRequestDto) {
+    public ResponseEntity<?> registerMedicine(Authentication authentication, @RequestBody List<MedicalInfo> medicalInfos) {
         try {
-            return medicineService.registerMedicine(registerMedicineRequestDto);
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+
+
+            return medicineService.registerMedicine(RegisterMedicineDto.builder()
+                    .kaKaoAccountIdAndUserType(kaKaoAccountIdAndUserType)
+                    .medicalInfos(medicalInfos)
+                    .build());
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
@@ -34,10 +42,13 @@ public class MedicineController {
     }
 
     @PostMapping(value = "/medicine/ocr")
-    public ResponseEntity<?> recognizeImage(@RequestPart(value = "image") MultipartFile image) {
+    public ResponseEntity<?> recognizeImage(Authentication authentication, @RequestPart(value = "image") MultipartFile image) {
 
         try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+
             Object result = medicineService.recognizeImage(image);
+
             if (result instanceof List) {
                 return ResponseEntity.ok().body(result);
             } else {
@@ -50,11 +61,17 @@ public class MedicineController {
         }
     }
 
-
+//    @PostMapping("/auth")
+//    public ResponseEntity<?> test(Authentication authentication){
+//        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserTypeDto = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+//        return ResponseEntity.ok()
+//                .body(kaKaoAccountIdAndUserTypeDto.getKakaoAccountId());
+//    }
     @GetMapping(value = "/medicine")
-    public ResponseEntity<?> getMedicineInfo(@RequestParam("userToken") String userToken) {
+    public ResponseEntity<?> getMedicineInfo(Authentication authentication) {
         try {
-            GetMedicineInfoResponseDto result = medicineService.getMedicineInfo(userToken);
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            GetMedicineInfoResponseDto result = medicineService.getMedicineInfo(kaKaoAccountIdAndUserType);
             return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
