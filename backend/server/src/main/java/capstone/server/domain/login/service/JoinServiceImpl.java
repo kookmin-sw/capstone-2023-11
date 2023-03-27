@@ -4,6 +4,7 @@ import capstone.server.domain.login.dto.GuardianJoinRequest;
 import capstone.server.domain.login.dto.KakaoUserInfoRes;
 import capstone.server.domain.login.dto.WardJoinRequest;
 import capstone.server.domain.login.enums.MedicalCategory;
+import capstone.server.domain.login.exception.DuplicateUserException;
 import capstone.server.domain.medical.repository.MedicalCategoryRepository;
 import capstone.server.domain.medical.repository.MedicalHistoryUserWardHasRepository;
 import capstone.server.domain.user.repository.UserGuardianRepository;
@@ -36,7 +37,7 @@ public class JoinServiceImpl implements JoinService{
 
 	// 혹시 모르니까 유저 중복 체크
 	userGuardianRepository.findUserGuardianByKakaoAccountId(userInfo.getId()).ifPresent(userGuardian ->{
-			throw new RuntimeException(userInfo.getId() + "는 이미 존재하는 계정입니다.");
+			throw new DuplicateUserException(userInfo.getId() + "는 이미 존재하는 계정입니다.",false);
   });
 
 	// DB에 저장 Guardian(보호자) 저장
@@ -62,6 +63,10 @@ public class JoinServiceImpl implements JoinService{
   @Override
   public Long joinWard(WardJoinRequest wardJoinRequest) {
 	KakaoUserInfoRes userInfo = loginService.getUserInfo(wardJoinRequest.getKakaoAccesstoken());
+
+	userWardRepository.findUserWardByKakaoAccountId(userInfo.getId()).ifPresent(userWard -> {
+	  throw new DuplicateUserException(userInfo.getId() + "는 이미 존재하는 계정입니다.",false);
+	});
 
 	log.info("userInfo : " + userInfo.toString());
 	UserWard savedUserWard = userWardRepository.save(UserWard.builder()
