@@ -68,10 +68,6 @@ const STContainer = styled.div`
   margin: 1rem auto;
 `;
 
-// const nutrientText = {
-//   0: `이번주에는 지방과 탄수화물은 적당하지만\n단백질이 부족합니다\n고기나 계란류를 더 먹으면 좋을 것 같습니다`,
-//   1: `한끼를 거르게 되면 식단이 불균형해지니\n되도록 매끼니를 챙겨드시는 편이 좋습니다. \n 많게 먹는 것이 적게 먹는 것보다 낫습니다`,
-// };
 function SeniorSummaryPage() {
   setDatas(dummyData);
   return (
