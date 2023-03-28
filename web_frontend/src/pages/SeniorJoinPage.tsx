@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { wardJoin } from "../core/api/index";
 
 function SeniorJoinPage() {
   const [process, setProcess] = useState(1);
@@ -11,9 +13,31 @@ function SeniorJoinPage() {
   const [smoke, setSmoke] = useState<number>(0);
   const [ills, setIlls] = useState<string[]>([]);
   const [genderType, setGenderType] = useState("MALE");
-  const body = { height: height, weight: weight, birth: birth, drinkings: drinkings, smoke: smoke };
-  console.log(body);
+  const [joinStatus, setJoinStatus] = useState(false);
   const navigate = useNavigate();
+  const joinWard = () => {
+    setJoinStatus(true);
+  };
+  const { data } = useQuery(
+    "joinWard",
+    () =>
+      wardJoin(
+        Number(height),
+        Number(weight),
+        drinkings,
+        smoke,
+        Number(birth?.split("-")[0]),
+        Number(birth?.split("-")[1]),
+        Number(birth?.split("-")[2]),
+        genderType,
+        ills,
+      ),
+    { enabled: !!joinStatus },
+  );
+  if (data != undefined) {
+    alert("회원가입이 완료되었습니다.");
+    navigate("/login");
+  }
   if (process == 1) {
     return (
       <StSeniorPage>
@@ -112,7 +136,16 @@ function SeniorJoinPage() {
           </div>
         </StMedicalContainer>
         <StButtonContainer>
-          <StJoinButton onClick={() => setProcess(2)}>다음으로</StJoinButton>
+          <StJoinButton
+            onClick={() => {
+              if (height <= 0 || weight <= 0 || !birth) {
+                alert("정보를 모두 입력해주세요!");
+              } else {
+                setProcess(2);
+              }
+            }}>
+            다음으로
+          </StJoinButton>
         </StButtonContainer>
       </StSeniorPage>
     );
@@ -242,7 +275,7 @@ function SeniorJoinPage() {
             )}
           </StIllContainer>
 
-          <StJoinButton onClick={() => navigate("/#")}>다음으로</StJoinButton>
+          <StJoinButton onClick={() => joinWard()}>다음으로</StJoinButton>
         </StSecondContainer>
       </StSeniorPage>
     );
