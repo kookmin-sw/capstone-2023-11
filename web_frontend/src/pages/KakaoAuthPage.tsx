@@ -18,10 +18,9 @@ function KakaoAuthPage() {
       enabled: !!accessToken,
     },
   );
-  console.log(loginData);
+
   useEffect(() => {
     setAccessToken(data?.data.access_token);
-    console.log(accessToken);
   }, [data, accessToken]);
   useEffect(() => {
     if (loginData) {

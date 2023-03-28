@@ -15,12 +15,13 @@ function GuardianJoinPage() {
       alert("피보호인 유저코드를 입력해주세요!");
     } else {
       setJoinState(true);
-
-      navigate("/#");
     }
   };
-  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: joinState == true });
-  console.log(data);
+  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: !!joinState });
+  if (data != undefined) {
+    alert("회원가입이 완료되었습니다.");
+    navigate("/login");
+  }
   return (
     <StGuardianPage>
       <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
