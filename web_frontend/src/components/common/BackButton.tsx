@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const StButtonBack = styled.img`
@@ -6,17 +6,12 @@ const StButtonBack = styled.img`
   height: 2rem;
   margin: 1rem;
 `;
-function handleClick(props: string) {
-  console.log(props);
-  return <Link to={`/addschedule`}></Link>;
-}
 
-const BackButton = (props: { to: string }) => {
+const BackButton = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <StButtonBack
-        src={require("../../assets/images/img_left.png")}
-        onClick={() => handleClick(props.to)}></StButtonBack>
+      <StButtonBack src={require("../../assets/images/img_left.png")} onClick={() => navigate(-1)}></StButtonBack>
     </>
   );
 };
