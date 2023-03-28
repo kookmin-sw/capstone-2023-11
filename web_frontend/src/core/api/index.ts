@@ -37,7 +37,6 @@ export const guardianJoin = async (wardCodes: number[]) => {
     {},
   );
 
-  console.log(data);
   return data;
 };
 export const wardJoin = async (
@@ -49,6 +48,7 @@ export const wardJoin = async (
   month: number,
   day: number,
   genderType: string,
+
   ills: string[],
 ) => {
   const data = axios.post(
@@ -62,6 +62,7 @@ export const wardJoin = async (
       month: month,
       day: day,
       genderType: genderType,
+      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
       ills: ills,
     },
     {},
