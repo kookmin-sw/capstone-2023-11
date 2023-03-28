@@ -40,3 +40,31 @@ export const guardianJoin = async (wardCodes: number[]) => {
   console.log(data);
   return data;
 };
+export const wardJoin = async (
+  height: number,
+  weight: number,
+  drinkings: number,
+  smoke: number,
+  year: number,
+  month: number,
+  day: number,
+  genderType: string,
+  ills: string[],
+) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/join/ward`,
+    {
+      height: height,
+      weight: weight,
+      drinkings: drinkings,
+      smoke: smoke,
+      year: year,
+      month: month,
+      day: day,
+      genderType: genderType,
+      ills: ills,
+    },
+    {},
+  );
+  return data;
+};
