@@ -10,6 +10,7 @@ function SeniorJoinPage() {
   const [drinkings, setDrinkings] = useState<number>(0);
   const [smoke, setSmoke] = useState<number>(0);
   const [ills, setIlls] = useState<string[]>([]);
+  const [genderType, setGenderType] = useState("MALE");
   const body = { height: height, weight: weight, birth: birth, drinkings: drinkings, smoke: smoke };
   console.log(body);
   const navigate = useNavigate();
@@ -89,6 +90,23 @@ function SeniorJoinPage() {
                 <StButtonClicked>하루 한갑 반 이상</StButtonClicked>
               ) : (
                 <StButtonUnClicked onClick={() => setSmoke(4)}>하루 한갑 반 이상</StButtonUnClicked>
+              )}
+            </StAnswerContainer>
+          </div>
+        </StMedicalContainer>
+        <StMedicalContainer>
+          <div>
+            <StInfoInput>👫 성별</StInfoInput>
+            <StAnswerContainer>
+              {genderType == "MALE" ? (
+                <StButtonClicked>🙋‍♂️ 남성</StButtonClicked>
+              ) : (
+                <StButtonUnClicked onClick={() => setGenderType("MALE")}>🙋‍♂️ 남성</StButtonUnClicked>
+              )}
+              {genderType == "FEMALE" ? (
+                <StButtonClicked>🙆‍♀️ 여성</StButtonClicked>
+              ) : (
+                <StButtonUnClicked onClick={() => setGenderType("FEMALE")}>🙆‍♀️ 여성</StButtonUnClicked>
               )}
             </StAnswerContainer>
           </div>
