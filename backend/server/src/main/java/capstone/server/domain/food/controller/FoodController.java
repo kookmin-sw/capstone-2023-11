@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -24,9 +25,13 @@ public class FoodController {
 
     @PostMapping(value = "/food")
     public ResponseEntity<?> recognizeFoodImage(Authentication authentication, @RequestPart(value = "image")MultipartFile image) {
-        FoodDetectionResponseDto result = foodService.recognizeFoodImage(image);
 
-        return ResponseEntity.ok().body(result);
+        try {
+            FoodDetectionResponseDto result = foodService.recognizeFoodImage(image);
+            return ResponseEntity.ok().body(result);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
     }
 
 
