@@ -7,6 +7,7 @@ import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorPillAdd from "../components/seniorPill/SeniorPillAdd";
 import SeniorPillMain from "../components/seniorPill/SeniorPillMain";
 import SeniorPillDetail from "../components/seniorPill/SeniorPillDetail";
+import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
 function Router() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ function Router() {
         <Route path="/senior/pill/add" element={<SeniorPillAdd />} />
         <Route path="/senior/pill" element={<SeniorPillMain />} />
         <Route path="/senior/pill/detail" element={<SeniorPillDetail />} />
+        <Route path="/senior/pill/bill" element={<SeniorPillBill />} />
       </Routes>
     </BrowserRouter>
   );

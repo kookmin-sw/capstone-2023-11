@@ -1,23 +1,22 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import ModalPage from "./SeniorPillModal";
 
 function SeniorPillMain() {
   return (
     <>
       <StHeader>
-        <StBackBtn>{"<"}</StBackBtn>
-        <StPillTitle>복용하는 약 목록</StPillTitle>
+        <Link to={`/senior/main`}>
+          <StBackBtn>{"<"}</StBackBtn>
+        </Link>
+        <StTitle>복용하는 약 목록</StTitle>
       </StHeader>
       <StBody>
         <StPillList>
-          <StPillAdd>약 추가하기</StPillAdd>
-          <StPillItem>아스피린</StPillItem>
-          <StPillItem></StPillItem>
-          <StPillItem></StPillItem>
-          <StPillItem></StPillItem>
-          <StPillItem></StPillItem>
-          <StPillItem></StPillItem>
-          <StPillItem></StPillItem>
+          <StItem>아스피린</StItem>
+          <StItem></StItem>
         </StPillList>
+        <ModalPage />
       </StBody>
     </>
   );
@@ -37,7 +36,7 @@ const StBackBtn = styled.button`
   width: 5%;
 `;
 
-const StPillTitle = styled.h1`
+const StTitle = styled.h1`
   font-family: "Pretendard-Bold";
   text-align: center;
   width: 100%;
@@ -57,7 +56,7 @@ const StPillList = styled.ul`
   padding: 2rem;
 `;
 
-const StPillItem = styled.li`
+const StItem = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -70,18 +69,20 @@ const StPillItem = styled.li`
   padding: 3rem;
 `;
 
-const StPillAdd = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 8rem;
-  background-color: #006ffd;
-  border-radius: 2rem;
-  align-self: stretch;
-  text-align: center;
-  font-family: "Pretendard-Bold";
-  padding: 3rem;
-`;
+// const StAddButton = styled.button`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   width: 100%;
+//   height: 5rem;
+//   background-color: #006ffd;
+//   border-radius: 2rem;
+//   align-self: stretch;
+//   text-align: center;
+//   font-family: "Pretendard-Bold";
+//   padding: 3rem;
+//   border: transparent;
+//   color: white;
+// `;
 
 export default SeniorPillMain;

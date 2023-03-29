@@ -5,7 +5,22 @@ import { fetchPillImg, fetchPillInfo } from "../../core/api";
 function SeniorPillAdd() {
   const pillData = useQuery<PillData>([], () => fetchPillInfo());
   const ImgData = useQuery<ImgData>([], () => fetchPillImg());
-  console.log(ImgData?.data?.body?.items[0]);
+  console.log(pillData?.data?.body?.items[0].NB_DOC_DATA);
+  const myData = {
+    name: pillData?.data?.body?.items[0].ITEM_NAME,
+    companyName: pillData?.data?.body?.items[0].ENTP_NAME,
+    depositMethod: pillData?.data?.body?.items[0].STORAGE_METHOD,
+    effect: pillData?.data?.body?.items[0].EE_DOC_DATA,
+    useMethod: pillData?.data?.body?.items[0].UD_DOC_DATA,
+    caution: pillData?.data?.body?.items[0].NB_DOC_DATA,
+    imageUrl: false,
+    breakfast: true,
+    lunch: true,
+    dinner: true,
+    daysToTake: true,
+  };
+  console.log(myData);
+
   return (
     <>
       <StHeader>
@@ -17,7 +32,7 @@ function SeniorPillAdd() {
           <StAddResult>
             <StAddImg src={ImgData?.data?.body.items[0].ITEM_IMAGE} />
           </StAddResult>
-          <StAddResult>{pillData?.data?.body?.items[0].ITEM_NAME}</StAddResult>
+          <StAddResult>{pillData?.data?.body?.items[0].NB_DOC_DATA}</StAddResult>
           <StAddResult>며칠분 / 하루 몇번</StAddResult>
           <StAddItem>처방전 인식하기</StAddItem>
           <StAddItem>바코드 인식하기</StAddItem>
@@ -136,7 +151,7 @@ const StHeader = styled.header`
   font-size: 2rem;
 `;
 
-const StBackBtn = styled.button`
+const StBackBtn = styled.li`
   background-color: transparent;
   border: transparent;
   font-family: "Pretendard-Bold";
@@ -163,7 +178,7 @@ const StAddList = styled.ul`
   padding: 2rem;
 `;
 
-const StAddItem = styled.button`
+const StAddItem = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
