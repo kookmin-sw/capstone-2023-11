@@ -25,8 +25,8 @@ const StHeader = styled.header`
   font-size: 2rem;
   display: flex;
   width: 100%;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const StUser = styled.div`
@@ -38,7 +38,9 @@ const StUser = styled.div`
   }
 `;
 
-const MenuList = styled.ul``;
+const MenuList = styled.ul`
+  padding: 3rem;
+`;
 
 const StItemHeader = styled.header`
   display: flex;
@@ -64,8 +66,8 @@ export const WhiteButton = styled.button`
   display: flex;
   padding: 3rem;
   align-items: center;
-  width: 32.7rem;
-  height: 4.8rem;
+  width: 100%;
+  height: 4rem;
   color: #006ffd;
   font-family: "Pretendard-Regular";
   font-size: 2rem;

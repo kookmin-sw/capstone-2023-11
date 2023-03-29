@@ -1,11 +1,14 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Pill() {
   return (
     <StPill>
       <StPillHeader>
         <StPillName>복용하는 약</StPillName>
-        <StPillAddBtn>약 추가하기</StPillAddBtn>
+        <Link to={`/senior/pill`}>
+          <StPillAddBtn>자세히 보기</StPillAddBtn>
+        </Link>
       </StPillHeader>
       <StPillList>
         <StPillItem>
@@ -33,10 +36,8 @@ const StPill = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0rem;
   gap: 1.6rem;
   flex: none;
-  order: 0;
   align-self: stretch;
   flex-grow: 0;
 `;
@@ -44,14 +45,11 @@ const StPill = styled.div`
 const StPillHeader = styled.header`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: flex-end;
   padding: 0rem 0rem 0rem 1rem;
-  gap: 14rem;
   width: 35rem;
   height: 2rem;
   flex: none;
-  order: 0;
   align-self: stretch;
   flex-grow: 0;
 `;
@@ -72,30 +70,24 @@ const StPillAddBtn = styled.button`
   font-family: "retendard-Regular";
   font-style: normal;
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 1.5rem;
   line-height: 1.5rem;
   color: #006ffd;
   flex: none;
-  order: 1;
   flex-grow: 0;
   border: 0;
   background-color: transparent;
 `;
 
-const StPillList = styled.button`
+const StPillList = styled.div`
   font-family: "Pretendard-Bold";
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  padding: 0rem;
   gap: 1.2rem;
   width: 100%;
   height: 19rem;
   overflow-x: scroll;
-  flex: none;
-  order: 1;
   align-self: stretch;
-  flex-grow: 0;
   background-color: transparent;
   border: 0;
 `;
@@ -110,7 +102,6 @@ const StPillItem = styled.button`
   background: white;
   border-radius: 2rem;
   flex: none;
-  order: 0;
   flex-grow: 0;
   background-color: white;
   border: 0.15rem solid gray;
