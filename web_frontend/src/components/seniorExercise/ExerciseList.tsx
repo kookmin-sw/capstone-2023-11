@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 function ExerciseList() {
+  const [clicked, setclicked] = useState("");
   const items = [
     "걷기",
     "달리기",
@@ -21,12 +23,19 @@ function ExerciseList() {
   ];
   return (
     <StContainer>
-      {items.map((item, key) => (
-        <StExercise key={key}>
-          <img src={require("../../assets/images/img_kakao.png")} />
-          {item}
-        </StExercise>
-      ))}
+      {items.map((item) =>
+        clicked != item ? (
+          <StExercise key={item} onClick={() => setclicked(item)}>
+            <img src={require("../../assets/images/img_kakao.png")} />
+            {item}
+          </StExercise>
+        ) : (
+          <StExerciseClicked key={item} onClick={() => setclicked(item)}>
+            <img src={require("../../assets/images/img_kakao.png")} />
+            {item}
+          </StExerciseClicked>
+        ),
+      )}
     </StContainer>
   );
 }
@@ -44,7 +53,7 @@ const StContainer = styled.div`
 `;
 
 const StExercise = styled.div`
-  background-color: #e8e9f1;
+  background-color: #f8f9fe;
   margin: 1rem;
   height: auto;
   border-radius: 1rem;
@@ -52,9 +61,13 @@ const StExercise = styled.div`
   flex-direction: column;
   text-align: center;
   font-family: "Pretendard-Regular";
-  font-size: 2rem;
+  font-size: 1.8rem;
   padding-bottom: 0.5rem;
   img {
-    padding: 1.5rem;
+    padding: 1rem;
   }
+`;
+
+const StExerciseClicked = styled(StExercise)`
+  background-color: #b4dbff;
 `;
