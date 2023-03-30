@@ -69,3 +69,16 @@ export const wardJoin = async (
   );
   return data;
 };
+export const checkMeal = async (file: File) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/food`,
+    { image: file },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    },
+  );
+
+  return data;
+};
