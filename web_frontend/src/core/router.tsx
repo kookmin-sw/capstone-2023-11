@@ -8,7 +8,6 @@ import SeniorPillAdd from "../components/seniorPill/SeniorPillAdd";
 import SeniorPillMain from "../components/seniorPill/SeniorPillMain";
 import SeniorPillDetail from "../components/seniorPill/SeniorPillDetail";
 import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
-// import SeniorMain from "../components/SeniorMain";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";

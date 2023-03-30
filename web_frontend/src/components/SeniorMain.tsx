@@ -5,14 +5,18 @@ function SeniorMai() {
   return (
     <>
       <StHeader>
-        <StUser>아이콘</StUser>
+        <StUser src={require("../assets/images/img_avatar.png")}></StUser>
       </StHeader>
       <MenuList>
         <StMainItem>
           <Pill />
-          <StItemHeader>내 건강 점수는 몇점?</StItemHeader>
+        </StMainItem>
+        <StMainItem>
+          <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
           <WhiteButton>건강 분석하러 가기</WhiteButton>
-          <StItemHeader>식단, 운동</StItemHeader>
+        </StMainItem>
+        <StMainItem>
+          <StItemHeader>🍽 식단 ⛳️ 운동</StItemHeader>
           <WhiteButton>끼니 추가하러 가기</WhiteButton>
           <WhiteButton>운동 기록하러 가기</WhiteButton>
         </StMainItem>
@@ -25,13 +29,13 @@ const StHeader = styled.header`
   font-size: 2rem;
   display: flex;
   width: 100%;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 3rem 1rem 0 1rem;
 `;
 
-const StUser = styled.div`
+const StUser = styled.img`
   margin-left: auto;
-  font-size: 1.5rem;
+  width: 7rem;
+  height: 7rem;
   display: flex;
   &:hover {
     color: gray;
@@ -39,45 +43,40 @@ const StUser = styled.div`
 `;
 
 const MenuList = styled.ul`
-  padding: 3rem;
+  padding: 0 1rem 3rem 1rem;
 `;
 
-const StItemHeader = styled.header`
+const StItemHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0rem 0rem 0rem 1rem;
+  padding: 0rem 0rem 0rem 0rem;
   font-size: 2rem;
   font-family: "Pretendard-Bold";
 `;
 
-const MenuItem = styled.li`
-  background-color: white;
-  width: 100%;
-  color: black;
-  display: inline-flex;
-  margin-left: 1rem;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
-  border-radius: 0.5rem;
-  font-size: 2rem;
-  &:hover {
-    color: gray;
-  }
+const StMainItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2.4rem 1.6rem;
+  gap: 1.6rem;
+  border: 0;
+  background-color: transparent;
 `;
 
 export const WhiteButton = styled.button`
   display: flex;
-  padding: 3rem;
+  padding: 2.5rem;
   align-items: center;
   width: 100%;
-  height: 4rem;
+  height: 2rem;
   color: #006ffd;
   font-family: "Pretendard-Regular";
   font-size: 2rem;
   background-color: white;
-  border: 0.15rem solid gray;
+  border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
 `;
 

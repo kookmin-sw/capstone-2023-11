@@ -19,6 +19,27 @@ export const getKakaoAccessToken = async (authorization: string) => {
 
   return data;
 };
+
+export const checkMeal = async (file: FormData) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/food`, file, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  return data;
+};
+
+export const pillImg = async (file: FormData) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine/ocr`, file, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  return data;
+};
+
 export const getUserStatus = async (userStatus: string | null, accessToken: string | undefined) => {
   const data = axios.post(
     `${process.env.REACT_APP_SERVER}/api/login/token-check`,

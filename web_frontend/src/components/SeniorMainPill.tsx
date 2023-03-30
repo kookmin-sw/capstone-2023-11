@@ -5,7 +5,7 @@ function Pill() {
   return (
     <StPill>
       <StPillHeader>
-        <StPillName>복용하는 약</StPillName>
+        <StPillName>💊 복용하는 약</StPillName>
         <Link to={`/senior/pill`}>
           <StPillAddBtn>자세히 보기</StPillAddBtn>
         </Link>
@@ -46,7 +46,7 @@ const StPillHeader = styled.header`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  padding: 0rem 0rem 0rem 1rem;
+  padding: 0rem 0rem 0rem 0rem;
   width: 35rem;
   height: 2rem;
   flex: none;
@@ -104,7 +104,7 @@ const StPillItem = styled.button`
   flex: none;
   flex-grow: 0;
   background-color: white;
-  border: 0.15rem solid gray;
+  border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   font-size: 2rem;
 `;
@@ -132,6 +132,7 @@ const StPillContent = styled.div`
   flex: none;
   align-self: stretch;
   flex-grow: 0;
+  color: #000000;
 `;
 
 export default Pill;

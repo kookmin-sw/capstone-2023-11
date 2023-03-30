@@ -1,13 +1,44 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Preview from "./PillPractice";
+// import { pillImg } from "../../core/api/index";
+// import { useState } from "react";
+// import { useQuery } from "react-query";
 
 function SeniorPillBill() {
+  // const [imageSrc, setImageSrc]: any = useState();
+  // const [uploadSts, setUploadSts] = useState(false);
+  // const [formData] = useState<FormData>(new FormData());
+  // const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files !== null) {
+  //     const file = e.target.files[0];
+  //     const reader = new FileReader();
+  //     formData.append("image", file);
+
+  //     return new Promise<void>((resolve) => {
+  //       reader.onload = () => {
+  //         if (reader.result != null) {
+  //           setImageSrc(reader.result);
+  //           resolve();
+  //         }
+  //       };
+  //     });
+  //   }
+  // };
+  // const uploadImage = () => {
+  //   setUploadSts(true);
+  // };
+  // const { data } = useQuery("uploadImage", () => pillImg(formData), {
+  //   enabled: !!uploadSts,
+  // });
+  // console.log(data);
   return (
     <>
       <StHeader>
         <Link to={`/senior/pill`}>
-          <StBackBtn>{"<"}</StBackBtn>
+          <StBackBtn>
+            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+          </StBackBtn>
         </Link>
         <StTitle>처방전 인식하기</StTitle>
       </StHeader>
@@ -43,6 +74,13 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
+  padding: 0;
+`;
+
+const StBackBtnImg = styled.img`
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
 `;
 
 const StTitle = styled.h1`

@@ -1,33 +1,47 @@
-import axios from "axios";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import styled from "styled-components";
+import { pillImg } from "../../core/api/index";
 
-function Preview() {
-  const onChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+function PillImgUpload() {
+  const [imageSrc, setImageSrc]: any = useState();
+  const [uploadSts, setUploadSts] = useState(false);
+  const [formData] = useState<FormData>(new FormData());
+  const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      formData.append("image", file);
 
-    if (e.target.files) {
-      const uploadFile = e.target.files[0];
-      const formData = new FormData();
-      formData.append("files", uploadFile);
-
-      axios({
-        method: "post",
-        url: "http://43.201.98.180:8080",
-        data: formData,
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
+      return new Promise<void>((resolve) => {
+        reader.onload = () => {
+          if (reader.result != null) {
+            setImageSrc(reader.result);
+            resolve();
+          }
+        };
       });
     }
   };
+  const uploadImage = () => {
+    setUploadSts(true);
+  };
+  const { data } = useQuery("uploadImage", () => pillImg(formData), {
+    enabled: !!uploadSts,
+  });
+  console.log(data);
   return (
-    <form>
-      <label htmlFor="profile-upload" />
-      <input type="file" id="profile-upload" accept="image/*" onChange={onChangeImg} />
-    </form>
+    <>
+      <input multiple type="file" id="profile-upload" accept="image/*" onChange={(e) => uploadImg(e)} />
+      <img width={"100%"} src={imageSrc} />
+      <StCheckButton onClick={() => uploadImage()}>check</StCheckButton>
+    </>
   );
 }
 
-export default Preview;
+const StCheckButton = styled.button``;
+
+export default PillImgUpload;
 
 // import React, { useState } from "react";
 // import { useQuery } from "react-query";

@@ -10,16 +10,17 @@ function SeniorPillAdd() {
     name: pillData?.data?.body?.items[0].ITEM_NAME,
     companyName: pillData?.data?.body?.items[0].ENTP_NAME,
     depositMethod: pillData?.data?.body?.items[0].STORAGE_METHOD,
-    effect: pillData?.data?.body?.items[0].EE_DOC_DATA,
-    useMethod: pillData?.data?.body?.items[0].UD_DOC_DATA,
-    caution: pillData?.data?.body?.items[0].NB_DOC_DATA,
-    imageUrl: false,
+    effect: pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 500),
+    useMethod: pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 500),
+    caution: pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 500),
+    imageUrl: ImgData?.data?.body?.items[0].ITEM_IMAGE,
     breakfast: true,
     lunch: true,
     dinner: true,
     daysToTake: true,
   };
-  console.log(myData);
+  console.log(myData.effect);
+  console.log(myData.imageUrl);
 
   return (
     <>
@@ -30,9 +31,9 @@ function SeniorPillAdd() {
       <StBody>
         <StAddList>
           <StAddResult>
-            <StAddImg src={ImgData?.data?.body.items[0].ITEM_IMAGE} />
+            <StAddImg>{myData.imageUrl}</StAddImg>
           </StAddResult>
-          <StAddResult>{pillData?.data?.body?.items[0].NB_DOC_DATA}</StAddResult>
+          <StAddResult>{myData.effect}</StAddResult>
           <StAddResult>며칠분 / 하루 몇번</StAddResult>
           <StAddItem>처방전 인식하기</StAddItem>
           <StAddItem>바코드 인식하기</StAddItem>

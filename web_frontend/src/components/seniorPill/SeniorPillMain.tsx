@@ -7,13 +7,21 @@ function SeniorPillMain() {
     <>
       <StHeader>
         <Link to={`/senior/main`}>
-          <StBackBtn>{"<"}</StBackBtn>
+          <StBackBtn>
+            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+          </StBackBtn>
         </Link>
         <StTitle>복용하는 약 목록</StTitle>
       </StHeader>
       <StBody>
         <StPillList>
-          <StItem>아스피린</StItem>
+          <StItem>
+            <StItemImgBox>
+              <StItemImg src={require("../../assets/images/pillSample.jpg")} />
+              <StItemName>무코스타</StItemName>
+            </StItemImgBox>
+            <StItemContent></StItemContent>
+          </StItem>
           <StItem></StItem>
         </StPillList>
         <ModalPage />
@@ -34,6 +42,13 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
+  padding: 0;
+`;
+
+const StBackBtnImg = styled.img`
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
 `;
 
 const StTitle = styled.h1`
@@ -58,16 +73,27 @@ const StPillList = styled.ul`
 
 const StItem = styled.li`
   display: flex;
-  flex-direction: row;
-  align-items: center;
   width: 100%;
-  height: 8rem;
-  background-color: #f8f9fe;
+  height: 18rem;
   border-radius: 2rem;
   align-self: stretch;
-  font-family: "Pretendard-Bold";
-  padding: 3rem;
+  padding: 1rem;
+  border: 0.1rem solid #0066ff;
 `;
+
+const StItemImgBox = styled.div`
+  display: flex;
+`;
+
+const StItemImg = styled.img`
+  width: 12rem;
+  height: 12rem;
+  border-radius: 2rem;
+`;
+
+const StItemContent = styled.div``;
+
+const StItemName = styled.div``;
 
 // const StAddButton = styled.button`
 //   display: flex;
