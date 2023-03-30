@@ -12,7 +12,6 @@ import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
-import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 function Router() {
   return (
