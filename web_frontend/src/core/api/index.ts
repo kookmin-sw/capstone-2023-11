@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DOMAIN } from "../../constants/domain";
 
 // const KAKAOPill = `https://2930a5f2-4986-4c91-af31-a632271e9ffc.api.kr-central-1.kakaoi.io/ai/ocr/b394473530514a6783e2e527424900f5`;
 
@@ -9,11 +10,64 @@ export const getKakaoAccessToken = async (authorization: string) => {
     {
       params: {
         grant_type: "authorization_code",
-        client_id: process.env.NEXT_PUBLIC_KAKAO_API_KEY,
-        redirect_uri: "/auth/kakao",
+        client_id: process.env.REACT_APP_KAKAOKEY,
+        redirect_uri: `${DOMAIN}/auth/kakao`,
         code: authorization,
       },
     },
+  );
+
+  return data;
+};
+export const getUserStatus = async (userStatus: string | null, accessToken: string | undefined) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/login/token-check`,
+    {
+      token: accessToken,
+      userType: userStatus,
+    },
+    {},
+  );
+
+  return data;
+};
+
+export const guardianJoin = async (wardCodes: number[]) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/join/guardian`,
+    { wardCodes: wardCodes, kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken") },
+    {},
+  );
+
+  return data;
+};
+export const wardJoin = async (
+  height: number,
+  weight: number,
+  drinkings: number,
+  smoke: number,
+  year: number,
+  month: number,
+  day: number,
+  genderType: string,
+
+  ills: string[],
+) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/join/ward`,
+    {
+      height: height,
+      weight: weight,
+      drinkings: drinkings,
+      smoke: smoke,
+      year: year,
+      month: month,
+      day: day,
+      genderType: genderType,
+      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
+      ills: ills,
+    },
+    {},
   );
   return data;
 };

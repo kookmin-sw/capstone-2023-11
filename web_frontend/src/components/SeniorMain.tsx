@@ -52,14 +52,19 @@ const StItemHeader = styled.header`
   font-family: "Pretendard-Bold";
 `;
 
-const StMainItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 2.4rem 1.6rem;
-  gap: 3rem;
-  border: 0;
-  background-color: transparent;
+const MenuItem = styled.li`
+  background-color: white;
+  width: 100%;
+  color: black;
+  display: inline-flex;
+  margin-left: 1rem;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+  &:hover {
+    color: gray;
+  }
 `;
 
 export const WhiteButton = styled.button`
