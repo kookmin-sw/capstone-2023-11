@@ -1,13 +1,16 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
+import { checkMeal } from "../core/api/index";
 function SeniorMealCheckPage() {
   const [imageSrc, setImageSrc]: any = useState();
-
+  const [uploadSts, setUploadSts] = useState(false);
+  const [formData] = useState<FormData>(new FormData());
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
       const reader = new FileReader();
+      formData.append("image", file);
       reader.readAsDataURL(file);
 
       return new Promise<void>((resolve) => {
@@ -20,12 +23,14 @@ function SeniorMealCheckPage() {
       });
     }
   };
-
   const uploadImage = () => {
-    const { data } = useQuery("uploadImage");
-
-    console.log(data);
+    setUploadSts(true);
   };
+  const { data } = useQuery("uploadImage", () => checkMeal(formData), {
+    enabled: !!uploadSts,
+  });
+  console.log(data);
+
   return (
     <>
       <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} />
