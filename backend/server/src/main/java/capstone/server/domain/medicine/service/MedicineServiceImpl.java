@@ -11,6 +11,7 @@ import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,10 @@ public class MedicineServiceImpl implements MedicineService {
     @Autowired
     private UserWardRepository userWardRepository;
 
-    private static final String OCR_API_URL = "https://2930a5f2-4986-4c91-af31-a632271e9ffc.api.kr-central-1.kakaoi.io/ai/ocr/b394473530514a6783e2e527424900f5";
+    @Value("${kakao.ocr.url")
+    private String OCR_API_URL;
+    @Value("${kakao.ocr.key")
+    private String OCR_API_KEY;
 
     @Override
     @Transactional
@@ -73,7 +77,7 @@ public class MedicineServiceImpl implements MedicineService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("x-api-key", "ab97f873303a3a06defcde9a6348912a");
+        headers.set("x-api-key", OCR_API_KEY);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
