@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface FoodService {
 
-    public FoodDetectionResponseDto recognizeFoodImage(MultipartFile image);
+    public FoodDetectionResponseDto detectFoodImage(MultipartFile image);
 }
