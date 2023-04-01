@@ -79,5 +79,17 @@ public class MedicineController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
         }
     }
+
+    @GetMapping(value = "/medicine/delete")
+    public ResponseEntity<?> deleteMedicine(Authentication authentication, @RequestBody Long medicineId) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+
+            ResponseEntity result = medicineService.deleteMedicine(medicineId);
+            return result;
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+    }
 }
 
