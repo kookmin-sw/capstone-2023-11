@@ -34,16 +34,29 @@ const ModalPage = () => {
   );
 };
 
-const StBtn = styled.button``;
+const StBtn = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  font-size: 2rem;
+  padding: 2rem;
+  width: 94%;
+  margin: 1rem;
+
+  &:active {
+    background-color: #0062cc;
+    color: #fff;
+  }
+`;
 
 const StModal = styled.div`
-  position: fixed;
-  width: 20rem;
-  height: 10rem;
+  width: 94%;
   background-color: white;
-  border: 0.1rem solid #006ffd;
+  border: 0.2rem solid #006ffd;
   border-radius: 2rem;
   padding: 2rem;
+  margin: 0 1rem;
 `;
 
 const StList = styled.ul``;

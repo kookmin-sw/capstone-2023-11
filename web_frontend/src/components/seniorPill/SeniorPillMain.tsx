@@ -14,6 +14,7 @@ function SeniorPillMain() {
         <StTitle>복용하는 약 목록</StTitle>
       </StHeader>
       <StBody>
+        <ModalPage />
         <StPillList>
           <StItem>
             <StItemImgBox>
@@ -24,15 +25,13 @@ function SeniorPillMain() {
           </StItem>
           <StItem></StItem>
         </StPillList>
-        <ModalPage />
       </StBody>
     </>
   );
 }
 
 const StHeader = styled.header`
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding: 5rem 2rem 0 2rem;
   display: flex;
   font-size: 2rem;
 `;
@@ -60,6 +59,7 @@ const StTitle = styled.h1`
 
 const StBody = styled.div`
   font-size: 2rem;
+  padding: 2rem;
 `;
 
 const StPillList = styled.ul`
@@ -78,7 +78,7 @@ const StItem = styled.li`
   border-radius: 2rem;
   align-self: stretch;
   padding: 1rem;
-  border: 0.1rem solid #0066ff;
+  border: 0.2rem solid #0066ff;
 `;
 
 const StItemImgBox = styled.div`

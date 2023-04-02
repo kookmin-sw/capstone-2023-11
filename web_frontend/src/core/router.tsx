@@ -12,6 +12,7 @@ import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
+import SeniorPillSelf from "../components/seniorPill/SeniorPillSelf";
 function Router() {
   return (
     <BrowserRouter>
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/senior/pill" element={<SeniorPillMain />} />
         <Route path="/senior/pill/detail" element={<SeniorPillDetail />} />
         <Route path="/senior/pill/bill" element={<SeniorPillBill />} />
+        <Route path="/senior/pill/self" element={<SeniorPillSelf />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/kakao" element={<KakaoAuthPage />} />
         <Route path="/join/senior" element={<SeniorJoinPage />} />

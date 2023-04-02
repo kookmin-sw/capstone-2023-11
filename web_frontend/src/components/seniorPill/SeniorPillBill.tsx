@@ -111,7 +111,7 @@ const StImg = styled.img`
 
 const StList = styled.ul`
   padding: 2rem;
-  border: 0.1rem solid;
+  border: 0.2rem solid;
   border-radius: 2rem;
   text-align: center;
 `;

@@ -8,8 +8,8 @@ function PillDetail() {
         <StPillTitle>약 세부정보</StPillTitle>
       </StHeader>
       <StBody>
-        <StImg src={require("../../assets/images/pillSample.jpg")} />
         <StContentList>
+          <StImg src={require("../../assets/images/pillSample.jpg")} />
           <StContentItem>
             <StItemName>이름</StItemName>
             <StItemContent>무코스타정(레바미피드)</StItemContent>
@@ -78,6 +78,7 @@ const StPillTitle = styled.h1`
 
 const StBody = styled.div`
   font-size: 2rem;
+  padding: 0 2rem 0 2rem;
 `;
 
 const StImg = styled.img`
@@ -89,7 +90,7 @@ const StImg = styled.img`
 
 const StContentList = styled.ul`
   padding: 2rem;
-  border: 0.1rem solid #006ffd;
+  border: 0.2rem solid #006ffd;
   border-radius: 2rem;
 `;
 

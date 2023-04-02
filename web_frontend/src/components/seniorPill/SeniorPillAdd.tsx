@@ -3,8 +3,8 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo } from "../../core/api";
 function SeniorPillAdd() {
-  const pillData = useQuery<PillData>([], () => fetchPillInfo());
-  const ImgData = useQuery<ImgData>([], () => fetchPillImg());
+  const pillData = useQuery<PillData>(["info", "무코스타"], () => fetchPillInfo("무코스타"));
+  const ImgData = useQuery<ImgData>(["info", "무코스타"], () => fetchPillImg("무코스타"));
   console.log(pillData?.data?.body?.items[0].NB_DOC_DATA);
   const myData = {
     name: pillData?.data?.body?.items[0].ITEM_NAME,
