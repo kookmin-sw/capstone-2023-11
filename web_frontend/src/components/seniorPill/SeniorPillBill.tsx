@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Preview from "./PillPractice";
+import Preview from "./ImagePill";
 // import { pillImg } from "../../core/api/index";
 // import { useState } from "react";
 // import { useQuery } from "react-query";
