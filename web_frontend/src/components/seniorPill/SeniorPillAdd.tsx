@@ -1,4 +1,3 @@
-// import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo } from "../../core/api";

@@ -42,38 +42,3 @@ function PillImgUpload() {
 const StCheckButton = styled.button``;
 
 export default PillImgUpload;
-
-// import React, { useState } from "react";
-// import { useQuery } from "react-query";
-
-// const Preview = () => {
-//   const [imageSrc, setImageSrc]: any = useState(null);
-
-//   const onUpload = (e: any) => {
-//     const file = e.target.files[0];
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-
-//     return new Promise<void>((resolve) => {
-//       reader.onload = () => {
-//         setImageSrc(reader.result || null); // 파일의 컨텐츠
-//         resolve();
-//       };
-//     });
-//   };
-
-//   const uploadImage = () => {
-//     const { data } = useQuery("Image");
-
-//     console.log(data);
-//   };
-//   return (
-//     <>
-//       <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} />
-//       <img width={"100%"} src={imageSrc} />
-//       <button onClick={() => uploadImage()}>check</button>
-//     </>
-//   );
-// };
-
-// export default Preview;

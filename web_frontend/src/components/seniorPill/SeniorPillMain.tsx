@@ -95,20 +95,4 @@ const StItemContent = styled.div``;
 
 const StItemName = styled.div``;
 
-// const StAddButton = styled.button`
-//   display: flex;
-//   flex-direction: row;
-//   align-items: center;
-//   width: 100%;
-//   height: 5rem;
-//   background-color: #006ffd;
-//   border-radius: 2rem;
-//   align-self: stretch;
-//   text-align: center;
-//   font-family: "Pretendard-Bold";
-//   padding: 3rem;
-//   border: transparent;
-//   color: white;
-// `;
-
 export default SeniorPillMain;
