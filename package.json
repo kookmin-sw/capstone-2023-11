@@ -5,5 +5,8 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.3",
     "sweetalert2-react-content": "^5.0.7"
+  },
+  "devDependencies": {
+    "@types/react-modal": "^3.13.1"
   }
 }

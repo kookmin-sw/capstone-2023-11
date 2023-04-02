@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ModalPage from "./SeniorPillModal";
+import PillAddModal from "./PillAddModal";
 
 function SeniorPillMain() {
   return (
@@ -14,7 +14,7 @@ function SeniorPillMain() {
         <StTitle>복용하는 약 목록</StTitle>
       </StHeader>
       <StBody>
-        <ModalPage />
+        <PillAddModal />
         <StPillList>
           <StItem>
             <StItemImgBox>
@@ -23,6 +23,10 @@ function SeniorPillMain() {
             </StItemImgBox>
             <StItemContent></StItemContent>
           </StItem>
+          <StItem></StItem>
+          <StItem></StItem>
+          <StItem></StItem>
+          <StItem></StItem>
           <StItem></StItem>
         </StPillList>
       </StBody>
@@ -69,12 +73,13 @@ const StPillList = styled.ul`
   overflow-y: scroll;
   gap: 2rem;
   padding: 2rem;
+  border-radius: 1rem;
 `;
 
 const StItem = styled.li`
   display: flex;
   width: 100%;
-  height: 18rem;
+  height: 10rem;
   border-radius: 2rem;
   align-self: stretch;
   padding: 1rem;
@@ -86,8 +91,8 @@ const StItemImgBox = styled.div`
 `;
 
 const StItemImg = styled.img`
-  width: 12rem;
-  height: 12rem;
+  width: 10rem;
+  height: 7rem;
   border-radius: 2rem;
 `;
 

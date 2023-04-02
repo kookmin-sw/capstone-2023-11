@@ -28,7 +28,7 @@ function SeniorPillSelf() {
       <StBody>
         <StPillList>
           {name?.map((value) => (
-            <StPillItem key={value.toString()}>{value}</StPillItem>
+            <StPillItem key={value.toString()}>{value.length < 20 ? value : value.slice(0, 20) + "..."}</StPillItem>
           ))}
         </StPillList>
       </StBody>

@@ -1,37 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Preview from "./ImagePill";
-// import { pillImg } from "../../core/api/index";
-// import { useState } from "react";
-// import { useQuery } from "react-query";
 
 function SeniorPillBill() {
-  // const [imageSrc, setImageSrc]: any = useState();
-  // const [uploadSts, setUploadSts] = useState(false);
-  // const [formData] = useState<FormData>(new FormData());
-  // const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files !== null) {
-  //     const file = e.target.files[0];
-  //     const reader = new FileReader();
-  //     formData.append("image", file);
-
-  //     return new Promise<void>((resolve) => {
-  //       reader.onload = () => {
-  //         if (reader.result != null) {
-  //           setImageSrc(reader.result);
-  //           resolve();
-  //         }
-  //       };
-  //     });
-  //   }
-  // };
-  // const uploadImage = () => {
-  //   setUploadSts(true);
-  // };
-  // const { data } = useQuery("uploadImage", () => pillImg(formData), {
-  //   enabled: !!uploadSts,
-  // });
-  // console.log(data);
   return (
     <>
       <StHeader>
