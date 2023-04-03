@@ -15,20 +15,19 @@ main: true
 부모님과 보호자 사이에서의 생기는 정보격차를 손쉬운 정보 공유(우리가 만든 서비스)로 해결하고자 합니다😃.
    
 #### 해결하고자 하는 문제
-1. 부모님과 멀리 떨어져 살기 때문에 건강상태를 수시로 체크하기 어려움.
-2. 부모님에게 건강상태를 물으시면, 대부분 괜찮다고 하심. -> 근데 과연 괜찮은걸까?, 괜히 걱정할까봐..
+1. 부모님과 멀리 떨어져 살기 때문에 건강상태를 수시로 체크하기 어렵다.
+2. 부모님에게 건강상태를 물으시면, 대부분 괜찮다고 하시는분들이 많은데 자세하게 알고싶으나 계속 물어보기 힘들다
 3. 자신의 병을 알고 있다고 해도 생활에 적용하기 힘들다.
-4. 내가 얼마나 건강한(하지 않은) 삶을 살고 있는지에 대해서 잘 모름, 이걸 수치화 해서 나타냄
-5. 약을 많이 챙겨 먹고 있는데, 관리하기 쉽지 않고, 상성(같이 복용하면 X) 이 있는 약이 있을 수 있다.
-6. 건강 관리 앱은 많지만 노인(어르신)친화적인 앱은 많지 않음(사용법이 나름 복잡함)
+4. 내가 얼마나 건강한(하지 않은) 삶을 살고 있는지에 대해서 잘 모른다.
+5. 약을 많이 챙겨 먹고 있는데, 관리하기 쉽지 않고, 같이 복용한다면 부작용이 있는 약이 있을 수 있다.
+6. 건강 관리 앱은 많지만 노년층에게 친화적인 앱은 많지 않다.
 
 #### 기대효과
 1. 간단하게 요약되는 부모님의 건강상태를, 부모님뿐만 아니라 보호자들도 어플을 통해서 
-   손쉽게 제공받을 수 있어, 건강상태 파악에 용이함.
-2. 부모님이 막연히 괜찮다고 하시는 대답에 대한 해결책을 제시함.
-3. 자신이 얼마나 건강한 삶을 살고 있는지에 대한 피드백을 받음으로써 생활습관을 개선할 수 있음
-4. 무엇보다, 손쉬운 사용과 높은 가독성을 제공함으로써 진입장벽을 낮추어, 누구나 쉽게 사용 할
-   수 있음.
+   손쉽게 제공받을 수 있어, 건강상태 파악에 용이하도록 한다.
+2. 부모님이 막연히 괜찮다고 하시는 대답에 대한 해결책을 건강 주간 보고서를 통해 제시한다.
+3. 자신이 얼마나 건강한 삶을 살고 있는지에 대한 피드백을 받음으로써 생활습관을 개선 혹은 유지할 수 있도록 한다.
+4. 무엇보다, 손쉬운 사용과 높은 가독성을 제공함으로써 진입장벽을 낮추어, 누구나 쉽게 사용 할 수 있도록 한다.
 
 ## Abstract
 We aim to provide a health information sharing service to check and manage the health status of parents who live far away. The goal is to increase communication between parents and children regarding health issues, and enable children to constantly monitor their parents' health status. When analyzing eating habits by adding users' diseases, weights will be placed to manage them. We will provide an app with a low entry barrier that anyone can easily use, making it easy for both parents and caregivers to understand their health status.
