@@ -1,18 +1,33 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-function ExerciseList(prop: string[]) {
+interface IProp {
+  data: string[];
+  setSelected: (v: string) => void;
+}
+
+function ExerciseList({ data, setSelected }: IProp) {
   const [clicked, setclicked] = useState("");
   return (
     <StContainer>
-      {prop.map((item) =>
+      {data.map((item) =>
         clicked != item ? (
-          <StExercise key={item} onClick={() => setclicked(item)}>
+          <StExercise
+            key={item}
+            onClick={() => {
+              setclicked(item);
+              setSelected(item);
+            }}>
             <img src={require("../../assets/images/img_kakao.png")} />
             {item}
           </StExercise>
         ) : (
-          <StExerciseClicked key={item} onClick={() => setclicked("")}>
+          <StExerciseClicked
+            key={item}
+            onClick={() => {
+              setclicked("");
+              setSelected("");
+            }}>
             <img src={require("../../assets/images/img_kakao.png")} />
             {item}
           </StExerciseClicked>

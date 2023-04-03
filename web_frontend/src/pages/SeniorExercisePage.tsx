@@ -3,6 +3,7 @@ import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import { BlueButton } from "../components/common/BlueButton";
 import ExerciseList from "../components/seniorExercise/ExerciseList";
+import Modal from "react-modal";
 
 const items = [
   "걷기",
@@ -26,6 +27,8 @@ const items = [
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
   const [exerciseName, setExerciseName] = useState([""]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState("");
   useEffect(() => {
     setExerciseName(items);
   });
@@ -40,9 +43,16 @@ function SeniorExercise() {
           <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
         </StCenterContainer>
       </StHeader>
-      {ExerciseList(searched)}
+      <ExerciseList data={searched} setSelected={setIsSelected} />
       <STButtonContainer>
-        <BlueButton>운동 선택</BlueButton>
+        {isSelected == "" ? (
+          <GrayButton disabled={true}>운동 선택</GrayButton>
+        ) : (
+          <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+        )}
+        <Modal isOpen={isOpen}>
+          <button onClick={() => setIsOpen(false)}>Modal close</button>
+        </Modal>
       </STButtonContainer>
     </StContainer>
   );
@@ -103,4 +113,9 @@ const STButtonContainer = styled.div`
   bottom: 0rem;
   padding-top: 1rem;
   padding-bottom: 3rem;
+`;
+
+const GrayButton = styled(BlueButton)`
+  background-color: #e8e9f1;
+  border: none;
 `;
