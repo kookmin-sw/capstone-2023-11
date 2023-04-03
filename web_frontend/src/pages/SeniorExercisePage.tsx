@@ -8,9 +8,11 @@ import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 
 const items = [
   "걷기",
+  "달리기",
   "요가",
   "필라테스",
-  "자전거 타기",
+  "게이트볼",
+  "자전거",
   "등산",
   "골프",
   "댄스 스포츠",
@@ -49,32 +51,57 @@ function SeniorExercise() {
       <ExerciseList data={searched} setSelected={setIsSelected} />
       <STButtonContainer>
         {calories == 0 ? (
-          <></>
-        ) : (
-          <CalContainer>
-            <StTitle className="title">선택한 운동</StTitle>
+          isSelected == "" ? (
+            <GrayButton disabled={true}>운동 선택</GrayButton>
+          ) : (
+            <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+          )
+        ) : isSelected == "" ? (
+          <>
+            <CalContainer>
+              <StTitle className="title">선택한 운동</StTitle>
+              <FlexContainer>
+                <CalList key={isSelected}>
+                  {fixedExercise}으로 {calories} Kcal 소모
+                </CalList>
+                <StButtonBack
+                  src={require("../assets/images/img_esc.png")}
+                  onClick={() => setCalories(0)}></StButtonBack>
+              </FlexContainer>
+            </CalContainer>
             <FlexContainer>
-              <CalList key={isSelected}>
-                {fixedExercise}으로 {calories} Kcal 소모
-              </CalList>
-              <StButtonBack src={require("../assets/images/img_esc.png")} onClick={() => setCalories(0)}></StButtonBack>
+              <GrayButton disabled={true}>운동 추가</GrayButton>
+              <BlueButton>확인</BlueButton>
             </FlexContainer>
-          </CalContainer>
-        )}
-        {isSelected == "" ? (
-          <GrayButton disabled={true}>운동 선택</GrayButton>
+          </>
         ) : (
-          <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+          <>
+            <CalContainer>
+              <StTitle className="title">선택한 운동</StTitle>
+              <FlexContainer>
+                <CalList key={isSelected}>
+                  {fixedExercise}으로 {calories} Kcal 소모
+                </CalList>
+                <StButtonBack
+                  src={require("../assets/images/img_esc.png")}
+                  onClick={() => setCalories(0)}></StButtonBack>
+              </FlexContainer>
+            </CalContainer>
+            <FlexContainer>
+              <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
+              <BlueBTN>확인</BlueBTN>
+            </FlexContainer>
+          </>
         )}
-        <StModal isOpen={isOpen}>
-          <ExercisePopUp
-            data={isSelected}
-            setIsOpen={setIsOpen}
-            setCalories={setCalories}
-            fixedExercise={setFixedExercise}
-          />
-        </StModal>
       </STButtonContainer>
+      <StModal isOpen={isOpen}>
+        <ExercisePopUp
+          data={isSelected}
+          setIsOpen={setIsOpen}
+          setCalories={setCalories}
+          fixedExercise={setFixedExercise}
+        />
+      </StModal>
     </StContainer>
   );
 }
@@ -118,7 +145,7 @@ const StTitle = styled.div`
 
 const StHeader = styled.div`
   display: block;
-  border-bottom: 0.1rem solid #000000;
+  border-bottom: 0.1rem solid #006ffd;
   position: sticky;
   top: 0rem;
   background-color: white;
@@ -175,4 +202,9 @@ const StButtonBack = styled.img`
 const FlexContainer = styled.div`
   justify-content: space-between;
   display: fixed;
+`;
+
+const BlueBTN = styled(BlueButton)`
+  width: 16rem;
+  margin-right: 0.4rem;
 `;

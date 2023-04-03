@@ -35,9 +35,9 @@ function ExercisePopUp(prop: IData) {
           <StButtonClicked onClick={() => setTime(0)}>30분</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(2)}>3시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(2)}>4시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(2)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
         </StIllContainer>
       ) : time == 1 ? (
         <StIllContainer>
@@ -123,6 +123,7 @@ const WhiteContainer = styled(StContainer)`
 const StButtonClicked = styled.button`
   height: 3rem;
   font-size: 1.8rem;
+  width: 10rem;
   font-family: "Pretendard-Bold";
   color: #eaf2ff;
   border-radius: 1.2rem;
@@ -140,9 +141,9 @@ const StButtonUnClicked = styled(StButtonClicked)`
 `;
 
 const StIllContainer = styled.div`
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
-  width: 90%;
+  width: 100%;
   margin-bottom: 5rem;
 `;
