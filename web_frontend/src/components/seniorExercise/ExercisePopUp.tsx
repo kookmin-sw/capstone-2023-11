@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { BlueButton } from "../common/BlueButton";
 
 interface IData {
   data: string;
   setIsOpen: (v: boolean) => void;
+  setCalories: Dispatch<SetStateAction<number>>;
+  fixedExercise: Dispatch<SetStateAction<string>>;
 }
 
 const discription =
@@ -14,6 +16,7 @@ const kal = [100, 150, 200];
 
 function ExercisePopUp(prop: IData) {
   const [time, setTime] = useState(0);
+  let result = "";
   return (
     <StContainer>
       <StButtonBack
@@ -47,7 +50,16 @@ function ExercisePopUp(prop: IData) {
         </StIllContainer>
       )}
 
-      <BlueBTN>운동 선택</BlueBTN>
+      <BlueBTN
+        onClick={() => {
+          prop.setCalories(kal[time]);
+          prop.setIsOpen(false);
+          result = prop.data + " ";
+          time == 0 ? (result += "30분") : time == 1 ? (result += "1시간") : (result += "1시간 30분");
+          prop.fixedExercise(result);
+        }}>
+        운동 선택
+      </BlueBTN>
     </StContainer>
   );
 }

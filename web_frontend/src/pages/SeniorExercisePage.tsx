@@ -30,6 +30,8 @@ function SeniorExercise() {
   const [exerciseName, setExerciseName] = useState([""]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
+  const [fixedExercise, setFixedExercise] = useState("");
+  const [calories, setCalories] = useState(0);
   useEffect(() => {
     setExerciseName(items);
   });
@@ -46,13 +48,31 @@ function SeniorExercise() {
       </StHeader>
       <ExerciseList data={searched} setSelected={setIsSelected} />
       <STButtonContainer>
+        {calories == 0 ? (
+          <></>
+        ) : (
+          <CalContainer>
+            <StTitle className="title">선택한 운동</StTitle>
+            <FlexContainer>
+              <CalList key={isSelected}>
+                {fixedExercise}으로 {calories} Kcal 소모
+              </CalList>
+              <StButtonBack src={require("../assets/images/img_esc.png")} onClick={() => setCalories(0)}></StButtonBack>
+            </FlexContainer>
+          </CalContainer>
+        )}
         {isSelected == "" ? (
           <GrayButton disabled={true}>운동 선택</GrayButton>
         ) : (
           <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
         )}
         <StModal isOpen={isOpen}>
-          <ExercisePopUp data={isSelected} setIsOpen={setIsOpen} />
+          <ExercisePopUp
+            data={isSelected}
+            setIsOpen={setIsOpen}
+            setCalories={setCalories}
+            fixedExercise={setFixedExercise}
+          />
         </StModal>
       </STButtonContainer>
     </StContainer>
@@ -126,4 +146,33 @@ const StModal = styled(Modal)`
   align-items: center;
   justify-content: center;
   margin-top: 3rem;
+`;
+
+const CalContainer = styled.div`
+  border-radius: 1rem;
+  outline: 0.2rem solid #006ffd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  .title {
+    border-bottom: 0.1rem solid #006ffd;
+    padding-bottom: 1rem;
+  }
+`;
+
+const CalList = styled.li`
+  font-family: "Pretendard-Regular";
+  font-size: 1.7rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  margin-left: 2rem;
+`;
+
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+`;
+
+const FlexContainer = styled.div`
+  justify-content: space-between;
+  display: fixed;
 `;
