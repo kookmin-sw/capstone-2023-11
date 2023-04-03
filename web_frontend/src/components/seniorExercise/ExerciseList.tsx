@@ -1,29 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-function ExerciseList() {
+function ExerciseList(prop: string[]) {
   const [clicked, setclicked] = useState("");
-  const items = [
-    "걷기",
-    "달리기",
-    "게이트볼",
-    "배드민턴",
-    "수영",
-    "등산",
-    "골프",
-    "야구",
-    "축구",
-    "농구",
-    "당구",
-    "볼링",
-    "헬스",
-    "낚시",
-    "럭비",
-    "서핑",
-  ];
   return (
     <StContainer>
-      {items.map((item) =>
+      {prop.map((item) =>
         clicked != item ? (
           <StExercise key={item} onClick={() => setclicked(item)}>
             <img src={require("../../assets/images/img_kakao.png")} />

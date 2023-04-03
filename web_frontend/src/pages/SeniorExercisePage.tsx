@@ -1,19 +1,46 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import { BlueButton } from "../components/common/BlueButton";
 import ExerciseList from "../components/seniorExercise/ExerciseList";
 
+const items = [
+  "걷기",
+  "달리기",
+  "게이트볼",
+  "배드민턴",
+  "수영",
+  "등산",
+  "골프",
+  "야구",
+  "축구",
+  "농구",
+  "당구",
+  "볼링",
+  "헬스",
+  "낚시",
+  "럭비",
+  "서핑",
+];
+
 function SeniorExercise() {
+  const [userInput, setUserInput] = useState("");
+  const [exerciseName, setExerciseName] = useState([""]);
+  useEffect(() => {
+    setExerciseName(items);
+  });
+  const searched = exerciseName.filter((item) => item.includes(userInput));
+
   return (
     <StContainer>
       <StHeader>
-        <BackButton></BackButton>
+        <BackButton />
         <StTitle>운동 추가</StTitle>
         <StCenterContainer>
-          <StInput placeholder="운동을 입력해주세요" />
+          <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
         </StCenterContainer>
       </StHeader>
-      <ExerciseList />
+      {ExerciseList(searched)}
       <STButtonContainer>
         <BlueButton>운동 선택</BlueButton>
       </STButtonContainer>
