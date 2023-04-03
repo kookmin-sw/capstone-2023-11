@@ -129,4 +129,10 @@ public class MedicineServiceImpl implements MedicineService {
         return medicineInfos;
     }
 
+    @Override
+    public ResponseEntity deleteMedicine(Long medicineId) throws HttpClientErrorException{
+        medicineRepository.deleteById(medicineId);
+        return ResponseEntity.ok().body("success");
+    }
+
 }

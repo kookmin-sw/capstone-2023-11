@@ -15,4 +15,6 @@ public interface MedicineService {
     public Object recognizeImage(MultipartFile image);
 
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
+
+    public ResponseEntity deleteMedicine(Long medicineId);
 }
