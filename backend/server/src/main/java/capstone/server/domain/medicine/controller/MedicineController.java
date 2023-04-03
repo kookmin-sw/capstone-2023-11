@@ -80,12 +80,12 @@ public class MedicineController {
         }
     }
 
-    @GetMapping(value = "/medicine/delete")
-    public ResponseEntity<?> deleteMedicine(Authentication authentication, @RequestBody Long medicineId) {
+    @DeleteMapping(value = "/medicine/{id}")
+    public ResponseEntity<?> deleteMedicine(Authentication authentication, @PathVariable Long id) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
 
-            ResponseEntity result = medicineService.deleteMedicine(medicineId);
+            ResponseEntity result = medicineService.deleteMedicine(id);
             return result;
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
