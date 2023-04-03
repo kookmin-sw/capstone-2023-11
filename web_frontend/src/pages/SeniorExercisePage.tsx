@@ -58,10 +58,17 @@ const StInput = styled.input`
   height: 4rem;
   width: 90%;
   letter-spacing: 0.3rem;
-  text-indent: 1rem;
+  text-indent: 2rem;
   font-family: "Pretendard-Regular";
   margin-bottom: 2rem;
   align-self: center;
+
+  ::placeholder {
+    background-image: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-256.png);
+    background-size: contain;
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+  }
 `;
 
 const StContainer = styled.div`
@@ -92,7 +99,7 @@ const StCenterContainer = styled.div`
 
 const STButtonContainer = styled.div`
   background-color: white;
-  position: sticky;
+  position: fixed;
   bottom: 0rem;
   padding-top: 1rem;
   padding-bottom: 3rem;
