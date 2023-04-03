@@ -12,7 +12,7 @@ function ExerciseList(prop: string[]) {
             {item}
           </StExercise>
         ) : (
-          <StExerciseClicked key={item} onClick={() => setclicked(item)}>
+          <StExerciseClicked key={item} onClick={() => setclicked("")}>
             <img src={require("../../assets/images/img_kakao.png")} />
             {item}
           </StExerciseClicked>
