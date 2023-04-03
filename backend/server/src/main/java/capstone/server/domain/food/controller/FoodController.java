@@ -1,17 +1,18 @@
 package capstone.server.domain.food.controller;
 
 import capstone.server.domain.food.dto.FoodDetectionResponseDto;
+import capstone.server.domain.food.dto.RegisterFoodDto;
 import capstone.server.domain.food.service.FoodService;
+import capstone.server.entity.Food;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +22,7 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
-    @PostMapping(value = "/food")
+    @PostMapping(value = "/food/detect")
     public ResponseEntity<?> detectFoodImage(Authentication authentication, @RequestPart(value = "image")MultipartFile image) {
 
         try {
@@ -31,6 +32,12 @@ public class FoodController {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
     }
+
+//    @PostMapping(value = "/food/")
+//    public ResponseEntity<?> registerFood(Authentication authentication, @RequestBody RegisterFoodDto food) {
+//
+//        }
+//    }
 
 
 }

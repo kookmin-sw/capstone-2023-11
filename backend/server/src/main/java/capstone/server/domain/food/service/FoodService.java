@@ -1,6 +1,8 @@
 package capstone.server.domain.food.service;
 
 import capstone.server.domain.food.dto.FoodDetectionResponseDto;
+import capstone.server.domain.food.dto.RegisterFoodDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,4 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FoodService {
 
     public FoodDetectionResponseDto detectFoodImage(MultipartFile image);
+    public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto food);
+
 }
