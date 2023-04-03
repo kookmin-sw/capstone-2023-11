@@ -8,20 +8,20 @@ import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 
 const items = [
   "걷기",
-  "달리기",
-  "게이트볼",
-  "배드민턴",
-  "수영",
+  "요가",
+  "필라테스",
+  "자전거 타기",
   "등산",
   "골프",
-  "야구",
-  "축구",
-  "농구",
-  "당구",
-  "볼링",
-  "헬스",
-  "낚시",
-  "럭비",
+  "댄스 스포츠",
+  "웨이트",
+  "테니스",
+  "배드민턴",
+  "스쿼시",
+  "복싱",
+  "스트레칭",
+  "에어로빅",
+  "레크리에이션",
   "서핑",
 ];
 
@@ -145,7 +145,7 @@ const StModal = styled(Modal)`
   padding: 5rem;
   align-items: center;
   justify-content: center;
-  margin-top: 3rem;
+  margin-top: 5rem;
 `;
 
 const CalContainer = styled.div`
