@@ -56,7 +56,7 @@ export default ExercisePopUp;
 
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
+  font-size: 2.3rem;
   text-align: center;
   margin-bottom: 2rem;
   align-self: center;
@@ -68,6 +68,10 @@ const StContainer = styled.div`
   margin: auto;
   background-color: #f8f9fe;
   border-radius: 1rem;
+  .cal {
+    font-family: "Pretendard-Bold";
+    font-size: 1.7rem;
+  }
 `;
 const StButtonBack = styled.img`
   width: 2rem;
@@ -93,9 +97,6 @@ const StContent = styled.div`
   font-size: 1.5rem;
   padding: 1rem;
   text-align: center;
-  .cal {
-    font-family: "Pretendard-Bold";
-  }
 `;
 
 const WhiteContainer = styled(StContainer)`
