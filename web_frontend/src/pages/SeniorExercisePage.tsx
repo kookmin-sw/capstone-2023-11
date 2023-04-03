@@ -4,6 +4,7 @@ import BackButton from "../components/common/BackButton";
 import { BlueButton } from "../components/common/BlueButton";
 import ExerciseList from "../components/seniorExercise/ExerciseList";
 import Modal from "react-modal";
+import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 
 const items = [
   "걷기",
@@ -50,9 +51,9 @@ function SeniorExercise() {
         ) : (
           <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
         )}
-        <Modal isOpen={isOpen}>
-          <button onClick={() => setIsOpen(false)}>Modal close</button>
-        </Modal>
+        <StModal isOpen={isOpen}>
+          <ExercisePopUp data={isSelected} setIsOpen={setIsOpen} />
+        </StModal>
       </STButtonContainer>
     </StContainer>
   );
@@ -118,4 +119,11 @@ const STButtonContainer = styled.div`
 const GrayButton = styled(BlueButton)`
   background-color: #e8e9f1;
   border: none;
+`;
+
+const StModal = styled(Modal)`
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
 `;
