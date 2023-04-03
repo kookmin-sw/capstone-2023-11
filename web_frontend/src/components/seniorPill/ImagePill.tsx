@@ -32,12 +32,23 @@ function PillImgUpload() {
   console.log(data);
   return (
     <>
-      <input multiple type="file" id="profile-upload" accept="image/*" onChange={(e) => uploadImg(e)} />
+      <StInput multiple type="file" id="profile-upload" accept="image/*" onChange={(e) => uploadImg(e)} />
       <img width={"100%"} src={imageSrc} />
       <StCheckButton onClick={() => uploadImage()}>check</StCheckButton>
     </>
   );
 }
+
+const StInput = styled.input`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  padding: 1rem 3rem;
+  margin: 1rem;
+  color: #0066ff;
+  background-color: transparent;
+  border: 0;
+  text-align: left;
+`;
 
 const StCheckButton = styled.button``;
 

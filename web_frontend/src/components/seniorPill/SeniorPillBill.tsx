@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Preview from "./ImagePill";
+import PillImgUpload from "./ImagePill";
 
 function SeniorPillBill() {
   return (
@@ -14,10 +14,10 @@ function SeniorPillBill() {
         <StTitle>처방전 인식하기</StTitle>
       </StHeader>
       <StBody>
-        <StImgButton>
+        {/* <StImgButton>
           <StImg src={require("../../assets/images/img_camera.png")} />
-        </StImgButton>
-        <Preview />
+        </StImgButton> */}
+        <PillImgUpload />
         <StList>
           <StItem>비타민 A</StItem>
           <StItem>비타민 B</StItem>
@@ -67,18 +67,18 @@ const StBody = styled.div`
   padding: 1rem;
 `;
 
-const StImgButton = styled.button`
-  width: 100%;
-  height: 30rem;
-  border: transparent;
-  background-color: white;
-  padding: 3rem;
-`;
+// const StImgButton = styled.button`
+//   width: 100%;
+//   height: 30rem;
+//   border: transparent;
+//   background-color: white;
+//   padding: 3rem;
+// `;
 
-const StImg = styled.img`
-  width: 100%;
-  height: 30rem;
-`;
+// const StImg = styled.img`
+//   width: 100%;
+//   height: 30rem;
+// `;
 
 const StList = styled.ul`
   padding: 2rem;
