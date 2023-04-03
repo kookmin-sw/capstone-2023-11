@@ -20,7 +20,7 @@ function SeniorPillSelf() {
   return (
     <>
       <StHeader>
-        <StSearch placeholder="약 이름을 입력해주세요." onChange={onChangeValue} />
+        <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
         <StSearchButton onClick={onClickButton}>
           <StSearchBtnImg src={require("../../assets/images/search.png")} />
         </StSearchButton>

@@ -1,8 +1,36 @@
-import styled from "styled-components";
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import PillImgUpload from "./ImagePill";
+import styled from "styled-components";
+import { pillImg } from "../../core/api/index";
 
-function SeniorPillBill() {
+function PillImgUpload() {
+  const [imageSrc, setImageSrc]: any = useState();
+  const [uploadSts, setUploadSts] = useState(false);
+  const [formData] = useState<FormData>(new FormData());
+  const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      formData.append("image", file);
+
+      return new Promise<void>((resolve) => {
+        reader.onload = () => {
+          if (reader.result != null) {
+            setImageSrc(reader.result);
+            resolve();
+          }
+        };
+      });
+    }
+  };
+  const uploadImage = () => {
+    setUploadSts(true);
+  };
+  const NameList = useQuery("uploadImage", () => pillImg(formData), {
+    enabled: !!uploadSts,
+  });
+  console.log(NameList?.data?.data);
   return (
     <>
       <StHeader>
@@ -14,21 +42,21 @@ function SeniorPillBill() {
         <StTitle>처방전 인식하기</StTitle>
       </StHeader>
       <StBody>
-        {/* <StImgButton>
-          <StImg src={require("../../assets/images/img_camera.png")} />
-        </StImgButton> */}
-        <PillImgUpload />
-        <StList>
-          <StItem>비타민 A</StItem>
-          <StItem>비타민 B</StItem>
-          <StItem>비타민 C</StItem>
-          <StItem>비타민 D</StItem>
-          처방전의 약이 맞습니까?
-          <BtnWrapper>
-            <StButton>네</StButton>
-            <StButton>아니요</StButton>
-          </BtnWrapper>
-        </StList>
+        <StInput multiple type="file" id="profile-upload" accept="image/*" onChange={(e) => uploadImg(e)} />
+        <img width={"100%"} src={imageSrc} />
+        <StCheckButton onClick={() => uploadImage()}>check</StCheckButton>
+        {uploadSts ? (
+          <StList>
+            {NameList?.data?.data?.map((value: string) => (
+              <StItem key={value.toString()}>{value}</StItem>
+            ))}
+            처방전의 약이 맞습니까?
+            <BtnWrapper>
+              <StButton>네</StButton>
+              <StButton>아니요</StButton>
+            </BtnWrapper>
+          </StList>
+        ) : null}
       </StBody>
     </>
   );
@@ -67,19 +95,6 @@ const StBody = styled.div`
   padding: 1rem;
 `;
 
-// const StImgButton = styled.button`
-//   width: 100%;
-//   height: 30rem;
-//   border: transparent;
-//   background-color: white;
-//   padding: 3rem;
-// `;
-
-// const StImg = styled.img`
-//   width: 100%;
-//   height: 30rem;
-// `;
-
 const StList = styled.ul`
   padding: 2rem;
   border: 0.2rem solid;
@@ -117,4 +132,8 @@ const StButton = styled.button`
   }
 `;
 
-export default SeniorPillBill;
+const StInput = styled.input``;
+
+const StCheckButton = styled.button``;
+
+export default PillImgUpload;
