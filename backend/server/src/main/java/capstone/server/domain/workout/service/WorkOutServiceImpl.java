@@ -4,9 +4,12 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.domain.workout.dto.RegisterWorkOutRequest;
 import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
+import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
 import capstone.server.domain.workout.repository.WorkOutCategoryRepository;
+import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
 import capstone.server.entity.UserWard;
 import capstone.server.entity.WorkOutCategory;
+import capstone.server.entity.WorkOutUserWardHas;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class WorkOutServiceImpl implements WorkOutService{
 
   private final WorkOutCategoryRepository workOutCategoryRepository;
   private final UserWardRepository userWardRepository;
+  private final WorkOutCategoryUserWardHasRepository workOutCategoryUserWardHasRepository;
 
   @Override
   public List<WorkOutCategoryResponse> getAllWorkOutCategories() {
@@ -32,9 +36,20 @@ public class WorkOutServiceImpl implements WorkOutService{
 
   @Override
   public void registerWorkOut(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, RegisterWorkOutRequest workOutRequest) {
-	// 운동 등록
+	// 유저 조회
 	UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get(); // 여기 에러처리 하기
 
+	// 운동 시간 및 운동 종류 가져오기
+	WorkOutCategoryEnum workOut = workOutRequest.getType();
 
+	// 운동 등록하기
+	WorkOutUserWardHas saved = workOutCategoryUserWardHasRepository.save(
+			WorkOutUserWardHas.builder()
+					.hour(workOutRequest.getHour())
+					.workOutCategory(workOutCategoryRepository.findWorkOutCategoryByName(workOut).get())
+					.userWard(userWard)
+					.kcal(workOut.calculateKcal(workOutRequest.getHour()))
+					.build()
+	);
   }
 }
