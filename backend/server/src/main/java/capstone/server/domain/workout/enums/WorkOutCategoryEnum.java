@@ -44,5 +44,9 @@ public enum WorkOutCategoryEnum {
 	this.description = description;
   }
 
+  public Integer calculateKcal(int hour) {
+    return kcalPerHour * hour;
+  }
+
 
 }
