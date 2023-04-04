@@ -37,15 +37,14 @@ function SeniorExercise() {
   const [exerciseName, setExerciseName] = useState([""]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
-  // const [fixedExercise, setFixedExercise] = useState([""]);
-  // const [time, setTime] = useState([0]);
   const [data, setData] = useState<ExerciseData[]>([]);
   useEffect(() => {
     setExerciseName(items);
-
-    console.log(data);
   });
   const searched = exerciseName.filter((item) => item.includes(userInput));
+  const onRemove = (id: string) => {
+    setData(data.filter((data) => data.name !== id));
+  };
 
   return (
     <StContainer>
@@ -71,7 +70,12 @@ function SeniorExercise() {
               <FlexContainer>
                 {data.map(({ name, time }) => (
                   <FlexContainer key={name}>
-                    <StButtonBack src={require("../assets/images/img_esc.png")} />
+                    <StButtonBack
+                      src={require("../assets/images/img_esc.png")}
+                      onClick={() => {
+                        onRemove(name);
+                      }}
+                    />
                     <CalList>
                       {name}로 {time} Kcal 소모
                     </CalList>
@@ -91,7 +95,12 @@ function SeniorExercise() {
               <FlexContainer>
                 {data.map(({ name, time }) => (
                   <FlexContainer key={name}>
-                    <StButtonBack src={require("../assets/images/img_esc.png")} />
+                    <StButtonBack
+                      src={require("../assets/images/img_esc.png")}
+                      onClick={() => {
+                        onRemove(name);
+                      }}
+                    />
                     <CalList>
                       {name}로 {time} Kcal 소모
                     </CalList>
