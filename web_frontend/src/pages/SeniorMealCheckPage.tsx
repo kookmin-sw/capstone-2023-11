@@ -109,5 +109,5 @@ const StFoodText = styled.p`
   font-size: 2.3rem;
   font-family: "Pretendard-Bold";
   margin-top: 1.6rem;
-  margin-bottom: 18rem;
+  margin-bottom: 10rem;
 `;
