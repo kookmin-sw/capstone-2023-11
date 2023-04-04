@@ -1,15 +1,16 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter @ToString
 @Table(name = "food")
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Food {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
