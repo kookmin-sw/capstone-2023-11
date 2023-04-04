@@ -1,6 +1,6 @@
 package capstone.server.entity;
 
-import capstone.server.domain.workout.dto.WorkOutCategoryDto;
+import capstone.server.domain.workout.dto.WorkOutCategoryDtoResponse;
 import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
 import lombok.*;
 
@@ -31,8 +31,8 @@ public class WorkOutCategory {
   @Column(name = "description")
   private String description;
 
-  public WorkOutCategoryDto toDto( ) {
-    return WorkOutCategoryDto.builder()
+  public WorkOutCategoryDtoResponse toDto( ) {
+    return WorkOutCategoryDtoResponse.builder()
             .kor(this.getKor())
             .eng(this.getEng())
             .type(this.getName())

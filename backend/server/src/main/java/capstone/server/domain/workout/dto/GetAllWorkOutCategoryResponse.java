@@ -1,8 +1,6 @@
 package capstone.server.domain.workout.dto;
 
 
-import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
-import capstone.server.entity.WorkOutCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +12,5 @@ import java.util.ArrayList;
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 public class GetAllWorkOutCategoryResponse {
-  private ArrayList<WorkOutCategoryDto> workOutCategoryList = new ArrayList<>();
+  private ArrayList<WorkOutCategoryDtoResponse> workOutCategoryList = new ArrayList<>();
 }
