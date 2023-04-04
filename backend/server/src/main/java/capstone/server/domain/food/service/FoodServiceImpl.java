@@ -65,7 +65,7 @@ public class FoodServiceImpl implements FoodService{
     public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto registerFoodDto) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kakaoAccountId).orElse(null);
         int times = 0;
-        Meal prevData = mealRepository.findTopByOrderByCreatedAtDesc();
+        Meal prevData = mealRepository.findTopByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
         if (prevData == null || prevData.getCreatedAt().toLocalDate().compareTo(LocalDate.now()) != 0) {
             times = 1;
         } else {
