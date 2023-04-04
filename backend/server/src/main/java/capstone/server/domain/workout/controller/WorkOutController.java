@@ -2,7 +2,7 @@ package capstone.server.domain.workout.controller;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.workout.dto.RegisterWorkOutRequest;
-import capstone.server.domain.workout.dto.WorkOutCategoryDtoResponse;
+import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
 import capstone.server.domain.workout.service.WorkOutService;
 import capstone.server.global.dto.ErrorResponse;
 import capstone.server.utils.KaKaoUtil;
@@ -26,7 +26,7 @@ public class WorkOutController {
   @GetMapping("/category")
   public ResponseEntity<?> getAllCategories(){
     try {
-      List<WorkOutCategoryDtoResponse> categoriesDto = workOutService.getAllWorkOutCategories();
+      List<WorkOutCategoryResponse> categoriesDto = workOutService.getAllWorkOutCategories();
       return ResponseEntity.ok()
               .body(categoriesDto);
     }catch (HttpClientErrorException e ){

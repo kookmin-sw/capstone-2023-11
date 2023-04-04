@@ -12,5 +12,5 @@ import java.util.ArrayList;
 @Getter
 @AllArgsConstructor @NoArgsConstructor
 public class GetAllWorkOutCategoryResponse {
-  private ArrayList<WorkOutCategoryDtoResponse> workOutCategoryList = new ArrayList<>();
+  private ArrayList<WorkOutCategoryResponse> workOutCategoryList = new ArrayList<>();
 }

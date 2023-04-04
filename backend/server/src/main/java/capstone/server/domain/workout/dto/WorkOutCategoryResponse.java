@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data @Builder
-public class WorkOutCategoryDtoResponse {
+public class WorkOutCategoryResponse {
   private String eng;
   private String kor;
   private WorkOutCategoryEnum type;

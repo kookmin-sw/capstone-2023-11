@@ -3,7 +3,7 @@ package capstone.server.domain.workout.service;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.domain.workout.dto.RegisterWorkOutRequest;
-import capstone.server.domain.workout.dto.WorkOutCategoryDtoResponse;
+import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
 import capstone.server.domain.workout.repository.WorkOutCategoryRepository;
 import capstone.server.entity.UserWard;
 import capstone.server.entity.WorkOutCategory;
@@ -25,7 +25,7 @@ public class WorkOutServiceImpl implements WorkOutService{
   private final UserWardRepository userWardRepository;
 
   @Override
-  public List<WorkOutCategoryDtoResponse> getAllWorkOutCategories() {
+  public List<WorkOutCategoryResponse> getAllWorkOutCategories() {
 	List<WorkOutCategory> categories = workOutCategoryRepository.findAll();
 	return categories.stream().map(category -> category.toDto()).collect(Collectors.toList());
   }
