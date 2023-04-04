@@ -2,7 +2,14 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { checkMeal } from "../core/api/index";
+import BackButton from "../components/common/BackButton";
 function SeniorMealCheckPage() {
+  const imageInput = useRef<any>(null);
+  const onClickImageUpload = () => {
+    if (imageInput.current) {
+      imageInput.current.click();
+    }
+  };
   const [imageSrc, setImageSrc]: any = useState();
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
