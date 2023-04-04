@@ -77,9 +77,24 @@ public class FoodServiceImpl implements FoodService{
         mealRepository.save(meal);
 
         for (FoodInfo info : registerFoodDto.getFood()) {
-            Food food = Food.
+            Food food = Food.builder()
+                    .calorie(info.getCalorie())
+                    .carbohyborateTotal(info.getCarbohyborateTotal())
+                    .carbohyborateSugar(info.getCarbohyborateSugar())
+                    .carbohyborateDietaryFiber(info.getCarbohyborateDietaryFiber())
+                    .fatTotal(info.getFatTotal())
+                    .fatSaturatedfat(info.getFatSaturatedfat())
+                    .fatTransFat(info.getFatTransFat())
+                    .cholesterol(info.getCholesterol())
+                    .protein(info.getProtein())
+                    .natrium(info.getNatrium())
+                    .name(info.getName())
+                    .servingSize(info.getServingSize())
+                    .meal(meal).build();
+
+            foodRepository.save(food);
         }
 
-        return null;
+        return ResponseEntity.ok().body("success");
     }
 }
