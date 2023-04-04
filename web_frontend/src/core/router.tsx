@@ -7,17 +7,19 @@ import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
+import SeniorExercise from "../pages/SeniorExercisePage";
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/senior/myPage" element={<SeniorMypage />} />
-        <Route path="/schedule" element={<SeniorSchedule />} />
+        <Route path="/senior/schedule" element={<SeniorSchedule />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth/kakao" element={<KakaoAuthPage />} />
         <Route path="/join/senior" element={<SeniorJoinPage />} />
-        <Route path="/summary" element={<SeniorSummaryPage />} />
+        <Route path="/senior/summary" element={<SeniorSummaryPage />} />
         <Route path="/join/guardian" element={<GuardianJoinPage />} />
+        <Route path="/senior/exercise" element={<SeniorExercise />} />
       </Routes>
     </BrowserRouter>
   );
