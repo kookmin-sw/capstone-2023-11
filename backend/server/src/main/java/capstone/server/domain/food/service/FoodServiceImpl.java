@@ -1,9 +1,12 @@
 package capstone.server.domain.food.service;
 
 import capstone.server.domain.food.dto.FoodDetectionResponseDto;
+import capstone.server.domain.food.dto.FoodInfo;
 import capstone.server.domain.food.dto.RegisterFoodDto;
+import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
+import capstone.server.entity.Food;
 import capstone.server.entity.Meal;
 import capstone.server.entity.UserWard;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+
 @Service
 @Slf4j
 public class FoodServiceImpl implements FoodService{
@@ -27,7 +33,10 @@ public class FoodServiceImpl implements FoodService{
     @Autowired
     private MealRepository mealRepository;
     @Autowired
+    private FoodRepository foodRepository;
+    @Autowired
     private UserWardRepository userWardRepository;
+
     @Value("${kakao.food-detection.url}")
     private String FOOD_DETECTION_API_URL;
     @Value("${kakao.food-detection.key}")
@@ -53,13 +62,23 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto food) {
+    public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto registerFoodDto) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kakaoAccountId).orElse(null);
-        Meal nowMeal = Meal.builder().userWard(userWard).build();
-        nowMeal.getCreatedAt();
-
+        int times = 0;
         Meal prevData = mealRepository.findTopByOrderByCreatedAtDesc();
-//        if (prevData == null || !)
+        if (prevData == null || prevData.getCreatedAt().toLocalDate().compareTo(LocalDate.now()) != 0) {
+            times = 1;
+        } else {
+            times = prevData.getTimes() + 1;
+        }
+
+        Meal meal = Meal.builder().userWard(userWard).times(times).build();
+
+        mealRepository.save(meal);
+
+        for (FoodInfo info : registerFoodDto.getFood()) {
+            Food food = Food.
+        }
 
         return null;
     }

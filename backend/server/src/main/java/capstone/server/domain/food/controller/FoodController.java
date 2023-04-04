@@ -33,11 +33,11 @@ public class FoodController {
         }
     }
 
-//    @PostMapping(value = "/food/")
-//    public ResponseEntity<?> registerFood(Authentication authentication, @RequestBody RegisterFoodDto food) {
-//
-//        }
-//    }
+    @PostMapping(value = "/food/")
+    public ResponseEntity<?> registerFood(Authentication authentication, @RequestBody RegisterFoodDto foods) {
+
+        }
+    }
 
 
 }

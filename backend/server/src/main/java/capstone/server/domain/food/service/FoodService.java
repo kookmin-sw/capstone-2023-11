@@ -10,6 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FoodService {
 
     public FoodDetectionResponseDto detectFoodImage(MultipartFile image);
-    public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto food);
+    public ResponseEntity registerFood(Long kakaoAccountId, RegisterFoodDto registerFoodDto);
 
 }
