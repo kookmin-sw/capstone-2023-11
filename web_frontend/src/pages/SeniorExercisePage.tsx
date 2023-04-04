@@ -71,17 +71,17 @@ function SeniorExercise() {
               <FlexContainer>
                 {data.map(({ name, time }) => (
                   <FlexContainer key={name}>
-                    <CalList>
-                      {name}으로 {time} Kcal 소모
-                    </CalList>
                     <StButtonBack src={require("../assets/images/img_esc.png")} />
+                    <CalList>
+                      {name}로 {time} Kcal 소모
+                    </CalList>
                   </FlexContainer>
                 ))}
               </FlexContainer>
             </CalContainer>
             <FlexContainer>
-              <GrayButton disabled={true}>운동 추가</GrayButton>
-              <BlueButton>확인</BlueButton>
+              <GrayBTN disabled={true}>운동 추가</GrayBTN>
+              <BlueBTN>확인</BlueBTN>
             </FlexContainer>
           </>
         ) : (
@@ -91,10 +91,10 @@ function SeniorExercise() {
               <FlexContainer>
                 {data.map(({ name, time }) => (
                   <FlexContainer key={name}>
-                    <CalList>
-                      {name}으로 {time} Kcal 소모
-                    </CalList>
                     <StButtonBack src={require("../assets/images/img_esc.png")} />
+                    <CalList>
+                      {name}로 {time} Kcal 소모
+                    </CalList>
                   </FlexContainer>
                 ))}
               </FlexContainer>
@@ -187,7 +187,7 @@ const CalContainer = styled.div`
   outline: 0.2rem solid #006ffd;
   padding: 1rem;
   margin-bottom: 1rem;
-  width: 34rem;
+  width: 33rem;
   .title {
     border-bottom: 0.1rem solid #006ffd;
     padding-bottom: 1rem;
@@ -216,4 +216,9 @@ const FlexContainer = styled.div`
 const BlueBTN = styled(BlueButton)`
   width: 16rem;
   margin-right: 0.4rem;
+`;
+
+const GrayBTN = styled(BlueBTN)`
+  background-color: #e8e9f1;
+  border: none;
 `;
