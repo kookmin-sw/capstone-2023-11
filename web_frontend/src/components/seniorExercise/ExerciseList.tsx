@@ -2,15 +2,15 @@ import { useState } from "react";
 import styled from "styled-components";
 
 interface IProp {
-  data: string[];
+  selectedData: string[];
   setSelected: (v: string) => void;
 }
 
-function ExerciseList({ data, setSelected }: IProp) {
+function ExerciseList({ selectedData, setSelected }: IProp) {
   const [clicked, setclicked] = useState("");
   return (
     <StContainer>
-      {data.map((item) =>
+      {selectedData.map((item) =>
         clicked != item ? (
           <StExercise
             key={item}

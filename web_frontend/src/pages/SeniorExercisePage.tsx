@@ -6,6 +6,11 @@ import ExerciseList from "../components/seniorExercise/ExerciseList";
 import Modal from "react-modal";
 import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 
+interface ExerciseData {
+  name: string;
+  time: number;
+}
+
 const items = [
   "걷기",
   "달리기",
@@ -32,10 +37,13 @@ function SeniorExercise() {
   const [exerciseName, setExerciseName] = useState([""]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
-  const [fixedExercise, setFixedExercise] = useState("");
-  const [calories, setCalories] = useState(0);
+  // const [fixedExercise, setFixedExercise] = useState([""]);
+  // const [time, setTime] = useState([0]);
+  const [data, setData] = useState<ExerciseData[]>([]);
   useEffect(() => {
     setExerciseName(items);
+
+    console.log(data);
   });
   const searched = exerciseName.filter((item) => item.includes(userInput));
 
@@ -48,9 +56,9 @@ function SeniorExercise() {
           <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
         </StCenterContainer>
       </StHeader>
-      <ExerciseList data={searched} setSelected={setIsSelected} />
+      <ExerciseList selectedData={searched} setSelected={setIsSelected} />
       <STButtonContainer>
-        {calories == 0 ? (
+        {data[0] == null ? (
           isSelected == "" ? (
             <GrayButton disabled={true}>운동 선택</GrayButton>
           ) : (
@@ -61,12 +69,14 @@ function SeniorExercise() {
             <CalContainer>
               <StTitle className="title">선택한 운동</StTitle>
               <FlexContainer>
-                <CalList key={isSelected}>
-                  {fixedExercise}으로 {calories} Kcal 소모
-                </CalList>
-                <StButtonBack
-                  src={require("../assets/images/img_esc.png")}
-                  onClick={() => setCalories(0)}></StButtonBack>
+                {data.map(({ name, time }) => (
+                  <FlexContainer key={name}>
+                    <CalList>
+                      {name}으로 {time} Kcal 소모
+                    </CalList>
+                    <StButtonBack src={require("../assets/images/img_esc.png")} />
+                  </FlexContainer>
+                ))}
               </FlexContainer>
             </CalContainer>
             <FlexContainer>
@@ -79,12 +89,14 @@ function SeniorExercise() {
             <CalContainer>
               <StTitle className="title">선택한 운동</StTitle>
               <FlexContainer>
-                <CalList key={isSelected}>
-                  {fixedExercise}으로 {calories} Kcal 소모
-                </CalList>
-                <StButtonBack
-                  src={require("../assets/images/img_esc.png")}
-                  onClick={() => setCalories(0)}></StButtonBack>
+                {data.map(({ name, time }) => (
+                  <FlexContainer key={name}>
+                    <CalList>
+                      {name}으로 {time} Kcal 소모
+                    </CalList>
+                    <StButtonBack src={require("../assets/images/img_esc.png")} />
+                  </FlexContainer>
+                ))}
               </FlexContainer>
             </CalContainer>
             <FlexContainer>
@@ -95,12 +107,7 @@ function SeniorExercise() {
         )}
       </STButtonContainer>
       <StModal isOpen={isOpen}>
-        <ExercisePopUp
-          data={isSelected}
-          setIsOpen={setIsOpen}
-          setCalories={setCalories}
-          fixedExercise={setFixedExercise}
-        />
+        <ExercisePopUp selectedData={isSelected} setIsOpen={setIsOpen} setData={setData} />
       </StModal>
     </StContainer>
   );
@@ -180,6 +187,7 @@ const CalContainer = styled.div`
   outline: 0.2rem solid #006ffd;
   padding: 1rem;
   margin-bottom: 1rem;
+  width: 34rem;
   .title {
     border-bottom: 0.1rem solid #006ffd;
     padding-bottom: 1rem;
@@ -202,6 +210,7 @@ const StButtonBack = styled.img`
 const FlexContainer = styled.div`
   justify-content: space-between;
   display: fixed;
+  flex-wrap: wrap;
 `;
 
 const BlueBTN = styled(BlueButton)`

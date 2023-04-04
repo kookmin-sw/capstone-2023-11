@@ -2,11 +2,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { BlueButton } from "../common/BlueButton";
 
+type ExerciseData = { name: string; time: number };
+
 interface IData {
-  data: string;
-  setIsOpen: (v: boolean) => void;
-  setCalories: Dispatch<SetStateAction<number>>;
-  fixedExercise: Dispatch<SetStateAction<string>>;
+  selectedData: string;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setData: React.Dispatch<React.SetStateAction<ExerciseData[]>>;
 }
 
 const discription =
@@ -16,14 +17,13 @@ const kal = [100, 150, 200];
 
 function ExercisePopUp(prop: IData) {
   const [time, setTime] = useState(0);
-  let result = "";
   return (
     <StContainer>
       <StButtonBack
         src={require("../../assets/images/img_esc.png")}
         onClick={() => prop.setIsOpen(false)}></StButtonBack>
       <StImage src={require("../../assets/images/img_kakao.png")} />
-      <StTitle>{prop.data}</StTitle>
+      <StTitle>{prop.selectedData}</StTitle>
       <WhiteContainer>
         <StContent>{discription}</StContent>
       </WhiteContainer>
@@ -55,11 +55,14 @@ function ExercisePopUp(prop: IData) {
 
       <BlueBTN
         onClick={() => {
-          prop.setCalories(kal[time]);
+          const name = prop.selectedData;
+          const newData = { name, time };
+          prop.setData((prevData) => [newData, ...prevData]);
+          // prop.setCalories(kal[time]);
           prop.setIsOpen(false);
-          result = prop.data + " ";
-          time == 0 ? (result += "30분") : time == 1 ? (result += "1시간") : (result += "1시간 30분");
-          prop.fixedExercise(result);
+          // result = prop.data + " ";
+          // time == 0 ? (result += "30분") : time == 1 ? (result += "1시간") : (result += "1시간 30분");
+          // prop.fixedExercise(result);
         }}>
         운동 선택
       </BlueBTN>
