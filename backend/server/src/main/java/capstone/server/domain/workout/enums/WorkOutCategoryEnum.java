@@ -9,7 +9,7 @@ public enum WorkOutCategoryEnum {
   WALKING("walking","걷기",300,"걷기에 대한 설명"),
   RUNNING("running","달리기",840,"달리기에 대한 설명"),
   YOGA("yoga","요가",300,"요가에 대한 설명"),
-  PILATES("Pilates","필라테스",420,"필라테스에 대한 설명"),
+  PILATES("pilates","필라테스",420,"필라테스에 대한 설명"),
   GATEBALL("gateball","게이트볼",400,"게이트볼에 대한 설명"),
   BICYCLING("bicycling","자전거",480,"자전거에 대한 설명"),
   HIKING("hiking","등산",480,"등산에 대한 설명"),
