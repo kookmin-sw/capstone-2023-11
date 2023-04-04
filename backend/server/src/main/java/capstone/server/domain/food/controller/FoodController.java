@@ -1,13 +1,16 @@
 package capstone.server.domain.food.controller;
 
 import capstone.server.domain.food.dto.FoodDetectionResponseDto;
+import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.food.dto.RegisterFoodDto;
 import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.entity.Food;
 import capstone.server.utils.KaKaoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,17 @@ public class FoodController {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
             ResponseEntity result = foodService.registerFood(kaKaoAccountIdAndUserType.getKakaoAccountId(), foods);
             return result;
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+    }
+
+    @GetMapping(value = "/food")
+    public ResponseEntity<?> getFoodInfo(Authentication authentication) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            GetFoodInfoResponseDto getFoodInfoResponseDto = foodService.getFoodInfo(kaKaoAccountIdAndUserType);
+            return ResponseEntity.ok().body(getFoodInfoResponseDto);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }

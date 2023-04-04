@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class MealInfo {
+    private Long id;
     private LocalDateTime dateTime;
     private int times;
     private List<FoodInfo> detail;

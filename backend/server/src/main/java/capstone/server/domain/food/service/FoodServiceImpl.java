@@ -1,10 +1,9 @@
 package capstone.server.domain.food.service;
 
-import capstone.server.domain.food.dto.FoodDetectionResponseDto;
-import capstone.server.domain.food.dto.FoodInfo;
-import capstone.server.domain.food.dto.RegisterFoodDto;
+import capstone.server.domain.food.dto.*;
 import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
+import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Food;
 import capstone.server.entity.Meal;
@@ -17,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ErrorHandler;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -25,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -96,5 +98,40 @@ public class FoodServiceImpl implements FoodService{
         }
 
         return ResponseEntity.ok().body("success");
+    }
+
+    @Override
+    public GetFoodInfoResponseDto getFoodInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        List<Meal> mealList = mealRepository.findAllByUserWardUserId(userWard.getUserId());
+
+        GetFoodInfoResponseDto getFoodInfoResponseDto = GetFoodInfoResponseDto.builder().mealInfos(new ArrayList<>()).build();
+        for (Meal meal : mealList) {
+            List<Food> foods = foodRepository.findAllByMealId(meal.getId());
+            List<FoodInfo> details = new ArrayList<>();
+            for (Food food : foods) {
+                details.add(FoodInfo.builder()
+                        .calorie(food.getCalorie())
+                        .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .carbohyborateSugar(food.getCarbohyborateSugar())
+                        .carbohyborateDietaryFiber(food.getCarbohyborateDietaryFiber())
+                        .fatTotal(food.getFatTotal())
+                        .fatSaturatedfat(food.getFatSaturatedfat())
+                        .fatTransFat(food.getFatTransFat())
+                        .cholesterol(food.getCholesterol())
+                        .protein(food.getProtein())
+                        .natrium(food.getNatrium())
+                        .name(food.getName())
+                        .servingSize(food.getServingSize()).build());
+            }
+            getFoodInfoResponseDto.getMealInfos().add(MealInfo.builder()
+                    .id(meal.getId())
+                    .dateTime(meal.getCreatedAt())
+                    .times(meal.getTimes())
+                    .detail(details).build());
+        }
+
+        return getFoodInfoResponseDto;
     }
 }
