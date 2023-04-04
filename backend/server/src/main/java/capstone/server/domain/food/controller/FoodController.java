@@ -57,6 +57,8 @@ public class FoodController {
             return ResponseEntity.ok().body(getFoodInfoResponseDto);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(204).body(e.getMessage());
         }
     }
 

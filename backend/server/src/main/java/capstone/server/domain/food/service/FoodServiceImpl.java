@@ -105,6 +105,9 @@ public class FoodServiceImpl implements FoodService{
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
         List<Meal> mealList = mealRepository.findAllByUserWardUserId(userWard.getUserId());
+        if (mealList == null) {
+            throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
+        }
 
         GetFoodInfoResponseDto getFoodInfoResponseDto = GetFoodInfoResponseDto.builder().mealInfos(new ArrayList<>()).build();
         for (Meal meal : mealList) {
