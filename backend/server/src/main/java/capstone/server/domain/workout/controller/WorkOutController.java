@@ -4,7 +4,7 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.workout.dto.RegisterWorkOutRequest;
 import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
 import capstone.server.domain.workout.service.WorkOutService;
-import capstone.server.global.dto.ErrorResponse;
+import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class WorkOutController {
     }catch (HttpClientErrorException e ){
       return ResponseEntity.status(e.getStatusCode())
               .body(
-                      ErrorResponse.builder()
+                      DefaultResponse.builder()
                               .success(false)
                               .status(e.getStatusCode().value())
                               .message(e.getMessage())
@@ -44,8 +44,30 @@ public class WorkOutController {
   @PostMapping()
   public ResponseEntity<?> registerWorkOut(Authentication authentication,
                                            @RequestBody RegisterWorkOutRequest workOutRequest) {
+    try {
+      KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+      workOutService.registerWorkOut(kaKaoAccountIdAndUserType,workOutRequest);
+      return ResponseEntity.ok()
+              .body(
+                      DefaultResponse.builder() // ErrorResponse 올바를때도 사용하자!
+                              .success(true)
+                              .status(200)
+                              .message(kaKaoAccountIdAndUserType.getKakaoAccountId() + "계정에 " + workOutRequest.getType() + "이 정상적으로 등록 됐습니다.")
+                              .build()
 
-    KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+              );
+
+    }catch (HttpClientErrorException e) {
+      return ResponseEntity.status(e.getStatusCode())
+              .body(
+                      DefaultResponse.builder()
+                              .success(false)
+                              .status(e.getStatusCode().value())
+                              .message(e.getMessage())
+                              .build()
+              );
+    }
+
 
   }
 }
