@@ -1,5 +1,6 @@
 package capstone.server.entity;
 
+import capstone.server.domain.workout.dto.WorkOutCategoryDto;
 import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
 import lombok.*;
 
@@ -29,5 +30,15 @@ public class WorkOutCategory {
   private Integer kcalPerHour;
   @Column(name = "description")
   private String description;
+
+  public WorkOutCategoryDto toDto( ) {
+    return WorkOutCategoryDto.builder()
+            .kor(this.getKor())
+            .eng(this.getEng())
+            .type(this.getName())
+            .kcalPerHour(this.getKcalPerHour())
+            .description(this.getDescription())
+            .build();
+  }
 
 }
