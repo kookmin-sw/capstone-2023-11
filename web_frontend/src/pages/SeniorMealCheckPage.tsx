@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { checkMeal } from "../core/api/index";
 import BackButton from "../components/common/BackButton";
-import { BlueStarIcn } from "../assets/icons";
+import { BlueStarIcn, PhotoIcn } from "../assets/icons";
 function SeniorMealCheckPage() {
   const imageInput = useRef<any>(null);
   const onClickImageUpload = () => {
@@ -46,7 +46,10 @@ function SeniorMealCheckPage() {
         <StTitle>식단 등록하기</StTitle>
       </StHeader>
       <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
-      <StUploadButton onClick={onClickImageUpload}>사진 업로드</StUploadButton>
+      <StUploadButton onClick={onClickImageUpload}>
+        <img src={PhotoIcn} />
+        사진 업로드
+      </StUploadButton>
       <StFoodImg width={"100%"} src={imageSrc} />
       <StFoodText>🧐 위 사진이 내가 먹은 음식이 맞나요? </StFoodText>
       <StInfoContainer>
@@ -103,6 +106,13 @@ const StUploadButton = styled.button`
   border: 0;
   border-radius: 1.2rem;
   margin-top: 4.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    margin-right: 0.5rem;
+    width: 2rem;
+  }
 `;
 const StCheckButton = styled.button`
   width: 32.7rem;
