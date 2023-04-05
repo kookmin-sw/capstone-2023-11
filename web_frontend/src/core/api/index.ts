@@ -114,3 +114,39 @@ export async function fetchPillImg(value: string) {
     `http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey=zKSH%2F9jINWNjCG3mSkBuStun63jSwB2Ydqc3KY68unj1wo50jqvFuJBtVSv3ZIt1F12IZh9aJyXSgUzN%2BY8Y9Q%3D%3D&numOfRows=3&pageNo=1&type=json&item_name=${value}`,
   ).then((response) => response.json());
 }
+
+export const pillInfoData = async (
+  name: string | undefined,
+  companyName: string | undefined,
+  depositMethod: string | undefined,
+  effect: string | undefined,
+  useMethod: string | undefined,
+  caution: string | undefined,
+  imageUrl: string | undefined,
+  breakfast: boolean,
+  lunch: boolean,
+  dinner: boolean,
+  daysToTake: number,
+) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/medicine`,
+    {
+      name: name,
+      companyName: companyName,
+      depositMethod: depositMethod,
+      effect: effect,
+      useMethod: useMethod,
+      caution: caution,
+      imageUrl: imageUrl,
+      breakfast: breakfast,
+      lunch: lunch,
+      dinner: dinner,
+      daysToTake: daysToTake,
+      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
+    },
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    },
+  );
+  return data;
+};

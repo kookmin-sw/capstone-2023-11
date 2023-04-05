@@ -20,6 +20,7 @@ function PillSetModal() {
     <>
       <StModalButton onClick={handleOpenModal}>➕ 약 추가하기</StModalButton>
       <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+        <StTitle>{}</StTitle>
         <StButtonList>
           <Link to={"/senior/pill/bill"}>
             <StButton>💊 약봉투 인식하기</StButton>
@@ -33,6 +34,11 @@ function PillSetModal() {
     </>
   );
 }
+
+const StTitle = styled.h1`
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+`;
 
 const StModalButton = styled.button`
   font-family: "Pretendard-Bold";
@@ -69,8 +75,8 @@ const StModal = styled(Modal)`
   bottom: auto;
   left: 18%;
   right: auto;
-  width: 25rem;
-  height: 50rem;
+  width: 40rem;
+  height: 100rem;
   font-family: "Pretendard-Regular";
 `;
 
