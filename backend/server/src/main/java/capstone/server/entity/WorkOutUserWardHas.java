@@ -1,5 +1,6 @@
 package capstone.server.entity;
 
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.utils.BaseTimeEntity;
 import lombok.*;
 
@@ -31,4 +32,16 @@ public class WorkOutUserWardHas extends BaseTimeEntity {
 
   @Column(name = "kcal")
   private Integer kcal;
+
+  public WorkOutRecordResponse toDto() {
+    return WorkOutRecordResponse.builder()
+            .id(this.getId())
+            .kor(this.workOutCategory.getKor())
+            .eng(this.workOutCategory.getEng())
+            .type(this.workOutCategory.getName())
+            .kcal(this.getKcal())
+            .createdAt(this.getCreatedAt().toLocalDate())
+            .build();
+
+  }
 }
