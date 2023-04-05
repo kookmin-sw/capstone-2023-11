@@ -4,6 +4,7 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.domain.workout.dto.RegisterWorkOutRequest;
 import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
 import capstone.server.domain.workout.repository.WorkOutCategoryRepository;
 import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
@@ -51,5 +52,19 @@ public class WorkOutServiceImpl implements WorkOutService{
 					.kcal(workOut.calculateKcal(workOutRequest.getHour()))
 					.build()
 	);
+  }
+
+  @Override
+  public List<WorkOutRecordResponse> getAllWorkOutRecords(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+	// 유저 조회하기
+	UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
+
+	// 조회한 유저를 기반으로 운동력 찾기
+	List<WorkOutUserWardHas> workOutRecords = workOutCategoryUserWardHasRepository.findAllByUserWardOrderByCreatedAtDesc(userWard);
+
+	// Dto로 변경하기
+	List<WorkOutRecordResponse> workOutRecordsResponseDto = workOutRecords.stream().map(workOutUserWardHas -> workOutUserWardHas.toDto()).collect(Collectors.toList());
+
+	return workOutRecordsResponseDto;
   }
 }
