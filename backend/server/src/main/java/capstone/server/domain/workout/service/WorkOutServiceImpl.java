@@ -13,9 +13,12 @@ import capstone.server.entity.WorkOutCategory;
 import capstone.server.entity.WorkOutUserWardHas;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,5 +69,19 @@ public class WorkOutServiceImpl implements WorkOutService{
 	List<WorkOutRecordResponse> workOutRecordsResponseDto = workOutRecords.stream().map(workOutUserWardHas -> workOutUserWardHas.toDto()).collect(Collectors.toList());
 
 	return workOutRecordsResponseDto;
+  }
+
+  @Override
+  public List<WorkOutRecordResponse> getWorkOutRecordsByYearMonth(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, LocalDateTime startDate, LocalDateTime lastDate) {
+	// 유저 조회하기
+	UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
+
+	// 조회한 유저를 기반으로, 해당 월에 해당하는 운동력들만 찾기
+	List<WorkOutUserWardHas> workOutRecordsForMonth = workOutCategoryUserWardHasRepository.findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtDesc(userWard, startDate, lastDate);
+
+	// Dto로 변경하기
+	List<WorkOutRecordResponse> responseDto = workOutRecordsForMonth.stream().map(workOutUserWardHas -> workOutUserWardHas.toDto()).collect(Collectors.toList());
+
+	return responseDto;
   }
 }
