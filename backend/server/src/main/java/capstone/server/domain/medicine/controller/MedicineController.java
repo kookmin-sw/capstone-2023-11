@@ -61,12 +61,6 @@ public class MedicineController {
         }
     }
 
-//    @PostMapping("/auth")
-//    public ResponseEntity<?> test(Authentication authentication){
-//        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserTypeDto = KaKaoUtil.authConvertIdAndTypeDto(authentication);
-//        return ResponseEntity.ok()
-//                .body(kaKaoAccountIdAndUserTypeDto.getKakaoAccountId());
-//    }
     @GetMapping(value = "/medicine")
     public ResponseEntity<?> getMedicineInfo(Authentication authentication) {
         try {

@@ -1,14 +1,18 @@
 package capstone.server.entity;
 
 import capstone.server.utils.BaseTimeEntity;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter @ToString
 @Table(name = "meal")
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Meal extends BaseTimeEntity {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +25,5 @@ public class Meal extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_ward_user_id")
   private UserWard userWard;
+
 }
