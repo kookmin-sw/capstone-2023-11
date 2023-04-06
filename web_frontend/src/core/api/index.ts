@@ -69,3 +69,11 @@ export const wardJoin = async (
   );
   return data;
 };
+
+export const getExerciseList = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/workout/category`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
+  return data;
+};

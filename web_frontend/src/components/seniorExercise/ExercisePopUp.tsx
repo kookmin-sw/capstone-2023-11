@@ -7,7 +7,7 @@ type ExerciseData = { name: string; time: number };
 interface IData {
   selectedData: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setData: React.Dispatch<React.SetStateAction<ExerciseData[]>>;
+  setFixedData: React.Dispatch<React.SetStateAction<ExerciseData[]>>;
 }
 
 const discription =
@@ -90,7 +90,7 @@ function ExercisePopUp(prop: IData) {
         onClick={() => {
           const name = prop.selectedData;
           const newData = { name, time };
-          prop.setData((prevData) => [newData, ...prevData]);
+          prop.setFixedData((prevData) => [newData, ...prevData]);
           prop.setIsOpen(false);
         }}>
         운동 선택
