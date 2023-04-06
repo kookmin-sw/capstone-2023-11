@@ -18,4 +18,6 @@ public interface FoodService {
 
     public GetFoodInfoResponseDto getFoodInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
 
+    public ResponseEntity deleteMeal(Long mealId);
+
 }

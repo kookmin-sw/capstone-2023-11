@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter @ToString
 @Table(name = "meal")
@@ -29,5 +30,9 @@ public class Meal extends BaseTimeEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_ward_user_id")
   private UserWard userWard;
+
+  @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Food> foods;
+
 
 }

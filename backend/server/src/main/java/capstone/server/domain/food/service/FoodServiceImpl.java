@@ -166,4 +166,10 @@ public class FoodServiceImpl implements FoodService{
 
         return getFoodInfoResponseDto;
     }
+
+    @Override
+    public ResponseEntity deleteMeal(Long mealId) {
+        mealRepository.deleteById(mealId);
+        return ResponseEntity.ok().body("success");
+    }
 }

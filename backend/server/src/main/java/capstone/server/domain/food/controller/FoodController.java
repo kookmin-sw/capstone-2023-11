@@ -68,5 +68,16 @@ public class FoodController {
         }
     }
 
+    @DeleteMapping(value = "/food/{id}")
+    public ResponseEntity<?> deleteMeal(Authentication authentication, @PathVariable Long id) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            ResponseEntity result = foodService.deleteMeal(id);
+            return result;
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+    }
+
 
 }
