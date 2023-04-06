@@ -2,7 +2,7 @@ package capstone.server.domain.medicine.controller;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
-import capstone.server.domain.medicine.dto.MedicalInfo;
+import capstone.server.domain.medicine.dto.RequestMedicineInfo;
 import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.service.MedicineService;
 import capstone.server.utils.KaKaoUtil;
@@ -26,14 +26,14 @@ public class MedicineController {
     private MedicineService medicineService;
 
     @PostMapping(value = "/medicine")
-    public ResponseEntity<?> registerMedicine(Authentication authentication, @RequestBody List<MedicalInfo> medicalInfos) {
+    public ResponseEntity<?> registerMedicine(Authentication authentication, @RequestBody List<RequestMedicineInfo> requestMedicineInfos) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
 
 
             return medicineService.registerMedicine(RegisterMedicineDto.builder()
                     .kaKaoAccountIdAndUserType(kaKaoAccountIdAndUserType)
-                    .medicalInfos(medicalInfos)
+                    .requestMedicineInfos(requestMedicineInfos)
                     .build());
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());

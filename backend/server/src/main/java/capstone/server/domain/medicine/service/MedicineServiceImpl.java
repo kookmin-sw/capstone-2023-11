@@ -1,13 +1,15 @@
 package capstone.server.domain.medicine.service;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
-import capstone.server.domain.medicine.dto.MedicalInfo;
+import capstone.server.domain.medicine.dto.RequestMedicineInfo;
 import capstone.server.domain.medicine.dto.RegisterMedicineDto;
+import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
+import capstone.server.utils.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class MedicineServiceImpl implements MedicineService {
 
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(registerMedicineDto.getKaKaoAccountIdAndUserType().getKakaoAccountId());
 
-        for (MedicalInfo info : registerMedicineDto.getMedicalInfos()) {
+        for (RequestMedicineInfo info : registerMedicineDto.getRequestMedicineInfos()) {
             Medicine medicine = Medicine.builder()
                     .name(info.getName())
                     .companyName(info.getCompanyName())
@@ -124,7 +126,33 @@ public class MedicineServiceImpl implements MedicineService {
         // userWardRepository FindByToken;
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId());
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
-                .medicines(medicineRepository.findAllByUserWardUserId(userWard.get().getUserId())).build();
+                .medicines(new ArrayList<>()).build();
+
+        List<Medicine> medicineList = medicineRepository.findAllByUserWardUserId(userWard.get().getUserId());
+
+        for (Medicine medicine : medicineList) {
+            int remainDay = DateTimeUtils.getDaysBetween(LocalDateTime.now(), medicine.getDueAt());
+            if (remainDay < 0) {
+                medicineRepository.deleteById(medicine.getId());
+                continue;
+            }
+
+            medicineInfos.getMedicines().add(ResponseMedicineInfo.builder()
+                    .name(medicine.getName())
+                    .companyName(medicine.getCompanyName())
+                    .caution(medicine.getCaution())
+                    .useMethod(medicine.getUseMethod())
+                    .depositMethod(medicine.getDepositMethod())
+                    .effect(medicine.getEffect())
+                    .imageUrl(medicine.getImageUrl())
+                    .createdAt(medicine.getCreatedAt())
+                    .dueAt(medicine.getDueAt())
+                    .remainDay(remainDay)
+                    .breakfast(medicine.getBreakfast())
+                    .lunch(medicine.getLunch())
+                    .dinner(medicine.getDinner())
+                    .build());
+        }
 
         return medicineInfos;
     }

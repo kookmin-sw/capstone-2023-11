@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class MedicalInfo {
+public class RequestMedicineInfo {
     private String name;
     private String companyName;
     private String depositMethod;
@@ -18,7 +18,7 @@ public class MedicalInfo {
     private int daysToTake;
 
     @Builder
-    public MedicalInfo(String name, String companyName, String depositMethod, String effect, String useMethod, String caution, String imageUrl, Boolean breakfast, Boolean lunch, Boolean dinner, int daysToTake) {
+    public RequestMedicineInfo(String name, String companyName, String depositMethod, String effect, String useMethod, String caution, String imageUrl, Boolean breakfast, Boolean lunch, Boolean dinner, int daysToTake) {
         this.name = name;
         this.companyName = companyName;
         this.depositMethod = depositMethod;
