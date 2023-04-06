@@ -4,7 +4,7 @@ title: test
 include_in_header: false
 main: true
 ---
-[Git Hub 링크](https://github.com/kookmin-sw/capstone-2023-11)
+## [Git Hub 링크](https://github.com/kookmin-sw/capstone-2023-11)
 
 ## 프로젝트 소개
 #### 개발 동기
