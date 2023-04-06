@@ -161,6 +161,7 @@ public class FoodServiceImpl implements FoodService{
                     .id(meal.getId())
                     .dateTime(meal.getCreatedAt())
                     .times(meal.getTimes())
+                    .imageUrl(meal.getImage().getUrl())
                     .detail(details).build());
         }
 
