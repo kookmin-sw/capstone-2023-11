@@ -42,7 +42,7 @@ public class FoodController {
         }
     }
 
-    @PostMapping(value = "/food/")
+    @PostMapping(value = "/food")
     public ResponseEntity<?> registerFood(Authentication authentication, @RequestPart(value = "image") MultipartFile image, @RequestPart(value = "food_info") RegisterFoodDto foods) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
