@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillInfo, pillInfoData } from "../../core/api";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
 function SeniorPillSelf() {
   const [value, setValue] = useState("");
   const [company, setCompany] = useState<string | undefined>("");
-  const [method, setMethod] = useState<string | undefined>("");
+  const [depositMethod, setDepositMethod] = useState<string | undefined>("");
   const [effect, setEffect] = useState<string | undefined>("");
   const [useMethod, setUseMethod] = useState<string | undefined>("");
   const [caution, setCaution] = useState<string | undefined>("");
@@ -19,24 +20,44 @@ function SeniorPillSelf() {
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
   const [pillStatus, setPillStatus] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    setPillStatus(false);
+  }, []);
   const pillInfo = () => {
     setPillStatus(true);
   };
   const { data } = useQuery(
     "pillInfo",
-    () => pillInfoData(value, company, method, effect, caution, useMethod, imgUrl, breakfast, lunch, dinner, dayValue),
-    { enabled: !!pillStatus },
+    () =>
+      pillInfoData(
+        value,
+        company,
+        depositMethod,
+        effect,
+        caution,
+        useMethod,
+        imgUrl,
+        breakfast,
+        lunch,
+        dinner,
+        dayValue,
+      ),
+    {
+      enabled: !!pillStatus,
+    },
   );
-  data !== undefined ? alert("등록되었습니다.") : null;
+  if (pillStatus == true && data !== undefined) {
+    alert("등록되었습니다.");
+    navigate("/senior/pill");
+  }
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    console.log(value);
   };
   const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
-    console.log(pillData?.data?.body?.items?.map((item) => item.ITEM_NAME));
     if (pillData) {
       setName(pillData?.data?.body?.items?.map((item) => item.ITEM_NAME));
     }
@@ -56,7 +77,6 @@ function SeniorPillSelf() {
 
   const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDayValue(parseInt(e.target.value));
-    console.log(dayValue);
   };
   return (
     <>
@@ -69,7 +89,19 @@ function SeniorPillSelf() {
       <StBody>
         <StPillList>
           {name?.map((value) => (
-            <StPillItem key={value.toString()} onClick={() => handleOpenModal(value.toString())}>
+            <StPillItem
+              key={value.toString()}
+              onClick={() => {
+                handleOpenModal(value.toString());
+                setValue(value.toString());
+                onClickButton;
+                setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
+                setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD.slice(0, 100));
+                setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
+                setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
+                setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));
+                setImgUrl("");
+              }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
           ))}
@@ -101,16 +133,7 @@ function SeniorPillSelf() {
             <StPillComponent2>
               <StSetPillCheckButton
                 onClick={() => {
-                  setValue(pillName);
-                  onClickButton;
                   handleCloseModal;
-                  console.log(pillData?.data?.body?.items[0].ITEM_NAME);
-                  setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
-                  setMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
-                  setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA);
-                  setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA);
-                  setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA);
-                  setImgUrl("");
                   pillInfo();
                 }}>
                 네

@@ -130,23 +130,25 @@ export const pillInfoData = async (
 ) => {
   const data = axios.post(
     `${process.env.REACT_APP_SERVER}/api/medicine`,
-    {
-      name: name,
-      companyName: companyName,
-      depositMethod: depositMethod,
-      effect: effect,
-      useMethod: useMethod,
-      caution: caution,
-      imageUrl: imageUrl,
-      breakfast: breakfast,
-      lunch: lunch,
-      dinner: dinner,
-      daysToTake: daysToTake,
-      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
-    },
+    [
+      {
+        name: name,
+        companyName: companyName,
+        depositMethod: depositMethod,
+        effect: effect,
+        useMethod: useMethod,
+        caution: caution,
+        imageUrl: imageUrl,
+        breakfast: breakfast,
+        lunch: lunch,
+        dinner: dinner,
+        daysToTake: daysToTake,
+      },
+    ],
     {
       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
     },
   );
+  console.log((await data).config.data);
   return data;
 };
