@@ -1,20 +1,8 @@
 package capstone.server.domain.medicine.controller;
 
-import capstone.server.domain.medicine.dto.MedicalInfo;
-import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MedicineControllerTest {
 
