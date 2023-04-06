@@ -16,5 +16,6 @@ public class MealInfo {
     private Long id;
     private LocalDateTime dateTime;
     private int times;
+    private String imageUrl;
     private List<FoodInfo> detail;
 }
