@@ -34,7 +34,6 @@ function SeniorExercise() {
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList());
-  console.log(data?.data);
   useEffect(() => {
     data?.data.map((item: GetData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
@@ -111,7 +110,12 @@ function SeniorExercise() {
         )}
       </STButtonContainer>
       <StModal isOpen={isOpen}>
-        <ExercisePopUp selectedData={isSelected} setIsOpen={setIsOpen} setFixedData={setFixedData} />
+        <ExercisePopUp
+          selectedData={isSelected}
+          setIsOpen={setIsOpen}
+          setFixedData={setFixedData}
+          getData={data?.data}
+        />
       </StModal>
     </StContainer>
   );
