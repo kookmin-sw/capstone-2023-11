@@ -152,3 +152,10 @@ export const pillInfoData = async (
   console.log((await data).config.data);
   return data;
 };
+
+export const getPillInfo = async () => {
+  const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/medicine/`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return response.data;
+};

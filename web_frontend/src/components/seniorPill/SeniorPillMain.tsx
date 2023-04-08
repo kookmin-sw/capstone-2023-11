@@ -1,8 +1,20 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PillAddModal from "./PillAddModal";
+import { useEffect, useState } from "react";
+import { getPillInfo } from "../../core/api";
 
 function SeniorPillMain() {
+  const [pillData, setPillData] = useState<pillInfo>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getPillInfo();
+      setPillData(data);
+    }
+
+    fetchData();
+  }, []);
   return (
     <>
       <StHeader>
@@ -16,22 +28,63 @@ function SeniorPillMain() {
       <StBody>
         <PillAddModal />
         <StPillList>
-          <StItem>
-            <StItemImgBox>
-              <StItemImg src={require("../../assets/images/pillSample.jpg")} />
-              <StItemName>무코스타</StItemName>
-            </StItemImgBox>
-            <StItemContent></StItemContent>
-          </StItem>
-          <StItem></StItem>
-          <StItem></StItem>
-          <StItem></StItem>
-          <StItem></StItem>
-          <StItem></StItem>
+          {pillData?.medicines.map((value, index) => (
+            <>
+              <StItem key={index}>
+                <StItemImgBox>
+                  <StItemImg src={value.imageUrl} />
+                </StItemImgBox>
+                <StItemContent>
+                  <StItemName>{value.name}</StItemName>
+                  <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
+                  <StDaySwapper>
+                    {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                    {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
+                    {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                  </StDaySwapper>
+                </StItemContent>
+              </StItem>
+            </>
+          ))}
         </StPillList>
       </StBody>
     </>
   );
+}
+
+interface pillInfo {
+  medicines: [
+    {
+      createdAt: string;
+      modifiedAt: string;
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      dueAt: string;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+      remainDay: number;
+      userWard: {
+        createdAt: string;
+        modifiedAt: string;
+        userId: number;
+        kakaoAccountId: number;
+        name: string;
+        birthday: string;
+        gender: string;
+        weight: number;
+        height: number;
+        drinkings: number;
+        smoke: number;
+      };
+    },
+  ];
 }
 
 const StHeader = styled.header`
@@ -64,6 +117,7 @@ const StTitle = styled.h1`
 const StBody = styled.div`
   font-size: 2rem;
   padding: 2rem;
+  font-family: "Pretendard-Regular";
 `;
 
 const StPillList = styled.ul`
@@ -76,28 +130,69 @@ const StPillList = styled.ul`
   border-radius: 1rem;
 `;
 
-const StItem = styled.li`
+const StItem = styled.div`
   display: flex;
-  width: 100%;
-  height: 10rem;
-  border-radius: 2rem;
-  align-self: stretch;
-  padding: 1rem;
-  border: 0.2rem solid #0066ff;
+  align-items: center;
+  margin-bottom: 2rem;
 `;
 
 const StItemImgBox = styled.div`
-  display: flex;
+  width: 30%;
+  height: 8rem;
+  margin-right: 2rem;
 `;
 
 const StItemImg = styled.img`
-  width: 10rem;
-  height: 7rem;
-  border-radius: 2rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
 `;
 
-const StItemContent = styled.div``;
+const StItemContent = styled.div`
+  width: 70%;
+`;
 
-const StItemName = styled.div``;
+const StItemName = styled.p`
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  font-family: "Pretendard-Bold";
+`;
+
+const StItemRemainingDays = styled.p`
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-family: "Pretendard-Regular";
+`;
+
+const StDaySwapper = styled.div`
+  display: flex;
+  margin: 1rem;
+  gap: 1rem;
+`;
+
+const StPillNoTake = styled.div`
+  width: 6rem;
+  height: 3.5rem;
+  background: #eaf2ff;
+  border-radius: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: #006ffd;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+const StPillTake = styled.div`
+  width: 6rem;
+  height: 3.5rem;
+  background: #006ffd;
+  border-radius: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
 
 export default SeniorPillMain;
