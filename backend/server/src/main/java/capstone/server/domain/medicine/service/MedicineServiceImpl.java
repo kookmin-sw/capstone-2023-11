@@ -138,6 +138,7 @@ public class MedicineServiceImpl implements MedicineService {
             }
 
             medicineInfos.getMedicines().add(ResponseMedicineInfo.builder()
+                    .id(medicine.getId())
                     .name(medicine.getName())
                     .companyName(medicine.getCompanyName())
                     .caution(medicine.getCaution())
