@@ -35,6 +35,8 @@ function SeniorExercise() {
 
   const { data } = useQuery("exerciseList", () => getExerciseList());
   useEffect(() => {
+    console.log(data);
+
     data?.data.map((item: GetData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
     });
@@ -71,7 +73,7 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
                     </CalList>
                   </FlexContainer>
                 ))}
@@ -96,7 +98,7 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
                     </CalList>
                   </FlexContainer>
                 ))}

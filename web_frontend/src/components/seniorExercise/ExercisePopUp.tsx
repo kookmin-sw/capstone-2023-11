@@ -19,11 +19,10 @@ interface IData {
   getData: GetData[];
 }
 
-const kal = [100, 150, 200, 250, 300, 400];
-
 function ExercisePopUp(prop: IData) {
   const [time, setTime] = useState(0);
   const discription = prop.getData.find((item) => item.kor === prop.selectedData)?.description;
+  const kcalPerHour = prop.getData.find((item) => item.kor === prop.selectedData)?.kcalPerHour;
   return (
     <StContainer>
       <StButtonBack
@@ -35,21 +34,12 @@ function ExercisePopUp(prop: IData) {
         <StContent>{discription}</StContent>
       </WhiteContainer>
       <StContainer>
-        <StContent className="cal">{kal[time]} Kcal 소모</StContent>
+        <StContent className="cal">{kcalPerHour == null ? 0 : time * kcalPerHour} Kcal 소모</StContent>
       </StContainer>
-      {time == 0 ? (
+      {time == 1 ? (
         <StIllContainer>
-          <StButtonClicked onClick={() => setTime(1)}>1시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>1시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
-        </StIllContainer>
-      ) : time == 1 ? (
-        <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>1시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(2)}>2시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
@@ -58,8 +48,8 @@ function ExercisePopUp(prop: IData) {
       ) : time == 2 ? (
         <StIllContainer>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(3)}>3시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>2시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
@@ -68,8 +58,8 @@ function ExercisePopUp(prop: IData) {
         <StIllContainer>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(4)}>4시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>3시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
@@ -78,9 +68,27 @@ function ExercisePopUp(prop: IData) {
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(5)}>5시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>4시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
+        </StIllContainer>
+      ) : time == 5 ? (
+        <StIllContainer>
+          <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
+          <StButtonClicked onClick={() => setTime(0)}>5시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
+        </StIllContainer>
+      ) : time == 6 ? (
+        <StIllContainer>
+          <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonClicked onClick={() => setTime(0)}>6시간</StButtonClicked>
         </StIllContainer>
       ) : (
         <StIllContainer>
@@ -89,19 +97,23 @@ function ExercisePopUp(prop: IData) {
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(6)}>6시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
       )}
 
-      <BlueBTN
-        onClick={() => {
-          const name = prop.selectedData;
-          const newData = { name, time };
-          prop.setFixedData((prevData) => [newData, ...prevData]);
-          prop.setIsOpen(false);
-        }}>
-        운동 선택
-      </BlueBTN>
+      {time != 0 ? (
+        <BlueBTN
+          onClick={() => {
+            const name = prop.selectedData;
+            const newData = { name, time };
+            prop.setFixedData((prevData) => [newData, ...prevData]);
+            prop.setIsOpen(false);
+          }}>
+          운동 선택
+        </BlueBTN>
+      ) : (
+        <GrayBtn>운동 선택</GrayBtn>
+      )}
     </StContainer>
   );
 }
@@ -144,6 +156,11 @@ const BlueBTN = styled(BlueButton)`
   padding: 1rem;
   width: 100%;
   height: 100%;
+`;
+
+const GrayBtn = styled(BlueBTN)`
+  background-color: #e8e9f1;
+  border: none;
 `;
 
 const StContent = styled.div`
