@@ -18,11 +18,11 @@ function SeniorPillMain() {
   return (
     <>
       <StHeader>
-        <Link to={`/senior/main`}>
+        <StLink to={`/senior/main`}>
           <StBackBtn>
             <StBackBtnImg src={require("../../assets/images/img_left.png")} />
           </StBackBtn>
-        </Link>
+        </StLink>
         <StTitle>복용하는 약 목록</StTitle>
       </StHeader>
       <StBody>
@@ -30,20 +30,22 @@ function SeniorPillMain() {
         <StPillList>
           {pillData?.medicines.map((value, index) => (
             <>
-              <StItem key={index}>
-                <StItemImgBox>
-                  <StItemImg src={value.imageUrl} />
-                </StItemImgBox>
-                <StItemContent>
-                  <StItemName>{value.name}</StItemName>
-                  <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
-                  <StDaySwapper>
-                    {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
-                    {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
-                    {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
-                  </StDaySwapper>
-                </StItemContent>
-              </StItem>
+              <StLink to={"/senior/pill/detail"}>
+                <StItem key={index}>
+                  <StItemImgBox>
+                    <StItemImg src={value.imageUrl} />
+                  </StItemImgBox>
+                  <StItemContent>
+                    <StItemName>{value.name}</StItemName>
+                    <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
+                    <StDaySwapper>
+                      {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                      {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
+                      {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                    </StDaySwapper>
+                  </StItemContent>
+                </StItem>
+              </StLink>
             </>
           ))}
         </StPillList>
@@ -193,6 +195,11 @@ const StPillTake = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;
 
 export default SeniorPillMain;

@@ -1,7 +1,19 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getPillInfo } from "../../core/api";
 
 function PillDetail() {
+  const [pillData, setPillData] = useState<IpillData>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getPillInfo();
+      setPillData(data);
+    }
+
+    fetchData();
+  }, [console.log(pillData)]);
   return (
     <>
       <StHeader>
@@ -39,15 +51,15 @@ function PillDetail() {
             <StItemName>주의 사항</StItemName>
             <StItemContent>다음 환자에는 투여하지 말 것. 이 약 성분에 과민반응 병력 환자</StItemContent>
           </StContentItem>
-          <Link to={"/senior/pill"}>
+          <StLink to={"/senior/pill"}>
             <BlueButton>돌아가기</BlueButton>
-          </Link>
+          </StLink>
         </StContentList>
       </StBody>
     </>
   );
 }
-/*
+
 interface IpillData {
   userToken: "string";
   medicalInfos: [
@@ -62,7 +74,6 @@ interface IpillData {
     },
   ];
 }
-*/
 
 const StHeader = styled.header`
   padding-top: 5rem;
@@ -122,6 +133,10 @@ const BlueButton = styled.button`
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   margin-top: 3rem;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
 `;
 
 export default PillDetail;
