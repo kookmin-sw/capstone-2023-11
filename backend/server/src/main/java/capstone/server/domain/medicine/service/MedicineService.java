@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URISyntaxException;
+
 @Service
 public interface MedicineService {
 
     public ResponseEntity registerMedicine(RegisterMedicineDto registerMedicineDto);
 
-    public Object recognizeImage(MultipartFile image);
+    public Object recognizeImage(MultipartFile image) throws URISyntaxException;
 
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
 

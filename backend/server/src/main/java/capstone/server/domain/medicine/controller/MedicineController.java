@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -58,6 +59,8 @@ public class MedicineController {
             }
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        } catch (URISyntaxException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

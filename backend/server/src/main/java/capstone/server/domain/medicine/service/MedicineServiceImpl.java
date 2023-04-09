@@ -24,6 +24,8 @@ import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +42,9 @@ public class MedicineServiceImpl implements MedicineService {
     @Autowired
     private UserWardRepository userWardRepository;
 
-    @Value("${kakao.ocr.url")
+    @Value("${kakao.ocr.url}")
     private String OCR_API_URL;
-    @Value("${kakao.ocr.key")
+    @Value("${kakao.ocr.key}")
     private String OCR_API_KEY;
 
     @Override
@@ -75,7 +77,7 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException {
+    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -88,7 +90,8 @@ public class MedicineServiceImpl implements MedicineService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.postForEntity(OCR_API_URL, requestEntity, String.class);
+        URI uri = new URI(OCR_API_URL);
+        ResponseEntity<String> response = restTemplate.postForEntity(uri, requestEntity, String.class);
         log.info(response.getBody());
         List<String> infos = new ArrayList<>();
         JSONObject object = new JSONObject(response.getBody());
