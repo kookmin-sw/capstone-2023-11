@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { checkMeal } from "../core/api/index";
@@ -12,6 +12,7 @@ function SeniorMealCheckPage() {
     }
   };
   const [imageSrc, setImageSrc]: any = useState();
+  const [index, setIndex] = useState(0);
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,13 +35,20 @@ function SeniorMealCheckPage() {
   const uploadImage = () => {
     setUploadSts(true);
   };
+
   const { data } = useQuery("uploadImage", () => checkMeal(formData), {
     enabled: !!uploadSts,
   });
   console.log(data);
-
+  useEffect(() => {
+    if (data != undefined) {
+      setIndex(1);
+    }
+  }, [data]);
   return (
     <StMealCheckPage>
+      {index > 0 ? <StBackground></StBackground> : <></>}
+
       <StHeader>
         <BackButton />
         <StTitle>식단 등록하기</StTitle>
@@ -164,4 +172,14 @@ const StSubInfo = styled.p`
   display: flex;
 
   margin-bottom: 1.6rem;
+`;
+const StBackground = styled.main`
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(0.2rem);
+  z-index: 2;
 `;
