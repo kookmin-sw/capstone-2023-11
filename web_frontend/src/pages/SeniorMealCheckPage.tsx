@@ -47,7 +47,13 @@ function SeniorMealCheckPage() {
   }, [data]);
   return (
     <StMealCheckPage>
-      {index > 0 ? <StBackground></StBackground> : <></>}
+      {index > 0 ? (
+        <StBackground>
+          <StCheckModal></StCheckModal>
+        </StBackground>
+      ) : (
+        <></>
+      )}
 
       <StHeader>
         <BackButton />
@@ -182,4 +188,12 @@ const StBackground = styled.main`
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(0.2rem);
   z-index: 2;
+`;
+const StCheckModal = styled.section`
+  width: 30rem;
+  height: 49.5rem;
+  padding: 1.6rem 2.5rem 4.1rem 2.5rem;
+  border-radius: 1.4rem;
+  background-color: white;
+  margin-top: 12rem;
 `;
