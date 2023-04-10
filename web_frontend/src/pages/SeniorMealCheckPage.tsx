@@ -49,7 +49,15 @@ function SeniorMealCheckPage() {
     <StMealCheckPage>
       {index > 0 ? (
         <StBackground>
-          <StCheckModal></StCheckModal>
+          <StCheckModal>
+            <StCheckTitle>
+              🧐 당신이 먹은 음식을
+              <br />
+              골라주세요!
+            </StCheckTitle>
+
+            <StNextButton>다음으로</StNextButton>
+          </StCheckModal>
         </StBackground>
       ) : (
         <></>
@@ -196,4 +204,30 @@ const StCheckModal = styled.section`
   border-radius: 1.4rem;
   background-color: white;
   margin-top: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
+const StCheckTitle = styled.p`
+  width: 25.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 2.5rem;
+  line-height: 3rem;
+  text-align: center;
+`;
+const StNextButton = styled.button`
+  font-family: "Pretendard-Bold";
+  width: 20rem;
+  height: 4.8rem;
+  background-color: #006ffd;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: white;
+  border-radius: 1.2rem;
+  margin-top: 5rem;
+`;
+const StFoodSelected = styled.button``;
+const StFoodUnselected = styled.button``;
