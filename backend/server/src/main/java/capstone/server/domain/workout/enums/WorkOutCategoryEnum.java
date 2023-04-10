@@ -22,7 +22,7 @@ public enum WorkOutCategoryEnum {
   BOXING("boxing","복싱",400,"복싱에 대한 설명"),
   STRETCHING("stretching","스트레칭",360,"스트레칭에 대한 설명"),
   AEROBICS("aerobics","에어로빅",840,"에어로빅에 대한 설명"),
-  RECREATION("recreation","레크리에이션(당구, 탁구)",200,"레크리에이션(당구, 탁구)에 대한 설명"),
+  RECREATION("recreation","당구, 탁구",200,"레크리에이션(당구, 탁구)에 대한 설명"),
   SURFING("surfing","서핑",306,"서핑에 대한 설명");
 
 
