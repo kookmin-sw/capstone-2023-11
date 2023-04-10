@@ -10,10 +10,10 @@ function ExerciseList({ selectedData, setSelected }: IProp) {
   const [clicked, setclicked] = useState("");
   return (
     <StContainer>
-      {selectedData.map((item) =>
+      {selectedData.map((item, index) =>
         clicked != item ? (
           <StExercise
-            key={item}
+            key={index}
             onClick={() => {
               setclicked(item);
               setSelected(item);
@@ -23,7 +23,7 @@ function ExerciseList({ selectedData, setSelected }: IProp) {
           </StExercise>
         ) : (
           <StExerciseClicked
-            key={item}
+            key={index}
             onClick={() => {
               setclicked("");
               setSelected("");
