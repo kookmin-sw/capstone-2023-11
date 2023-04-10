@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { checkMeal } from "../core/api/index";
 import BackButton from "../components/common/BackButton";
-import { BlueStarIcn, PhotoIcn } from "../assets/icons";
+import { BlueStarIcn, CheckedIcn, PhotoIcn } from "../assets/icons";
+
+interface food {
+  food_name: string;
+}
+
 function SeniorMealCheckPage() {
   const imageInput = useRef<any>(null);
   const onClickImageUpload = () => {
@@ -12,7 +17,8 @@ function SeniorMealCheckPage() {
     }
   };
   const [imageSrc, setImageSrc]: any = useState();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(-1);
+  const [currentSelect] = useState(0);
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,15 +45,15 @@ function SeniorMealCheckPage() {
   const { data } = useQuery("uploadImage", () => checkMeal(formData), {
     enabled: !!uploadSts,
   });
-  console.log(data);
+  console.log(data?.data?.result[index]?.class_info[0]);
   useEffect(() => {
     if (data != undefined) {
-      setIndex(1);
+      setIndex(0);
     }
   }, [data]);
   return (
     <StMealCheckPage>
-      {index > 0 ? (
+      {index >= 0 ? (
         <StBackground>
           <StCheckModal>
             <StCheckTitle>
@@ -55,6 +61,18 @@ function SeniorMealCheckPage() {
               <br />
               골라주세요!
             </StCheckTitle>
+            {data?.data?.result[index].class_info.map((food: food, index: number) => (
+              <>
+                {currentSelect == index ? (
+                  <StFoodSelected>
+                    {food.food_name}
+                    <img src={CheckedIcn} />
+                  </StFoodSelected>
+                ) : (
+                  <StFoodUnselected>{food.food_name}</StFoodUnselected>
+                )}
+              </>
+            ))}
 
             <StNextButton>다음으로</StNextButton>
           </StCheckModal>
@@ -214,6 +232,7 @@ const StCheckTitle = styled.p`
   font-size: 2.5rem;
   line-height: 3rem;
   text-align: center;
+  margin-bottom: 2.7rem;
 `;
 const StNextButton = styled.button`
   font-family: "Pretendard-Bold";
@@ -227,7 +246,37 @@ const StNextButton = styled.button`
   border: none;
   color: white;
   border-radius: 1.2rem;
-  margin-top: 5rem;
+  margin-top: 1rem;
 `;
-const StFoodSelected = styled.button``;
-const StFoodUnselected = styled.button``;
+const StFoodSelected = styled.button`
+  width: 25rem;
+  height: 5.2rem;
+  font-family: "Pretendard-Bold";
+  margin-bottom: 1.2rem;
+  background: #eaf2ff;
+  border-radius: 12px;
+  border: none;
+  color: #006ffd;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 1.6rem;
+  padding-left: 2rem;
+`;
+const StFoodUnselected = styled.button`
+  width: 25rem;
+  height: 5.2rem;
+  font-family: "Pretendard-Bold";
+  margin-bottom: 1.2rem;
+  border: 0.5px solid #c5c6cc;
+  border-radius: 12px;
+  border: none;
+  color: black;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 1.6rem;
+  padding-left: 2rem;
+`;
