@@ -6,7 +6,7 @@ import ExerciseList from "../components/seniorExercise/ExerciseList";
 import Modal from "react-modal";
 import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
-import { getExerciseList } from "../core/api";
+import { getExerciseList, postExerciseList } from "../core/api";
 
 interface ExerciseFixedData {
   name: string;
@@ -27,6 +27,9 @@ function SeniorExercise() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
   const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
+  const [postData, setPostData] = useState("");
+  // const [postTime, setPostTime] = useState(0);
+  const [postState, setPostState] = useState(false);
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
   const onRemove = (id: string) => {
@@ -34,11 +37,27 @@ function SeniorExercise() {
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList());
+  const { status } = useQuery("postexerciseList", () => postExerciseList(postData, fixedData[0].time), {
+    enabled: !!postState,
+  });
   useEffect(() => {
     data?.data.map((item: GetData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
     });
   }, [data]);
+
+  const submitClicked = () => {
+    fixedData.map(({ name }) => {
+      setPostData(data?.data.find((item: GetData) => item.kor === name)?.type);
+      setPostState(true);
+    });
+  };
+
+  useEffect(() => {
+    console.log(status);
+    console.log(postData);
+    console.log(fixedData[0]?.time);
+  }, [status]);
 
   return (
     <StContainer>
@@ -104,7 +123,7 @@ function SeniorExercise() {
             </CalContainer>
             <FlexContainer>
               <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
-              <BlueBTN>확인</BlueBTN>
+              <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
             </FlexContainer>
           </>
         )}

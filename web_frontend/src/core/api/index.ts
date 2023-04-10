@@ -85,7 +85,9 @@ export const postExerciseList = async (type: string, hour: number) => {
       type: type,
       hour: hour,
     },
-    {},
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    },
   );
   return data;
 };
