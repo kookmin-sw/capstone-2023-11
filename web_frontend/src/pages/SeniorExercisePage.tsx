@@ -35,8 +35,6 @@ function SeniorExercise() {
 
   const { data } = useQuery("exerciseList", () => getExerciseList());
   useEffect(() => {
-    console.log(data);
-
     data?.data.map((item: GetData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
     });

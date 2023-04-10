@@ -77,3 +77,15 @@ export const getExerciseList = async () => {
 
   return data;
 };
+
+export const postExerciseList = async (type: string, hour: number) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/workout`,
+    {
+      type: type,
+      hour: hour,
+    },
+    {},
+  );
+  return data;
+};
