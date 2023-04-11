@@ -8,3 +8,4 @@ export { default as GuardianIcn } from "../icons/icn_guardian.svg";
 export { default as BlueStarIcn } from "../icons/icn_blueStar.svg";
 export { default as PhotoIcn } from "../icons/icn_photo.svg";
 export { default as CheckedIcn } from "../icons/icn_checked.svg";
+export { default as FoodIcn } from "../icons/icn_food.svg";
