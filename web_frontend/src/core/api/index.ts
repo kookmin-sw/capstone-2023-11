@@ -91,3 +91,11 @@ export const postExerciseList = async (type: string, hour: number) => {
   );
   return data;
 };
+
+export const getRecordExerciseList = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/workout/records`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
+  return data;
+};
