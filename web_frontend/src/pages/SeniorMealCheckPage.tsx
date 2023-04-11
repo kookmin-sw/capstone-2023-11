@@ -16,6 +16,7 @@ function SeniorMealCheckPage() {
       imageInput.current.click();
     }
   };
+  const [finishDetect, SetFinishDetect] = useState(0);
   const [imageSrc, setImageSrc]: any = useState();
   const [index, setIndex] = useState(-1);
   const [currentSelect, setCurrentSelect] = useState(0);
@@ -51,9 +52,21 @@ function SeniorMealCheckPage() {
       setIndex(0);
     }
   }, [data]);
+  const FoodDetect = () => {
+    if (index + 1 == data?.data?.result.length) {
+      console.log("끄ㅌ");
+      SetFinishDetect(1);
+      return <></>;
+    }
+    setIndex(index + 1);
+  };
   return (
     <StMealCheckPage>
-      {index >= 0 ? (
+      <StHeader>
+        <BackButton />
+        <StTitle>식단 등록하기</StTitle>
+      </StHeader>
+      {index >= 0 && finishDetect == 0 ? (
         <StBackground>
           <StCheckModal>
             <StCheckTitle>
@@ -74,40 +87,41 @@ function SeniorMealCheckPage() {
               </>
             ))}
 
-            <StNextButton>다음으로</StNextButton>
+            <StNextButton onClick={() => FoodDetect()}>다음으로</StNextButton>
           </StCheckModal>
         </StBackground>
       ) : (
         <></>
       )}
-
-      <StHeader>
-        <BackButton />
-        <StTitle>식단 등록하기</StTitle>
-      </StHeader>
-      <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
-      <StUploadButton onClick={onClickImageUpload}>
-        <img src={PhotoIcn} />
-        사진 업로드
-      </StUploadButton>
-      <StFoodImg width={"100%"} src={imageSrc} />
-      <StFoodText>🧐 위 사진이 내가 먹은 음식이 맞나요? </StFoodText>
-      <StInfoContainer>
-        <StMainInfo>위 사진은 다음의 확인 과정을 거치게 됩니다.</StMainInfo>
-        <StSubInfo>
-          <img src={BlueStarIcn} />
-          복실이가 음식 인식을 제대로 했나요?
-        </StSubInfo>
-        <StSubInfo>
-          <img src={BlueStarIcn} />
-          혹시 잘못된 사진을 올리시지는 않으셨나요?
-        </StSubInfo>
-        <StSubInfo>
-          <img src={BlueStarIcn} />
-          혹시 사진 올리기를 깜박하셨나요?
-        </StSubInfo>
-      </StInfoContainer>
-      <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
+      {finishDetect == 0 ? (
+        <>
+          <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
+          <StUploadButton onClick={onClickImageUpload}>
+            <img src={PhotoIcn} />
+            사진 업로드
+          </StUploadButton>
+          <StFoodImg width={"100%"} src={imageSrc} />
+          <StFoodText>🧐 위 사진이 내가 먹은 음식이 맞나요? </StFoodText>
+          <StInfoContainer>
+            <StMainInfo>위 사진은 다음의 확인 과정을 거치게 됩니다.</StMainInfo>
+            <StSubInfo>
+              <img src={BlueStarIcn} />
+              복실이가 음식 인식을 제대로 했나요?
+            </StSubInfo>
+            <StSubInfo>
+              <img src={BlueStarIcn} />
+              혹시 잘못된 사진을 올리시지는 않으셨나요?
+            </StSubInfo>
+            <StSubInfo>
+              <img src={BlueStarIcn} />
+              혹시 사진 올리기를 깜박하셨나요?
+            </StSubInfo>
+          </StInfoContainer>
+          <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
+        </>
+      ) : (
+        <></>
+      )}
     </StMealCheckPage>
   );
 }
