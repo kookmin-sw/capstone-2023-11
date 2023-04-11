@@ -24,32 +24,27 @@ function PillDetail() {
           <StImg src={require("../../assets/images/pillSample.jpg")} />
           <StContentItem>
             <StItemName>이름</StItemName>
-            <StItemContent>무코스타정(레바미피드)</StItemContent>
+            <StItemContent>{pillData?.medicines[0].name}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>회사</StItemName>
-            <StItemContent>한국오츠카제약(주)</StItemContent>
+            <StItemContent>{pillData?.medicines[0].companyName}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>보관 방법</StItemName>
-            <StItemContent>"차광밀폐용기, 실온보관(1~30℃)"</StItemContent>
+            <StItemContent>{pillData?.medicines[0].depositMethod}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>효과 • 효능</StItemName>
-            <StItemContent>
-              위궤양, 다음 질환의 위점막병변(미란, 출혈, 발적, 부종)의 개선 : 급성위염, 만성위염의 급성악화기
-            </StItemContent>
+            <StItemContent>{pillData?.medicines[0].effect}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>투여 방법</StItemName>
-            <StItemContent>
-              성인 : 레바미피드로서 1회 100 mg을 1일 3회 경구투여한다. 다만, 위궤양의 경우에는 아침, 저녁 및 취침전에
-              투여한다.
-            </StItemContent>
+            <StItemContent>{pillData?.medicines[0].useMethod}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>주의 사항</StItemName>
-            <StItemContent>다음 환자에는 투여하지 말 것. 이 약 성분에 과민반응 병력 환자</StItemContent>
+            <StItemContent>{pillData?.medicines[0].caution}</StItemContent>
           </StContentItem>
           <StLink to={"/senior/pill"}>
             <BlueButton>돌아가기</BlueButton>
@@ -61,16 +56,22 @@ function PillDetail() {
 }
 
 interface IpillData {
-  userToken: "string";
-  medicalInfos: [
+  medicines: [
     {
-      name: "string";
-      companyName: "string";
-      depositMethod: "string";
-      effect: "string";
-      useMethod: "string";
-      caution: "string";
-      imageUrl: "string";
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      createdAt: string;
+      dueAt: string;
+      remainDay: number;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
     },
   ];
 }
