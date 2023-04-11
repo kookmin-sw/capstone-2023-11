@@ -40,6 +40,7 @@ public class WorkOutUserWardHas extends BaseTimeEntity {
             .eng(this.workOutCategory.getEng())
             .type(this.workOutCategory.getName())
             .kcal(this.getKcal())
+            .hour(this.getHour())
             .createdAt(this.getCreatedAt().toLocalDate())
             .build();
 
