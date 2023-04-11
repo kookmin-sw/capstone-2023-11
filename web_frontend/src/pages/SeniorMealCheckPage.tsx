@@ -101,9 +101,7 @@ function SeniorMealCheckPage() {
           </StCheckModal>
         </StBackground>
       ) : (
-        <>
-          <StFoodImg width={"100%"} src={imageSrc} />
-        </>
+        <></>
       )}
       {finishDetect == 0 ? (
         <>
@@ -130,6 +128,13 @@ function SeniorMealCheckPage() {
             </StSubInfo>
           </StInfoContainer>
           <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
+        </>
+      ) : (
+        <></>
+      )}
+      {finishDetect == 1 ? (
+        <>
+          <StFoodImg width={"100%"} src={imageSrc} />
         </>
       ) : (
         <></>
