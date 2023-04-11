@@ -172,19 +172,12 @@ export const modifyPillData = async (breakfast: boolean, lunch: boolean, dinner:
   return data;
 };
 
-// export const deletePillData = async (id: number) => {
-//   const data = axios.delete(
-//     `${process.env.REACT_APP_SERVER}/api/medicine`,
-//     [
-//       {
-//         id: id,
-//       },
-//     ],
-//     {
-//       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-//     },
-//   );
-// };
+export const deletePillData = async (id: number) => {
+  const response = await axios.delete(`${process.env.REACT_APP_SERVER}/api/medicine/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return response;
+};
 
 export const getPillInfo = async () => {
   const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/medicine/`, {

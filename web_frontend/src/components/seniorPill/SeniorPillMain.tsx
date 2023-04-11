@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PillAddModal from "./PillAddModal";
 import { useEffect, useState } from "react";
-import { getPillInfo, modifyPillData } from "../../core/api";
+import { deletePillData, getPillInfo, modifyPillData } from "../../core/api";
 import Modal from "react-modal";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -53,21 +53,25 @@ function SeniorPillMain() {
   };
 
   const [pillStatus, setPillStatus] = useState(false);
+
   useEffect(() => {
     setPillStatus(false);
   }, []);
-  const pillInfo = () => {
+  const modifyPill = () => {
     setPillStatus(true);
   };
-  const { data } = useQuery("pillInfo", () => modifyPillData(breakfast, lunch, dinner, dayValue), {
+  const { data } = useQuery("modifyPill", () => modifyPillData(breakfast, lunch, dinner, dayValue), {
     enabled: !!pillStatus,
   });
-
-  console.log(data);
   if (pillStatus == true && data !== undefined) {
     alert("등록되었습니다.");
     navigate("/senior/pill");
   }
+
+  const DeletePillData = (id: number) => {
+    deletePillData(id);
+    navigate("/senior/pill");
+  };
 
   return (
     <>
@@ -131,6 +135,7 @@ function SeniorPillMain() {
                         <StSetPillCheckButton
                           onClick={() => {
                             handleCloseModal;
+                            modifyPill();
                           }}>
                           네
                         </StSetPillCheckButton>
@@ -146,7 +151,7 @@ function SeniorPillMain() {
                         <StSetPillCheckButton
                           onClick={() => {
                             handleCloseModal2;
-                            pillInfo();
+                            DeletePillData(value.id);
                           }}>
                           네
                         </StSetPillCheckButton>
