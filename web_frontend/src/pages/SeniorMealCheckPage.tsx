@@ -101,7 +101,9 @@ function SeniorMealCheckPage() {
           </StCheckModal>
         </StBackground>
       ) : (
-        <></>
+        <>
+          <StFoodImg width={"100%"} src={imageSrc} />
+        </>
       )}
       {finishDetect == 0 ? (
         <>
