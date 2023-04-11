@@ -22,6 +22,7 @@ function SeniorMealCheckPage() {
   const [currentSelect, setCurrentSelect] = useState(0);
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
+  const [selectFoods] = useState<number[]>([]);
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
@@ -54,10 +55,11 @@ function SeniorMealCheckPage() {
   }, [data]);
   const FoodDetect = () => {
     if (index + 1 == data?.data?.result.length) {
-      console.log("끄ㅌ");
+      console.log(selectFoods);
       SetFinishDetect(1);
       return <></>;
     }
+    selectFoods.push(currentSelect);
     setIndex(index + 1);
   };
   return (
@@ -86,6 +88,14 @@ function SeniorMealCheckPage() {
                 )}
               </>
             ))}
+            {currentSelect == -1 ? (
+              <StFoodSelected>
+                여기엔 없어요 ㅜㅜ
+                <img src={CheckedIcn} />
+              </StFoodSelected>
+            ) : (
+              <StFoodUnselected onClick={() => setCurrentSelect(-1)}>여기엔 없어요 ㅜㅜ</StFoodUnselected>
+            )}
 
             <StNextButton onClick={() => FoodDetect()}>다음으로</StNextButton>
           </StCheckModal>
@@ -231,11 +241,11 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 49.5rem;
+  height: 55rem;
   padding: 1.6rem 2.5rem 4.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
-  margin-top: 12rem;
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
