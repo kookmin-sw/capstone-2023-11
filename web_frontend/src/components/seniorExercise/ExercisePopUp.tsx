@@ -23,12 +23,13 @@ function ExercisePopUp(prop: IData) {
   const [time, setTime] = useState(0);
   const discription = prop.getData.find((item) => item.kor === prop.selectedData)?.description;
   const kcalPerHour = prop.getData.find((item) => item.kor === prop.selectedData)?.kcalPerHour;
+  const eng = prop.getData.find((item) => item.kor === prop.selectedData)?.eng;
   return (
     <StContainer>
       <StButtonBack
         src={require("../../assets/images/img_esc.png")}
         onClick={() => prop.setIsOpen(false)}></StButtonBack>
-      <StImage src={require("../../assets/images/img_kakao.png")} />
+      <StImage src={require(`../../assets/images/exerciseImg/img_${eng}.png`)} />
       <StTitle>{prop.selectedData}</StTitle>
       <WhiteContainer>
         <StContent>{discription}</StContent>
@@ -149,6 +150,8 @@ const StImage = styled.img`
   margin: auto;
   display: block;
   margin-bottom: 3rem;
+  width: 10rem;
+  height: 10rem;
 `;
 
 const BlueBTN = styled(BlueButton)`

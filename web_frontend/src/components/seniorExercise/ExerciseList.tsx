@@ -4,9 +4,17 @@ import styled from "styled-components";
 interface IProp {
   selectedData: string[];
   setSelected: (v: string) => void;
+  getData: GetData[];
+}
+interface GetData {
+  eng: string;
+  kor: string;
+  type: string;
+  kcalPerHour: number;
+  description: string;
 }
 
-function ExerciseList({ selectedData, setSelected }: IProp) {
+function ExerciseList({ selectedData, setSelected, getData }: IProp) {
   const [clicked, setclicked] = useState("");
   return (
     <StContainer>
@@ -18,7 +26,9 @@ function ExerciseList({ selectedData, setSelected }: IProp) {
               setclicked(item);
               setSelected(item);
             }}>
-            <img src={require("../../assets/images/img_kakao.png")} />
+            <img
+              src={require(`../../assets/images/exerciseImg/img_${getData.find((data) => data.kor === item)?.eng}.png`)}
+            />
             {item}
           </StExercise>
         ) : (
@@ -28,7 +38,9 @@ function ExerciseList({ selectedData, setSelected }: IProp) {
               setclicked("");
               setSelected("");
             }}>
-            <img src={require("../../assets/images/img_kakao.png")} />
+            <img
+              src={require(`../../assets/images/exerciseImg/img_${getData.find((data) => data.kor === item)?.eng}.png`)}
+            />
             {item}
           </StExerciseClicked>
         ),
@@ -63,6 +75,8 @@ const StExercise = styled.div`
   padding-bottom: 0.5rem;
   img {
     padding: 1rem;
+    width: 10rem;
+    height: 10rem;
   }
 `;
 

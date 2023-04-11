@@ -71,7 +71,7 @@ function SeniorExercise() {
           <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
         </StCenterContainer>
       </StHeader>
-      <ExerciseList selectedData={searched} setSelected={setIsSelected} />
+      <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
       <STButtonContainer>
         {fixedData[0] == null ? (
           isSelected == "" ? (
