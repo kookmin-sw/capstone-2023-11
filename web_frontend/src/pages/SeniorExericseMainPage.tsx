@@ -12,13 +12,14 @@ interface ExerciseForm {
   kcal: number;
   kor: string;
   type: string;
+  hour: number;
 }
 
 function SeniorExerciseMainPage() {
   const { data } = useQuery("exerciseList", () => getRecordExerciseList());
   useEffect(() => {
     console.log(data?.data);
-  }, []);
+  }, [data]);
 
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ function SeniorExerciseMainPage() {
             <StExercise className="content">
               <div className="title">{item.kor}</div>
               <div className="content">{item.kcal}Kcal 소모</div>
-              <div className="content">{item.id}시간</div>
+              <div className="content">{item.hour}시간</div>
             </StExercise>
           </StExercise>
         ))}

@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
+import { useNavigate } from "react-router-dom";
 
 interface ExerciseFixedData {
   name: string;
@@ -30,6 +31,7 @@ function SeniorExercise() {
   const [postData, setPostData] = useState("");
   const [postTime, setPostTime] = useState(0);
   const [postState, setPostState] = useState(false);
+  const navigate = useNavigate();
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
   const onRemove = (id: string) => {
@@ -51,8 +53,7 @@ function SeniorExercise() {
       setPostData(data?.data.find((item: GetData) => item.kor === name)?.type);
       setPostTime(time);
       setPostState(false);
-      console.log(postData);
-      console.log(postTime);
+      navigate(`/senior/exercise`);
     });
   };
 
