@@ -28,7 +28,7 @@ function SeniorExercise() {
   const [isSelected, setIsSelected] = useState("");
   const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
   const [postData, setPostData] = useState("");
-  // const [postTime, setPostTime] = useState(0);
+  const [postTime, setPostTime] = useState(0);
   const [postState, setPostState] = useState(false);
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
@@ -37,7 +37,7 @@ function SeniorExercise() {
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList());
-  const { status } = useQuery("postexerciseList", () => postExerciseList(postData, fixedData[0].time), {
+  const { status } = useQuery("postexerciseList", () => postExerciseList(postData, postTime), {
     enabled: !!postState,
   });
   useEffect(() => {
@@ -47,9 +47,12 @@ function SeniorExercise() {
   }, [data]);
 
   const submitClicked = () => {
-    fixedData.map(({ name }) => {
+    fixedData.map(({ name, time }) => {
       setPostData(data?.data.find((item: GetData) => item.kor === name)?.type);
-      setPostState(true);
+      setPostTime(time);
+      setPostState(false);
+      console.log(postData);
+      console.log(postTime);
     });
   };
 
