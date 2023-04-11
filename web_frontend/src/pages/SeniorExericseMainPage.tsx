@@ -36,7 +36,7 @@ function SeniorExerciseMainPage() {
       <StContainer>
         {data?.data.map((item: ExerciseForm) => (
           <StExercise>
-            <img src={require("../assets/images/img_kakao.png")} />
+            <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
             <StExercise className="content">
               <div className="title">{item.kor}</div>
               <div className="content">{item.kcal}Kcal 소모</div>
@@ -86,6 +86,8 @@ const StExercise = styled.div`
   font-size: 1.7rem;
   img {
     margin-right: 1rem;
+    width: 10rem;
+    height: 10rem;
   }
   .title {
     font-size: 2rem;
