@@ -121,5 +121,50 @@ public class WorkOutController {
 			  );
 	}
   }
+
+  @DeleteMapping("/records/{id}")
+  public ResponseEntity<?> deleteWorkOutRecord(Authentication authentication,
+										 @PathVariable("id") Long id) {
+
+	try {
+	  KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+	  Long deletedId = workOutService.deleteWorkOutRecord(kaKaoAccountIdAndUserType, id);
+
+	  if (deletedId == -1L) {
+		// 유효하지않는 삭제일 시
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+				.body(
+						DefaultResponse.builder()
+								.success(false)
+								.status(HttpStatus.NO_CONTENT.value())
+								.message("["+id+"]은(는) 유효하지 않는 id입니다. 유저 또는 운동력 id를 다시 확인해주세요.")
+								.build()
+				);
+
+	  }else {
+		// 유효한 삭제일 시
+		return ResponseEntity.ok()
+				.body(
+						DefaultResponse.builder()
+								.success(true)
+								.status(HttpStatus.OK.value())
+								.message("["+id+"]을 정상적으로 삭제했습니다.")
+								.build()
+				);
+
+	  }
+
+	}catch (HttpClientErrorException e) {
+	  return ResponseEntity.status(e.getStatusCode())
+			  .body(
+					  DefaultResponse.builder()
+							  .success(false)
+							  .status(e.getStatusCode().value())
+							  .message(e.getMessage())
+							  .build()
+			  );
+	}
+  }
+
 }
 

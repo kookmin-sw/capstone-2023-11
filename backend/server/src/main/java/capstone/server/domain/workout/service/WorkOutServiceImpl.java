@@ -84,4 +84,17 @@ public class WorkOutServiceImpl implements WorkOutService{
 
 	return responseDto;
   }
+
+  @Override
+  public Long deleteWorkOutRecord(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id) {
+	Long kakaoAccountId = kaKaoAccountIdAndUserType.getKakaoAccountId();
+	// 존재하는 유저이며, 존재하는 id일때
+	if (userWardRepository.findUserWardByKakaoAccountId(kakaoAccountId).isPresent() && workOutCategoryUserWardHasRepository.findById(id).isPresent()) {
+		workOutCategoryUserWardHasRepository.deleteById(id); // 존재하면 삭제
+	  	return id;
+	}else {
+	  // 존재하지 않으면 -1을 리턴
+	  return -1L;
+	}
+  }
 }
