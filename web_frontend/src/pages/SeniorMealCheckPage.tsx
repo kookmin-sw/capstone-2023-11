@@ -18,7 +18,7 @@ function SeniorMealCheckPage() {
   };
   const [imageSrc, setImageSrc]: any = useState();
   const [index, setIndex] = useState(-1);
-  const [currentSelect] = useState(0);
+  const [currentSelect, setCurrentSelect] = useState(0);
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
   const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ function SeniorMealCheckPage() {
   const { data } = useQuery("uploadImage", () => checkMeal(formData), {
     enabled: !!uploadSts,
   });
-  console.log(data?.data?.result[index]?.class_info[0]);
+  // console.log(data?.data?.result[index]?.class_info[0]);
   useEffect(() => {
     if (data != undefined) {
       setIndex(0);
@@ -69,7 +69,7 @@ function SeniorMealCheckPage() {
                     <img src={CheckedIcn} />
                   </StFoodSelected>
                 ) : (
-                  <StFoodUnselected>{food.food_name}</StFoodUnselected>
+                  <StFoodUnselected onClick={() => setCurrentSelect(index)}>{food.food_name}</StFoodUnselected>
                 )}
               </>
             ))}
