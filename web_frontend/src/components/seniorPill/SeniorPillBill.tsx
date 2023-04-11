@@ -13,7 +13,7 @@ function PillImgUpload() {
       const file = e.target.files[0];
       const reader = new FileReader();
       formData.append("image", file);
-
+      console.log(file);
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {
@@ -26,6 +26,10 @@ function PillImgUpload() {
   };
   const uploadImage = () => {
     setUploadSts(true);
+  };
+
+  const SetUploadReset = () => {
+    setUploadSts(false);
   };
   const NameList = useQuery("uploadImage", () => pillImg(formData), {
     enabled: !!uploadSts,
@@ -42,9 +46,6 @@ function PillImgUpload() {
         <StTitle>처방전 인식하기</StTitle>
       </StHeader>
       <StBody>
-        <StInput multiple type="file" id="profile-upload" accept="image/*" onChange={(e) => uploadImg(e)} />
-        <img width={"100%"} src={imageSrc} />
-        <StCheckButton onClick={() => uploadImage()}>check</StCheckButton>
         {uploadSts ? (
           <StList>
             {NameList?.data?.data?.map((value: string) => (
@@ -53,10 +54,16 @@ function PillImgUpload() {
             처방전의 약이 맞습니까?
             <BtnWrapper>
               <StButton>네</StButton>
-              <StButton>아니요</StButton>
+              <StButton onClick={SetUploadReset}>아니요</StButton>
             </BtnWrapper>
           </StList>
-        ) : null}
+        ) : (
+          <>
+            <StInput multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} />
+            <img width={"100%"} src={imageSrc} />
+            <StCheckButton onClick={() => uploadImage()}>check</StCheckButton>
+          </>
+        )}
       </StBody>
     </>
   );

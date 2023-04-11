@@ -153,6 +153,39 @@ export const pillInfoData = async (
   return data;
 };
 
+export const modifyPillData = async (breakfast: boolean, lunch: boolean, dinner: boolean, daysToTake: number) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/medicine`,
+    [
+      {
+        breakfast: breakfast,
+        lunch: lunch,
+        dinner: dinner,
+        daysToTake: daysToTake,
+      },
+    ],
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    },
+  );
+  console.log(data);
+  return data;
+};
+
+// export const deletePillData = async (id: number) => {
+//   const data = axios.delete(
+//     `${process.env.REACT_APP_SERVER}/api/medicine`,
+//     [
+//       {
+//         id: id,
+//       },
+//     ],
+//     {
+//       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+//     },
+//   );
+// };
+
 export const getPillInfo = async () => {
   const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/medicine/`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },

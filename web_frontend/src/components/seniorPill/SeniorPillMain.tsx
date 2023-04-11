@@ -2,7 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PillAddModal from "./PillAddModal";
 import { useEffect, useState } from "react";
-import { getPillInfo } from "../../core/api";
+import { getPillInfo, modifyPillData } from "../../core/api";
+import Modal from "react-modal";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+
+Modal.setAppElement("#root");
 
 function SeniorPillMain() {
   const [pillData, setPillData] = useState<pillInfo>();
@@ -15,6 +20,55 @@ function SeniorPillMain() {
 
     fetchData();
   }, []);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+
+  const [breakfast, setBreakfast] = useState(false);
+  const [lunch, setLunch] = useState(false);
+  const [dinner, setDinner] = useState(false);
+  const [dayValue, setDayValue] = useState(0);
+
+  console.log(breakfast, lunch, dinner, dayValue);
+  const navigate = useNavigate();
+
+  const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDayValue(parseInt(e.target.value));
+  };
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleOpenModal2 = () => {
+    setIsOpen2(true);
+  };
+
+  const handleCloseModal2 = () => {
+    setIsOpen2(false);
+  };
+
+  const [pillStatus, setPillStatus] = useState(false);
+  useEffect(() => {
+    setPillStatus(false);
+  }, []);
+  const pillInfo = () => {
+    setPillStatus(true);
+  };
+  const { data } = useQuery("pillInfo", () => modifyPillData(breakfast, lunch, dinner, dayValue), {
+    enabled: !!pillStatus,
+  });
+
+  console.log(data);
+  if (pillStatus == true && data !== undefined) {
+    alert("등록되었습니다.");
+    navigate("/senior/pill");
+  }
+
   return (
     <>
       <StHeader>
@@ -30,13 +84,13 @@ function SeniorPillMain() {
         <StPillList>
           {pillData?.medicines.map((value, index) => (
             <>
-              <StLink to={"/senior/pill/detail"}>
-                <StItem key={index}>
+              <StItem key={index}>
+                <StLink to={"/senior/pill/detail"}>
                   <StItemImgBox>
                     <StItemImg src={value.imageUrl} />
                   </StItemImgBox>
                   <StItemContent>
-                    <StItemName>{value.name}</StItemName>
+                    <StItemName>{value.name.length >= 10 ? value.name.slice(0, 10) + "..." : value.name}</StItemName>
                     <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
                     <StDaySwapper>
                       {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
@@ -44,8 +98,64 @@ function SeniorPillMain() {
                       {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
                     </StDaySwapper>
                   </StItemContent>
-                </StItem>
-              </StLink>
+                </StLink>
+                <StSetComponent>
+                  <StModifyButton onClick={handleOpenModal}>수정</StModifyButton>
+                  <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+                    <StButtonList>
+                      <StModalTitle>
+                        {value.name.length >= 10 ? value.name.slice(0, 10) + "..." : value.name}
+                      </StModalTitle>
+                      <StModalTitle>복용하는 일 수</StModalTitle>
+                      <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                      <StModalTitle>복용하는 시간대</StModalTitle>
+                      <StPillComponent>
+                        {breakfast == false ? (
+                          <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
+                        ) : (
+                          <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
+                        )}
+                        {lunch == false ? (
+                          <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
+                        ) : (
+                          <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
+                        )}
+                        {dinner == false ? (
+                          <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
+                        ) : (
+                          <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
+                        )}
+                      </StPillComponent>
+                      <StModalTitle>수정하시겠습니까?</StModalTitle>
+                      <StPillComponent2>
+                        <StSetPillCheckButton
+                          onClick={() => {
+                            handleCloseModal;
+                          }}>
+                          네
+                        </StSetPillCheckButton>
+                        <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                      </StPillComponent2>
+                    </StButtonList>
+                  </StModal>
+                  <StDeleteButton onClick={handleOpenModal2}>삭제</StDeleteButton>
+                  <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
+                    <StButtonList>
+                      <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
+                      <StPillComponent2>
+                        <StSetPillCheckButton
+                          onClick={() => {
+                            handleCloseModal2;
+                            pillInfo();
+                          }}>
+                          네
+                        </StSetPillCheckButton>
+                        <StSetPillCheckButton onClick={handleCloseModal2}>아니요</StSetPillCheckButton>
+                      </StPillComponent2>
+                    </StButtonList>
+                  </StModal>
+                </StSetComponent>
+              </StItem>
             </>
           ))}
         </StPillList>
@@ -151,7 +261,7 @@ const StItemImg = styled.img`
 `;
 
 const StItemContent = styled.div`
-  width: 70%;
+  width: 55%;
 `;
 
 const StItemName = styled.p`
@@ -184,6 +294,7 @@ const StPillNoTake = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
+
 const StPillTake = styled.div`
   width: 6rem;
   height: 3.5rem;
@@ -200,6 +311,93 @@ const StPillTake = styled.div`
 const StLink = styled(Link)`
   text-decoration: none;
   color: black;
+  display: flex;
+`;
+
+const StSetComponent = styled.div`
+  width: 15%;
+  height: 8rem;
+`;
+
+const StModifyButton = styled.button``;
+
+const StDeleteButton = styled.button``;
+
+const StButtonList = styled.div`
+  border: 0.2rem solid #0066ff;
+  border-radius: 1rem;
+  background-color: white;
+  padding: 2rem 0rem;
+`;
+
+const StSearch = styled.input`
+  width: 80%;
+  height: 4rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  font-family: "Pretendard-Regular";
+  padding-left: 2rem;
+  margin: 0rem 2.5rem;
+`;
+
+const StModal = styled(Modal)`
+  position: relative;
+  top: 30%;
+  bottom: auto;
+  left: 18%;
+  right: auto;
+  width: 25rem;
+  height: 50rem;
+  font-family: "Pretendard-Regular";
+  font-size: 2rem;
+  background-color: white;
+`;
+
+const StModalTitle = styled.h1`
+  font-family: "Pretendard-Bold";
+  text-align: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+`;
+
+const StPillComponent = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+  padding: 0rem 3rem;
+`;
+
+const StPillComponent2 = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+  padding: 0rem 6rem;
+`;
+
+const StSetPillButton = styled.div`
+  width: 6rem;
+  height: 3.5rem;
+  background: #eaf2ff;
+  border-radius: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: #006ffd;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+const StSetPillCheckButton = styled.div`
+  width: 6rem;
+  height: 3.5rem;
+  background: #006ffd;
+  border-radius: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 `;
 
 export default SeniorPillMain;
