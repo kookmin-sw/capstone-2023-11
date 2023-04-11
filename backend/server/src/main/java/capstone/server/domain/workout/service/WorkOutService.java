@@ -17,4 +17,6 @@ public interface WorkOutService {
   List<WorkOutRecordResponse> getAllWorkOutRecords(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
 
   List<WorkOutRecordResponse> getWorkOutRecordsByYearMonth(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, LocalDateTime startDate, LocalDateTime lastDate);
+
+  Long deleteWorkOutRecord (KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id);
 }
