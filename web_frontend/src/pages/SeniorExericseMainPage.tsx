@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import { getRecordExerciseList } from "../core/api";
@@ -19,6 +20,12 @@ function SeniorExerciseMainPage() {
     console.log(data?.data);
   }, []);
 
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`/senior/exercise/add`);
+  };
+
   return (
     <StContainer>
       <StHeader>
@@ -37,6 +44,9 @@ function SeniorExerciseMainPage() {
           </StExercise>
         ))}
       </StContainer>
+      <FlexContainer>
+        <StAddButton onClick={onClick}>+</StAddButton>
+      </FlexContainer>
     </StContainer>
   );
 }
@@ -84,4 +94,26 @@ const StExercise = styled.div`
     flex-direction: column;
     /* margin-bottom: 0.2rem; */
   }
+`;
+
+const FlexContainer = styled.div`
+  position: fixed;
+  bottom: 0rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  display: flex;
+  justify-content: flex-end;
+  right: 20%;
+`;
+const StAddButton = styled.button`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 2.5rem;
+  background-color: #006ffd;
+  font-size: 6.5rem;
+  color: white;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border: none;
 `;
