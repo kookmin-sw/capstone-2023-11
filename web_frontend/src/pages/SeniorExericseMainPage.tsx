@@ -24,6 +24,7 @@ function SeniorExerciseMainPage() {
 
   const onClick = () => {
     navigate(`/senior/exercise/add`);
+    window.location.reload();
   };
 
   return (
