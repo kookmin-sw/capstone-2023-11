@@ -2,9 +2,11 @@ package capstone.server.domain.medicine.controller;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
+import capstone.server.domain.medicine.dto.ModifyMedicineDto;
 import capstone.server.domain.medicine.dto.RequestMedicineInfo;
 import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.service.MedicineService;
+import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,41 @@ public class MedicineController {
             return result;
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+    }
+
+    @PatchMapping(value = "/medicine/{id}")
+    public ResponseEntity<?> modifyMedicine(Authentication authentication, @PathVariable Long id, @RequestBody ModifyMedicineDto modifyMedicineDto)
+    {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            ResponseEntity result =  medicineService.modifyMedicine(kaKaoAccountIdAndUserType, id, modifyMedicineDto);
+            return ResponseEntity.ok()
+                    .body(
+                            DefaultResponse.builder()
+                                    .success(false)
+                                    .status(200)
+                                    .message(id + "번 약 삭제완료")
+                                    .build()
+                    );
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(
+                            DefaultResponse.builder()
+                                    .success(false)
+                                    .status(e.getStatusCode().value())
+                                    .message(e.getMessage())
+                                    .build()
+                    );
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(204)
+                    .body(
+                            DefaultResponse.builder()
+                                    .success(false)
+                                    .status(204)
+                                    .message("유효하지 않은 약 ID입니다.")
+                                    .build()
+                    );
         }
     }
 }

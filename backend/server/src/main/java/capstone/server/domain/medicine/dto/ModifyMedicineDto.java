@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ModifyMedicineDto {
-    private int daysToTake;
+    private Integer daysToTake;
     private boolean breakfast;
     private boolean lunch;
     private boolean dinner;

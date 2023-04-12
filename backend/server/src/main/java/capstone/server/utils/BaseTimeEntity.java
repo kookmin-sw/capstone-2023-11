@@ -18,6 +18,7 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate

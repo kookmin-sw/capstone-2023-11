@@ -1,14 +1,11 @@
 package capstone.server.domain.medicine.service;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
-import capstone.server.domain.medicine.dto.RequestMedicineInfo;
-import capstone.server.domain.medicine.dto.RegisterMedicineDto;
-import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
+import capstone.server.domain.medicine.dto.*;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
-import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.utils.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -124,6 +121,7 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    @Transactional
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         // TODO
         // userWardRepository FindByToken;
@@ -136,7 +134,6 @@ public class MedicineServiceImpl implements MedicineService {
         for (Medicine medicine : medicineList) {
             int remainDay = DateTimeUtils.getDaysBetween(LocalDateTime.now(), medicine.getDueAt());
             if (remainDay < 0) {
-                medicineRepository.deleteById(medicine.getId());
                 continue;
             }
 
@@ -151,7 +148,6 @@ public class MedicineServiceImpl implements MedicineService {
                     .imageUrl(medicine.getImageUrl())
                     .createdAt(medicine.getCreatedAt())
                     .dueAt(medicine.getDueAt())
-                    .remainDay(remainDay)
                     .breakfast(medicine.getBreakfast())
                     .lunch(medicine.getLunch())
                     .dinner(medicine.getDinner())
@@ -162,8 +158,39 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity deleteMedicine(Long medicineId) throws HttpClientErrorException{
         medicineRepository.deleteById(medicineId);
+        return ResponseEntity.ok().body("success");
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto) {
+        Medicine medicine = medicineRepository.findById(id).orElse(null);
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+        if (medicine == null) {
+            throw new NullPointerException();
+        }
+
+        Medicine modifiedMedicine = Medicine.builder()
+                .id(medicine.getId())
+                .name(medicine.getName())
+                .companyName(medicine.getCompanyName())
+                .caution(medicine.getCaution())
+                .useMethod(medicine.getUseMethod())
+                .depositMethod(medicine.getDepositMethod())
+                .effect(medicine.getEffect())
+                .imageUrl(medicine.getImageUrl())
+                .userWard(userWard)
+                .dueAt(medicine.getCreatedAt().plusDays(modifyMedicineDto.getDaysToTake()))
+                .breakfast(modifyMedicineDto.isBreakfast())
+                .lunch(modifyMedicineDto.isLunch())
+                .dinner(modifyMedicineDto.isDinner())
+                .build();
+
+
+        medicineRepository.save((modifiedMedicine));
         return ResponseEntity.ok().body("success");
     }
 
