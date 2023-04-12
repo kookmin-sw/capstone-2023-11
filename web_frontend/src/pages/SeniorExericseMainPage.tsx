@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -16,16 +16,26 @@ interface ExerciseForm {
 }
 
 function SeniorExerciseMainPage() {
-  const { data } = useQuery("exerciseList", () => getRecordExerciseList());
+  const [firstApi, setFirstApi] = useState(true);
+  const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
+    enabled: !!firstApi,
+  });
+
   useEffect(() => {
     console.log(data?.data);
+    setFirstApi(false);
   }, [data]);
 
   const navigate = useNavigate();
 
-  const onClick = () => {
+  const onAddClick = () => {
     navigate(`/senior/exercise/add`);
     window.location.reload();
+  };
+
+  const onDeleteClick = (id: number) => {
+    // const { status } = useQuery("deleteExerciseList", () => deleteExerciseList(id));
+    console.log(id);
   };
 
   return (
@@ -43,11 +53,12 @@ function SeniorExerciseMainPage() {
               <div className="content">{item.kcal}Kcal 소모</div>
               <div className="content">{item.hour}시간</div>
             </StExercise>
+            <img className="esc" onClick={() => onDeleteClick(item.id)} src={require(`../assets/images/img_esc.png`)} />
           </StExercise>
         ))}
       </StContainer>
       <FlexContainer>
-        <StAddButton onClick={onClick}>+</StAddButton>
+        <StAddButton onClick={onAddClick}>+</StAddButton>
       </FlexContainer>
     </StContainer>
   );
@@ -96,7 +107,12 @@ const StExercise = styled.div`
   }
   .content {
     flex-direction: column;
-    /* margin-bottom: 0.2rem; */
+  }
+  .esc {
+    margin-left: 2rem;
+    margin-right: 0.1rem;
+    width: 2rem;
+    height: 2rem;
   }
 `;
 
