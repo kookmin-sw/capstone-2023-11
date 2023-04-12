@@ -99,3 +99,10 @@ export const getRecordExerciseList = async () => {
 
   return data;
 };
+
+export const deleteExerciseList = async (id: number) => {
+  const data = axios.delete(`${process.env.REACT_APP_SERVER}/api/workout/records/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
