@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ExerciseFixedData {
   name: string;
@@ -32,7 +32,7 @@ function SeniorExercise() {
   const [postTime, setPostTime] = useState(0);
   const [postState, setPostState] = useState(false);
   const [firstApi, setFirstApi] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
   const onRemove = (id: string) => {
@@ -57,14 +57,15 @@ function SeniorExercise() {
       setPostData(data?.data.find((item: GetData) => item.kor === name)?.type);
       setPostTime(time);
       setPostState(true);
-      // navigate(`/senior/exercise`);
     });
+    // navigate(`/senior/exercise`);
+    navigate(-1);
+    // window.location.reload();
   };
 
   useEffect(() => {
-    console.log(status);
-    console.log(postData);
-    console.log(fixedData[0]?.time);
+    setPostState(false);
+    // navigate(-1);
   }, [status]);
 
   return (

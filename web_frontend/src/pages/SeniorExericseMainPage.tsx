@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
-import { getRecordExerciseList } from "../core/api";
+import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 
 interface ExerciseForm {
   createdAt: string;
@@ -20,6 +20,7 @@ function SeniorExerciseMainPage() {
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
+  const { mutate, isLoading: isDeleting } = useMutation(deleteExerciseList);
 
   useEffect(() => {
     console.log(data?.data);
@@ -34,10 +35,12 @@ function SeniorExerciseMainPage() {
   };
 
   const onDeleteClick = (id: number) => {
-    // const { status } = useQuery("deleteExerciseList", () => deleteExerciseList(id));
-    console.log(id);
+    if (!isDeleting) {
+      mutate(id, {
+        onSuccess: () => setFirstApi(true),
+      });
+    }
   };
-
   return (
     <StContainer>
       <StHeader>
