@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { checkMeal } from "../core/api/index";
 import BackButton from "../components/common/BackButton";
-import { BlueStarIcn, CheckedIcn, PhotoIcn } from "../assets/icons";
+import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
 
 interface food {
   food_name: string;
@@ -47,7 +47,7 @@ function SeniorMealCheckPage() {
   const { data } = useQuery("uploadImage", () => checkMeal(formData), {
     enabled: !!uploadSts,
   });
-  // console.log(data?.data?.result[index]?.class_info[0]);
+  console.log(data?.data?.result[index]?.class_info[0].food_nutrients);
   useEffect(() => {
     if (data != undefined) {
       setIndex(0);
@@ -55,6 +55,7 @@ function SeniorMealCheckPage() {
   }, [data]);
   const FoodDetect = () => {
     if (index + 1 == data?.data?.result.length) {
+      selectFoods.push(currentSelect);
       console.log(selectFoods);
       SetFinishDetect(1);
       return <></>;
@@ -124,7 +125,7 @@ function SeniorMealCheckPage() {
             </StSubInfo>
             <StSubInfo>
               <img src={BlueStarIcn} />
-              혹시 사진 올리기를 깜박하셨나요?
+              분석된 음식의 검증을 거친 후 등록됩니다!
             </StSubInfo>
           </StInfoContainer>
           <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
@@ -135,6 +136,74 @@ function SeniorMealCheckPage() {
       {finishDetect == 1 ? (
         <>
           <StFoodImg width={"100%"} src={imageSrc} />
+          <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
+          {selectFoods.map((numdex: number, index: number) => {
+            if (index % 2 == 0) {
+              return (
+                <StFoodBox1>
+                  <img src={FoodIcn}></img>
+                  <div>
+                    <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                    <StNutrient>
+                      탄수화물:
+                      {
+                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                          "탄수화물"
+                        ]["총량(g)"]
+                      }
+                      g 단백질:{" "}
+                      {
+                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                          "단백질(g)"
+                        ]
+                      }
+                      g
+                    </StNutrient>
+                  </div>
+                  <StKcal>
+                    {Math.round(
+                      data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                        "열량(kcal)"
+                      ],
+                    )}
+                    kcal
+                  </StKcal>
+                </StFoodBox1>
+              );
+            } else {
+              return (
+                <StFoodBox2>
+                  <img src={FoodIcn}></img>
+                  <div>
+                    <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                    <StNutrient>
+                      탄수화물:
+                      {
+                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                          "탄수화물"
+                        ]["총량(g)"]
+                      }
+                      g 단백질:{" "}
+                      {
+                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                          "단백질(g)"
+                        ]
+                      }
+                      g
+                    </StNutrient>
+                  </div>
+                  <StKcal>
+                    {Math.round(
+                      data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                        "열량(kcal)"
+                      ],
+                    )}
+                    kcal
+                  </StKcal>
+                </StFoodBox2>
+              );
+            }
+          })}
         </>
       ) : (
         <></>
@@ -310,4 +379,61 @@ const StFoodUnselected = styled.button`
   justify-content: space-between;
   padding-right: 1.6rem;
   padding-left: 2rem;
+`;
+const StTitleContainer = styled.p`
+  width: 30rem;
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  line-height: 3rem;
+
+  margin-top: 1.2rem;
+`;
+const StFoodBox1 = styled.div`
+  display: flex;
+  align-items: center;
+  width: 32rem;
+  height: 6rem;
+  background: #eaf2ff;
+  border-radius: 1.6rem;
+  padding: 1.5rem;
+  img {
+    width: 3rem;
+  }
+  div {
+    width: 18rem;
+    margin-left: 1rem;
+  }
+  margin-top: 1.5rem;
+`;
+const StFoodBox2 = styled.div`
+  display: flex;
+  align-items: center;
+  width: 32rem;
+  height: 6rem;
+  background: #ffffff;
+  border: 0.3rem solid #eaf2ff;
+  border-radius: 1.6rem;
+  padding: 1.5rem;
+  img {
+    width: 3rem;
+  }
+  div {
+    width: 18rem;
+    margin-left: 1rem;
+  }
+  margin-top: 1.5rem;
+`;
+const StKcal = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+  margin-left: 1.2rem;
+`;
+const StFoodName = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+`;
+const StNutrient = styled.p`
+  color: #006ffd;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
 `;
