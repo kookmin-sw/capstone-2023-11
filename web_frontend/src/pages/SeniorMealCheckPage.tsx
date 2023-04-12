@@ -47,10 +47,15 @@ function SeniorMealCheckPage() {
   const { data } = useQuery("uploadImage", () => checkMeal(formData), {
     enabled: !!uploadSts,
   });
-  console.log(data?.data?.result[index]?.class_info[0].food_nutrients);
+
+  // console.log(data?.data?.result[index]?.class_info[0].food_nutrients);
   useEffect(() => {
     if (data != undefined) {
       setIndex(0);
+      if (!data.data?.result[0]?.class_info) {
+        alert("사진에서 음식을 인식하지 못했습니다! 음식사진을 올려주세요!");
+        window.location.replace("/senior/mealCheck");
+      }
     }
   }, [data]);
   const FoodDetect = () => {
@@ -69,7 +74,8 @@ function SeniorMealCheckPage() {
         <BackButton />
         <StTitle>식단 등록하기</StTitle>
       </StHeader>
-      {index >= 0 && finishDetect == 0 ? (
+
+      {index >= 0 && finishDetect == 0 && data?.data?.result[index]?.class_info ? (
         <StBackground>
           <StCheckModal>
             <StCheckTitle>
@@ -77,7 +83,7 @@ function SeniorMealCheckPage() {
               <br />
               골라주세요!
             </StCheckTitle>
-            {data?.data?.result[index].class_info.map((food: food, index: number) => (
+            {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
               <>
                 {currentSelect == index ? (
                   <StFoodSelected>
