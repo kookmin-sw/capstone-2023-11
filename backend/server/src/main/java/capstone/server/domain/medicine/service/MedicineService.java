@@ -1,6 +1,7 @@
 package capstone.server.domain.medicine.service;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.medicine.dto.ModifyMedicineDto;
 import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,6 @@ public interface MedicineService {
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
 
     public ResponseEntity deleteMedicine(Long medicineId);
+
+    public ResponseEntity modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto);
 }
