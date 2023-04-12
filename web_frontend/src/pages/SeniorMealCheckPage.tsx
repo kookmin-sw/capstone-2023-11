@@ -207,7 +207,7 @@ function SeniorMealCheckPage() {
             })}
           </StBoxContainer>
           <StButtonFooter>
-            <StReupload>다시 사진 올리기</StReupload>
+            <StReupload onClick={() => window.location.replace("/senior/mealCheck")}>다시 사진 올리기</StReupload>
             <Stupload>등록하기</Stupload>
           </StButtonFooter>
         </>
