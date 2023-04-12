@@ -137,73 +137,79 @@ function SeniorMealCheckPage() {
         <>
           <StFoodImg width={"100%"} src={imageSrc} />
           <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
-          {selectFoods.map((numdex: number, index: number) => {
-            if (index % 2 == 0) {
-              return (
-                <StFoodBox1>
-                  <img src={FoodIcn}></img>
-                  <div>
-                    <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                    <StNutrient>
-                      탄수화물:
-                      {
+          <StBoxContainer>
+            {selectFoods.map((numdex: number, index: number) => {
+              if (index % 2 == 0) {
+                return (
+                  <StFoodBox1>
+                    <img src={FoodIcn}></img>
+                    <div>
+                      <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                      <StNutrient>
+                        탄수화물:
+                        {
+                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                            "탄수화물"
+                          ]["총량(g)"]
+                        }
+                        g 단백질:{" "}
+                        {
+                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                            "단백질(g)"
+                          ]
+                        }
+                        g
+                      </StNutrient>
+                    </div>
+                    <StKcal>
+                      {Math.round(
                         data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "탄수화물"
-                        ]["총량(g)"]
-                      }
-                      g 단백질:{" "}
-                      {
+                          "열량(kcal)"
+                        ],
+                      )}
+                      kcal
+                    </StKcal>
+                  </StFoodBox1>
+                );
+              } else {
+                return (
+                  <StFoodBox2>
+                    <img src={FoodIcn}></img>
+                    <div>
+                      <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                      <StNutrient>
+                        탄수화물:
+                        {
+                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                            "탄수화물"
+                          ]["총량(g)"]
+                        }
+                        g 단백질:{" "}
+                        {
+                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                            "단백질(g)"
+                          ]
+                        }
+                        g
+                      </StNutrient>
+                    </div>
+                    <StKcal>
+                      {Math.round(
                         data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "단백질(g)"
-                        ]
-                      }
-                      g
-                    </StNutrient>
-                  </div>
-                  <StKcal>
-                    {Math.round(
-                      data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                        "열량(kcal)"
-                      ],
-                    )}
-                    kcal
-                  </StKcal>
-                </StFoodBox1>
-              );
-            } else {
-              return (
-                <StFoodBox2>
-                  <img src={FoodIcn}></img>
-                  <div>
-                    <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                    <StNutrient>
-                      탄수화물:
-                      {
-                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "탄수화물"
-                        ]["총량(g)"]
-                      }
-                      g 단백질:{" "}
-                      {
-                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "단백질(g)"
-                        ]
-                      }
-                      g
-                    </StNutrient>
-                  </div>
-                  <StKcal>
-                    {Math.round(
-                      data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                        "열량(kcal)"
-                      ],
-                    )}
-                    kcal
-                  </StKcal>
-                </StFoodBox2>
-              );
-            }
-          })}
+                          "열량(kcal)"
+                        ],
+                      )}
+                      kcal
+                    </StKcal>
+                  </StFoodBox2>
+                );
+              }
+            })}
+          </StBoxContainer>
+          <StButtonFooter>
+            <StReupload>다시 사진 올리기</StReupload>
+            <Stupload>등록하기</Stupload>
+          </StButtonFooter>
         </>
       ) : (
         <></>
@@ -383,7 +389,7 @@ const StFoodUnselected = styled.button`
 const StTitleContainer = styled.p`
   width: 30rem;
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
+  font-size: 2.2rem;
   line-height: 3rem;
 
   margin-top: 1.2rem;
@@ -436,4 +442,38 @@ const StNutrient = styled.p`
   color: #006ffd;
   font-size: 1.2rem;
   margin-top: 0.4rem;
+`;
+const StButtonFooter = styled.footer`
+  width: 32rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  margin-top: 3rem;
+  position: fixed;
+  bottom: 2vh;
+`;
+const StReupload = styled.button`
+  width: 15rem;
+  height: 4.8rem;
+  border: 0.15rem solid #006ffd;
+  border-radius: 1.2rem;
+  background-color: white;
+  color: #006ffd;
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+`;
+const Stupload = styled.button`
+  width: 15rem;
+  height: 4.8rem;
+  border-radius: 1.2rem;
+  background-color: #006ffd;
+  color: white;
+  border: none;
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+`;
+const StBoxContainer = styled.div`
+  height: 45vh;
+  overflow: scroll;
+  margin-top: 2rem;
 `;
