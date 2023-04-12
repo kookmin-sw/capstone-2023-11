@@ -58,14 +58,11 @@ function SeniorExercise() {
       setPostTime(time);
       setPostState(true);
     });
-    // navigate(`/senior/exercise`);
     navigate(-1);
-    // window.location.reload();
   };
 
   useEffect(() => {
     setPostState(false);
-    // navigate(-1);
   }, [status]);
 
   return (
