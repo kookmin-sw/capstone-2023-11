@@ -4,7 +4,6 @@ import PillAddModal from "./PillAddModal";
 import { useEffect, useState } from "react";
 import { deletePillData, getPillInfo, modifyPillData } from "../../core/api";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -23,11 +22,12 @@ function SeniorPillMain() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
+  const [id, setID] = useState(0);
+  const [name, setName] = useState("");
   const [breakfast, setBreakfast] = useState(false);
   const [lunch, setLunch] = useState(false);
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
-  const navigate = useNavigate();
 
   const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDayValue(parseInt(e.target.value));
@@ -49,14 +49,14 @@ function SeniorPillMain() {
     setIsOpen2(false);
   };
 
-  const ModifyPillData = (id: number, dayToTake: number, breakfast: boolean, lunch: boolean, dinner: boolean) => {
-    modifyPillData(id, dayToTake, breakfast, lunch, dinner);
-    navigate("/senior/pill");
+  const ModifyPillData = async (id: number, dayToTake: number, breakfast: boolean, lunch: boolean, dinner: boolean) => {
+    await modifyPillData(id, dayToTake, breakfast, lunch, dinner);
+    alert("modify!");
   };
 
-  const DeletePillData = (id: number) => {
-    deletePillData(id);
-    navigate("/senior/pill");
+  const DeletePillData = async (id: number) => {
+    await deletePillData(id);
+    alert("delete!");
   };
 
   return (
@@ -90,14 +90,21 @@ function SeniorPillMain() {
                   </StItemContent>
                 </StLink>
                 <StSetComponent>
-                  <StModifyButton onClick={handleOpenModal}>
+                  <StModifyButton
+                    onClick={() => {
+                      setID(value.id);
+                      setName(value.name);
+                      setBreakfast(value.breakfast);
+                      setLunch(value.lunch);
+                      setDinner(value.dinner);
+                      setDayValue(value.remainDay);
+                      handleOpenModal();
+                    }}>
                     <StModifyButtonImg src={require("../../assets/images/edit.png")} />
                   </StModifyButton>
                   <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                     <StButtonList>
-                      <StModalTitle>
-                        {value.name.length >= 10 ? value.name.slice(0, 10) + "..." : value.name}
-                      </StModalTitle>
+                      <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
                       <StModalTitle>복용하는 일 수</StModalTitle>
                       <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                       <StModalTitle>복용하는 시간대</StModalTitle>
@@ -121,9 +128,9 @@ function SeniorPillMain() {
                       <StModalTitle>수정하시겠습니까?</StModalTitle>
                       <StPillComponent2>
                         <StSetPillCheckButton
-                          onClick={() => {
+                          onClick={async () => {
                             handleCloseModal;
-                            ModifyPillData(value.id, dayValue, breakfast, lunch, dinner);
+                            await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
                             window.location.reload();
                           }}>
                           네
@@ -135,6 +142,7 @@ function SeniorPillMain() {
                   <StDeleteButton
                     onClick={() => {
                       handleOpenModal2();
+                      setID(value.id);
                     }}>
                     <StDeleteButtonImg src={require("../../assets/images/delete.png")} />
                   </StDeleteButton>
@@ -143,9 +151,9 @@ function SeniorPillMain() {
                       <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
                       <StPillComponent2>
                         <StSetPillCheckButton
-                          onClick={() => {
+                          onClick={async () => {
                             handleCloseModal2();
-                            DeletePillData(value.id);
+                            await DeletePillData(id);
                             window.location.replace("/senior/pill/");
                           }}>
                           네
