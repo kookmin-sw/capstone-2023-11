@@ -28,8 +28,6 @@ function SeniorPillMain() {
   const [lunch, setLunch] = useState(false);
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
-
-  console.log(breakfast, lunch, dinner, dayValue);
   const navigate = useNavigate();
 
   const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +92,7 @@ function SeniorPillMain() {
                     <StItemImg src={value.imageUrl} />
                   </StItemImgBox>
                   <StItemContent>
-                    <StItemName>{value.name.length >= 10 ? value.name.slice(0, 10) + "..." : value.name}</StItemName>
+                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 8) + "..." : value.name}</StItemName>
                     <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
                     <StDaySwapper>
                       {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
@@ -143,15 +141,21 @@ function SeniorPillMain() {
                       </StPillComponent2>
                     </StButtonList>
                   </StModal>
-                  <StDeleteButton onClick={handleOpenModal2}>삭제</StDeleteButton>
+                  <StDeleteButton
+                    onClick={() => {
+                      handleOpenModal2();
+                    }}>
+                    삭제
+                  </StDeleteButton>
                   <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
                     <StButtonList>
                       <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
                       <StPillComponent2>
                         <StSetPillCheckButton
                           onClick={() => {
-                            handleCloseModal2;
+                            handleCloseModal2();
                             DeletePillData(value.id);
+                            window.location.replace("/senior/pill/");
                           }}>
                           네
                         </StSetPillCheckButton>
@@ -242,8 +246,6 @@ const StPillList = styled.ul`
   flex-direction: column;
   align-items: flex-start;
   overflow-y: scroll;
-  gap: 2rem;
-  padding: 2rem;
   border-radius: 1rem;
 `;
 
@@ -251,6 +253,9 @@ const StItem = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
+  background-color: #f8f9fe;
+  border-radius: 1.6rem;
+  padding: 2.4rem;
 `;
 
 const StItemImgBox = styled.div`
@@ -283,7 +288,6 @@ const StItemRemainingDays = styled.p`
 
 const StDaySwapper = styled.div`
   display: flex;
-  margin: 1rem;
   gap: 1rem;
 `;
 
