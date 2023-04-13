@@ -26,7 +26,7 @@ function PillDetail() {
       </StHeader>
       <StBody>
         <StContentList>
-          <StImg src={require("../../assets/images/pillSample.jpg")} />
+          <StImg src={selectPill?.imageUrl} />
           <StContentItem>
             <StItemName>이름</StItemName>
             <StItemContent>{selectPill?.name}</StItemContent>

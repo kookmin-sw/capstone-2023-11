@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { fetchPillInfo, pillInfoData } from "../../core/api";
+import { fetchPillImg, fetchPillInfo, pillInfoData } from "../../core/api";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 
@@ -56,6 +56,7 @@ function SeniorPillSelf() {
     setValue(e.target.value);
   };
   const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
+  const imgData = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
     if (pillData) {
@@ -100,7 +101,7 @@ function SeniorPillSelf() {
                 setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
                 setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
                 setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));
-                setImgUrl("");
+                setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
               }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
@@ -199,6 +200,50 @@ interface PillData {
         EDI_CODE: string;
         DOC_TEXT: string;
         PERMIT_KIND_NAME: string;
+      },
+    ];
+  };
+}
+
+interface ImgData {
+  header: { resultCode: string; resultMsg: string };
+  body: {
+    pageNo: number;
+    totalCount: number;
+    numOfRows: number;
+    items: [
+      {
+        ITEM_SEQ: string;
+        ITEM_NAME: string;
+        ENTP_SEQ: string;
+        ENTP_NAME: string;
+        CHART: string;
+        ITEM_IMAGE: string;
+        PRINT_FRONT: string;
+        PRINT_BACK: null;
+        DRUG_SHAPE: string;
+        COLOR_CLASS1: string;
+        COLOR_CLASS2: null;
+        LINE_FRONT: null;
+        LINE_BACK: null;
+        LENG_LONG: string;
+        LENG_SHORT: string;
+        THICK: string;
+        IMG_REGIST_TS: string;
+        CLASS_NO: string;
+        CLASS_NAME: string;
+        ETC_OTC_NAME: string;
+        ITEM_PERMIT_DATE: string;
+        FORM_CODE_NAME: string;
+        MARK_CODE_FRONT_ANAL: string;
+        MARK_CODE_BACK_ANAL: string;
+        MARK_CODE_FRONT_IMG: string;
+        MARK_CODE_BACK_IMG: string;
+        ITEM_ENG_NAME: string;
+        CHANGE_DATE: string;
+        MARK_CODE_FRONT: null;
+        MARK_CODE_BACK: null;
+        EDI_CODE: string;
       },
     ];
   };

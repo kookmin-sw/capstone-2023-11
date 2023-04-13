@@ -84,13 +84,13 @@ export const wardJoin = async (
 };
 
 export async function fetchPillInfo(value: string) {
-  return fetch(
+  return await fetch(
     `https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService03/getDrugPrdtPrmsnDtlInq02?serviceKey=zKSH%2F9jINWNjCG3mSkBuStun63jSwB2Ydqc3KY68unj1wo50jqvFuJBtVSv3ZIt1F12IZh9aJyXSgUzN%2BY8Y9Q%3D%3D&type=json&item_name=${value}`,
   ).then((response) => response.json());
 }
 
 export async function fetchPillImg(value: string) {
-  return fetch(
+  return await fetch(
     `http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey=zKSH%2F9jINWNjCG3mSkBuStun63jSwB2Ydqc3KY68unj1wo50jqvFuJBtVSv3ZIt1F12IZh9aJyXSgUzN%2BY8Y9Q%3D%3D&numOfRows=3&pageNo=1&type=json&item_name=${value}`,
   ).then((response) => response.json());
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchPillInfo, pillImg } from "../../core/api/index";
+import { fetchPillImg, fetchPillInfo, pillImg } from "../../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 
@@ -61,6 +61,7 @@ function PillImgUpload() {
 
   const [value, setValue] = useState("");
   const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
+  const imgData = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -83,7 +84,7 @@ function PillImgUpload() {
     await setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
     await setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
     await setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));
-    await setImgUrl("");
+    await setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
     console.log(pillName, company, depositMethod, effect, useMethod, caution, imgUrl, dayValue);
     setRegiester(true);
   };
@@ -96,7 +97,6 @@ function PillImgUpload() {
     }
 
     setIsLoading(true);
-    console.log(pillName, company, depositMethod, effect, useMethod, caution, imgUrl, dayValue);
 
     const response = await axios.post(
       `${process.env.REACT_APP_SERVER}/api/medicine`,
@@ -281,6 +281,50 @@ interface PillData {
   };
 }
 
+interface ImgData {
+  header: { resultCode: string; resultMsg: string };
+  body: {
+    pageNo: number;
+    totalCount: number;
+    numOfRows: number;
+    items: [
+      {
+        ITEM_SEQ: string;
+        ITEM_NAME: string;
+        ENTP_SEQ: string;
+        ENTP_NAME: string;
+        CHART: string;
+        ITEM_IMAGE: string;
+        PRINT_FRONT: string;
+        PRINT_BACK: null;
+        DRUG_SHAPE: string;
+        COLOR_CLASS1: string;
+        COLOR_CLASS2: null;
+        LINE_FRONT: null;
+        LINE_BACK: null;
+        LENG_LONG: string;
+        LENG_SHORT: string;
+        THICK: string;
+        IMG_REGIST_TS: string;
+        CLASS_NO: string;
+        CLASS_NAME: string;
+        ETC_OTC_NAME: string;
+        ITEM_PERMIT_DATE: string;
+        FORM_CODE_NAME: string;
+        MARK_CODE_FRONT_ANAL: string;
+        MARK_CODE_BACK_ANAL: string;
+        MARK_CODE_FRONT_IMG: string;
+        MARK_CODE_BACK_IMG: string;
+        ITEM_ENG_NAME: string;
+        CHANGE_DATE: string;
+        MARK_CODE_FRONT: null;
+        MARK_CODE_BACK: null;
+        EDI_CODE: string;
+      },
+    ];
+  };
+}
+
 const StHeader = styled.header`
   padding-top: 5rem;
   display: flex;
@@ -311,7 +355,7 @@ const StTitle = styled.h1`
 const StBody = styled.div`
   font-size: 2rem;
   font-family: "Pretendard-Regular";
-  padding: 1rem;
+  padding: 3rem;
   width: 100%;
   align-items: center;
   text-align: center;
@@ -321,8 +365,9 @@ const StBody = styled.div`
 `;
 
 const StList = styled.ul`
-  padding: 2rem;
-  border: 0.2rem solid;
+  padding: 0.5rem;
+  border: 0.2rem solid #f8f9fe;
+  background-color: #f8f9fe;
   border-radius: 2rem;
   text-align: center;
 `;
@@ -333,13 +378,29 @@ const StItem = styled.li`
   align-items: center;
   height: 5rem;
   margin: 2rem;
-  color: #006ffd;
+  color: #000000;
   font-family: "Pretendard-Regular";
-  border: 0.15rem solid gray;
+  border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
+  background-color: #ffffff;
 `;
 
-const BtnWrapper = styled.div``;
+// const StItemChecked = styled.li`
+//   display: flex;
+//   padding: 3rem;
+//   align-items: center;
+//   height: 5rem;
+//   margin: 2rem;
+//   color: #000000;
+//   font-family: "Pretendard-Regular";
+//   border: 0.15rem solid #eaf2ff;
+//   border-radius: 1.2rem;
+//   background-color: #eaf2ff;
+// `;
+
+const BtnWrapper = styled.div`
+  margin-bottom: 3rem;
+`;
 
 const StButton = styled.button`
   background-color: #007bff;
