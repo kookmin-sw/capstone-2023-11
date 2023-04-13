@@ -30,44 +30,77 @@ function SeniorMealCheckPage() {
     foodBody.food.pop();
     for (let i = 0; i < selectFoods.length; i++) {
       foodBody.food.push({
-        name: data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
+        name:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_name === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
         servingSize:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["1회제공량(g/ml)"],
         calorie: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["열량(kcal)"],
         carbohyborateTotal:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
             "총량(g)"
-          ],
+          ] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                "총량(g)"
+              ],
         carbohyborateSugar:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
             "당류(g)"
-          ],
+          ] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                "당류(g)"
+              ],
         carbohyborateDietaryFiber:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
             "식이섬유(g)"
-          ],
-        protein: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
+          ] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                "식이섬유(g)"
+              ],
+        protein:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
         fatTotal:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"]["총량(g)"],
-        fatTransFat:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-            "트랜스지방(g)"
-          ],
+            "총량(g)"
+          ] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                "총량(g)"
+              ],
+        fatTransFat: "0",
         fatSaturatedfat:
           data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
             "포화지방(g)"
-          ],
+          ] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                "포화지방(g)"
+              ],
         cholesterol:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["콜레스테롤(mg)"],
-        natrium: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["콜레스테롤(mg)"] ===
+          "-"
+            ? 0
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
+                "콜레스테롤(mg)"
+              ],
+        natrium:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"] === "-"
+            ? "0"
+            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
       });
     }
-    console.log(foodBody);
+
     foodFormData.append("image", image);
     const blob = new Blob([JSON.stringify(foodBody)], {
-      // type에 JSON 타입 지정
       type: "application/json",
     });
+    console.log(foodBody);
     foodFormData.append("food_info", blob);
     foodmutation.mutate(foodFormData);
   };
@@ -76,15 +109,12 @@ function SeniorMealCheckPage() {
       console.log("onMutate", variable);
       // variable : {loginId: 'xxx', password; 'xxx'}
     },
-    onError: (context) => {
-      console.log(context);
+    onError: () => {
+      alert("오류가 발생하였습니다! 사진을 다시 업로드해주세요!");
       // error
     },
     onSuccess: (data, variables, context) => {
       console.log("success", data, variables, context);
-    },
-    onSettled: () => {
-      console.log("end");
     },
   });
 
