@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
+import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 
 interface ExerciseForm {
@@ -17,10 +18,12 @@ interface ExerciseForm {
 
 function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
+  const [deleteId, setDeleteId] = useState<number>(999);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
-  const { mutate, isLoading: isDeleting } = useMutation(deleteExerciseList);
+  const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
     console.log(data?.data);
@@ -33,13 +36,18 @@ function SeniorExerciseMainPage() {
     navigate(`/senior/exercise/add`);
     window.location.reload();
   };
-
   const onDeleteClick = (id: number) => {
-    if (!isDeleting) {
-      mutate(id, {
-        onSuccess: () => setFirstApi(true),
-      });
-    }
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const onDeleteConfirm = () => {
+    mutate(deleteId, {
+      onSuccess: () => {
+        setShowDeleteModal(false);
+        setFirstApi(true);
+      },
+    });
   };
   return (
     <StContainer>
@@ -63,6 +71,11 @@ function SeniorExerciseMainPage() {
       <FlexContainer>
         <StAddButton onClick={onAddClick}>+</StAddButton>
       </FlexContainer>
+      <StModal isOpen={showDeleteModal}>
+        <div>정말로 삭제하시겠습니까?</div>
+        <button onClick={onDeleteConfirm}>확인</button>
+        <button onClick={() => setShowDeleteModal(false)}>취소</button>
+      </StModal>
     </StContainer>
   );
 }
@@ -139,4 +152,11 @@ const StAddButton = styled.button`
   align-items: center;
   display: flex;
   border: none;
+`;
+
+const StModal = styled(Modal)`
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5rem;
 `;
