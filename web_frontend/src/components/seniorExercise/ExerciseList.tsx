@@ -4,31 +4,43 @@ import styled from "styled-components";
 interface IProp {
   selectedData: string[];
   setSelected: (v: string) => void;
+  getData: GetData[];
+}
+interface GetData {
+  eng: string;
+  kor: string;
+  type: string;
+  kcalPerHour: number;
+  description: string;
 }
 
-function ExerciseList({ selectedData, setSelected }: IProp) {
+function ExerciseList({ selectedData, setSelected, getData }: IProp) {
   const [clicked, setclicked] = useState("");
   return (
     <StContainer>
-      {selectedData.map((item) =>
+      {selectedData.map((item, index) =>
         clicked != item ? (
           <StExercise
-            key={item}
+            key={index}
             onClick={() => {
               setclicked(item);
               setSelected(item);
             }}>
-            <img src={require("../../assets/images/img_kakao.png")} />
+            <img
+              src={require(`../../assets/images/exerciseImg/img_${getData.find((data) => data.kor === item)?.eng}.png`)}
+            />
             {item}
           </StExercise>
         ) : (
           <StExerciseClicked
-            key={item}
+            key={index}
             onClick={() => {
               setclicked("");
               setSelected("");
             }}>
-            <img src={require("../../assets/images/img_kakao.png")} />
+            <img
+              src={require(`../../assets/images/exerciseImg/img_${getData.find((data) => data.kor === item)?.eng}.png`)}
+            />
             {item}
           </StExerciseClicked>
         ),
@@ -57,12 +69,14 @@ const StExercise = styled.div`
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  align-items: center;
   font-family: "Pretendard-Regular";
   font-size: 1.8rem;
   padding-bottom: 0.5rem;
   img {
     padding: 1rem;
+    width: 10rem;
+    height: 10rem;
   }
 `;
 

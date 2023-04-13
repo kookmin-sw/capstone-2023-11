@@ -5,45 +5,62 @@ import { BlueButton } from "../components/common/BlueButton";
 import ExerciseList from "../components/seniorExercise/ExerciseList";
 import Modal from "react-modal";
 import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
+import { useQuery } from "react-query";
+import { getExerciseList, postExerciseList } from "../core/api";
+import { useNavigate } from "react-router-dom";
 
-interface ExerciseData {
+interface ExerciseFixedData {
   name: string;
   time: number;
 }
 
-const items = [
-  "걷기",
-  "달리기",
-  "요가",
-  "필라테스",
-  "게이트볼",
-  "자전거",
-  "등산",
-  "골프",
-  "댄스 스포츠",
-  "웨이트",
-  "테니스",
-  "배드민턴",
-  "스쿼시",
-  "복싱",
-  "스트레칭",
-  "에어로빅",
-  "레크리에이션",
-  "서핑",
-];
+interface GetData {
+  eng: string;
+  kor: string;
+  type: string;
+  kcalPerHour: number;
+  description: string;
+}
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
-  const [exerciseName, setExerciseName] = useState([""]);
+  const [exerciseName, setExerciseName] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
-  const [data, setData] = useState<ExerciseData[]>([]);
-  useEffect(() => {
-    setExerciseName(items);
-  });
+  const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
+  const [firstApi, setFirstApi] = useState(true);
+  const navigate = useNavigate();
+
   const searched = exerciseName.filter((item) => item.includes(userInput));
   const onRemove = (id: string) => {
-    setData(data.filter((data) => data.name !== id));
+    setFixedData((prevData) => prevData.filter((fixedData) => fixedData.name !== id));
+  };
+
+  const { data } = useQuery("exerciseList", () => getExerciseList(), {
+    enabled: !!firstApi,
+  });
+
+  useEffect(() => {
+    setExerciseName([]);
+  }, []);
+  useEffect(() => {
+    data?.data.map((item: GetData) => {
+      setExerciseName((prevData) => [...prevData, item.kor]);
+    });
+    setFirstApi(false);
+  }, [data]);
+
+  const submitClicked = async () => {
+    for (const { name, time } of fixedData) {
+      const postData = data?.data.find((item: GetData) => item.kor === name)?.type;
+      const postTime = time;
+      try {
+        await postExerciseList(postData, postTime);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    navigate(`/senior/exercise`);
   };
 
   return (
@@ -55,9 +72,9 @@ function SeniorExercise() {
           <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
         </StCenterContainer>
       </StHeader>
-      <ExerciseList selectedData={searched} setSelected={setIsSelected} />
+      <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
       <STButtonContainer>
-        {data[0] == null ? (
+        {fixedData[0] == null ? (
           isSelected == "" ? (
             <GrayButton disabled={true}>운동 선택</GrayButton>
           ) : (
@@ -68,7 +85,7 @@ function SeniorExercise() {
             <CalContainer>
               <StTitle className="title">선택한 운동</StTitle>
               <FlexContainer>
-                {data.map(({ name, time }) => (
+                {fixedData.map(({ name, time }) => (
                   <FlexContainer key={name}>
                     <StButtonBack
                       src={require("../assets/images/img_esc.png")}
@@ -77,7 +94,7 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
                     </CalList>
                   </FlexContainer>
                 ))}
@@ -93,7 +110,7 @@ function SeniorExercise() {
             <CalContainer>
               <StTitle className="title">선택한 운동</StTitle>
               <FlexContainer>
-                {data.map(({ name, time }) => (
+                {fixedData.map(({ name, time }) => (
                   <FlexContainer key={name}>
                     <StButtonBack
                       src={require("../assets/images/img_esc.png")}
@@ -102,7 +119,7 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
                     </CalList>
                   </FlexContainer>
                 ))}
@@ -110,13 +127,18 @@ function SeniorExercise() {
             </CalContainer>
             <FlexContainer>
               <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
-              <BlueBTN>확인</BlueBTN>
+              <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
             </FlexContainer>
           </>
         )}
       </STButtonContainer>
       <StModal isOpen={isOpen}>
-        <ExercisePopUp selectedData={isSelected} setIsOpen={setIsOpen} setData={setData} />
+        <ExercisePopUp
+          selectedData={isSelected}
+          setIsOpen={setIsOpen}
+          setFixedData={setFixedData}
+          getData={data?.data}
+        />
       </StModal>
     </StContainer>
   );
@@ -138,7 +160,7 @@ const StInput = styled.input`
   align-self: center;
 
   ::placeholder {
-    background-image: url(https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-256.png);
+    background-image: url(https://cdn1.iconfinder.com/fixedData/icons/hawcons/32/698627-icon-111-search-256.png);
     background-size: contain;
     background-position: 0.1rem center;
     background-repeat: no-repeat;
