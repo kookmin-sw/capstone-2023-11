@@ -69,7 +69,7 @@ const StExercise = styled.div`
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  align-items: center;
   font-family: "Pretendard-Regular";
   font-size: 1.8rem;
   padding-bottom: 0.5rem;
