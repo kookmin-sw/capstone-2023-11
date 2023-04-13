@@ -23,9 +23,58 @@ function SeniorMealCheckPage() {
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
   const [selectFoods] = useState<number[]>([]);
-  const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [image, setImage] = useState<any>();
+  const [foodFormData] = useState<FormData>(new FormData());
+  const foodUpload = () => {
+    const foodBody = { food: [{}] };
+    foodBody.food.pop();
+    for (let i = 0; i < selectFoods.length; i++) {
+      foodBody.food.push({
+        name: data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
+        servingSize:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["1회제공량(g/ml)"],
+        calorie: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["열량(kcal)"],
+        carbohyborateTotal:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+            "총량(g)"
+          ],
+        carbohyborateSugar:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+            "당류(g)"
+          ],
+        carbohyborateDietaryFiber:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+            "식이섬유(g)"
+          ],
+        protein: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
+        fatTotal:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"]["총량(g)"],
+        fatTransFat:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+            "트랜스지방(g)"
+          ],
+        fatSaturatedfat:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+            "포화지방(g)"
+          ],
+        cholesterol:
+          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["콜레스테롤(mg)"],
+        natrium: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
+      });
+    }
+    console.log(foodBody);
+    foodFormData.append("image", image);
+    const blob = new Blob([JSON.stringify(foodBody)], {
+      // type에 JSON 타입 지정
+      type: "application/json",
+    });
+    foodFormData.append("food_info", blob);
+  };
+
+  const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
+      setImage(file);
       const reader = new FileReader();
       formData.append("image", file);
       reader.readAsDataURL(file);
@@ -214,7 +263,7 @@ function SeniorMealCheckPage() {
           </StBoxContainer>
           <StButtonFooter>
             <StReupload onClick={() => window.location.replace("/senior/mealCheck")}>다시 사진 올리기</StReupload>
-            <Stupload>등록하기</Stupload>
+            <Stupload onClick={() => foodUpload()}>등록하기</Stupload>
           </StButtonFooter>
         </>
       ) : (
