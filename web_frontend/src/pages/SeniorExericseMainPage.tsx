@@ -76,8 +76,8 @@ function SeniorExerciseMainPage() {
         <StPopContainer>
           <StTitle className="POP">정말로 삭제하시겠습니까?</StTitle>
           <BTNContainer>
-            <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
             <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
+            <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
           </BTNContainer>
         </StPopContainer>
       </StModal>
