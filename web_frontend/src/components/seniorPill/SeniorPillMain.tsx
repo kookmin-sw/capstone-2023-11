@@ -71,6 +71,8 @@ function SeniorPillMain() {
     navigate("/senior/pill");
   };
 
+  console.log(pillData);
+
   return (
     <>
       <StHeader>
@@ -102,7 +104,9 @@ function SeniorPillMain() {
                   </StItemContent>
                 </StLink>
                 <StSetComponent>
-                  <StModifyButton onClick={handleOpenModal}>수정</StModifyButton>
+                  <StModifyButton onClick={handleOpenModal}>
+                    <StModifyButtonImg src={require("../../assets/images/edit.png")} />
+                  </StModifyButton>
                   <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                     <StButtonList>
                       <StModalTitle>
@@ -145,7 +149,7 @@ function SeniorPillMain() {
                     onClick={() => {
                       handleOpenModal2();
                     }}>
-                    삭제
+                    <StDeleteButtonImg src={require("../../assets/images/delete.png")} />
                   </StDeleteButton>
                   <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
                     <StButtonList>
@@ -328,9 +332,24 @@ const StSetComponent = styled.div`
   height: 8rem;
 `;
 
-const StModifyButton = styled.button``;
+const StModifyButton = styled.div`
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+`;
 
-const StDeleteButton = styled.button``;
+const StModifyButtonImg = styled.img`
+  width: 3rem;
+  height: 3rem;
+`;
+
+const StDeleteButton = styled.div`
+  margin-left: 1rem;
+`;
+
+const StDeleteButtonImg = styled.img`
+  width: 3rem;
+  height: 3rem;
+`;
 
 const StButtonList = styled.div`
   border: 0.2rem solid #0066ff;
