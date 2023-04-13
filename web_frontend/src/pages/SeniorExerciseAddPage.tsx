@@ -28,23 +28,21 @@ function SeniorExercise() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSelected, setIsSelected] = useState("");
   const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
-  const [postData, setPostData] = useState("");
-  const [postTime, setPostTime] = useState(0);
-  const [postState, setPostState] = useState(false);
   const [firstApi, setFirstApi] = useState(true);
   const navigate = useNavigate();
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
   const onRemove = (id: string) => {
-    setFixedData(fixedData.filter((fixedData) => fixedData.name !== id));
+    setFixedData((prevData) => prevData.filter((fixedData) => fixedData.name !== id));
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList(), {
     enabled: !!firstApi,
   });
-  const { status } = useQuery("postexerciseList", () => postExerciseList(postData, postTime), {
-    enabled: !!postState,
-  });
+
+  useEffect(() => {
+    setExerciseName([]);
+  }, []);
   useEffect(() => {
     data?.data.map((item: GetData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
@@ -52,18 +50,18 @@ function SeniorExercise() {
     setFirstApi(false);
   }, [data]);
 
-  const submitClicked = () => {
-    fixedData.map(({ name, time }) => {
-      setPostData(data?.data.find((item: GetData) => item.kor === name)?.type);
-      setPostTime(time);
-      setPostState(true);
-    });
-    navigate(-1);
+  const submitClicked = async () => {
+    for (const { name, time } of fixedData) {
+      const postData = data?.data.find((item: GetData) => item.kor === name)?.type;
+      const postTime = time;
+      try {
+        await postExerciseList(postData, postTime);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    navigate(`/senior/exercise`);
   };
-
-  useEffect(() => {
-    setPostState(false);
-  }, [status]);
 
   return (
     <StContainer>
