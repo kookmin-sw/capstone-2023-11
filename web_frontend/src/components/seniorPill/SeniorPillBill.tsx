@@ -42,6 +42,11 @@ function PillImgUpload() {
     enabled: !!uploadSts,
   });
 
+  const [selected, setSelected] = useState<boolean[]>(
+    Array.from({ length: nameList?.data?.data?.length || 0 }, () => false),
+  );
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const [register, setRegiester] = useState(false);
   const [pillName, setPillName] = useState<string | undefined>("");
   const [company, setCompany] = useState<string | undefined>("");
@@ -147,24 +152,46 @@ function PillImgUpload() {
         {uploadSts ? (
           <>
             <StList>
-              {nameList?.data?.data?.map((name: string) => (
-                <StItem
-                  key={name.toString()}
-                  onClick={() => {
-                    handleOpenModal();
-                    setValue(
-                      name
-                        .toString()
-                        .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
-                        .trim(),
-                    );
-                  }}>
-                  {name}
-                </StItem>
-              ))}
-              처방전의 약이 맞습니까?
+              {nameList?.data?.data?.map((name: string, index: number) =>
+                selected[index] ? (
+                  <StItemChecked
+                    key={name.toString()}
+                    onClick={() => {
+                      handleOpenModal();
+                      setSelectedIndex(index);
+                      setValue(
+                        name
+                          .toString()
+                          .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
+                          .trim(),
+                      );
+                    }}>
+                    {name}
+                    {index}
+                  </StItemChecked>
+                ) : (
+                  <StItem
+                    key={name.toString()}
+                    onClick={() => {
+                      handleOpenModal();
+                      setSelectedIndex(index);
+                      setValue(
+                        name
+                          .toString()
+                          .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
+                          .trim(),
+                      );
+                    }}>
+                    {name}
+                    {index}
+                  </StItem>
+                ),
+              )}
+              모든 약을 등록하셨습니까?
               <BtnWrapper>
-                <StButton>네</StButton>
+                <Link to={"/senior/pill"}>
+                  <StButton>네</StButton>
+                </Link>
                 <StButton onClick={SetUploadReset}>아니요</StButton>
               </BtnWrapper>
             </StList>
@@ -197,6 +224,11 @@ function PillImgUpload() {
                     onClick={() => {
                       handleCloseModal();
                       pillInfo();
+                      setSelected((prev: boolean[]) => {
+                        const newSelected = [...prev];
+                        newSelected[selectedIndex] = true;
+                        return newSelected;
+                      });
                     }}>
                     네
                   </StSetPillCheckButton>
@@ -385,18 +417,18 @@ const StItem = styled.li`
   background-color: #ffffff;
 `;
 
-// const StItemChecked = styled.li`
-//   display: flex;
-//   padding: 3rem;
-//   align-items: center;
-//   height: 5rem;
-//   margin: 2rem;
-//   color: #000000;
-//   font-family: "Pretendard-Regular";
-//   border: 0.15rem solid #eaf2ff;
-//   border-radius: 1.2rem;
-//   background-color: #eaf2ff;
-// `;
+const StItemChecked = styled.li`
+  display: flex;
+  padding: 3rem;
+  align-items: center;
+  height: 5rem;
+  margin: 2rem;
+  color: #000000;
+  font-family: "Pretendard-Regular";
+  border: 0.15rem solid #eaf2ff;
+  border-radius: 1.2rem;
+  background-color: #eaf2ff;
+`;
 
 const BtnWrapper = styled.div`
   margin-bottom: 3rem;
