@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "react-query";
 import { checkMeal, uploadMeal } from "../core/api/index";
 import BackButton from "../components/common/BackButton";
 import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
+import { useNavigate } from "react-router-dom";
 
 interface food {
   food_name: string;
@@ -25,6 +26,7 @@ function SeniorMealCheckPage() {
   const [selectFoods] = useState<number[]>([]);
   const [image, setImage] = useState<any>();
   const [foodFormData] = useState<FormData>(new FormData());
+  const navigate = useNavigate();
   const foodUpload = () => {
     const foodBody = { food: [{}] };
     foodBody.food.pop();
@@ -105,16 +107,13 @@ function SeniorMealCheckPage() {
     foodmutation.mutate(foodFormData);
   };
   const foodmutation = useMutation(uploadMeal, {
-    onMutate: (variable) => {
-      console.log("onMutate", variable);
-      // variable : {loginId: 'xxx', password; 'xxx'}
-    },
     onError: () => {
       alert("오류가 발생하였습니다! 사진을 다시 업로드해주세요!");
       // error
     },
-    onSuccess: (data, variables, context) => {
-      console.log("success", data, variables, context);
+    onSuccess: () => {
+      alert("등록이 완료되었습니다!");
+      navigate("semior/mealList");
     },
   });
 
