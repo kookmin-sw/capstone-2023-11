@@ -78,3 +78,12 @@ export const checkMeal = async (file: FormData) => {
 
   return data;
 };
+export const uploadMeal = async (file: FormData) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/food`, file, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  return data;
+};
