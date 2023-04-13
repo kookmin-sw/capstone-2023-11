@@ -152,7 +152,12 @@ function PillImgUpload() {
                   key={name.toString()}
                   onClick={() => {
                     handleOpenModal();
-                    setValue(name.toString());
+                    setValue(
+                      name
+                        .toString()
+                        .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
+                        .trim(),
+                    );
                   }}>
                   {name}
                 </StItem>
@@ -165,7 +170,7 @@ function PillImgUpload() {
             </StList>
             <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
               <StButtonList>
-                <StModalTitle>{value.toString()}</StModalTitle>
+                <StModalTitle>{pillData.data?.body.items[0].ITEM_NAME}</StModalTitle>
                 <StModalTitle>복용하는 일 수</StModalTitle>
                 <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                 <StModalTitle>복용하는 시간대</StModalTitle>
