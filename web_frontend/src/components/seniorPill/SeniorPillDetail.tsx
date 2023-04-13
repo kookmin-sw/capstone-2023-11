@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../../core/api";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IpillData>();
+
+  const { id } = useParams();
 
   useEffect(() => {
     async function fetchData() {
@@ -13,7 +15,10 @@ function PillDetail() {
     }
 
     fetchData();
-  }, [console.log(pillData)]);
+  }, []);
+
+  const selectPill = pillData?.medicines.find((pill) => pill.id === Number(id));
+
   return (
     <>
       <StHeader>
@@ -24,27 +29,27 @@ function PillDetail() {
           <StImg src={require("../../assets/images/pillSample.jpg")} />
           <StContentItem>
             <StItemName>이름</StItemName>
-            <StItemContent>{pillData?.medicines[0].name}</StItemContent>
+            <StItemContent>{selectPill?.name}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>회사</StItemName>
-            <StItemContent>{pillData?.medicines[0].companyName}</StItemContent>
+            <StItemContent>{selectPill?.companyName}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>보관 방법</StItemName>
-            <StItemContent>{pillData?.medicines[0].depositMethod}</StItemContent>
+            <StItemContent>{selectPill?.depositMethod}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>효과 • 효능</StItemName>
-            <StItemContent>{pillData?.medicines[0].effect}</StItemContent>
+            <StItemContent>{selectPill?.effect}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>투여 방법</StItemName>
-            <StItemContent>{pillData?.medicines[0].useMethod}</StItemContent>
+            <StItemContent>{selectPill?.useMethod}</StItemContent>
           </StContentItem>
           <StContentItem>
             <StItemName>주의 사항</StItemName>
-            <StItemContent>{pillData?.medicines[0].caution}</StItemContent>
+            <StItemContent>{selectPill?.caution}</StItemContent>
           </StContentItem>
           <StLink to={"/senior/pill"}>
             <BlueButton>돌아가기</BlueButton>

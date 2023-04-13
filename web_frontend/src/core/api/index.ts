@@ -30,26 +30,6 @@ export const checkMeal = async (file: FormData) => {
   return data;
 };
 
-export const pillImg = async (file: FormData) => {
-  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine/ocr`, file, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
-
-  return data;
-};
-
-export const pillData = async (file: FormData) => {
-  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine`, file, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    },
-  });
-
-  return data;
-};
-
 export const getUserStatus = async (userStatus: string | null, accessToken: string | undefined) => {
   const data = axios.post(
     `${process.env.REACT_APP_SERVER}/api/login/token-check`,
@@ -115,6 +95,26 @@ export async function fetchPillImg(value: string) {
   ).then((response) => response.json());
 }
 
+export const pillImg = async (file: FormData) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine/ocr`, file, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  return data;
+};
+
+export const pillData = async (file: FormData) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine`, file, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  });
+
+  return data;
+};
+
 export const pillInfoData = async (
   name: string | undefined,
   companyName: string | undefined,
@@ -153,17 +153,21 @@ export const pillInfoData = async (
   return data;
 };
 
-export const modifyPillData = async (breakfast: boolean, lunch: boolean, dinner: boolean, daysToTake: number) => {
-  const data = axios.post(
-    `${process.env.REACT_APP_SERVER}/api/medicine`,
-    [
-      {
-        breakfast: breakfast,
-        lunch: lunch,
-        dinner: dinner,
-        daysToTake: daysToTake,
-      },
-    ],
+export const modifyPillData = async (
+  id: number,
+  daysToTake: number,
+  breakfast: boolean,
+  lunch: boolean,
+  dinner: boolean,
+) => {
+  const data = axios.patch(
+    `${process.env.REACT_APP_SERVER}/api/medicine/${id}`,
+    {
+      daysToTake: daysToTake,
+      breakfast: breakfast,
+      lunch: lunch,
+      dinner: dinner,
+    },
     {
       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
     },

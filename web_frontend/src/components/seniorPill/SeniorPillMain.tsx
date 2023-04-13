@@ -4,7 +4,6 @@ import PillAddModal from "./PillAddModal";
 import { useEffect, useState } from "react";
 import { deletePillData, getPillInfo, modifyPillData } from "../../core/api";
 import Modal from "react-modal";
-import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
@@ -50,28 +49,15 @@ function SeniorPillMain() {
     setIsOpen2(false);
   };
 
-  const [pillStatus, setPillStatus] = useState(false);
-
-  useEffect(() => {
-    setPillStatus(false);
-  }, []);
-  const modifyPill = () => {
-    setPillStatus(true);
-  };
-  const { data } = useQuery("modifyPill", () => modifyPillData(breakfast, lunch, dinner, dayValue), {
-    enabled: !!pillStatus,
-  });
-  if (pillStatus == true && data !== undefined) {
-    alert("등록되었습니다.");
+  const ModifyPillData = (id: number, dayToTake: number, breakfast: boolean, lunch: boolean, dinner: boolean) => {
+    modifyPillData(id, dayToTake, breakfast, lunch, dinner);
     navigate("/senior/pill");
-  }
+  };
 
   const DeletePillData = (id: number) => {
     deletePillData(id);
     navigate("/senior/pill");
   };
-
-  console.log(pillData);
 
   return (
     <>
@@ -89,7 +75,7 @@ function SeniorPillMain() {
           {pillData?.medicines.map((value, index) => (
             <>
               <StItem key={index}>
-                <StLink to={"/senior/pill/detail"}>
+                <StLink to={`/senior/pill/detail/${value.id}`}>
                   <StItemImgBox>
                     <StItemImg src={value.imageUrl} />
                   </StItemImgBox>
@@ -137,7 +123,8 @@ function SeniorPillMain() {
                         <StSetPillCheckButton
                           onClick={() => {
                             handleCloseModal;
-                            modifyPill();
+                            ModifyPillData(value.id, dayValue, breakfast, lunch, dinner);
+                            window.location.reload();
                           }}>
                           네
                         </StSetPillCheckButton>

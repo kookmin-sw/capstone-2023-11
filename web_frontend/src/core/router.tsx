@@ -24,7 +24,7 @@ function Router() {
         <Route path="/senior/main" element={<SeniorMain />} />
         <Route path="/senior/pill/add" element={<SeniorPillAdd />} />
         <Route path="/senior/pill" element={<SeniorPillMain />} />
-        <Route path="/senior/pill/detail" element={<SeniorPillDetail />} />
+        <Route path="/senior/pill/detail/:id" element={<SeniorPillDetail />} />
         <Route path="/senior/pill/bill" element={<SeniorPillBill />} />
         <Route path="/senior/pill/self" element={<SeniorPillSelf />} />
         <Route path="/login" element={<LoginPage />} />
