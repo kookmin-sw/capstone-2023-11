@@ -84,6 +84,5 @@ export const uploadMeal = async (file: FormData) => {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
   });
-
   return data;
 };

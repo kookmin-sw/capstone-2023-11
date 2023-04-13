@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useQuery } from "react-query";
-import { checkMeal } from "../core/api/index";
+import { useMutation, useQuery } from "react-query";
+import { checkMeal, uploadMeal } from "../core/api/index";
 import BackButton from "../components/common/BackButton";
 import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
 
@@ -69,7 +69,24 @@ function SeniorMealCheckPage() {
       type: "application/json",
     });
     foodFormData.append("food_info", blob);
+    foodmutation.mutate(foodFormData);
   };
+  const foodmutation = useMutation(uploadMeal, {
+    onMutate: (variable) => {
+      console.log("onMutate", variable);
+      // variable : {loginId: 'xxx', password; 'xxx'}
+    },
+    onError: (context) => {
+      console.log(context);
+      // error
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("success", data, variables, context);
+    },
+    onSettled: () => {
+      console.log("end");
+    },
+  });
 
   const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
