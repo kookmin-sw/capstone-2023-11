@@ -5,6 +5,7 @@ import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
+import { BlueButton } from "../components/common/BlueButton";
 
 interface ExerciseForm {
   createdAt: string;
@@ -72,9 +73,13 @@ function SeniorExerciseMainPage() {
         <StAddButton onClick={onAddClick}>+</StAddButton>
       </FlexContainer>
       <StModal isOpen={showDeleteModal}>
-        <div>정말로 삭제하시겠습니까?</div>
-        <button onClick={onDeleteConfirm}>확인</button>
-        <button onClick={() => setShowDeleteModal(false)}>취소</button>
+        <StPopContainer>
+          <StTitle className="POP">정말로 삭제하시겠습니까?</StTitle>
+          <BTNContainer>
+            <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
+            <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
+          </BTNContainer>
+        </StPopContainer>
       </StModal>
     </StContainer>
   );
@@ -158,5 +163,26 @@ const StModal = styled(Modal)`
   padding: 5rem;
   align-items: center;
   justify-content: center;
+  display: flex;
   margin-top: 5rem;
+`;
+const StPopContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin-top: 50%;
+  background-color: #f8f9fe;
+  border-radius: 1rem;
+  width: 80%;
+  .POP {
+    padding: 2rem;
+  }
+`;
+const BTNContainer = styled.div`
+  justify-content: space-evenly;
+  display: flex;
+`;
+
+const BlueBTN = styled(BlueButton)`
+  width: 10rem;
+  margin-right: 0.4rem;
 `;
