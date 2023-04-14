@@ -31,71 +31,77 @@ function SeniorMealCheckPage() {
     const foodBody = { food: [{}] };
     foodBody.food.pop();
     for (let i = 0; i < selectFoods.length; i++) {
-      foodBody.food.push({
-        name:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_name === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
-        servingSize:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["1회제공량(g/ml)"],
-        calorie: data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["열량(kcal)"],
-        carbohyborateTotal:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-            "총량(g)"
-          ] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-                "총량(g)"
-              ],
-        carbohyborateSugar:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-            "당류(g)"
-          ] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-                "당류(g)"
-              ],
-        carbohyborateDietaryFiber:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-            "식이섬유(g)"
-          ] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-                "식이섬유(g)"
-              ],
-        protein:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
-        fatTotal:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-            "총량(g)"
-          ] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-                "총량(g)"
-              ],
-        fatTransFat: "0",
-        fatSaturatedfat:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-            "포화지방(g)"
-          ] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-                "포화지방(g)"
-              ],
-        cholesterol:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["콜레스테롤(mg)"] ===
-          "-"
-            ? 0
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
-                "콜레스테롤(mg)"
-              ],
-        natrium:
-          data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"] === "-"
-            ? "0"
-            : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
-      });
+      if (selectFoods[i] != -1) {
+        foodBody.food.push({
+          name:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_name === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
+          servingSize:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["1회제공량(g/ml)"],
+          calorie:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["열량(kcal)"],
+          carbohyborateTotal:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+              "총량(g)"
+            ] === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                  "총량(g)"
+                ],
+          carbohyborateSugar:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+              "당류(g)"
+            ] === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                  "당류(g)"
+                ],
+          carbohyborateDietaryFiber:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+              "식이섬유(g)"
+            ] === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                  "식이섬유(g)"
+                ],
+          protein:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"] ===
+            "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
+          fatTotal:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+              "총량(g)"
+            ] === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                  "총량(g)"
+                ],
+          fatTransFat: "0",
+          fatSaturatedfat:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+              "포화지방(g)"
+            ] === "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                  "포화지방(g)"
+                ],
+          cholesterol:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
+              "콜레스테롤(mg)"
+            ] === "-"
+              ? 0
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
+                  "콜레스테롤(mg)"
+                ],
+          natrium:
+            data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"] ===
+            "-"
+              ? "0"
+              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
+        });
+      }
     }
 
     foodFormData.append("image", image);
@@ -112,7 +118,7 @@ function SeniorMealCheckPage() {
     },
     onSuccess: () => {
       alert("등록이 완료되었습니다!");
-      navigate("semior/mealList");
+      navigate("/semior/mealList");
     },
   });
 
@@ -237,70 +243,72 @@ function SeniorMealCheckPage() {
           <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
           <StBoxContainer>
             {selectFoods.map((numdex: number, index: number) => {
-              if (index % 2 == 0) {
-                return (
-                  <StFoodBox1>
-                    <img src={FoodIcn}></img>
-                    <div>
-                      <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                      <StNutrient>
-                        탄수화물:
-                        {
-                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                            "탄수화물"
-                          ]["총량(g)"]
-                        }
-                        g 단백질:{" "}
-                        {
-                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                            "단백질(g)"
-                          ]
-                        }
-                        g
-                      </StNutrient>
-                    </div>
-                    <StKcal>
-                      {Math.round(
-                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "열량(kcal)"
-                        ],
-                      )}
-                      kcal
-                    </StKcal>
-                  </StFoodBox1>
-                );
-              } else {
-                return (
-                  <StFoodBox2>
-                    <img src={FoodIcn}></img>
-                    <div>
-                      <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                      <StNutrient>
-                        탄수화물:
-                        {
-                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                            "탄수화물"
-                          ]["총량(g)"]
-                        }
-                        g 단백질:{" "}
-                        {
-                          data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                            "단백질(g)"
-                          ]
-                        }
-                        g
-                      </StNutrient>
-                    </div>
-                    <StKcal>
-                      {Math.round(
-                        data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                          "열량(kcal)"
-                        ],
-                      )}
-                      kcal
-                    </StKcal>
-                  </StFoodBox2>
-                );
+              if (index != -1 && numdex != -1) {
+                if (index % 2 == 0) {
+                  return (
+                    <StFoodBox1>
+                      <img src={FoodIcn}></img>
+                      <div>
+                        <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                        <StNutrient>
+                          탄수화물:
+                          {
+                            data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                              "탄수화물"
+                            ]["총량(g)"]
+                          }
+                          g 단백질:{" "}
+                          {
+                            data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                              "단백질(g)"
+                            ]
+                          }
+                          g
+                        </StNutrient>
+                      </div>
+                      <StKcal>
+                        {Math.round(
+                          data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                            "열량(kcal)"
+                          ],
+                        )}
+                        kcal
+                      </StKcal>
+                    </StFoodBox1>
+                  );
+                } else {
+                  return (
+                    <StFoodBox2>
+                      <img src={FoodIcn}></img>
+                      <div>
+                        <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                        <StNutrient>
+                          탄수화물:
+                          {
+                            data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                              "탄수화물"
+                            ]["총량(g)"]
+                          }
+                          g 단백질:{" "}
+                          {
+                            data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                              "단백질(g)"
+                            ]
+                          }
+                          g
+                        </StNutrient>
+                      </div>
+                      <StKcal>
+                        {Math.round(
+                          data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                            "열량(kcal)"
+                          ],
+                        )}
+                        kcal
+                      </StKcal>
+                    </StFoodBox2>
+                  );
+                }
               }
             })}
           </StBoxContainer>
