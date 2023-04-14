@@ -510,7 +510,7 @@ const StFoodBox1 = styled.div`
     width: 18rem;
     margin-left: 1rem;
   }
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 `;
 const StFoodBox2 = styled.div`
   display: flex;
@@ -528,7 +528,7 @@ const StFoodBox2 = styled.div`
     width: 18rem;
     margin-left: 1rem;
   }
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 `;
 const StKcal = styled.p`
   font-size: 1.6rem;
@@ -552,6 +552,7 @@ const StButtonFooter = styled.footer`
   margin-top: 3rem;
   position: fixed;
   bottom: 2vh;
+  padding-top: 0.8rem;
 `;
 const StReupload = styled.button`
   width: 15rem;
