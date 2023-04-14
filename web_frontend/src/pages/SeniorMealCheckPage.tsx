@@ -102,7 +102,6 @@ function SeniorMealCheckPage() {
     const blob = new Blob([JSON.stringify(foodBody)], {
       type: "application/json",
     });
-    console.log(foodBody);
     foodFormData.append("food_info", blob);
     foodmutation.mutate(foodFormData);
   };
@@ -143,7 +142,6 @@ function SeniorMealCheckPage() {
     enabled: !!uploadSts,
   });
 
-  // console.log(data?.data?.result[index]?.class_info[0].food_nutrients);
   useEffect(() => {
     if (data != undefined) {
       setIndex(0);
@@ -156,7 +154,6 @@ function SeniorMealCheckPage() {
   const FoodDetect = () => {
     if (index + 1 == data?.data?.result.length) {
       selectFoods.push(currentSelect);
-      console.log(selectFoods);
       SetFinishDetect(1);
       return <></>;
     }
