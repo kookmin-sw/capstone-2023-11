@@ -79,6 +79,32 @@ function SeniorPillSelf() {
   const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDayValue(parseInt(e.target.value));
   };
+
+  // const [content, setContent] = useState("");
+  // const [result, setResult] = useState<{ title?: string; string: string }[]>([]);
+  // const [matches, setMatches] = useState<any[]>([]);
+
+  // const articleRegex = /<ARTICLE[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/ARTICLE>/gm;
+  // const cdataRegex = /<!\[CDATA\[(.*?)\]\]>/gm;
+
+  // setMatches([...Array.from(content.matchAll(articleRegex))]);
+
+  // for (const match of matches) {
+  //   const article = match[1];
+  //   const cdataMatches = [...article.matchAll(cdataRegex)];
+  //   const strings = cdataMatches.map((cdataMatch) => cdataMatch[1]);
+  //   const title = /<ARTICLE title="(.*?)"/.exec(article)?.[1];
+
+  //   setResult([...result, ...strings.map((string) => ({ title, string }))]);
+  // }
+
+  const [content, setContent] = useState("");
+  const [result, setResult] = useState<{ title?: string; string: string }[]>([]);
+  const [matches, setMatches] = useState<any[]>([]);
+
+  const articleRegex = /<ARTICLE[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/ARTICLE>/gm;
+  const cdataRegex = /<!\[CDATA\[(.*?)\]\]>/gm;
+
   return (
     <>
       <StHeader>
@@ -92,12 +118,25 @@ function SeniorPillSelf() {
           {name?.map((value) => (
             <StPillItem
               key={value.toString()}
-              onClick={() => {
+              onClick={async () => {
                 handleOpenModal(value.toString());
                 setValue(value.toString());
-                onClickButton;
+                onClickButton();
                 setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
-                setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD.slice(0, 100));
+                setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
+                setContent(pillData.data?.body.items[0].EE_DOC_DATA ?? "");
+                await setMatches([...Array.from(content.matchAll(articleRegex))]);
+
+                for (const match of matches) {
+                  const article = match[1];
+                  const cdataMatches = [...article.matchAll(cdataRegex)];
+                  const strings = cdataMatches.map((cdataMatch) => cdataMatch[1]);
+                  const title = /<ARTICLE title="(.*?)"/.exec(article)?.[1];
+
+                  await setResult([...result, ...strings.map((string) => ({ title, string }))]);
+                }
+                console.log(result);
+                console.log(matches);
                 setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
                 setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
                 setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));

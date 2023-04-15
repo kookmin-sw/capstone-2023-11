@@ -2,13 +2,19 @@
   "dependencies": {
     "modal": "^1.2.0",
     "react-modal": "^3.16.1",
+    "stream-browserify": "^3.0.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.3",
     "sweetalert2-react-content": "^5.0.7",
+    "timers-browserify": "^2.0.12",
+    "webpack": "^5.79.0",
+    "xml-parser": "^1.2.1",
     "xml2js": "^0.5.0"
   },
   "devDependencies": {
     "@types/react-modal": "^3.13.1",
-    "@types/xml2js": "^0.4.11"
+    "@types/xml-parser": "^1.2.30",
+    "@types/xml2js": "^0.4.11",
+    "webpack-cli": "^5.0.1"
   }
 }
