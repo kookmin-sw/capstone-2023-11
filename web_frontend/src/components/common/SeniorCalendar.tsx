@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 function SeniorCalendar() {
   const [value, setValue] = useState<Date | null>(null);
+  const mark = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 06 2023"];
 
   useEffect(() => {
     console.log(value);
@@ -26,6 +27,17 @@ function SeniorCalendar() {
         prev2Label={null}
         // showNeighboringMonth={false}
         formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
+        tileContent={({ date }) => {
+          if (mark.find((x) => x === date.toDateString())) {
+            return (
+              <>
+                <DotContainer>
+                  <div className="dot" />
+                </DotContainer>
+              </>
+            );
+          }
+        }}
       />
       {/* {moment(value).format("YYYY년 MM월 DD일")} */}
       <span className="bold">{value?.toDateString()}</span>
@@ -37,6 +49,20 @@ const StContainer = styled.div`
   padding: 1rem 2rem;
   justify-content: center;
   margin: auto;
+`;
+
+const DotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .dot {
+    height: 8px;
+    width: 8px;
+    background-color: #f87171;
+    border-radius: 50%;
+    display: flex;
+    margin-left: 1px;
+  }
 `;
 
 const Cal = styled(Calendar)`
