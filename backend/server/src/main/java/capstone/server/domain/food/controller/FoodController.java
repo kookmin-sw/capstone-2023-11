@@ -47,7 +47,7 @@ public class FoodController {
                             .success(false)
                             .status(e.getStatusCode().value())
                             .message(e.getResponseBodyAsString())
-                            .build()
+                            .build());
         } catch (IOException e) {
             return ResponseEntity.status(500).body(
                     DefaultResponse.builder()
