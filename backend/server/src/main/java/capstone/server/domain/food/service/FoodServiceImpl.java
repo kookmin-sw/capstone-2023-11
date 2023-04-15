@@ -19,11 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ErrorHandler;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,7 +73,7 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
+    public String registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
         int times = 0;
         Meal prevData = mealRepository.findTopByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
@@ -126,7 +124,7 @@ public class FoodServiceImpl implements FoodService{
             foodRepository.save(food);
         }
 
-        return ResponseEntity.ok().body("success");
+        return "식사 등록에 성공하였습니다.";
     }
 
     @Override
@@ -208,8 +206,8 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity deleteMeal(Long mealId) {
+    public String deleteMeal(Long mealId) {
         mealRepository.deleteById(mealId);
-        return ResponseEntity.ok().body("success");
+        return mealId + "번 식사 삭제에 성공하였습니다.";
     }
 }

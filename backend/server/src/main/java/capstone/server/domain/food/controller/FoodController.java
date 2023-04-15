@@ -42,9 +42,20 @@ public class FoodController {
             FoodDetectionResponseDto result = foodService.detectFoodImage(image);
             return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build()
         } catch (IOException e) {
-            return ResponseEntity.ok().body(e.getMessage());
+            return ResponseEntity.status(500).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(500)
+                            .message(e.getMessage())
+                            .build()
+            );
         }
     }
 
@@ -52,12 +63,24 @@ public class FoodController {
     public ResponseEntity<?> registerFood(Authentication authentication, @RequestPart(value = "image") MultipartFile image, @RequestPart(value = "food_info") RegisterFoodDto foods) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
-            ResponseEntity result = foodService.registerFood(kaKaoAccountIdAndUserType, image, foods);
-            return result;
+            String result = foodService.registerFood(kaKaoAccountIdAndUserType, image, foods);
+            return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build()
+            );
         } catch (IOException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(400)
+                            .message(e.getMessage())
+                            .build()
+            );
         }
     }
 
@@ -111,10 +134,22 @@ public class FoodController {
     public ResponseEntity<?> deleteMeal(Authentication authentication, @PathVariable Long id) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
-            ResponseEntity result = foodService.deleteMeal(id);
-            return result;
+            String result = foodService.deleteMeal(id);
+            return ResponseEntity.ok().body(
+                    DefaultResponse.builder()
+                            .status(200)
+                            .message(result)
+                            .success(true)
+                            .build()
+            );
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.ok().body(
+                    DefaultResponse.builder()
+                            .status(e.getStatusCode().value())
+                            .message(e.getMessage())
+                            .success(false)
+                            .build()
+            );
         }
     }
 
