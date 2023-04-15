@@ -148,6 +148,7 @@ public class MedicineServiceImpl implements MedicineService {
                     .imageUrl(medicine.getImageUrl())
                     .createdAt(medicine.getCreatedAt())
                     .dueAt(medicine.getDueAt())
+                    .remainDay((remainDay))
                     .breakfast(medicine.getBreakfast())
                     .lunch(medicine.getLunch())
                     .dinner(medicine.getDinner())

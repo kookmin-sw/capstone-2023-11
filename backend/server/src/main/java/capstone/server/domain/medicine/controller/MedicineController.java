@@ -102,7 +102,7 @@ public class MedicineController {
                             DefaultResponse.builder()
                                     .success(false)
                                     .status(200)
-                                    .message(id + "번 약 삭제완료")
+                                    .message(id + "번 약 수정완료")
                                     .build()
                     );
         } catch (HttpClientErrorException e) {
