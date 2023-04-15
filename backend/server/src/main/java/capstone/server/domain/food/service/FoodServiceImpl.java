@@ -19,11 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ErrorHandler;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,7 +73,7 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
+    public String registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
         int times = 0;
         Meal prevData = mealRepository.findTopByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
@@ -126,14 +124,14 @@ public class FoodServiceImpl implements FoodService{
             foodRepository.save(food);
         }
 
-        return ResponseEntity.ok().body("success");
+        return "식사 등록에 성공하였습니다.";
     }
 
     @Override
     public GetFoodInfoResponseDto getFoodInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
-        List<Meal> mealList = mealRepository.findAllByUserWardUserId(userWard.getUserId());
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
         if (mealList == null) {
             throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
         }
@@ -169,8 +167,47 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity deleteMeal(Long mealId) {
+    public GetFoodInfoResponseDto getFoodInfoByYearMonth(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, LocalDateTime startDate, LocalDateTime lastDate) {
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(userWard.getUserId(), startDate, lastDate);
+        if (mealList == null) {
+            throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
+        }
+
+        GetFoodInfoResponseDto getFoodInfoResponseDto = GetFoodInfoResponseDto.builder().mealInfos(new ArrayList<>()).build();
+        for (Meal meal : mealList) {
+            List<Food> foods = foodRepository.findAllByMealId(meal.getId());
+            List<FoodInfo> details = new ArrayList<>();
+            for (Food food : foods) {
+                details.add(FoodInfo.builder()
+                        .calorie(food.getCalorie())
+                        .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .carbohyborateSugar(food.getCarbohyborateSugar())
+                        .carbohyborateDietaryFiber(food.getCarbohyborateDietaryFiber())
+                        .fatTotal(food.getFatTotal())
+                        .fatSaturatedfat(food.getFatSaturatedfat())
+                        .fatTransFat(food.getFatTransFat())
+                        .cholesterol(food.getCholesterol())
+                        .protein(food.getProtein())
+                        .natrium(food.getNatrium())
+                        .name(food.getName())
+                        .servingSize(food.getServingSize()).build());
+            }
+            getFoodInfoResponseDto.getMealInfos().add(MealInfo.builder()
+                    .id(meal.getId())
+                    .dateTime(meal.getCreatedAt())
+                    .times(meal.getTimes())
+                    .imageUrl(meal.getImage().getUrl())
+                    .detail(details).build());
+        }
+
+        return getFoodInfoResponseDto;
+    }
+
+    @Override
+    public String deleteMeal(Long mealId) {
         mealRepository.deleteById(mealId);
-        return ResponseEntity.ok().body("success");
+        return mealId + "번 식사 삭제에 성공하였습니다.";
     }
 }
