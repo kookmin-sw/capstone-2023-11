@@ -133,7 +133,46 @@ public class FoodServiceImpl implements FoodService{
     public GetFoodInfoResponseDto getFoodInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
-        List<Meal> mealList = mealRepository.findAllByUserWardUserId(userWard.getUserId());
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
+        if (mealList == null) {
+            throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
+        }
+
+        GetFoodInfoResponseDto getFoodInfoResponseDto = GetFoodInfoResponseDto.builder().mealInfos(new ArrayList<>()).build();
+        for (Meal meal : mealList) {
+            List<Food> foods = foodRepository.findAllByMealId(meal.getId());
+            List<FoodInfo> details = new ArrayList<>();
+            for (Food food : foods) {
+                details.add(FoodInfo.builder()
+                        .calorie(food.getCalorie())
+                        .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .carbohyborateSugar(food.getCarbohyborateSugar())
+                        .carbohyborateDietaryFiber(food.getCarbohyborateDietaryFiber())
+                        .fatTotal(food.getFatTotal())
+                        .fatSaturatedfat(food.getFatSaturatedfat())
+                        .fatTransFat(food.getFatTransFat())
+                        .cholesterol(food.getCholesterol())
+                        .protein(food.getProtein())
+                        .natrium(food.getNatrium())
+                        .name(food.getName())
+                        .servingSize(food.getServingSize()).build());
+            }
+            getFoodInfoResponseDto.getMealInfos().add(MealInfo.builder()
+                    .id(meal.getId())
+                    .dateTime(meal.getCreatedAt())
+                    .times(meal.getTimes())
+                    .imageUrl(meal.getImage().getUrl())
+                    .detail(details).build());
+        }
+
+        return getFoodInfoResponseDto;
+    }
+
+    @Override
+    public GetFoodInfoResponseDto getFoodInfoByYearMonth(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, LocalDateTime startDate, LocalDateTime lastDate) {
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(userWard.getUserId(), startDate, lastDate);
         if (mealList == null) {
             throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
         }
