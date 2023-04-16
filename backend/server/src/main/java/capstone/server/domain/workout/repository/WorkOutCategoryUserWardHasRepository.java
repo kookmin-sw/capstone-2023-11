@@ -20,5 +20,7 @@ public interface WorkOutCategoryUserWardHasRepository extends JpaRepository<Work
 
   Long countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
 
+  Long countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+
 
 }

@@ -2,6 +2,7 @@ package capstone.server.domain.food.repository;
 
 import capstone.server.entity.Meal;
 import capstone.server.entity.UserWard;
+import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     List<Meal> findAllByUserWardUserId(Long userId);
 
     Long countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
+
+    Long countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 }
