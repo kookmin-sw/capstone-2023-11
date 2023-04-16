@@ -13,9 +13,13 @@ import java.util.List;
 public interface MealRepository extends JpaRepository<Meal, Long> {
     Meal findTopByUserWardUserIdOrderByCreatedAtDesc(Long userId);
 
-    List<Meal> findAllByUserWardUserId(Long userId);
+    List<Meal> findAllByUserWardUserIdOrderByCreatedAtDesc(Long userId);
+
+    List<Meal> findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(Long userId, LocalDateTime startDate, LocalDateTime lastDate);
 
     int countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
 
     int countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+    
+
 }
