@@ -2,7 +2,9 @@ package capstone.server.domain.user.controller;
 
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
 import capstone.server.domain.user.service.UserWardService;
+import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +25,17 @@ public class UserWardController {
     public ResponseEntity<?> getUserWardMainInfo(Authentication authentication) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            GetUserWardMainInfoResponseDto result = userWardService.getUserWardMainInfo(kaKaoAccountIdAndUserType);
+            return ResponseEntity.ok().body(result);
 
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(204).body(e.getMessage());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .message(e.getResponseBodyAsString())
+                            .status(500)
+                            .build()
+            );
         }
     }
 
