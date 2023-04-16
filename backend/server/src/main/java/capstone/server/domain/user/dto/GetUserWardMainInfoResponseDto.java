@@ -12,9 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class getUserWardMainInfoResponseDto {
+public class GetUserWardMainInfoResponseDto {
     private Long userCode;
     private List<ResponseMedicineInfo> medicineInfoList;
+    private int monthRecordCount;
     private int todayMealCount;
     private int todayWorkoutCount;
 }
