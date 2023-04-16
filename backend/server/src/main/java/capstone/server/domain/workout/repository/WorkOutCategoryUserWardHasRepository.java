@@ -1,5 +1,6 @@
 package capstone.server.domain.workout.repository;
 
+import capstone.server.domain.user.service.UserWardService;
 import capstone.server.entity.UserWard;
 import capstone.server.entity.WorkOutUserWardHas;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface WorkOutCategoryUserWardHasRepository extends JpaRepository<Work
   List<WorkOutUserWardHas> findAllByUserWardOrderByCreatedAtDesc(UserWard userWard);
 
   List<WorkOutUserWardHas> findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtDesc(UserWard userWard, LocalDateTime startDate, LocalDateTime lastDate);
+
+  Long countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
 
 
 }

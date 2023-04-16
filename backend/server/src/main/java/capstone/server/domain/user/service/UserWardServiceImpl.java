@@ -26,6 +26,7 @@ public class UserWardServiceImpl implements UserWardService{
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
 
         Long todayMealCount = mealRepository.countByUserWardAndCreatedAtAfter(userWard, LocalDateTime.now().with(LocalDateTime.MIN));
+        Long todayWorkOutCount = workOutCategoryUserWardHasRepository.countByUserWardAndCreatedAtAfter(userWard, LocalDateTime.now().with(LocalDateTime.MIN));
 
     }
 }

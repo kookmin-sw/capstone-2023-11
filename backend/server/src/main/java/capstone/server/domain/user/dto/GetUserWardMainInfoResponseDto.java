@@ -17,5 +17,5 @@ public class GetUserWardMainInfoResponseDto {
     private List<ResponseMedicineInfo> medicineInfoList;
     private int monthRecordCount;
     private int todayMealCount;
-    private int todayWorkoutCount;
+    private int todayWorkOutCount;
 }
