@@ -638,3 +638,4 @@ const StAiFoodContainer = styled.div`
     height: 20vh;
   }
 `;
+
