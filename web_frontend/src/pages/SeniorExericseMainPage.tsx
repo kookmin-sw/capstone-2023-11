@@ -27,7 +27,18 @@ function SeniorExerciseMainPage() {
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
-  const selected = data?.data.filter((item: ExerciseForm) => item.createdAt.includes(selectedDate));
+  const [selected, setSelected] = useState<ExerciseForm[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (data && data.data) {
+        const newSelected = data.data.filter((item: ExerciseForm) => item.createdAt.includes(selectedDate));
+        setSelected(newSelected);
+      }
+    };
+
+    fetchData();
+  }, [data, selectedDate]);
   const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
@@ -63,24 +74,32 @@ function SeniorExerciseMainPage() {
         <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       </StHeader>
       <StContainer>
-        {selected?.map((item: ExerciseForm) => (
-          <StExercise>
-            <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-            <StExercise className="content">
-              <div className="title">{item.kor}</div>
-              <div className="content">{item.kcal}Kcal 소모</div>
-              <div className="content">{item.hour}시간</div>
+        {!selectedDate ? (
+          <div>Loading...</div>
+        ) : (
+          selected?.map((item: ExerciseForm) => (
+            <StExercise>
+              <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
+              <StExercise className="content">
+                <div className="title">{item.kor}</div>
+                <div className="content">{item.kcal}Kcal 소모</div>
+                <div className="content">{item.hour}시간</div>
+              </StExercise>
+              <img
+                className="esc"
+                onClick={() => onDeleteClick(item.id)}
+                src={require(`../assets/images/img_esc.png`)}
+              />
             </StExercise>
-            <img className="esc" onClick={() => onDeleteClick(item.id)} src={require(`../assets/images/img_esc.png`)} />
-          </StExercise>
-        ))}
+          ))
+        )}
       </StContainer>
       <FlexContainer>
         <StAddButton onClick={onAddClick}>+</StAddButton>
       </FlexContainer>
       <StModal isOpen={showDeleteModal}>
         <StPopContainer>
-          <StTitle className="POP">정말로 삭제하시겠습니까?</StTitle>
+          <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
           <BTNContainer>
             <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
             <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
