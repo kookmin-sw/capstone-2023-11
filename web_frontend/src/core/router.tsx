@@ -3,7 +3,7 @@ import SeniorMypage from "../pages/SeniorMypage";
 import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 import SeniorMain from "../components/SeniorMain";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
-import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
+
 import SeniorPillMain from "../components/seniorPill/SeniorPillMain";
 import SeniorPillDetail from "../components/seniorPill/SeniorPillDetail";
 import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
@@ -23,7 +23,6 @@ function Router() {
         <Route path="/senior/myPage" element={<SeniorMypage />} />
         <Route path="/schedule" element={<SeniorSchedule />} />
         <Route path="/summary" element={<SeniorSummaryPage />} />
-        <Route path="/senior/MealCheck" element={<SeniorMealCheckPage />} />
         <Route path="/senior/main" element={<SeniorMain />} />
         <Route path="/senior/pill" element={<SeniorPillMain />} />
         <Route path="/senior/pill/detail/:id" element={<SeniorPillDetail />} />

@@ -42,7 +42,6 @@ function SeniorExerciseMainPage() {
   const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
-    console.log(data?.data);
     setFirstApi(false);
   }, [data]);
 

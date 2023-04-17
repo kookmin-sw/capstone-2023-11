@@ -152,9 +152,6 @@ function SeniorPillSelf() {
                 setUseMethod(useMethod);
                 setCaution(caution);
                 setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
-                console.log(effect);
-                console.log(useMethod);
-                console.log(caution);
               }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
