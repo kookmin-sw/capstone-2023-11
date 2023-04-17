@@ -43,8 +43,6 @@ function SeniorCalendar(prop: IProp) {
           }
         }}
       />
-
-      <StTitle>{moment(value).format("YYYY년 MM월 DD일")}</StTitle>
     </StContainer>
   );
 }
@@ -74,14 +72,6 @@ const DotContainer = styled.div`
     border-left: 0.5rem solid transparent;
     border-right: 0.5rem solid transparent;
   }
-`;
-
-const StTitle = styled.div`
-  font-family: "Pretendard-Regular";
-  font-size: 2rem;
-  text-align: center;
-  margin: 2rem;
-  align-self: center;
 `;
 
 const Cal = styled(Calendar)`
@@ -136,24 +126,24 @@ const Cal = styled(Calendar)`
     background-color: #f0f0f0;
   }
   .react-calendar__tile:enabled {
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus {
     background: #f8f8fa;
     color: #006ffd;
     border-radius: 1rem;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--now {
     background: #006ffd33;
     border-radius: 1rem;
     font-weight: bold;
     color: #006ffd;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--now:enabled:hover,
   .react-calendar__tile--now:enabled:focus {
@@ -161,41 +151,41 @@ const Cal = styled(Calendar)`
     border-radius: 1rem;
     font-weight: bold;
     color: #006ffd;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--hasActive:enabled:hover,
   .react-calendar__tile--hasActive:enabled:focus {
     background: #f8f8fa;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--active {
     background: #006ffd;
     border-radius: 1rem;
     font-weight: bold;
     color: white;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
     background: #006ffd;
     color: white;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar--selectRange .react-calendar__tile--hover {
     background-color: #f8f8fa;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
   .react-calendar__tile--range {
     background: #f8f8fa;
     color: #006ffd;
     border-radius: 0;
-    max-height: 5rem;
-    height: 5rem;
+    max-height: 4rem;
+    height: 4rem;
   }
 `;
 

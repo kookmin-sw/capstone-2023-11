@@ -59,8 +59,9 @@ function SeniorExerciseMainPage() {
       <StHeader>
         <BackButton />
         <StTitle>운동 기록</StTitle>
+        <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
+        <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       </StHeader>
-      <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
       <StContainer>
         {selected?.map((item: ExerciseForm) => (
           <StExercise>
@@ -102,13 +103,18 @@ const StTitle = styled.div`
   font-family: "Pretendard-Bold";
   font-size: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   align-self: center;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid #006ffd;
+`;
+
+const StDate = styled(StTitle)`
+  border-bottom: 0rem solid #ffffff;
 `;
 
 const StHeader = styled.div`
   display: block;
-  border-bottom: 0.1rem solid #006ffd;
   position: sticky;
   top: 0rem;
   background-color: white;
@@ -130,6 +136,7 @@ const StExercise = styled.div`
   .title {
     font-size: 2rem;
     margin-bottom: 1rem;
+    font-family: "Pretendard-Bold";
   }
   .content {
     flex-direction: column;
