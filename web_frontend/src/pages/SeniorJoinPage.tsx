@@ -138,7 +138,7 @@ function SeniorJoinPage() {
         <StButtonContainer>
           <StJoinButton
             onClick={() => {
-              if (height <= 0 || weight <= 0 || !birth) {
+              if (Number(height) <= 0 || Number(weight) <= 0 || !birth) {
                 alert("정보를 모두 입력해주세요!");
               } else {
                 setProcess(2);
