@@ -26,7 +26,7 @@ function KakaoAuthPage() {
     if (loginData) {
       if (loginData.data.result == "login") {
         localStorage.setItem("accessToken", loginData.data.jwt);
-        navigate("/main");
+        navigate("/senior/main");
       } else {
         if (loginData.data.userType == "userGuardian") {
           if (accessToken) {
