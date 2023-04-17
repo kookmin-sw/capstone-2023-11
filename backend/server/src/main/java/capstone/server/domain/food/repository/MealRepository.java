@@ -4,8 +4,10 @@ import capstone.server.entity.Meal;
 import capstone.server.entity.UserWard;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +23,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
 
     int countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
-    List<LocalDateTime> findDistinctCreatedAtByUserWard(UserWard userWard);
+    @Query("SELECT DISTINCT CAST(FUNCTION('DATE', e.createdAt) AS java.time.LocalDate) FROM Meal e WHERE e.userWard = :userWard")
+    List<LocalDate> findDistinctCreatedAtByUserWard(UserWard userWard);
     
 
 }
