@@ -20,6 +20,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     int countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
 
     int countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
+
+    List<LocalDateTime> findDistinctCreatedAtByUserWard(UserWard userWard);
     
 
 }

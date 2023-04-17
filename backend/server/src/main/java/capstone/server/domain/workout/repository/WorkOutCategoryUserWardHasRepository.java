@@ -22,5 +22,5 @@ public interface WorkOutCategoryUserWardHasRepository extends JpaRepository<Work
 
   int countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
-
+  List<LocalDateTime> findDistinctCreatedAtByUserWard(UserWard userWard);
 }
