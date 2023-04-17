@@ -448,7 +448,7 @@ const StSubInfo = styled.p`
 `;
 const StBackground = styled.main`
   display: flex;
-  align-items: center;
+  align-items: space-between;
   justify-content: center;
   position: fixed;
   width: 100vw;
@@ -463,7 +463,7 @@ const StCheckModal = styled.section`
   padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
