@@ -1,18 +1,15 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Value } from "react-calendar/dist/cjs/shared/types";
 import styled from "styled-components";
 
 function SeniorCalendar() {
-  const [value, setValue] = useState<Date | null>(null);
+  const [value, setValue] = useState(new Date());
   const meal = ["2023-04-06", "2023-04-11", "2023-04-16"];
   const workout = ["2023-04-06", "2023-04-11", "2023-04-20"];
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
   const handleChange = (value: Value) => {
     if (value instanceof Date) {
       setValue(value);
@@ -24,37 +21,25 @@ function SeniorCalendar() {
       <Cal
         calendarType="US"
         onChange={handleChange}
+        activeStartDate={value}
         value={value}
         next2Label={null}
         prev2Label={null}
-        // showNeighboringMonth={false}
         formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
         tileContent={({ date }) => {
-          if (
-            meal.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
-            workout.find((x) => x === moment(date).format("YYYY-MM-DD"))
-          ) {
+          const isMeal = meal.find((x) => x === moment(date).format("YYYY-MM-DD"));
+          const isWorkout = workout.find((x) => x === moment(date).format("YYYY-MM-DD"));
+          if (isMeal || isWorkout) {
             return (
               <DotContainer>
-                <div className="dot"></div>
-                <div className="triangle"></div>
-              </DotContainer>
-            );
-          } else if (meal.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-            return (
-              <DotContainer>
-                <div className="dot"></div>
-              </DotContainer>
-            );
-          } else if (workout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-            return (
-              <DotContainer>
-                <div className="triangle"></div>
+                {isMeal && <div className="dot" />}
+                {isWorkout && <div className="triangle" />}
               </DotContainer>
             );
           }
         }}
       />
+
       <StTitle>{moment(value).format("YYYY년 MM월 DD일")}</StTitle>
     </StContainer>
   );
