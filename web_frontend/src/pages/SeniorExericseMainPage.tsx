@@ -62,7 +62,7 @@ function SeniorExerciseMainPage() {
       </StHeader>
       <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
       <StContainer>
-        {selected.map((item: ExerciseForm) => (
+        {selected?.map((item: ExerciseForm) => (
           <StExercise>
             <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
             <StExercise className="content">
