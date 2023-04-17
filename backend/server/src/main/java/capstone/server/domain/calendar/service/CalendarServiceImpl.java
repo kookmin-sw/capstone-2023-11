@@ -10,6 +10,7 @@ import capstone.server.entity.UserWard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,8 +26,9 @@ public class CalendarServiceImpl implements CalendarService{
     MealRepository mealRepository;
     @Override
     @Transactional
-    public GetRecordsDateResponseDto getRecordsDate(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+    public GetRecordsDateResponseDto getRecordsDate(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
+
         List<LocalDate> mealRecordDate = mealRepository.findDistinctCreatedAtByUserWard(userWard);
         List<LocalDate> workOutRecordDate = workOutCategoryUserWardHasRepository.findDistinctCreatedAtByUserWard(userWard);
 
