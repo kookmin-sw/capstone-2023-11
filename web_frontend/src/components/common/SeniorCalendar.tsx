@@ -40,7 +40,7 @@ function SeniorCalendar() {
         }}
       />
       {/* {moment(value).format("YYYY년 MM월 DD일")} */}
-      <span className="bold">{value?.toDateString()}</span>
+      <StTitle>{value?.toDateString()}</StTitle>
     </StContainer>
   );
 }
@@ -65,11 +65,21 @@ const DotContainer = styled.div`
   }
 `;
 
+const StTitle = styled.div`
+  font-family: "Pretendard-Regular";
+  font-size: 2rem;
+  text-align: center;
+  margin: 2rem;
+  align-self: center;
+`;
+
 const Cal = styled(Calendar)`
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
   border: 0;
   outline: none;
+  max-width: fit-content;
+  max-height: fit-content;
   .reactCalendar {
     border: 0 !important;
   }
@@ -78,6 +88,8 @@ const Cal = styled(Calendar)`
     font-family: "Pretendard-Regular";
     border: none;
     outline: none;
+    max-width: fit-content;
+    max-height: fit-content;
   }
   .react-calendar__navigation button {
     color: #006ffd;
