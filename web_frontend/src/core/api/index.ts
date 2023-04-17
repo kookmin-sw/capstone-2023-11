@@ -75,8 +75,10 @@ export const checkMeal = async (file: FormData) => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
+  });
 
-
+  return data;
+};
 export const getExerciseList = async () => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/workout/category`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
@@ -90,10 +92,9 @@ export const uploadMeal = async (file: FormData) => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
-})
-return data;
-}
-
+  });
+  return data;
+};
 
 export const postExerciseList = async (type: string, hour: number) => {
   const data = axios.post(
