@@ -34,5 +34,6 @@ public class CalendarController {
                             .message(e.getResponseBodyAsString())
                             .build()
             );
+        }
     }
 }
