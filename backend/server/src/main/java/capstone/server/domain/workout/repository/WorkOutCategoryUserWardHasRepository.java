@@ -4,6 +4,7 @@ import capstone.server.domain.user.service.UserWardService;
 import capstone.server.entity.UserWard;
 import capstone.server.entity.WorkOutUserWardHas;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -22,5 +23,6 @@ public interface WorkOutCategoryUserWardHasRepository extends JpaRepository<Work
 
   int countByUserWardAndCreatedAtBetween(UserWard userWard, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
-
+  @Query("SELECT DISTINCT CAST(FUNCTION('DATE', e.createdAt) AS java.time.LocalDate) FROM WorkOutUserWardHas e WHERE e.userWard = :userWard")
+  List<LocalDate> findDistinctCreatedAtByUserWard(UserWard userWard);
 }
