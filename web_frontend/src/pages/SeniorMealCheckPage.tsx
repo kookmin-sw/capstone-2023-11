@@ -181,6 +181,10 @@ function SeniorMealCheckPage() {
               <br />
               골라주세요!
             </StCheckTitle>
+            <StAiFoodContainer>
+              <StFoodImg width={"100%"} src={imageSrc}></StFoodImg>
+              <StWhereFood />
+            </StAiFoodContainer>
             {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
               <>
                 {currentSelect == index ? (
@@ -201,7 +205,6 @@ function SeniorMealCheckPage() {
             ) : (
               <StFoodUnselected onClick={() => setCurrentSelect(-1)}>여기엔 없어요 ㅜㅜ</StFoodUnselected>
             )}
-
             <StNextButton onClick={() => FoodDetect()}>다음으로</StNextButton>
           </StCheckModal>
         </StBackground>
@@ -240,6 +243,7 @@ function SeniorMealCheckPage() {
       {finishDetect == 1 ? (
         <>
           <StFoodImg width={"100%"} src={imageSrc} />
+
           <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
           <StBoxContainer>
             {selectFoods.map((numdex: number, index: number) => {
@@ -383,6 +387,7 @@ const StFoodImg = styled.img`
   max-height: 30rem;
   margin-top: 2.3rem;
   border-radius: 1.2rem;
+  margin-bottom: 1rem;
 `;
 const StFoodText = styled.p`
   font-size: 2.3rem;
@@ -429,11 +434,11 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 55rem;
-  padding: 1.6rem 2.5rem 4.1rem 2.5rem;
+  height: 90%;
+  padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
-  margin-top: 5rem;
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -444,7 +449,6 @@ const StCheckTitle = styled.p`
   font-size: 2.5rem;
   line-height: 3rem;
   text-align: center;
-  margin-bottom: 2.7rem;
 `;
 const StNextButton = styled.button`
   font-family: "Pretendard-Bold";
@@ -583,4 +587,19 @@ const StBoxContainer = styled.div`
   height: 45vh;
   overflow: scroll;
   margin-top: 2rem;
+`;
+const StWhereFood = styled.div`
+  background: none;
+  border: 1.5px solid red;
+  width: 5rem;
+  height: 5rem;
+  position: fixed;
+`;
+const StAiFoodContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    max-width: 100% !important;
+  }
 `;
