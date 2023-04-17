@@ -6,6 +6,8 @@ import BackButton from "../components/common/BackButton";
 import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
+import SeniorCalendar from "../components/common/SeniorCalendar";
+import moment from "moment";
 
 interface ExerciseForm {
   createdAt: string;
@@ -21,9 +23,11 @@ function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
   const [deleteId, setDeleteId] = useState<number>(999);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
+  const selected = data?.data.filter((item: ExerciseForm) => item.createdAt.includes(selectedDate));
   const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
@@ -56,8 +60,9 @@ function SeniorExerciseMainPage() {
         <BackButton />
         <StTitle>운동 기록</StTitle>
       </StHeader>
+      <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
       <StContainer>
-        {data?.data.map((item: ExerciseForm) => (
+        {selected.map((item: ExerciseForm) => (
           <StExercise>
             <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
             <StExercise className="content">

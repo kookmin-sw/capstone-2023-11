@@ -9,7 +9,6 @@ import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
-import SeniorCalendar from "../components/common/SeniorCalendar";
 function Router() {
   return (
     <BrowserRouter>
@@ -23,7 +22,6 @@ function Router() {
         <Route path="/join/guardian" element={<GuardianJoinPage />} />
         <Route path="/senior/exercise/add" element={<SeniorExercise />} />
         <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
-        <Route path="/senior/calendar" element={<SeniorCalendar />} />
       </Routes>
     </BrowserRouter>
   );

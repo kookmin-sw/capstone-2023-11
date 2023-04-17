@@ -1,11 +1,14 @@
 import moment from "moment";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Value } from "react-calendar/dist/cjs/shared/types";
 import styled from "styled-components";
 
-function SeniorCalendar() {
+interface IProp {
+  setDate: Dispatch<SetStateAction<string>>;
+}
+function SeniorCalendar(prop: IProp) {
   const [value, setValue] = useState(new Date());
   const meal = ["2023-04-06", "2023-04-11", "2023-04-16"];
   const workout = ["2023-04-06", "2023-04-11", "2023-04-20"];
@@ -13,6 +16,7 @@ function SeniorCalendar() {
   const handleChange = (value: Value) => {
     if (value instanceof Date) {
       setValue(value);
+      prop.setDate(moment(value).format("YYYY-MM-DD"));
     }
   };
 
@@ -21,7 +25,7 @@ function SeniorCalendar() {
       <Cal
         calendarType="US"
         onChange={handleChange}
-        activeStartDate={value}
+        // activeStartDate={value}
         value={value}
         next2Label={null}
         prev2Label={null}
