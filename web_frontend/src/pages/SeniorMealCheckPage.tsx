@@ -26,6 +26,28 @@ function SeniorMealCheckPage() {
   const [selectFoods] = useState<number[]>([]);
   const [image, setImage] = useState<any>();
   const [foodFormData] = useState<FormData>(new FormData());
+
+  const canvasRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      const image = new Image();
+      image.src = imageSrc;
+      const inW = image.width;
+      const inH = image.height;
+      ctx.drawImage(image, 0, 0, 300, 150);
+      ctx.lineWidth = "3";
+      ctx.strokeStyle = "red";
+      ctx.strokeRect(
+        data?.data?.result[index].x * (300 / inW),
+        data?.data?.result[index].y * (150 / inH),
+        data?.data?.result[index].w * (300 / inW),
+        data?.data?.result[index].h * (150 / inH),
+      );
+    }
+  }, [canvasRef, imageSrc, index]);
+
   const navigate = useNavigate();
   const foodUpload = () => {
     const foodBody = { food: [{}] };
@@ -166,6 +188,7 @@ function SeniorMealCheckPage() {
     selectFoods.push(currentSelect);
     setIndex(index + 1);
   };
+
   return (
     <StMealCheckPage>
       <StHeader>
@@ -182,8 +205,9 @@ function SeniorMealCheckPage() {
               골라주세요!
             </StCheckTitle>
             <StAiFoodContainer>
-              <StFoodImg width={"100%"} src={imageSrc}></StFoodImg>
-              <StWhereFood />
+              {/* <StFoodImg width={"100%"} src={imageSrc}></StFoodImg> */}
+              <canvas ref={canvasRef}></canvas>
+              {/* <StWhereFood style={{ left: data?.data?.result[index]?.x + 57, top: data?.data?.result[index]?.y }} /> */}
             </StAiFoodContainer>
             {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
               <>
@@ -424,6 +448,7 @@ const StSubInfo = styled.p`
 `;
 const StBackground = styled.main`
   display: flex;
+  align-items: center;
   justify-content: center;
   position: fixed;
   width: 100vw;
@@ -434,14 +459,15 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 90%;
+  height: 85vh;
   padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
-  margin-top: 3rem;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 `;
 const StCheckTitle = styled.p`
   width: 25.2rem;
@@ -552,6 +578,7 @@ const StNutrient = styled.p`
   color: #006ffd;
   font-size: 1.2rem;
   margin-top: 0.4rem;
+  font-family: "Pretendard-Bold";
 `;
 const StButtonFooter = styled.footer`
   width: 32rem;
@@ -560,7 +587,8 @@ const StButtonFooter = styled.footer`
   background-color: white;
   margin-top: 3rem;
   position: fixed;
-  bottom: 2vh;
+  bottom: 0;
+  padding-bottom: 2vh;
   padding-top: 0.8rem;
 `;
 const StReupload = styled.button`
@@ -587,19 +615,26 @@ const StBoxContainer = styled.div`
   height: 45vh;
   overflow: scroll;
   margin-top: 2rem;
+  padding-bottom: 10rem;
 `;
-const StWhereFood = styled.div`
-  background: none;
-  border: 1.5px solid red;
-  width: 5rem;
-  height: 5rem;
-  position: fixed;
-`;
+// const StWhereFood = styled.div`
+//   background: none;
+//   border: 1.5px solid red;
+//   width: 5rem;
+//   height: 5rem;
+//   position: fixed;
+// `;
 const StAiFoodContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    max-width: 100% !important;
+  width: 28rem;
+
+  canvas {
+    max-width: 100%;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    height: 20vh;
   }
 `;
