@@ -8,7 +8,7 @@ import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
-import SeniorExercise from "../pages/SeniorExercisePage";
+
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
 function Router() {

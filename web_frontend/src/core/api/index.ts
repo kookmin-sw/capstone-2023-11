@@ -90,6 +90,9 @@ export const uploadMeal = async (file: FormData) => {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
+})
+return data;
+}
 
 
 export const postExerciseList = async (type: string, hour: number) => {
