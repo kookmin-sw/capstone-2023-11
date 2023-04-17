@@ -69,20 +69,61 @@ export const wardJoin = async (
   );
   return data;
 };
+
 export const checkMeal = async (file: FormData) => {
   const data = axios.post(`${process.env.REACT_APP_SERVER}/api/food/detect`, file, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
+
+
+export const getExerciseList = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/workout/category`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
   });
 
   return data;
 };
+
 export const uploadMeal = async (file: FormData) => {
   const data = axios.post(`${process.env.REACT_APP_SERVER}/api/food`, file, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     },
+
+
+export const postExerciseList = async (type: string, hour: number) => {
+  const data = axios.post(
+    `${process.env.REACT_APP_SERVER}/api/workout`,
+    {
+      type: type,
+      hour: hour,
+    },
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    },
+  );
+  return data;
+};
+
+export const getRecordExerciseList = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/workout/records`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
+  return data;
+};
+
+export const deleteExerciseList = async (id: number) => {
+  const data = axios.delete(`${process.env.REACT_APP_SERVER}/api/workout/records/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getCalendarDate = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/calendar`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
   });
   return data;
 };

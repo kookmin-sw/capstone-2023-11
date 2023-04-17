@@ -9,6 +9,8 @@ import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExercisePage";
+import SeniorExercise from "../pages/SeniorExerciseAddPage";
+import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -21,7 +23,8 @@ function Router() {
         <Route path="/senior/summary" element={<SeniorSummaryPage />} />
         <Route path="/senior/MealCheck" element={<SeniorMealCheckPage />} />
         <Route path="/join/guardian" element={<GuardianJoinPage />} />
-        <Route path="/senior/exercise" element={<SeniorExercise />} />
+        <Route path="/senior/exercise/add" element={<SeniorExercise />} />
+        <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
       </Routes>
     </BrowserRouter>
   );
