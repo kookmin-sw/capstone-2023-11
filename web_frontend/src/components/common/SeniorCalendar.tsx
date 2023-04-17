@@ -38,8 +38,9 @@ function SeniorCalendar(prop: IProp) {
         prev2Label={null}
         formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
         tileContent={({ date }) => {
-          const isMeal = meal.find((x) => x === moment(date).format("YYYY-MM-DD"));
-          const isWorkout = workout.find((x) => x === moment(date).format("YYYY-MM-DD"));
+          const isMeal = meal?.find((x) => x === moment(date).format("YYYY-MM-DD"));
+          const isWorkout = workout?.find((x) => x === moment(date).format("YYYY-MM-DD"));
+
           if (isMeal || isWorkout) {
             return (
               <DotContainer>

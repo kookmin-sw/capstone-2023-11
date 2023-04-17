@@ -82,7 +82,9 @@ function SeniorExerciseMainPage() {
               <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
               <StExercise className="content">
                 <div className="title">{item.kor}</div>
-                <div className="content">{item.kcal}Kcal 소모</div>
+                <div className="content" style={{ whiteSpace: "nowrap" }}>
+                  {item.kcal}Kcal 소모
+                </div>
                 <div className="content">{item.hour}시간</div>
               </StExercise>
               <img
