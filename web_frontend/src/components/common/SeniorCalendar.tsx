@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -6,8 +7,8 @@ import styled from "styled-components";
 
 function SeniorCalendar() {
   const [value, setValue] = useState<Date | null>(null);
-  const meal = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 06 2023"];
-  const workout = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 13 2023"];
+  const meal = ["2023-04-06", "2023-04-11", "2023-04-16"];
+  const workout = ["2023-04-06", "2023-04-11", "2023-04-20"];
 
   useEffect(() => {
     console.log(value);
@@ -29,20 +30,23 @@ function SeniorCalendar() {
         // showNeighboringMonth={false}
         formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
         tileContent={({ date }) => {
-          if (meal.find((x) => x === date.toDateString()) && workout.find((x) => x === date.toDateString())) {
+          if (
+            meal.find((x) => x === moment(date).format("YYYY-MM-DD")) &&
+            workout.find((x) => x === moment(date).format("YYYY-MM-DD"))
+          ) {
             return (
               <DotContainer>
                 <div className="dot"></div>
                 <div className="triangle"></div>
               </DotContainer>
             );
-          } else if (meal.find((x) => x === date.toDateString())) {
+          } else if (meal.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
             return (
               <DotContainer>
                 <div className="dot"></div>
               </DotContainer>
             );
-          } else if (workout.find((x) => x === date.toDateString())) {
+          } else if (workout.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
             return (
               <DotContainer>
                 <div className="triangle"></div>
@@ -51,8 +55,7 @@ function SeniorCalendar() {
           }
         }}
       />
-      {/* {moment(value).format("YYYY년 MM월 DD일")} */}
-      <StTitle>{value?.toDateString()}</StTitle>
+      <StTitle>{moment(value).format("YYYY년 MM월 DD일")}</StTitle>
     </StContainer>
   );
 }
