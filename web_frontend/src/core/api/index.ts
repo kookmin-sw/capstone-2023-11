@@ -189,3 +189,10 @@ export const getPillInfo = async () => {
   });
   return response.data;
 };
+
+export const getSeniorInfo = async () => {
+  const response = await axios.get(`${process.env.REACT_APP_SERVER}/api/userward/main`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return response.data;
+};

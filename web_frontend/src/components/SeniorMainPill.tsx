@@ -1,35 +1,80 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getPillInfo } from "../core/api";
 
 function Pill() {
+  const [pillData, setPillData] = useState<pillInfo>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getPillInfo();
+      setPillData(data);
+    }
+
+    fetchData();
+  }, []);
   return (
     <StPill>
       <StPillHeader>
-        <StPillName>💊 복용하는 약</StPillName>
-        <Link to={`/senior/pill`}>
+        <StPillTitle>💊 복용하는 약</StPillTitle>
+        <StLink to={`/senior/pill`}>
           <StPillAddBtn>자세히 보기</StPillAddBtn>
-        </Link>
+        </StLink>
       </StPillHeader>
       <StPillList>
-        <StPillItem>
-          <StPillImg></StPillImg>
-          <StPillContent>아스피린</StPillContent>
-        </StPillItem>
-        <StPillItem>
-          <StPillImg></StPillImg>
-          <StPillContent>비타민 B</StPillContent>
-        </StPillItem>
-        <StPillItem>
-          <StPillImg></StPillImg>
-          <StPillContent>타이레놀</StPillContent>
-        </StPillItem>
-        <StPillItem>
-          <StPillImg></StPillImg>
-          <StPillContent>혈압약</StPillContent>
-        </StPillItem>
+        {pillData?.medicines.map((value, index) => {
+          return (
+            <>
+              <StLink to={`/senior/pill/detail/${value.id}`}>
+                <StPillItem key={index}>
+                  <StPillImg src={value.imageUrl} />
+                  <StPillContent>{value.name.length > 12 ? value.name.slice(0, 12) + "..." : value.name}</StPillContent>
+                  <StPillContent>{value.remainDay}</StPillContent>
+                  <StPillRemainday>{value.remainDay}일 남음</StPillRemainday>
+                </StPillItem>
+              </StLink>
+            </>
+          );
+        })}
       </StPillList>
     </StPill>
   );
+}
+
+interface pillInfo {
+  medicines: [
+    {
+      createdAt: string;
+      modifiedAt: string;
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      dueAt: string;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+      remainDay: number;
+      userWard: {
+        createdAt: string;
+        modifiedAt: string;
+        userId: number;
+        kakaoAccountId: number;
+        name: string;
+        birthday: string;
+        gender: string;
+        weight: number;
+        height: number;
+        drinkings: number;
+        smoke: number;
+      };
+    },
+  ];
 }
 
 const StPill = styled.div`
@@ -54,9 +99,8 @@ const StPillHeader = styled.header`
   flex-grow: 0;
 `;
 
-const StPillName = styled.h1`
-  font-family: "retendard-Bold";
-  font-style: normal;
+const StPillTitle = styled.h1`
+  font-family: "Pretendard-Bold";
   font-weight: 800;
   font-size: 2rem;
   line-height: 2rem;
@@ -68,10 +112,9 @@ const StPillName = styled.h1`
 
 const StPillAddBtn = styled.button`
   font-family: "retendard-Regular";
-  font-style: normal;
   font-weight: 600;
   font-size: 1.5rem;
-  line-height: 1.5rem;
+  line-height: 0rem;
   color: #006ffd;
   flex: none;
   flex-grow: 0;
@@ -85,7 +128,7 @@ const StPillList = styled.div`
   flex-direction: row;
   gap: 1.2rem;
   width: 100%;
-  height: 19rem;
+  height: 20rem;
   overflow-x: scroll;
   align-self: stretch;
   background-color: transparent;
@@ -93,20 +136,19 @@ const StPillList = styled.div`
 `;
 
 const StPillItem = styled.button`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0rem;
   width: 20rem;
-  height: 19rem;
-  background: white;
-  border-radius: 2rem;
+  height: 18rem;
+  background: #eaf2ff;
   flex: none;
   flex-grow: 0;
-  background-color: white;
-  border: 0.15rem solid #006ffd;
-  border-radius: 1.2rem;
-  font-size: 2rem;
+  background-color: #eaf2ff;
+  border: 0;
+  border-radius: 1.6rem;
 `;
 
 const StPillImg = styled.img`
@@ -118,21 +160,38 @@ const StPillImg = styled.img`
   flex-grow: 0;
   border-radius: 2rem;
   border: transparent;
+  padding: 0.5rem;
+`;
+
+const StPillRemainday = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 10rem;
+  height: 3rem;
+  line-height: 3rem;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  background-color: #2897ff;
+  color: white;
+  border-radius: 0.5rem;
 `;
 
 const StPillContent = styled.div`
   font-family: "retendard-Bold";
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 2rem;
-  gap: 2rem;
+  font-weight: 600;
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem 0rem 1rem;
   width: 20rem;
-  height: 7rem;
-  flex: none;
-  align-self: stretch;
-  flex-grow: 0;
+  height: 2rem;
   color: #000000;
+  text-align: left;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  display: flex;
 `;
 
 export default Pill;
