@@ -292,28 +292,30 @@ const StDaySwapper = styled.div`
 
 const StPillNoTake = styled.div`
   width: 6rem;
-  height: 3.5rem;
+  height: 2.7rem;
   background: #eaf2ff;
   border-radius: 1.2rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #006ffd;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 1rem;
 `;
 
 const StPillTake = styled.div`
   width: 6rem;
-  height: 3.5rem;
+  height: 2.7rem;
   background: #006ffd;
   border-radius: 1.2rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: white;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 1rem;
 `;
 
 const StLink = styled(Link)`

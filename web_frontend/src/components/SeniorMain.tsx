@@ -13,7 +13,7 @@ function SeniorMain() {
     fetchData();
   }, []);
   return (
-    <>
+    <STContainer>
       <StHeader>
         <StUserContent>
           <StUser src={require("../assets/images/img_avatar.png")}></StUser>
@@ -60,7 +60,7 @@ function SeniorMain() {
           </WhiteButton2>
         </StMainItem>
       </MenuList>
-    </>
+    </STContainer>
   );
 }
 
@@ -89,16 +89,22 @@ interface MainInfo {
   todayWorkOutCount: number;
 }
 
+const STContainer = styled.div`
+  padding: 3rem 2rem;
+  justify-content: center;
+  margin: 1rem auto;
+`;
+
 const StHeader = styled.header`
   font-size: 2rem;
   display: flex;
   width: 100%;
-  padding: 4rem 2rem 0 2rem;
+  padding: 0rem 2rem 0 2rem;
 `;
 
 const StUser = styled.img`
-  width: 7rem;
-  height: 7rem;
+  width: 5rem;
+  height: 5rem;
   display: flex;
   margin-left: auto;
   &:hover {
@@ -166,6 +172,7 @@ const ItemContent = styled.button`
   background-color: #eaf2ff;
   border: 0;
   border-radius: 1.2rem;
+  margin-bottom: 1rem;
 `;
 
 const ItemTextContainer = styled.div`

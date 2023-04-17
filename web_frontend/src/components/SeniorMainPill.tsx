@@ -30,7 +30,11 @@ function Pill() {
                 <StPillItem key={index}>
                   <StPillImg src={value.imageUrl} />
                   <StPillContent>{value.name.length > 12 ? value.name.slice(0, 12) + "..." : value.name}</StPillContent>
-                  <StPillContent>{value.remainDay}</StPillContent>
+                  <StDaySwapper>
+                    {value.breakfast ? <StPillTake>아침</StPillTake> : null}
+                    {value.lunch ? <StPillTake>점심</StPillTake> : null}
+                    {value.dinner ? <StPillTake>저녁</StPillTake> : null}
+                  </StDaySwapper>
                   <StPillRemainday>{value.remainDay}일 남음</StPillRemainday>
                 </StPillItem>
               </StLink>
@@ -101,7 +105,6 @@ const StPillHeader = styled.header`
 
 const StPillTitle = styled.h1`
   font-family: "Pretendard-Bold";
-  font-weight: 800;
   font-size: 2rem;
   line-height: 2rem;
   color: #000000;
@@ -112,9 +115,8 @@ const StPillTitle = styled.h1`
 
 const StPillAddBtn = styled.button`
   font-family: "retendard-Regular";
-  font-weight: 600;
   font-size: 1.5rem;
-  line-height: 0rem;
+  line-height: 1rem;
   color: #006ffd;
   flex: none;
   flex-grow: 0;
@@ -167,19 +169,18 @@ const StPillRemainday = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 10rem;
-  height: 3rem;
-  line-height: 3rem;
-  font-size: 2rem;
+  width: 8rem;
+  height: 2.7rem;
+  line-height: 2.7rem;
+  font-size: 1.6rem;
   font-family: "Pretendard-Bold";
-  background-color: #2897ff;
+  background-color: #006ffd;
   color: white;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 `;
 
 const StPillContent = styled.div`
   font-family: "retendard-Bold";
-  font-weight: 600;
   font-size: 1.6rem;
   padding: 0.5rem 1rem 0rem 1rem;
   width: 20rem;
@@ -192,6 +193,27 @@ const StLink = styled(Link)`
   text-decoration: none;
   color: black;
   display: flex;
+`;
+
+const StDaySwapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-left: 1rem;
+`;
+
+const StPillTake = styled.div`
+  width: 4rem;
+  height: 2.5rem;
+  background: #006ffd;
+  border-radius: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.6rem;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 1rem;
 `;
 
 export default Pill;
