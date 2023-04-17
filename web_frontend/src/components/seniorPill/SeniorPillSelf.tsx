@@ -80,30 +80,46 @@ function SeniorPillSelf() {
     setDayValue(parseInt(e.target.value));
   };
 
-  // const [content, setContent] = useState("");
-  // const [result, setResult] = useState<{ title?: string; string: string }[]>([]);
-  // const [matches, setMatches] = useState<any[]>([]);
+  const parser = new DOMParser();
 
-  // const articleRegex = /<ARTICLE[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/ARTICLE>/gm;
-  // const cdataRegex = /<!\[CDATA\[(.*?)\]\]>/gm;
+  const effectParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
 
-  // setMatches([...Array.from(content.matchAll(articleRegex))]);
+  const useMethodParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
 
-  // for (const match of matches) {
-  //   const article = match[1];
-  //   const cdataMatches = [...article.matchAll(cdataRegex)];
-  //   const strings = cdataMatches.map((cdataMatch) => cdataMatch[1]);
-  //   const title = /<ARTICLE title="(.*?)"/.exec(article)?.[1];
-
-  //   setResult([...result, ...strings.map((string) => ({ title, string }))]);
-  // }
-
-  const [content, setContent] = useState("");
-  const [result, setResult] = useState<{ title?: string; string: string }[]>([]);
-  const [matches, setMatches] = useState<any[]>([]);
-
-  const articleRegex = /<ARTICLE[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/ARTICLE>/gm;
-  const cdataRegex = /<!\[CDATA\[(.*?)\]\]>/gm;
+  const cautionParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
 
   return (
     <>
@@ -124,23 +140,21 @@ function SeniorPillSelf() {
                 onClickButton();
                 setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
                 setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
-                setContent(pillData.data?.body.items[0].EE_DOC_DATA ?? "");
-                await setMatches([...Array.from(content.matchAll(articleRegex))]);
-
-                for (const match of matches) {
-                  const article = match[1];
-                  const cdataMatches = [...article.matchAll(cdataRegex)];
-                  const strings = cdataMatches.map((cdataMatch) => cdataMatch[1]);
-                  const title = /<ARTICLE title="(.*?)"/.exec(article)?.[1];
-
-                  await setResult([...result, ...strings.map((string) => ({ title, string }))]);
-                }
-                console.log(result);
-                console.log(matches);
-                setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
-                setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
-                setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));
+                const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
+                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
+                const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+                const [effect, useMethod, caution] = await Promise.all([
+                  effectParse(eeDocData),
+                  useMethodParse(udDocData),
+                  cautionParse(nbDocData),
+                ]);
+                setEffect(effect);
+                setUseMethod(useMethod);
+                setCaution(caution);
                 setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
+                console.log(effect);
+                console.log(useMethod);
+                console.log(caution);
               }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>

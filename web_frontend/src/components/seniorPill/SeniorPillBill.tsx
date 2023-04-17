@@ -82,15 +82,63 @@ function PillImgUpload() {
     setDayValue(parseInt(e.target.value));
   };
 
+  const parser = new DOMParser();
+
+  const effectParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
+
+  const useMethodParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
+
+  const cautionParse = async (xmlString: string) => {
+    const xml = parser.parseFromString(xmlString, "application/xml");
+    const articles = Array.from(xml.getElementsByTagName("ARTICLE"));
+    const result = [];
+    for (const article of articles) {
+      const title = article.getAttribute("title");
+      const paragraph = article.getElementsByTagName("PARAGRAPH")[0];
+      const text = paragraph?.textContent?.trim() || "";
+      result.push({ title, text });
+    }
+    return JSON.stringify(result);
+  };
+
   const pillInfo = async () => {
     await setPillName(pillData.data?.body.items[0].ITEM_NAME);
     await setCompany(pillData.data?.body.items[0].ENTP_NAME);
-    await setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD.slice(0, 100));
-    await setEffect(pillData?.data?.body?.items[0].EE_DOC_DATA.slice(0, 100));
-    await setUseMethod(pillData?.data?.body?.items[0].UD_DOC_DATA.slice(0, 100));
-    await setCaution(pillData?.data?.body?.items[0].NB_DOC_DATA.slice(0, 100));
+    await setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
+    const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
+    const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
+    const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+    const [effect, useMethod, caution] = await Promise.all([
+      effectParse(eeDocData),
+      useMethodParse(udDocData),
+      cautionParse(nbDocData),
+    ]);
+    await setEffect(effect);
+    await setUseMethod(useMethod);
+    await setCaution(caution);
     await setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
-    console.log(pillName, company, depositMethod, effect, useMethod, caution, imgUrl, dayValue);
     setRegiester(true);
   };
 
