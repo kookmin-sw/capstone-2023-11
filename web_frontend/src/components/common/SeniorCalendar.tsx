@@ -6,7 +6,8 @@ import styled from "styled-components";
 
 function SeniorCalendar() {
   const [value, setValue] = useState<Date | null>(null);
-  const mark = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 06 2023"];
+  const meal = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 06 2023"];
+  const workout = ["Tue Apr 25 2023", "Wed Apr 05 2023", "Thu Apr 13 2023"];
 
   useEffect(() => {
     console.log(value);
@@ -28,13 +29,24 @@ function SeniorCalendar() {
         // showNeighboringMonth={false}
         formatDay={(locale, date) => date.toLocaleString("en", { day: "numeric" })}
         tileContent={({ date }) => {
-          if (mark.find((x) => x === date.toDateString())) {
+          if (meal.find((x) => x === date.toDateString()) && workout.find((x) => x === date.toDateString())) {
             return (
-              <>
-                <DotContainer>
-                  <div className="dot" />
-                </DotContainer>
-              </>
+              <DotContainer>
+                <div className="dot"></div>
+                <div className="triangle"></div>
+              </DotContainer>
+            );
+          } else if (meal.find((x) => x === date.toDateString())) {
+            return (
+              <DotContainer>
+                <div className="dot"></div>
+              </DotContainer>
+            );
+          } else if (workout.find((x) => x === date.toDateString())) {
+            return (
+              <DotContainer>
+                <div className="triangle"></div>
+              </DotContainer>
             );
           }
         }}
@@ -62,6 +74,13 @@ const DotContainer = styled.div`
     border-radius: 50%;
     display: flex;
     margin-left: 1px;
+  }
+  .triangle {
+    width: 0px;
+    height: 0px;
+    border-bottom: calc(0.5rem * 1.732) solid #f6e58d;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
   }
 `;
 
