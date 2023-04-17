@@ -19,6 +19,37 @@ function PillDetail() {
 
   const selectPill = pillData?.medicines.find((pill) => pill.id === Number(id));
 
+  const effectContent = selectPill?.effect ? JSON.parse(selectPill.effect) : [];
+  const useMethodContent = selectPill?.useMethod ? JSON.parse(selectPill.useMethod) : [];
+  const cautionContent = selectPill?.caution ? JSON.parse(selectPill.caution) : [];
+  const resultEffect = effectContent
+    .map((item: any, index: number, arr: any[]) => {
+      if (item.title === "") {
+        return item.text;
+      } else {
+        return `${item.title}<br>&nbsp;${item.text}${index === arr.length - 1 ? "" : "<br>"}`;
+      }
+    })
+    .join("<br>");
+  const resultUseMethod = useMethodContent
+    .map((item: any, index: number, arr: any[]) => {
+      if (item.title === "") {
+        return item.text;
+      } else {
+        return `${item.title}<br>&nbsp;${item.text}${index === arr.length - 1 ? "" : "<br>"}`;
+      }
+    })
+    .join("<br>");
+  const resultCaution = cautionContent
+    .map((item: any, index: number, arr: any[]) => {
+      if (item.title === "") {
+        return item.text;
+      } else {
+        return `${item.title}<br>&nbsp;${item.text}${index === arr.length - 1 ? "" : "<br>"}`;
+      }
+    })
+    .join("<br>");
+
   return (
     <>
       <StHeader>
@@ -41,15 +72,15 @@ function PillDetail() {
           </StContentItem>
           <StContentItem>
             <StItemName>효과 • 효능</StItemName>
-            <StItemContent>{selectPill?.effect}</StItemContent>
+            <StItemContent dangerouslySetInnerHTML={{ __html: resultEffect }} />
           </StContentItem>
           <StContentItem>
             <StItemName>투여 방법</StItemName>
-            <StItemContent>{selectPill?.useMethod}</StItemContent>
+            <StItemContent dangerouslySetInnerHTML={{ __html: resultUseMethod }} />
           </StContentItem>
           <StContentItem>
             <StItemName>주의 사항</StItemName>
-            <StItemContent>{selectPill?.caution}</StItemContent>
+            <StItemContent dangerouslySetInnerHTML={{ __html: resultCaution }} />
           </StContentItem>
           <StLink to={"/senior/pill"}>
             <BlueButton>돌아가기</BlueButton>
