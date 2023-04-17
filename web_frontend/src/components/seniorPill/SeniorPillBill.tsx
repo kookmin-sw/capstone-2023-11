@@ -179,7 +179,7 @@ function PillImgUpload() {
   useEffect(() => {
     if (register == true) {
       postPillInfo().then(() => {
-        alert("register");
+        alert("등록되었습니다.");
         setIsLoading(false);
       });
       setRegiester(false);

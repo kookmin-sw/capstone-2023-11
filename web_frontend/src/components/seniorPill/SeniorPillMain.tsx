@@ -51,12 +51,12 @@ function SeniorPillMain() {
 
   const ModifyPillData = async (id: number, dayToTake: number, breakfast: boolean, lunch: boolean, dinner: boolean) => {
     await modifyPillData(id, dayToTake, breakfast, lunch, dinner);
-    alert("modify!");
+    alert("수정되었습니다.");
   };
 
   const DeletePillData = async (id: number) => {
     await deletePillData(id);
-    alert("delete!");
+    alert("삭제되었습니다.");
   };
 
   return (
