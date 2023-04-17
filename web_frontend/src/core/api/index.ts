@@ -106,3 +106,10 @@ export const deleteExerciseList = async (id: number) => {
   });
   return data;
 };
+
+export const getCalendarDate = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/calendar`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};

@@ -6,6 +6,8 @@ import BackButton from "../components/common/BackButton";
 import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
+import SeniorCalendar from "../components/common/SeniorCalendar";
+import moment from "moment";
 
 interface ExerciseForm {
   createdAt: string;
@@ -21,9 +23,22 @@ function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
   const [deleteId, setDeleteId] = useState<number>(999);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
+  const [selected, setSelected] = useState<ExerciseForm[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (data && data.data) {
+        const newSelected = data.data.filter((item: ExerciseForm) => item.createdAt.includes(selectedDate));
+        setSelected(newSelected);
+      }
+    };
+
+    fetchData();
+  }, [data, selectedDate]);
   const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
@@ -55,26 +70,36 @@ function SeniorExerciseMainPage() {
       <StHeader>
         <BackButton />
         <StTitle>운동 기록</StTitle>
+        <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
+        <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       </StHeader>
       <StContainer>
-        {data?.data.map((item: ExerciseForm) => (
-          <StExercise>
-            <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-            <StExercise className="content">
-              <div className="title">{item.kor}</div>
-              <div className="content">{item.kcal}Kcal 소모</div>
-              <div className="content">{item.hour}시간</div>
+        {!selectedDate ? (
+          <div>Loading...</div>
+        ) : (
+          selected?.map((item: ExerciseForm) => (
+            <StExercise>
+              <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
+              <StExercise className="content">
+                <div className="title">{item.kor}</div>
+                <div className="content">{item.kcal}Kcal 소모</div>
+                <div className="content">{item.hour}시간</div>
+              </StExercise>
+              <img
+                className="esc"
+                onClick={() => onDeleteClick(item.id)}
+                src={require(`../assets/images/img_esc.png`)}
+              />
             </StExercise>
-            <img className="esc" onClick={() => onDeleteClick(item.id)} src={require(`../assets/images/img_esc.png`)} />
-          </StExercise>
-        ))}
+          ))
+        )}
       </StContainer>
       <FlexContainer>
         <StAddButton onClick={onAddClick}>+</StAddButton>
       </FlexContainer>
       <StModal isOpen={showDeleteModal}>
         <StPopContainer>
-          <StTitle className="POP">정말로 삭제하시겠습니까?</StTitle>
+          <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
           <BTNContainer>
             <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
             <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
@@ -97,13 +122,18 @@ const StTitle = styled.div`
   font-family: "Pretendard-Bold";
   font-size: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   align-self: center;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid #006ffd;
+`;
+
+const StDate = styled(StTitle)`
+  border-bottom: 0rem solid #ffffff;
 `;
 
 const StHeader = styled.div`
   display: block;
-  border-bottom: 0.1rem solid #006ffd;
   position: sticky;
   top: 0rem;
   background-color: white;
@@ -125,6 +155,7 @@ const StExercise = styled.div`
   .title {
     font-size: 2rem;
     margin-bottom: 1rem;
+    font-family: "Pretendard-Bold";
   }
   .content {
     flex-direction: column;
