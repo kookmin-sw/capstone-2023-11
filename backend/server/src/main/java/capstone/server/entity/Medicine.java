@@ -23,16 +23,16 @@ public class Medicine extends BaseTimeEntity {
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "effect")
+    @Column(name = "effect", length = 3000)
     private String effect;
 
-    @Column(name = "use_method")
+    @Column(name = "use_method", length = 3000)
     private String useMethod;
 
-    @Column(name = "caution")
+    @Column(name = "caution", length = 3000)
     private String caution;
 
-    @Column(name = "deposit_method")
+    @Column(name = "deposit_method", length = 3000)
     private String depositMethod;
 
     @Column(name = "image_url")
