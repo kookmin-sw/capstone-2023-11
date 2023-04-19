@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackButton from "../components/common/BackButton";
 import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
@@ -67,7 +66,7 @@ function SeniorExerciseMainPage() {
   return (
     <StContainer>
       <StHeader>
-        <BackButton />
+        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <StTitle>운동 기록</StTitle>
         <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
         <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
@@ -217,4 +216,10 @@ const BTNContainer = styled.div`
 const BlueBTN = styled(BlueButton)`
   width: 10rem;
   margin-right: 0.4rem;
+`;
+
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;
