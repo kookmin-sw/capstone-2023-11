@@ -16,6 +16,7 @@ import SeniorPillSelf from "../components/seniorPill/SeniorPillSelf";
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
+import GuardianMain from "../pages/GuardianMainPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -35,6 +36,7 @@ function Router() {
         <Route path="/senior/MealCheck" element={<SeniorMealCheckPage />} />
         <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
         <Route path="/senior/exercise/add" element={<SeniorExercise />} />
+        <Route path="/guardian/main" element={<GuardianMain />} />
       </Routes>
     </BrowserRouter>
   );
