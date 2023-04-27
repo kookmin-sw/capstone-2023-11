@@ -45,6 +45,7 @@ public class UserWardServiceImpl implements UserWardService{
 
         GetUserWardMainInfoResponseDto response = GetUserWardMainInfoResponseDto.builder()
                 .userCode(kaKaoAccountIdAndUserType.getKakaoAccountId())
+                .userName(userWard.getName())
                 .medicineInfoList(new ArrayList<>())
                 .monthRecordCount(monthRecordCount)
                 .todayMealCount(todayMealCount)

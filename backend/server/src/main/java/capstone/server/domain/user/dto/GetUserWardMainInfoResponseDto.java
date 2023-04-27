@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 public class GetUserWardMainInfoResponseDto {
     private Long userCode;
+    private String userName;
     private List<ResponseMedicineInfo> medicineInfoList;
     private int monthRecordCount;
     private int todayMealCount;
