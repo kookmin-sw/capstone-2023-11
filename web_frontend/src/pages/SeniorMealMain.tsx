@@ -6,4 +6,8 @@ function SeniorMealMain() {
 
 export default SeniorMealMain;
 
-const StSeniorMealMain = styled.div``;
+const StSeniorMealMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
