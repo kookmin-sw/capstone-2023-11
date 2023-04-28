@@ -3,9 +3,13 @@ import BackButton from "../components/common/BackButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import { useState } from "react";
 import moment from "moment";
+import { useQuery } from "react-query";
+import { getRecordMeal } from "../core/api";
 
 function SeniorMealMain() {
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const { data } = useQuery("mealData", getRecordMeal);
+  console.log(data?.data);
   return (
     <StSeniorMealMain>
       <StHeader>
@@ -14,7 +18,39 @@ function SeniorMealMain() {
       </StHeader>
       <SeniorCalendar setDate={setSelectedDate} />
       <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
-      <StFoodContainer></StFoodContainer>
+      <StFoodContainer>
+        {data?.data?.mealInfos.map((mealCon: any) => {
+          return mealCon?.detail.map((meal: any, index: number) => {
+            if (index % 2 == 0) {
+              return (
+                <StFoodBox1>
+                  <img src={mealCon.imageUrl}></img>
+                  <div>
+                    <StFoodName>{meal.name}</StFoodName>
+                    <StNutrient>
+                      탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
+                    </StNutrient>
+                  </div>
+                  <StKcal>{meal.calorie} Kcal</StKcal>
+                </StFoodBox1>
+              );
+            } else {
+              return (
+                <StFoodBox2>
+                  <img src={mealCon.imageUrl}></img>
+                  <div>
+                    <StFoodName>{meal.name}</StFoodName>
+                    <StNutrient>
+                      탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
+                    </StNutrient>
+                  </div>
+                  <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
+                </StFoodBox2>
+              );
+            }
+          });
+        })}
+      </StFoodContainer>
     </StSeniorMealMain>
   );
 }
@@ -47,4 +83,61 @@ const StDate = styled.p`
 `;
 const StFoodContainer = styled.div`
   overflow: scroll;
+  max-height: 30rem;
+  margin-top: 1.6rem;
+`;
+const StFoodBox1 = styled.div`
+  display: flex;
+  align-items: center;
+  width: 32rem;
+  height: 6rem;
+  background: #eaf2ff;
+  border-radius: 1.6rem;
+  padding: 1.5rem;
+  img {
+    width: 4rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+  }
+  div {
+    width: 18rem;
+    margin-left: 1rem;
+  }
+  margin-bottom: 1.5rem;
+`;
+const StFoodBox2 = styled.div`
+  display: flex;
+  align-items: center;
+  width: 32rem;
+  height: 6rem;
+  background: #ffffff;
+  border: 0.3rem solid #eaf2ff;
+  border-radius: 1.6rem;
+  padding: 1.5rem;
+  img {
+    width: 4rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+  }
+  div {
+    width: 18rem;
+    margin-left: 1rem;
+  }
+  margin-bottom: 1.5rem;
+`;
+const StKcal = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+  margin-left: 1.2rem;
+  white-space: nowrap;
+`;
+const StFoodName = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+`;
+const StNutrient = styled.p`
+  color: #006ffd;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+  font-family: "Pretendard-Bold";
 `;
