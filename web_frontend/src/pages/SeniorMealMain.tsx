@@ -11,7 +11,6 @@ function SeniorMealMain() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { data } = useQuery("mealData", getRecordMeal);
-  console.log(data?.data);
   return (
     <StSeniorMealMain>
       <StHeader>
