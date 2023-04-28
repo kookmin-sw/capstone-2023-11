@@ -19,37 +19,39 @@ function SeniorMealMain() {
       <SeniorCalendar setDate={setSelectedDate} />
       <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       <StFoodContainer>
-        {data?.data?.mealInfos.map((mealCon: any) => {
-          return mealCon?.detail.map((meal: any, index: number) => {
-            if (index % 2 == 0) {
-              return (
-                <StFoodBox1>
-                  <img src={mealCon.imageUrl}></img>
-                  <div>
-                    <StFoodName>{meal.name}</StFoodName>
-                    <StNutrient>
-                      탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
-                    </StNutrient>
-                  </div>
-                  <StKcal>{meal.calorie} Kcal</StKcal>
-                </StFoodBox1>
-              );
-            } else {
-              return (
-                <StFoodBox2>
-                  <img src={mealCon.imageUrl}></img>
-                  <div>
-                    <StFoodName>{meal.name}</StFoodName>
-                    <StNutrient>
-                      탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
-                    </StNutrient>
-                  </div>
-                  <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
-                </StFoodBox2>
-              );
-            }
-          });
-        })}
+        {data?.data?.mealInfos
+          .filter((mealCon: any) => mealCon.dateTime.includes(selectedDate))
+          .map((mealCon: any) => {
+            return mealCon?.detail.map((meal: any, index: number) => {
+              if (index % 2 == 0) {
+                return (
+                  <StFoodBox1>
+                    <img src={mealCon.imageUrl}></img>
+                    <div>
+                      <StFoodName>{meal.name}</StFoodName>
+                      <StNutrient>
+                        탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
+                      </StNutrient>
+                    </div>
+                    <StKcal>{meal.calorie} Kcal</StKcal>
+                  </StFoodBox1>
+                );
+              } else {
+                return (
+                  <StFoodBox2>
+                    <img src={mealCon.imageUrl}></img>
+                    <div>
+                      <StFoodName>{meal.name}</StFoodName>
+                      <StNutrient>
+                        탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
+                      </StNutrient>
+                    </div>
+                    <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
+                  </StFoodBox2>
+                );
+              }
+            });
+          })}
       </StFoodContainer>
     </StSeniorMealMain>
   );
