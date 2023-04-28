@@ -5,8 +5,10 @@ import { useState } from "react";
 import moment from "moment";
 import { useQuery } from "react-query";
 import { getRecordMeal } from "../core/api";
+import { useNavigate } from "react-router-dom";
 
 function SeniorMealMain() {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { data } = useQuery("mealData", getRecordMeal);
   console.log(data?.data);
@@ -53,6 +55,7 @@ function SeniorMealMain() {
             });
           })}
       </StFoodContainer>
+      <StCheckButton onClick={() => navigate("/senior/meal/add")}>추가하기</StCheckButton>
     </StSeniorMealMain>
   );
 }
@@ -142,4 +145,17 @@ const StNutrient = styled.p`
   font-size: 1.2rem;
   margin-top: 0.4rem;
   font-family: "Pretendard-Bold";
+`;
+const StCheckButton = styled.button`
+  width: 32.7rem;
+  height: 4.8rem;
+  background-color: #006ffd;
+  border: none;
+  border-radius: 1.2rem;
+  color: white;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  position: relative;
+  bottom: 0rem;
+  margin-bottom: 1rem;
 `;
