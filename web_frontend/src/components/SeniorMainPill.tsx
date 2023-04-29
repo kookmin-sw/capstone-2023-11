@@ -16,12 +16,6 @@ function Pill() {
   }, []);
   return (
     <StPill>
-      <StPillHeader>
-        <StPillTitle>💊 복용하는 약</StPillTitle>
-        <StLink to={`/senior/pill`}>
-          <StPillAddBtn>자세히 보기</StPillAddBtn>
-        </StLink>
-      </StPillHeader>
       <StPillList>
         {pillData?.medicines.map((value, index) => {
           return (
@@ -91,39 +85,6 @@ const StPill = styled.div`
   flex-grow: 0;
 `;
 
-const StPillHeader = styled.header`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  padding: 0rem 0rem 0rem 0rem;
-  width: 35rem;
-  height: 2rem;
-  flex: none;
-  align-self: stretch;
-  flex-grow: 0;
-`;
-
-const StPillTitle = styled.h1`
-  font-family: "Pretendard-Bold";
-  font-size: 2rem;
-  line-height: 2rem;
-  color: #000000;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
-
-const StPillAddBtn = styled.button`
-  font-family: "retendard-Regular";
-  font-size: 1.5rem;
-  line-height: 1rem;
-  color: #006ffd;
-  flex: none;
-  flex-grow: 0;
-  border: 0;
-  background-color: transparent;
-`;
-
 const StPillList = styled.div`
   font-family: "Pretendard-Bold";
   display: flex;
@@ -151,6 +112,7 @@ const StPillItem = styled.button`
   background-color: #eaf2ff;
   border: 0;
   border-radius: 1.6rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 `;
 
 const StPillImg = styled.img`

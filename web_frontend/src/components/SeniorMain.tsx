@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorInfo } from "../core/api";
+import NoPill from "./SeniorMainNoPill";
 import Pill from "./SeniorMainPill";
 
 function SeniorMain() {
@@ -12,6 +14,8 @@ function SeniorMain() {
     }
     fetchData();
   }, []);
+
+  console.log(info);
   return (
     <STContainer>
       <StHeader>
@@ -22,7 +26,13 @@ function SeniorMain() {
       </StHeader>
       <MenuList>
         <StMainItem>
-          <Pill />
+          <StPillHeader>
+            <StItemHeader>💊 복용하는 약</StItemHeader>
+            <StLink to={`/senior/pill`}>
+              <StPillAddBtn>자세히 보기</StPillAddBtn>
+            </StLink>
+          </StPillHeader>
+          {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
         </StMainItem>
         <StMainItem>
           <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
@@ -89,6 +99,12 @@ interface MainInfo {
   todayWorkOutCount: number;
 }
 
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  display: flex;
+`;
+
 const STContainer = styled.div`
   padding: 3rem 2rem;
   justify-content: center;
@@ -135,12 +151,35 @@ const StItemHeader = styled.div`
   font-family: "Pretendard-Bold";
 `;
 
+const StPillHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 0rem 0rem 0rem 0rem;
+  width: 35rem;
+  height: 2rem;
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+`;
+
 const StMainItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0rem 1.6rem 2rem 1.6rem;
   gap: 1.6rem;
+  border: 0;
+  background-color: transparent;
+`;
+
+const StPillAddBtn = styled.button`
+  font-family: "retendard-Regular";
+  font-size: 1.5rem;
+  line-height: 1rem;
+  color: #006ffd;
+  flex: none;
+  flex-grow: 0;
   border: 0;
   background-color: transparent;
 `;
@@ -214,11 +253,5 @@ const IconImg = styled.img`
   padding: 0.5rem;
   border-radius: 0.8rem;
 `;
-
-// const StLink = styled(Link)`
-//   text-decoration: none;
-//   color: black;
-//   display: flex;
-// `;
 
 export default SeniorMain;
