@@ -21,7 +21,7 @@ function SeniorMain() {
       <StHeader>
         <StUserContent>
           <StUser src={require("../assets/images/img_avatar.png")}></StUser>
-          <StUsercode>{info?.userCode}</StUsercode>
+          <StUsercode>{info?.userName}</StUsercode>
         </StUserContent>
       </StHeader>
       <MenuList>
@@ -76,6 +76,7 @@ function SeniorMain() {
 
 interface MainInfo {
   userCode: number;
+  userName: string;
   medicineInfoList: [
     {
       id: number;
