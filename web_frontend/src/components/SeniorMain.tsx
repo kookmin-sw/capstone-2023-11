@@ -21,7 +21,7 @@ function SeniorMain() {
       <StHeader>
         <StUserContent>
           <StUser src={require("../assets/images/img_avatar.png")}></StUser>
-          <StUsercode>{info?.userName}</StUsercode>
+          <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
         </StUserContent>
       </StHeader>
       <MenuList>
@@ -42,7 +42,10 @@ function SeniorMain() {
             </ItemImgWrapper>
             <ItemTextContainer>
               <ItemTitle>건강 분석하러 가기</ItemTitle>
-              <ItemComment>4/14에 기록된 딸기님의 점수는 xx입니다.</ItemComment>
+              <ItemComment>
+                4/14에 기록된 {info?.userName ? info?.userName : "xx"}님의 점수는 <br />
+                xx입니다.
+              </ItemComment>
             </ItemTextContainer>
           </ItemContent>
         </StMainItem>
@@ -54,7 +57,10 @@ function SeniorMain() {
             </ItemImgWrapper>
             <ItemTextContainer>
               <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
-              <ItemComment>이번달에는 {info?.monthRecordCount}개의 기록을 남기셨습니다.</ItemComment>
+              <ItemComment>
+                이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
+                {info?.monthRecordCount ? info?.monthRecordCount : "xx"}개의 기록을 남기셨습니다.
+              </ItemComment>
             </ItemTextContainer>
           </ItemContent>
         </StMainItem>
@@ -131,7 +137,8 @@ const StUser = styled.img`
 
 const StUsercode = styled.div`
   font-size: 1.5rem;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
+  text-align: center;
 `;
 
 const StUserContent = styled.div`
@@ -213,6 +220,7 @@ const ItemContent = styled.button`
   border: 0;
   border-radius: 1.2rem;
   margin-bottom: 1rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 `;
 
 const ItemTextContainer = styled.div`
@@ -223,7 +231,7 @@ const ItemTextContainer = styled.div`
 const ItemTitle = styled.div`
   color: black;
   font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   margin-bottom: 0.5rem;
 `;
 
