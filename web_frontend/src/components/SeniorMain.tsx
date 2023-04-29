@@ -59,7 +59,7 @@ function SeniorMain() {
               <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
               <ItemComment>
                 이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
-                {info?.monthRecordCount ? info?.monthRecordCount : "xx"}개의 기록을 남기셨습니다.
+                {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
               </ItemComment>
             </ItemTextContainer>
           </ItemContent>
