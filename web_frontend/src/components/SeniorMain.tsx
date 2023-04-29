@@ -182,7 +182,7 @@ const StMainItem = styled.div`
 `;
 
 const StPillAddBtn = styled.button`
-  font-family: "retendard-Regular";
+  font-family: "retendard-Bold";
   font-size: 1.5rem;
   line-height: 1rem;
   color: #006ffd;
@@ -199,6 +199,7 @@ const ItemImgWrapper = styled.div`
   background-color: #b4dbff;
   padding: 1rem 0rem;
   border-radius: 1.2rem 0rem 0rem 1.2rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 `;
 
 const ItemImg = styled.img`
