@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillInfoData } from "../../core/api";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -122,12 +122,22 @@ function SeniorPillSelf() {
   };
 
   return (
-    <>
+    <StContainer>
       <StHeader>
-        <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
-        <StSearchButton onClick={onClickButton}>
-          <StSearchBtnImg src={require("../../assets/images/search.png")} />
-        </StSearchButton>
+        <StHederContent>
+          <StLink to={`/senior/pill`}>
+            <StBackBtn>
+              <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+            </StBackBtn>
+          </StLink>
+          <StTitle>직접 입력하기</StTitle>
+        </StHederContent>
+        <StHederContent>
+          <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
+          <StSearchButton onClick={onClickButton}>
+            <StSearchBtnImg src={require("../../assets/images/search.png")} />
+          </StSearchButton>
+        </StHederContent>
       </StHeader>
       <StBody>
         <StPillList>
@@ -159,10 +169,10 @@ function SeniorPillSelf() {
         </StPillList>
         <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
           <StButtonList>
-            <StTitle>{pillName}</StTitle>
-            <StTitle>복용하는 일 수</StTitle>
+            <StContent>{pillName}</StContent>
+            <StContent>복용하는 일 수</StContent>
             <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-            <StTitle>복용하는 시간대</StTitle>
+            <StContent>복용하는 시간대</StContent>
             <StPillComponent>
               {breakfast == false ? (
                 <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
@@ -180,7 +190,7 @@ function SeniorPillSelf() {
                 <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
               )}
             </StPillComponent>
-            <StTitle>등록하시겠습니까?</StTitle>
+            <StContent>등록하시겠습니까?</StContent>
             <StPillComponent2>
               <StSetPillCheckButton
                 onClick={() => {
@@ -194,7 +204,7 @@ function SeniorPillSelf() {
           </StButtonList>
         </StModal>
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
@@ -299,10 +309,37 @@ interface ImgData {
   };
 }
 
-const StHeader = styled.header`
-  padding: 5rem 5rem 0 5rem;
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
   display: flex;
+`;
+
+const StHeader = styled.header`
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
+`;
+
+const StHederContent = styled.div`
+  display: flex;
+`;
+
+const StBackBtn = styled.button`
+  background-color: transparent;
+  border: transparent;
+  font-family: "Pretendard-Bold";
+  width: 5%;
+`;
+
+const StBackBtnImg = styled.img`
+  width: 2rem;
+  height: 2rem;
 `;
 
 const StSearch = styled.input`
@@ -311,8 +348,8 @@ const StSearch = styled.input`
   border: 0.2rem solid gray;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  margin: 2rem 1rem;
+  padding: 2rem;
 `;
 
 const StSearchButton = styled.button`
@@ -320,6 +357,7 @@ const StSearchButton = styled.button`
   height: 3rem;
   background-color: transparent;
   border: 0;
+  margin-top: 2.5rem;
 `;
 
 const StSearchBtnImg = styled.img`
@@ -328,7 +366,6 @@ const StSearchBtnImg = styled.img`
 `;
 
 const StBody = styled.div`
-  padding: 1rem 5rem 5rem 5rem;
   font-size: 2rem;
 `;
 
@@ -348,10 +385,16 @@ const StPillItem = styled.ul`
 `;
 
 const StTitle = styled.h1`
-  font-size: 1.7rem;
   font-family: "Pretendard-Bold";
-  padding: 2rem 3rem;
   text-align: center;
+  width: 100%;
+  padding-right: 5%;
+`;
+
+const StContent = styled.div`
+  font-family: "Pretendard-Bold";
+  text-align: center;
+  width: 100%;
 `;
 
 const StButtonList = styled.div`

@@ -60,7 +60,7 @@ function SeniorPillMain() {
   };
 
   return (
-    <>
+    <StContainer>
       <StHeader>
         <StLink to={`/senior/main`}>
           <StBackBtn>
@@ -168,7 +168,7 @@ function SeniorPillMain() {
           ))}
         </StPillList>
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
@@ -207,10 +207,17 @@ interface pillInfo {
   ];
 }
 
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
 const StHeader = styled.header`
-  padding: 5rem 2rem 0 2rem;
+  padding-bottom: 2rem;
   display: flex;
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
 `;
 
 const StBackBtn = styled.button`

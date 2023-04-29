@@ -187,14 +187,14 @@ function PillImgUpload() {
   }, [register]);
 
   return (
-    <>
+    <StContainer>
       <StHeader>
         <Link to={`/senior/pill`}>
           <StBackBtn>
             <StBackBtnImg src={require("../../assets/images/img_left.png")} />
           </StBackBtn>
         </Link>
-        <StTitle>처방전 인식하기</StTitle>
+        <StTitle>약봉투 인식하기</StTitle>
       </StHeader>
       <StBody>
         {uploadSts ? (
@@ -300,7 +300,7 @@ function PillImgUpload() {
           </>
         )}
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
@@ -405,10 +405,17 @@ interface ImgData {
   };
 }
 
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
 const StHeader = styled.header`
-  padding-top: 5rem;
+  padding-bottom: 2rem;
   display: flex;
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
 `;
 
 const StBackBtn = styled.button`
@@ -416,13 +423,11 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
-  padding: 0;
 `;
 
 const StBackBtnImg = styled.img`
   width: 2rem;
   height: 2rem;
-  padding: 0;
 `;
 
 const StTitle = styled.h1`
@@ -435,7 +440,6 @@ const StTitle = styled.h1`
 const StBody = styled.div`
   font-size: 2rem;
   font-family: "Pretendard-Regular";
-  padding: 3rem;
   width: 100%;
   align-items: center;
   text-align: center;
@@ -517,7 +521,7 @@ const StUploadButton = styled.button`
 `;
 
 const StCheckButton = styled.button`
-  width: 32.7rem;
+  width: 100%;
   height: 4.8rem;
   background-color: #006ffd;
   border: none;
