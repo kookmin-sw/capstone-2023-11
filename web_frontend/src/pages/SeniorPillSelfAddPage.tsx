@@ -60,7 +60,7 @@ function SeniorPillSelf() {
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
     if (pillData) {
-      setName(pillData?.data?.body?.items?.map((item) => item.ITEM_NAME));
+      setName(pillData?.data?.body?.items?.map((item) => (item.ITEM_NAME.match(/^([^(]+)/) || [])[1].trim()));
     }
   };
 
@@ -163,7 +163,7 @@ function SeniorPillSelf() {
                 setCaution(caution);
                 setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
               }}>
-              {value.length < 20 ? value : value.slice(0, 20) + "..."}
+              {value.length < 24 ? value : value.slice(0, 24) + "..."}
             </StPillItem>
           ))}
         </StPillList>
@@ -379,7 +379,8 @@ const StPillItem = styled.ul`
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
   line-height: 2rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-family: "Pretendard-Bold";
   margin: 1rem;
   background-color: white;
 `;
