@@ -80,7 +80,7 @@ function SeniorPillMain() {
                     <StItemImg src={value.imageUrl} />
                   </StItemImgBox>
                   <StItemContent>
-                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 8) + "..." : value.name}</StItemName>
+                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 7) + "..." : value.name}</StItemName>
                     <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
                     <StDaySwapper>
                       {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
@@ -106,7 +106,7 @@ function SeniorPillMain() {
                     <StButtonList>
                       <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
                       <StModalTitle>복용하는 일 수</StModalTitle>
-                      <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                      <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                       <StModalTitle>복용하는 시간대</StModalTitle>
                       <StPillComponent>
                         {breakfast == false ? (
@@ -129,7 +129,7 @@ function SeniorPillMain() {
                       <StPillComponent2>
                         <StSetPillCheckButton
                           onClick={async () => {
-                            handleCloseModal;
+                            handleCloseModal();
                             await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
                             window.location.reload();
                           }}>
@@ -359,17 +359,7 @@ const StButtonList = styled.div`
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
   background-color: white;
-  padding: 2rem 0rem;
-`;
-
-const StSearch = styled.input`
-  width: 80%;
-  height: 4rem;
-  border: 0.2rem solid gray;
-  border-radius: 1rem;
-  font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  padding-bottom: 3rem;
 `;
 
 const StModal = styled(Modal)`
@@ -381,16 +371,24 @@ const StModal = styled(Modal)`
   width: 25rem;
   height: 50rem;
   font-family: "Pretendard-Regular";
-  font-size: 2rem;
-  background-color: white;
 `;
 
 const StModalTitle = styled.h1`
   font-family: "Pretendard-Bold";
+  font-size: 2rem;
   text-align: center;
   width: 100%;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
+  margin: 2rem 0rem;
+`;
+
+const StModalSearch = styled.input`
+  width: 80%;
+  height: 4rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  font-family: "Pretendard-Regular";
+  margin: 0rem 10%;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`

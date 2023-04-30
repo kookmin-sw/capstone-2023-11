@@ -171,10 +171,10 @@ function SeniorPillSelf() {
         </StPillList>
         <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
           <StButtonList>
-            <StContent>{pillName}</StContent>
-            <StContent>복용하는 일 수</StContent>
-            <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-            <StContent>복용하는 시간대</StContent>
+            <StModalTitle>{pillName}</StModalTitle>
+            <StModalTitle>복용하는 일 수</StModalTitle>
+            <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+            <StModalTitle>복용하는 시간대</StModalTitle>
             <StPillComponent>
               {breakfast == false ? (
                 <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
@@ -192,7 +192,7 @@ function SeniorPillSelf() {
                 <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
               )}
             </StPillComponent>
-            <StContent>등록하시겠습니까?</StContent>
+            <StModalTitle>등록하시겠습니까?</StModalTitle>
             <StPillComponent2>
               <StSetPillCheckButton
                 onClick={() => {
@@ -394,12 +394,6 @@ const StTitle = styled.h1`
   padding-right: 5%;
 `;
 
-const StContent = styled.div`
-  font-family: "Pretendard-Bold";
-  text-align: center;
-  width: 100%;
-`;
-
 const StButtonList = styled.div`
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
@@ -416,6 +410,24 @@ const StModal = styled(Modal)`
   width: 25rem;
   height: 50rem;
   font-family: "Pretendard-Regular";
+`;
+
+const StModalTitle = styled.h1`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  margin: 2rem 0rem;
+`;
+
+const StModalSearch = styled.input`
+  width: 80%;
+  height: 4rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  font-family: "Pretendard-Regular";
+  margin: 0rem 10%;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`
