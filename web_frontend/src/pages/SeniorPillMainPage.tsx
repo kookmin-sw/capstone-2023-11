@@ -258,15 +258,15 @@ const StPillList = styled.ul`
 const StItem = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   background-color: #f8f9fe;
   border-radius: 1.6rem;
-  padding: 2.4rem;
+  padding: 1.4rem 2.4rem;
 `;
 
 const StItemImgBox = styled.div`
   width: 30%;
-  height: 8rem;
+  height: 7rem;
   margin-right: 2rem;
 `;
 
@@ -308,7 +308,7 @@ const StPillNoTake = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 `;
 
 const StPillTake = styled.div`
@@ -322,7 +322,7 @@ const StPillTake = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 `;
 
 const StLink = styled(Link)`
