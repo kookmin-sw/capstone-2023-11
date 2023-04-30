@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import PillAddModal from "./PillAddModal";
+import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
-import { deletePillData, getPillInfo, modifyPillData } from "../../core/api";
+import { deletePillData, getPillInfo, modifyPillData } from "../core/api/index";
 import Modal from "react-modal";
 
 Modal.setAppElement("#root");
@@ -64,7 +64,7 @@ function SeniorPillMain() {
       <StHeader>
         <StLink to={`/senior/main`}>
           <StBackBtn>
-            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+            <StBackBtnImg src={require("../assets/images/img_left.png")} />
           </StBackBtn>
         </StLink>
         <StTitle>복용하는 약 목록</StTitle>
@@ -100,7 +100,7 @@ function SeniorPillMain() {
                       setDayValue(value.remainDay);
                       handleOpenModal();
                     }}>
-                    <StModifyButtonImg src={require("../../assets/images/edit.png")} />
+                    <StModifyButtonImg src={require("../assets/images/edit.png")} />
                   </StModifyButton>
                   <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                     <StButtonList>
@@ -144,7 +144,7 @@ function SeniorPillMain() {
                       handleOpenModal2();
                       setID(value.id);
                     }}>
-                    <StDeleteButtonImg src={require("../../assets/images/delete.png")} />
+                    <StDeleteButtonImg src={require("../assets/images/delete.png")} />
                   </StDeleteButton>
                   <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
                     <StButtonList>

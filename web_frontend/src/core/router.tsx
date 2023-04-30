@@ -4,14 +4,14 @@ import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 import SeniorMain from "../components/SeniorMain";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 
-import SeniorPillMain from "../components/seniorPill/SeniorPillMain";
-import SeniorPillDetail from "../components/seniorPill/SeniorPillDetail";
-import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
+import SeniorPillMain from "../pages/SeniorPillMainPage";
+import SeniorPillDetail from "../pages/SeniorPillDetailPage";
+import SeniorPillBill from "../pages/SeniorPillBillAddPage";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
-import SeniorPillSelf from "../components/seniorPill/SeniorPillSelf";
+import SeniorPillSelf from "../pages/SeniorPillSelfAddPage";
 
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";

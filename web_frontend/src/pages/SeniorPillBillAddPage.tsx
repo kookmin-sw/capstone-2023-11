@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchPillImg, fetchPillInfo, pillImg } from "../../core/api/index";
+import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 
@@ -191,7 +191,7 @@ function PillImgUpload() {
       <StHeader>
         <Link to={`/senior/pill`}>
           <StBackBtn>
-            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+            <StBackBtnImg src={require("../assets/images/img_left.png")} />
           </StBackBtn>
         </Link>
         <StTitle>약봉투 인식하기</StTitle>
@@ -289,7 +289,7 @@ function PillImgUpload() {
           <>
             <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
             <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
-            <StImg width={"100%"} src={require("../../assets/images/pillBillImg.jpeg")} />
+            <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
             <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
             <StInfoContainer>
               <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>

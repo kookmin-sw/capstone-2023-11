@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { fetchPillImg, fetchPillInfo, pillInfoData } from "../../core/api";
+import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
 import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -127,7 +127,7 @@ function SeniorPillSelf() {
         <StHederContent>
           <StLink to={`/senior/pill`}>
             <StBackBtn>
-              <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+              <StBackBtnImg src={require("../assets/images/img_left.png")} />
             </StBackBtn>
           </StLink>
           <StTitle>직접 입력하기</StTitle>
@@ -135,7 +135,7 @@ function SeniorPillSelf() {
         <StHederContent>
           <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
           <StSearchButton onClick={onClickButton}>
-            <StSearchBtnImg src={require("../../assets/images/search.png")} />
+            <StSearchBtnImg src={require("../assets/images/search.png")} />
           </StSearchButton>
         </StHederContent>
       </StHeader>
