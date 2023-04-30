@@ -47,10 +47,12 @@ function SeniorPillSelf() {
       enabled: !!pillStatus,
     },
   );
-  if (pillStatus == true && data !== undefined) {
-    alert("등록되었습니다.");
-    navigate("/senior/pill");
-  }
+  useEffect(() => {
+    if (data) {
+      alert("등록되었습니다.");
+      navigate("/senior/pill");
+    }
+  }, [data, navigate]);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -163,7 +165,7 @@ function SeniorPillSelf() {
                 setCaution(caution);
                 setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
               }}>
-              {value.length < 24 ? value : value.slice(0, 24) + "..."}
+              {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
           ))}
         </StPillList>
