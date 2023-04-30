@@ -215,7 +215,6 @@ function PillImgUpload() {
                       );
                     }}>
                     {name}
-                    {index}
                   </StItemChecked>
                 ) : (
                   <StItem
@@ -231,7 +230,6 @@ function PillImgUpload() {
                       );
                     }}>
                     {name}
-                    {index}
                   </StItem>
                 ),
               )}
