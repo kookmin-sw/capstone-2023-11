@@ -153,12 +153,12 @@ function SeniorPillSelf() {
                 setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
                 setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
                 const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
-                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
                 const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
                 const [effect, useMethod, caution] = await Promise.all([
                   effectParse(eeDocData),
-                  useMethodParse(udDocData),
-                  cautionParse(nbDocData),
+                  useMethodParse(nbDocData),
+                  cautionParse(udDocData),
                 ]);
                 setEffect(effect);
                 setUseMethod(useMethod);
