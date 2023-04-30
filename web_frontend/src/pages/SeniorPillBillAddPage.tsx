@@ -437,7 +437,7 @@ const StTitle = styled.h1`
 
 const StBody = styled.div`
   font-size: 2rem;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   width: 100%;
   align-items: center;
   text-align: center;
@@ -461,7 +461,7 @@ const StItem = styled.li`
   height: 5rem;
   margin: 2rem;
   color: #000000;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #ffffff;
@@ -474,7 +474,7 @@ const StItemChecked = styled.li`
   height: 5rem;
   margin: 2rem;
   color: #000000;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #eaf2ff;
