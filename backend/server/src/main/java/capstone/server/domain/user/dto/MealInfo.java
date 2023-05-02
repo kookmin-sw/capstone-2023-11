@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Builder
@@ -14,7 +15,7 @@ import java.util.List;
 @Data
 public class MealInfo {
     private Long id;
-    private LocalDateTime dateTime;
+    private LocalTime createdAt;
     private int times;
     private String imageUrl;
     private List<FoodInfo> detail;
