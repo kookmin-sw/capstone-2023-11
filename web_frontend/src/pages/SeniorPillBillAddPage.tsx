@@ -245,7 +245,7 @@ function PillImgUpload() {
             </StList>
             <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
               <StButtonList>
-                <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME}</StModalTitle>
+                <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
                 <StModalTitle>복용하는 일 수</StModalTitle>
                 <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                 <StModalTitle>복용하는 시간대</StModalTitle>
