@@ -1,13 +1,17 @@
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { FoodIcn } from "../assets/icons";
 import BackButton from "../components/common/BackButton";
+import { getDailyData } from "../core/api";
 
-interface IData {
-  meal: IMeal[];
-  exercise: IExercise[];
-}
+// interface IData {
+//   meal: IMeal[];
+//   exercise: IExercise[];
+// }
 interface IMeal {
   id: number;
-  dateTime: string;
+  createdAt: string;
   times: number;
   imageUrl: string;
   detail: IMealDetail[];
@@ -35,7 +39,29 @@ function SeniorSummaryDailyPage() {
   const month = now.getMonth() + 1;
   const date = now.getDate();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
-  console.log(dummyData);
+  const [firstApi, setFirstApi] = useState(true);
+  const { data } = useQuery("dailyData", () => getDailyData(), { enabled: !!firstApi });
+  const [mealData, setMealData] = useState<IMeal[]>([]);
+  const [exerciseData, setExerciseData] = useState<IExercise[]>([]);
+
+  useEffect(() => {
+    console.log(data?.data);
+    setFirstApi(false);
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      console.log("mealData changed:", mealData);
+      console.log("exerciseData changed:", exerciseData);
+    }
+  }, [mealData, exerciseData]);
+
+  useEffect(() => {
+    if (data) {
+      setMealData(data.data.meal);
+      setExerciseData(data.data.exercise);
+    }
+  }, [data]);
 
   return (
     <>
@@ -49,16 +75,35 @@ function SeniorSummaryDailyPage() {
         </StTitle>
         <StText>음식 입력</StText>
         <ChartContainer>
-          <div className="row">
-            <button>{`<`}</button>
-            <div className="col">
-              <img src={require("../assets/images/img_kakao.png")} />
-              <StText className="name">음식 이름</StText>
-              <StText>음식 칼로리</StText>
-              <StText>입력 시간</StText>
+          {mealData?.map((item: IMeal) => (
+            <div className="row" key={item.id}>
+              {/* <button>{`<`}</button> */}
+              <div className="col">
+                <StMealImage src={item.imageUrl} />
+                {/* <StText className="name">{item.id}</StText>
+                <StText>{item.times}</StText>
+                <StText>입력시간 : {item.createdAt}</StText> */}
+                {item.detail.map((mealList) => (
+                  <StFoodBox1>
+                    <StImage src={FoodIcn} />
+                    <div>
+                      <StFoodName>{mealList.name}</StFoodName>
+                      <StNutrient>
+                        탄수화물:
+                        {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
+                        {Math.round(mealList.protein * 10) / 10}g 지방: {Math.round(mealList.fatTotal * 10) / 10}g
+                      </StNutrient>
+                    </div>
+                    <StKcal>
+                      {Math.round(mealList.calorie)}
+                      kcal
+                    </StKcal>
+                  </StFoodBox1>
+                ))}
+              </div>
+              {/* <button>{`>`}</button> */}
             </div>
-            <button>{`>`}</button>
-          </div>
+          ))}
         </ChartContainer>
         <StText>운동 입력</StText>
         <ChartContainer></ChartContainer>
@@ -89,7 +134,7 @@ const HeaderText = styled.div`
   flex: 1 1 0;
 `;
 const STContainer = styled.div`
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
   justify-content: center;
   margin: 1rem auto;
   .indent {
@@ -116,19 +161,16 @@ const ChartContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
   }
   .col {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .name {
     font-size: 1.7rem;
-  }
-  & img {
-    padding: 1rem;
-    min-width: 25rem;
-    min-height: 10rem;
   }
   & button {
     border: none;
@@ -141,103 +183,44 @@ const StText = styled.div`
   font-family: "Pretendard-Bold";
   padding: 1rem 1rem;
 `;
-
-const dummyData: IData = {
-  meal: [
-    {
-      id: 7,
-      dateTime: "2023-05-02T05:12:02.54917",
-      times: 3,
-      imageUrl: "https://boksiri-bucket.s3.ap-northeast-2.amazonaws.com/meal_00000007_20230502051202.jpg",
-      detail: [
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-      ],
-    },
-    {
-      id: 6,
-      dateTime: "2023-05-02T05:12:01.571587",
-      times: 2,
-      imageUrl: "https://boksiri-bucket.s3.ap-northeast-2.amazonaws.com/meal_00000007_20230502051201.jpg",
-      detail: [
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-      ],
-    },
-    {
-      id: 5,
-      dateTime: "2023-05-02T05:11:40.462414",
-      times: 1,
-      imageUrl: "https://boksiri-bucket.s3.ap-northeast-2.amazonaws.com/meal_00000007_20230502051140.jpg",
-      detail: [
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-        {
-          name: "string",
-          calorie: 0.0,
-          carbohyborateTotal: 0.0,
-          protein: 0.0,
-          fatTotal: 0.0,
-        },
-      ],
-    },
-  ],
-  exercise: [
-    {
-      id: 3,
-      type: "WALKING",
-      kcal: 900,
-      createdAt: "2023-04-06",
-      kor: "걷기",
-      eng: "walking",
-      hour: 0,
-    },
-    {
-      id: 2,
-      type: "WALKING",
-      kcal: 300,
-      createdAt: "2023-04-06",
-      kor: "걷기",
-      eng: "walking",
-      hour: 0,
-    },
-    {
-      id: 1,
-      type: "WALKING",
-      kcal: 0,
-      createdAt: "2023-04-06",
-      kor: "걷기",
-      eng: "walking",
-      hour: 0,
-    },
-  ],
-};
+const StFoodBox1 = styled.div`
+  display: flex;
+  align-items: center;
+  width: 32rem;
+  height: 6rem;
+  background: #eaf2ff;
+  border-radius: 1.6rem;
+  padding: 1.5rem;
+  div {
+    width: 18rem;
+    margin-left: 1rem;
+  }
+  margin-bottom: 1.5rem;
+`;
+const StFoodName = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+`;
+const StNutrient = styled.p`
+  color: #006ffd;
+  font-size: 1rem;
+  margin-top: 0.4rem;
+  font-family: "Pretendard-Bold";
+`;
+const StKcal = styled.p`
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+  margin-left: 1.2rem;
+`;
+const StMealImage = styled.img`
+  padding: 1rem;
+  min-width: 25rem;
+  min-height: 17rem;
+  max-width: 30rem;
+  max-height: 20rem;
+  margin-bottom: 2rem;
+`;
+const StImage = styled.img`
+  width: 3rem;
+  height: 3rem;
+`;
