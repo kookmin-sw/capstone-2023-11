@@ -65,8 +65,8 @@ function PillImgUpload() {
   }, []);
 
   const [value, setValue] = useState("");
-  const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
-  const imgData = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
+  const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
+  const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -124,8 +124,8 @@ function PillImgUpload() {
   };
 
   const pillInfo = async () => {
-    await setPillName(pillData.data?.body.items[0].ITEM_NAME);
-    await setCompany(pillData.data?.body.items[0].ENTP_NAME);
+    await setPillName(pillData?.data?.body.items[0].ITEM_NAME);
+    await setCompany(pillData?.data?.body.items[0].ENTP_NAME);
     await setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
     const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
@@ -138,7 +138,7 @@ function PillImgUpload() {
     await setEffect(effect);
     await setUseMethod(useMethod);
     await setCaution(caution);
-    await setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
+    await setImgUrl(imgData?.data?.body.items[0].ITEM_IMAGE);
     setRegiester(true);
   };
 
@@ -243,7 +243,7 @@ function PillImgUpload() {
             </StList>
             <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
               <StButtonList>
-                <StModalTitle>{pillData.data?.body.items[0].ITEM_NAME}</StModalTitle>
+                <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME}</StModalTitle>
                 <StModalTitle>복용하는 일 수</StModalTitle>
                 <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                 <StModalTitle>복용하는 시간대</StModalTitle>
@@ -303,103 +303,46 @@ function PillImgUpload() {
 }
 
 interface PillData {
-  header: {
-    resultCode: string;
-    resultMsg: string;
-  };
-  body: {
-    numOfRows: string;
-    pageNo: string;
-    totalCount: string;
-    items: [
-      item: {
-        ENTP_NO: string;
-        MAKE_MATERIAL_FLAG: string;
-        NEWDRUG_CLASS_NAME: string;
-        INDUTY_TYPE: string;
-        CANCEL_DATE: string;
-        CANCEL_NAME: string;
-        CHANGE_DATE: string;
-        NARCOTIC_KIND_CODE: string;
-        GBN_NAME: string;
-        TOTAL_CONTENT: string;
-        EE_DOC_DATA: string;
-        UD_DOC_DATA: string;
-        NB_DOC_DATA: string;
-        PN_DOC_DATA: string;
-        MAIN_ITEM_INGR: string;
-        INGR_NAME: string;
-        ATC_CODE: string;
-        ITEM_ENG_NAME: string;
-        ENTP_ENG_NAME: string;
-        MAIN_INGR_ENG: string;
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        CNSGN_MANUF: string;
-        ETC_OTC_CODE: string;
-        CHART: string;
-        BAR_CODE: string;
-        MATERIAL_NAME: string;
-        EE_DOC_ID: string;
-        UD_DOC_ID: string;
-        NB_DOC_ID: string;
-        INSERT_FILE: string;
-        STORAGE_METHOD: string;
-        VALID_TERM: string;
-        REEXAM_TARGET: string;
-        REEXAM_DATE: string;
-        PACK_UNIT: string;
-        EDI_CODE: string;
-        DOC_TEXT: string;
-        PERMIT_KIND_NAME: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: null;
+      resultMsg: null;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_SEQ: number;
+          ITEM_NAME: string;
+          ENTP_NAME: string;
+          STORAGE_METHOD: string;
+          EE_DOC_DATA: string;
+          UD_DOC_DATA: string;
+          NB_DOC_DATA: string;
+        },
+      ];
+    };
   };
 }
 
 interface ImgData {
-  header: { resultCode: string; resultMsg: string };
-  body: {
-    pageNo: number;
-    totalCount: number;
-    numOfRows: number;
-    items: [
-      {
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_SEQ: string;
-        ENTP_NAME: string;
-        CHART: string;
-        ITEM_IMAGE: string;
-        PRINT_FRONT: string;
-        PRINT_BACK: null;
-        DRUG_SHAPE: string;
-        COLOR_CLASS1: string;
-        COLOR_CLASS2: null;
-        LINE_FRONT: null;
-        LINE_BACK: null;
-        LENG_LONG: string;
-        LENG_SHORT: string;
-        THICK: string;
-        IMG_REGIST_TS: string;
-        CLASS_NO: string;
-        CLASS_NAME: string;
-        ETC_OTC_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        FORM_CODE_NAME: string;
-        MARK_CODE_FRONT_ANAL: string;
-        MARK_CODE_BACK_ANAL: string;
-        MARK_CODE_FRONT_IMG: string;
-        MARK_CODE_BACK_IMG: string;
-        ITEM_ENG_NAME: string;
-        CHANGE_DATE: string;
-        MARK_CODE_FRONT: null;
-        MARK_CODE_BACK: null;
-        EDI_CODE: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: string;
+      resultMsg: string;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_IMAGE: string;
+        },
+      ];
+    };
   };
 }
 
@@ -452,6 +395,7 @@ const StList = styled.ul`
   background-color: #f8f9fe;
   border-radius: 2rem;
   text-align: center;
+  margin-top: 1rem;
 `;
 
 const StItem = styled.li`
