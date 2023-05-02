@@ -1,27 +1,32 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.user.dto.*;
+import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
 import capstone.server.domain.medicine.repository.MedicineRepository;
-import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
 import capstone.server.domain.user.repository.UserWardRepository;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
-import capstone.server.entity.Medicine;
-import capstone.server.entity.UserWard;
+import capstone.server.entity.*;
 import capstone.server.utils.DateTimeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserWardServiceImpl implements UserWardService{
     @Autowired
     UserWardRepository userWardRepository;
@@ -31,6 +36,9 @@ public class UserWardServiceImpl implements UserWardService{
     MedicineRepository medicineRepository;
     @Autowired
     MealRepository mealRepository;
+    @Autowired
+    FoodRepository foodRepository;
+
     public GetUserWardMainInfoResponseDto getUserWardMainInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
 
@@ -79,5 +87,60 @@ public class UserWardServiceImpl implements UserWardService{
         }
 
         return response;
+    }
+
+    @Override
+    public GetDailySummaryDto getDailySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException{
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        // 오늘 00:00:00 부터 23:59:59까지 범위 설정
+        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime lastDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        // 오늘 식사 기록만 찾기
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(userWard.getUserId(), startDateTime, lastDateTime);
+        // 오늘 운동 기록만 찾기
+        List<WorkOutUserWardHas> workOutRecords = workOutCategoryUserWardHasRepository.findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtDesc(userWard, startDateTime, lastDateTime);
+
+        GetDailySummaryDto getDailySummaryDto = GetDailySummaryDto.builder()
+                .meal(new ArrayList<>())
+                .exercise(new ArrayList<>())
+                .build();
+
+        for (Meal meal : mealList) {
+            List<Food> foods = foodRepository.findAllByMealId(meal.getId());
+            List<FoodInfo> details = new ArrayList<>();
+            for (Food food : foods) {
+                details.add(FoodInfo.builder()
+                        .calorie(food.getCalorie())
+                        .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .fatTotal(food.getFatTotal())
+                        .protein(food.getProtein())
+                        .name(food.getName())
+                        .build());
+            }
+            getDailySummaryDto.getMeal().add(MealInfo.builder()
+                    .id(meal.getId())
+                    .createdAt(meal.getCreatedAt().toLocalTime().withSecond(0).withNano(0))
+                    .times(meal.getTimes())
+                    .imageUrl(meal.getImage().getUrl())
+                    .detail(details).build());
+        }
+
+        for (WorkOutUserWardHas workOutRecord : workOutRecords) {
+
+            getDailySummaryDto.getExercise().add(ExerciseInfo.builder()
+                    .id(workOutRecord.getId())
+                    .kor(workOutRecord.getWorkOutCategory().getKor())
+                    .eng(workOutRecord.getWorkOutCategory().getEng())
+                    .type(workOutRecord.getWorkOutCategory().getName())
+                    .kcal(workOutRecord.getKcal())
+                    .hour(workOutRecord.getHour())
+                    .createdAt(workOutRecord.getCreatedAt().toLocalTime().withSecond(0).withNano(0))
+                    .build());
+        }
+
+        return getDailySummaryDto;
+
     }
 }

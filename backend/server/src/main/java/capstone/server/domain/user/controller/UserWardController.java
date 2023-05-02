@@ -2,6 +2,7 @@ package capstone.server.domain.user.controller;
 
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.user.dto.GetDailySummaryDto;
 import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
 import capstone.server.domain.user.service.UserWardService;
 import capstone.server.global.dto.DefaultResponse;
@@ -26,6 +27,24 @@ public class UserWardController {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
             GetUserWardMainInfoResponseDto result = userWardService.getUserWardMainInfo(kaKaoAccountIdAndUserType);
+            return ResponseEntity.ok().body(result);
+
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .message(e.getResponseBodyAsString())
+                            .status(500)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping(value = "/summary/daily")
+    public ResponseEntity<?> getDailySummary(Authentication authentication) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            GetDailySummaryDto result = userWardService.getDailySummary(kaKaoAccountIdAndUserType);
             return ResponseEntity.ok().body(result);
 
         } catch (HttpClientErrorException e) {
