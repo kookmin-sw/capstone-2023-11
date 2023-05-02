@@ -73,7 +73,7 @@ function SeniorSummaryPage() {
   return (
     <>
       <StHeader>
-        <BackButton to={`/addschedule`} />
+        <BackButton />
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
