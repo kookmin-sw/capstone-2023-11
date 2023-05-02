@@ -64,7 +64,6 @@ function SeniorSummaryDailyPage() {
       setMealData(data.data.meal);
       setExerciseData(data.data.exercise);
       setMealLength(data.data.meal.length);
-      setMealState(mealLength - 2);
     }
   }, [data]);
 
@@ -80,11 +79,11 @@ function SeniorSummaryDailyPage() {
         </StTitle>
         <StText>음식 입력</StText>
         <StRowContainer>
-          {mealState == 0 ? (
+          {mealState != 0 ? (
             <div
               className="buttonContainer"
               onClick={() => {
-                setMealState((now) => now + 1);
+                setMealState((now) => now - 1);
               }}>
               <StButton src={require("../assets/icons/icon_before.png")} />
             </div>
@@ -120,11 +119,11 @@ function SeniorSummaryDailyPage() {
               ),
             )}
           </DataContainer>
-          {mealState == mealLength - 1 ? (
+          {mealState != mealLength - 1 ? (
             <div
               className="buttonContainer"
               onClick={() => {
-                setMealState((now) => now - 1);
+                setMealState((now) => now + 1);
               }}>
               <StButton src={require("../assets/icons/icon_next.png")} />
             </div>
