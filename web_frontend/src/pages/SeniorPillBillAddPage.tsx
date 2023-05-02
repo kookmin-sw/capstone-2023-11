@@ -9,7 +9,7 @@ import axios from "axios";
 Modal.setAppElement("#root");
 
 function PillImgUpload() {
-  const imageInput = useRef<any>(null);
+  const imageInput = useRef<HTMLInputElement | null>(null);
   const onClickImageUpload = () => {
     if (imageInput.current) {
       imageInput.current.click();
@@ -138,7 +138,9 @@ function PillImgUpload() {
     await setEffect(effect);
     await setUseMethod(useMethod);
     await setCaution(caution);
-    await setImgUrl(imgData?.data?.body.items[0].ITEM_IMAGE);
+    await setImgUrl(
+      imgData?.data?.body?.items ? imgData?.data?.body.items[0].ITEM_IMAGE : require(`../assets/images/pillPhoto.png`),
+    );
     setRegiester(true);
   };
 

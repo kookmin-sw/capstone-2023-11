@@ -163,7 +163,11 @@ function SeniorPillSelf() {
                 setEffect(effect);
                 setUseMethod(useMethod);
                 setCaution(caution);
-                setImgUrl(imgData?.data?.body.items[0].ITEM_IMAGE);
+                setImgUrl(
+                  imgData?.data?.body.items
+                    ? imgData?.data?.body.items[0].ITEM_IMAGE
+                    : require(`../assets/images/pillPhoto.png`),
+                );
               }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
