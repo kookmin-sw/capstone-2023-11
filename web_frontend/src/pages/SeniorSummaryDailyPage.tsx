@@ -43,6 +43,8 @@ function SeniorSummaryDailyPage() {
   const { data } = useQuery("dailyData", () => getDailyData(), { enabled: !!firstApi });
   const [mealData, setMealData] = useState<IMeal[]>([]);
   const [exerciseData, setExerciseData] = useState<IExercise[]>([]);
+  const [mealLength, setMealLength] = useState(0);
+  const [mealState, setMealState] = useState(0);
 
   useEffect(() => {
     console.log(data?.data);
@@ -53,6 +55,7 @@ function SeniorSummaryDailyPage() {
     if (data) {
       console.log("mealData changed:", mealData);
       console.log("exerciseData changed:", exerciseData);
+      console.log(mealLength);
     }
   }, [mealData, exerciseData]);
 
@@ -60,6 +63,8 @@ function SeniorSummaryDailyPage() {
     if (data) {
       setMealData(data.data.meal);
       setExerciseData(data.data.exercise);
+      setMealLength(data.data.meal.length);
+      setMealState(mealLength - 2);
     }
   }, [data]);
 
@@ -67,46 +72,69 @@ function SeniorSummaryDailyPage() {
     <>
       <StHeader>
         <BackButton />
-        <HeaderText>일간 보고서</HeaderText>
+        <HeaderText>일간 요약</HeaderText>
       </StHeader>
       <STContainer>
         <StTitle className="indent">
           {year + "년 " + month + "월 " + date + "일 " + week[now.getDay()] + "요일"}
         </StTitle>
         <StText>음식 입력</StText>
-        <ChartContainer>
-          {mealData?.map((item: IMeal) => (
-            <div className="row" key={item.id}>
-              {/* <button>{`<`}</button> */}
-              <div className="col">
-                <StMealImage src={item.imageUrl} />
-                {/* <StText className="name">{item.id}</StText>
+        <StRowContainer>
+          {mealState == 0 ? (
+            <StButton
+              onClick={() => {
+                setMealState((now) => now + 1);
+              }}
+              src={require("../assets/icons/icon_before.png")}
+            />
+          ) : (
+            <StButton src={require("../assets/icons/icon_nobefore.png")} />
+          )}
+          <DataContainer>
+            {mealData?.map((item: IMeal, index) =>
+              index == mealState ? (
+                <div className="row" key={item.id}>
+                  <div className="col">
+                    <StMealImage src={item.imageUrl} />
+                    {/* <StText className="name">{item.id}</StText>
                 <StText>{item.times}</StText>
                 <StText>입력시간 : {item.createdAt}</StText> */}
-                {item.detail.map((mealList) => (
-                  <StFoodBox1>
-                    <StImage src={FoodIcn} />
-                    <div>
-                      <StFoodName>{mealList.name}</StFoodName>
-                      <StNutrient>
-                        탄수화물:
-                        {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
-                        {Math.round(mealList.protein * 10) / 10}g 지방: {Math.round(mealList.fatTotal * 10) / 10}g
-                      </StNutrient>
-                    </div>
-                    <StKcal>
-                      {Math.round(mealList.calorie)}
-                      kcal
-                    </StKcal>
-                  </StFoodBox1>
-                ))}
-              </div>
-              {/* <button>{`>`}</button> */}
-            </div>
-          ))}
-        </ChartContainer>
+                    {item.detail.map((mealList) => (
+                      <StFoodBox1>
+                        <StImage src={FoodIcn} />
+                        <div>
+                          <StFoodName>{mealList.name}</StFoodName>
+                          <StNutrient>
+                            탄수화물: {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
+                            {Math.round(mealList.protein * 10) / 10}g
+                          </StNutrient>
+                        </div>
+                        <StKcal>
+                          {Math.round(mealList.calorie)}
+                          kcal
+                        </StKcal>
+                      </StFoodBox1>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <></>
+              ),
+            )}
+          </DataContainer>
+          {mealState == mealLength - 1 ? (
+            <StButton
+              onClick={() => {
+                setMealState((now) => now - 1);
+              }}
+              src={require("../assets/icons/icon_next.png")}
+            />
+          ) : (
+            <StButton src={require("../assets/icons/icon_nonext.png")} />
+          )}
+        </StRowContainer>
         <StText>운동 입력</StText>
-        <ChartContainer></ChartContainer>
+        <DataContainer></DataContainer>
       </STContainer>
     </>
   );
@@ -151,7 +179,7 @@ const StTitle = styled.div`
   margin-top: 1rem;
 `;
 
-const ChartContainer = styled.div`
+const DataContainer = styled.div`
   padding: 2rem 2rem;
   justify-content: center;
   background-color: #f8f9fe;
@@ -171,10 +199,6 @@ const ChartContainer = styled.div`
   }
   .name {
     font-size: 1.7rem;
-  }
-  & button {
-    border: none;
-    background-color: #f8f9fe;
   }
 `;
 
@@ -203,7 +227,7 @@ const StFoodName = styled.p`
 `;
 const StNutrient = styled.p`
   color: #006ffd;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-top: 0.4rem;
   font-family: "Pretendard-Bold";
 `;
@@ -223,4 +247,18 @@ const StMealImage = styled.img`
 const StImage = styled.img`
   width: 3rem;
   height: 3rem;
+`;
+const StRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* justify-content: space-between; */
+  justify-content: center;
+  align-items: center;
+`;
+
+const StButton = styled.img`
+  width: 1rem;
+  height: 2rem;
+  margin: 1rem;
 `;
