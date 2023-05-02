@@ -81,12 +81,13 @@ function SeniorSummaryDailyPage() {
         <StText>음식 입력</StText>
         <StRowContainer>
           {mealState == 0 ? (
-            <StButton
+            <div
+              className="buttonContainer"
               onClick={() => {
                 setMealState((now) => now + 1);
-              }}
-              src={require("../assets/icons/icon_before.png")}
-            />
+              }}>
+              <StButton src={require("../assets/icons/icon_before.png")} />
+            </div>
           ) : (
             <StButton src={require("../assets/icons/icon_nobefore.png")} />
           )}
@@ -96,9 +97,6 @@ function SeniorSummaryDailyPage() {
                 <div className="row" key={item.id}>
                   <div className="col">
                     <StMealImage src={item.imageUrl} />
-                    {/* <StText className="name">{item.id}</StText>
-                <StText>{item.times}</StText>
-                <StText>입력시간 : {item.createdAt}</StText> */}
                     {item.detail.map((mealList) => (
                       <StFoodBox1>
                         <StImage src={FoodIcn} />
@@ -123,12 +121,13 @@ function SeniorSummaryDailyPage() {
             )}
           </DataContainer>
           {mealState == mealLength - 1 ? (
-            <StButton
+            <div
+              className="buttonContainer"
               onClick={() => {
                 setMealState((now) => now - 1);
-              }}
-              src={require("../assets/icons/icon_next.png")}
-            />
+              }}>
+              <StButton src={require("../assets/icons/icon_next.png")} />
+            </div>
           ) : (
             <StButton src={require("../assets/icons/icon_nonext.png")} />
           )}
@@ -189,7 +188,6 @@ const DataContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    /* justify-content: space-between; */
     justify-content: center;
   }
   .col {
@@ -252,13 +250,17 @@ const StRowContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
+  .buttonContainer {
+    height: 10rem;
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const StButton = styled.img`
-  width: 1rem;
+  width: 2rem;
   height: 2rem;
   margin: 1rem;
 `;
