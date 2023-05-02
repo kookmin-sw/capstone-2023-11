@@ -48,7 +48,7 @@ function SeniorPillSelf() {
     },
   );
   useEffect(() => {
-    if (data) {
+    if (data && pillStatus == true) {
       alert("등록되었습니다.");
       navigate("/senior/pill");
     }
