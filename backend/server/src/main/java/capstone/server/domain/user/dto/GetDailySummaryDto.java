@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailySummaryDto {
+public class GetDailySummaryDto {
     List<MealInfo> meal;
     List<ExerciseInfo> exercise;
 }
