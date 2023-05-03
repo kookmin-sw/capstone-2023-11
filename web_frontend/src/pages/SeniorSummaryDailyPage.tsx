@@ -53,8 +53,8 @@ function SeniorSummaryDailyPage() {
 
   useEffect(() => {
     if (data) {
-      console.log("mealData changed:", mealData);
-      console.log("exerciseData changed:", exerciseData);
+      console.log("mealData:", mealData);
+      console.log("exerciseData:", exerciseData);
       console.log(mealLength);
     }
   }, [mealData, exerciseData]);
@@ -78,27 +78,27 @@ function SeniorSummaryDailyPage() {
           {year + "년 " + month + "월 " + date + "일 " + week[now.getDay()] + "요일"}
         </StTitle>
         <StText>음식 입력</StText>
-        <StRowContainer>
-          {mealState != 0 ? (
-            <div
-              className="buttonContainer"
-              onClick={() => {
-                setMealState((now) => now - 1);
-              }}>
-              <StButton src={require("../assets/icons/icon_before.png")} />
-            </div>
-          ) : (
-            <StButton src={require("../assets/icons/icon_nobefore.png")} />
-          )}
-          <DataContainer>
-            {mealData?.map((item: IMeal, index) =>
-              index == mealState ? (
-                <div className="row" key={item.id}>
+        {mealLength != 0 ? (
+          <StRowContainer>
+            {mealState != 0 ? (
+              <div
+                className="buttonContainer"
+                onClick={() => {
+                  setMealState((now) => now - 1);
+                }}>
+                <StButton src={require("../assets/icons/icon_before.png")} />
+              </div>
+            ) : (
+              <StButton src={require("../assets/icons/icon_nobefore.png")} />
+            )}
+            <DataContainer>
+              {mealData?.map((item: IMeal, index) =>
+                index == mealState ? (
                   <div className="col">
                     <StMealImage src={item.imageUrl} />
                     {item.detail.map((mealList) => (
-                      <StFoodBox1>
-                        <StImage src={FoodIcn} />
+                      <StFoodBox>
+                        <StIcon src={FoodIcn} />
                         <div>
                           <StFoodName>{mealList.name}</StFoodName>
                           <StNutrient>
@@ -110,29 +110,39 @@ function SeniorSummaryDailyPage() {
                           {Math.round(mealList.calorie)}
                           kcal
                         </StKcal>
-                      </StFoodBox1>
+                      </StFoodBox>
                     ))}
                   </div>
-                </div>
-              ) : (
-                <></>
-              ),
+                ) : (
+                  <></>
+                ),
+              )}
+            </DataContainer>
+            {mealState != mealLength - 1 ? (
+              <div
+                className="buttonContainer"
+                onClick={() => {
+                  setMealState((now) => now + 1);
+                }}>
+                <StButton src={require("../assets/icons/icon_next.png")} />
+              </div>
+            ) : (
+              <StButton src={require("../assets/icons/icon_nonext.png")} />
             )}
+          </StRowContainer>
+        ) : (
+          <DataContainer>
+            <StText>😭 오늘 입력한 데이터가 없습니다</StText>
           </DataContainer>
-          {mealState != mealLength - 1 ? (
-            <div
-              className="buttonContainer"
-              onClick={() => {
-                setMealState((now) => now + 1);
-              }}>
-              <StButton src={require("../assets/icons/icon_next.png")} />
-            </div>
-          ) : (
-            <StButton src={require("../assets/icons/icon_nonext.png")} />
-          )}
-        </StRowContainer>
+        )}
         <StText>운동 입력</StText>
-        <DataContainer></DataContainer>
+        {data?.data.exercise.length != 0 ? (
+          <DataContainer></DataContainer>
+        ) : (
+          <DataContainer>
+            <StText>😭 오늘 입력한 데이터가 없습니다</StText>
+          </DataContainer>
+        )}
       </STContainer>
     </>
   );
@@ -200,11 +210,11 @@ const DataContainer = styled.div`
 `;
 
 const StText = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-family: "Pretendard-Bold";
   padding: 1rem 1rem;
 `;
-const StFoodBox1 = styled.div`
+const StFoodBox = styled.div`
   display: flex;
   align-items: center;
   width: 32rem;
@@ -228,9 +238,7 @@ const StNutrient = styled.p`
   margin-top: 0.4rem;
   font-family: "Pretendard-Bold";
 `;
-const StKcal = styled.p`
-  font-size: 1.6rem;
-  font-family: "Pretendard-Bold";
+const StKcal = styled(StFoodName)`
   margin-left: 1.2rem;
 `;
 const StMealImage = styled.img`
@@ -241,7 +249,7 @@ const StMealImage = styled.img`
   max-height: 20rem;
   margin-bottom: 2rem;
 `;
-const StImage = styled.img`
+const StIcon = styled.img`
   width: 3rem;
   height: 3rem;
 `;
@@ -257,7 +265,6 @@ const StRowContainer = styled.div`
     align-items: center;
   }
 `;
-
 const StButton = styled.img`
   width: 2rem;
   height: 2rem;
