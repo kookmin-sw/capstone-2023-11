@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -31,6 +32,11 @@ interface IExercise {
   kor: string;
   eng: string;
   hour: number;
+}
+
+function formatTime(timeString: string) {
+  const date = moment(`2000-01-01 ${timeString}`);
+  return date.format("HH시 mm분");
 }
 
 function SeniorSummaryDailyPage() {
@@ -136,12 +142,13 @@ function SeniorSummaryDailyPage() {
         {data?.data.exercise.length != 0 ? (
           <DataContainer>
             {exerciseData?.map((item: IExercise) => (
-              <div className="col">
+              <div className="col2">
+                <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
                 <StExerciseBox>
                   <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
                   <div>
-                    <StFoodName>{item.kor}</StFoodName>
-                    <StNutrient>{item.hour} 시간 하셨어요 !</StNutrient>
+                    <StExerciseName>{item.kor}</StExerciseName>
+                    <StHour>{item.hour} 시간 하셨어요 !</StHour>
                   </div>
                   <StKcal>{item.kcal} kcal</StKcal>
                 </StExerciseBox>
@@ -214,6 +221,10 @@ const DataContainer = styled.div`
     flex-direction: column;
     align-items: center;
   }
+  .col2 {
+    display: flex;
+    flex-direction: column;
+  }
   .name {
     font-size: 1.7rem;
   }
@@ -245,8 +256,6 @@ const StFoodBox = styled.div`
 `;
 const StExerciseBox = styled(StFoodBox)`
   height: 8rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
   div {
     width: 13rem;
     margin-left: 1rem;
@@ -256,11 +265,17 @@ const StFoodName = styled.p`
   font-size: 1.6rem;
   font-family: "Pretendard-Bold";
 `;
+const StExerciseName = styled(StFoodName)`
+  font-size: 1.7rem;
+`;
 const StNutrient = styled.p`
   color: #006ffd;
   font-size: 1.2rem;
   margin-top: 0.5rem;
   font-family: "Pretendard-Bold";
+`;
+const StHour = styled(StNutrient)`
+  margin-top: 1rem;
 `;
 const StKcal = styled(StFoodName)`
   margin-left: 1.2rem;
