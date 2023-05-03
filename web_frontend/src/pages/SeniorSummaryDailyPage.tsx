@@ -50,6 +50,7 @@ function SeniorSummaryDailyPage() {
   const [mealData, setMealData] = useState<IMeal[]>([]);
   const [exerciseData, setExerciseData] = useState<IExercise[]>([]);
   const [mealLength, setMealLength] = useState(0);
+  const [exerciseLength, setExerciseLength] = useState(0);
   const [mealState, setMealState] = useState(0);
 
   useEffect(() => {
@@ -70,6 +71,7 @@ function SeniorSummaryDailyPage() {
       setMealData(data.data.meal);
       setExerciseData(data.data.exercise);
       setMealLength(data.data.meal.length);
+      setExerciseLength(data.data.exercise.length);
     }
   }, [data]);
 
@@ -135,11 +137,15 @@ function SeniorSummaryDailyPage() {
           </StRowContainer>
         ) : (
           <DataContainer>
-            <StText>😭 오늘 입력한 음식 데이터가 없습니다</StText>
+            <div className="col">
+              <img className="foodIcon" src={require("../assets/icons/icon_food.png")} />
+              <StText>😭 오늘 입력한 음식 데이터가 없습니다 😭</StText>
+              <StText>식사를 찍고 입력해주세요!</StText>
+            </div>
           </DataContainer>
         )}
         <StText>운동 입력</StText>
-        {data?.data.exercise.length != 0 ? (
+        {exerciseLength != 0 ? (
           <DataContainer>
             {exerciseData?.map((item: IExercise) => (
               <div className="col2">
@@ -148,7 +154,7 @@ function SeniorSummaryDailyPage() {
                   <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
                   <div>
                     <StExerciseName>{item.kor}</StExerciseName>
-                    <StHour>{item.hour} 시간 하셨어요 !</StHour>
+                    <StHour>{item.hour}시간 하셨어요 !</StHour>
                   </div>
                   <StKcal>{item.kcal} kcal</StKcal>
                 </StExerciseBox>
@@ -157,7 +163,10 @@ function SeniorSummaryDailyPage() {
           </DataContainer>
         ) : (
           <DataContainer>
-            <StText>😭 오늘 입력한 운동 데이터가 없습니다</StText>
+            <div className="col">
+              <StText>😭 오늘 입력한 운동 데이터가 없습니다 😭</StText>
+              <StText>운동을 입력해주세요!</StText>
+            </div>
           </DataContainer>
         )}
       </STContainer>
@@ -195,7 +204,6 @@ const STContainer = styled.div`
     margin-bottom: 2rem;
   }
 `;
-
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
   font-size: 2rem;
@@ -203,7 +211,6 @@ const StTitle = styled.div`
   text-align: center;
   margin-top: 1rem;
 `;
-
 const DataContainer = styled.div`
   padding: 2rem 2rem;
   justify-content: center;
@@ -232,8 +239,11 @@ const DataContainer = styled.div`
     width: 5rem;
     height: 5rem;
   }
+  .foodIcon {
+    width: 18rem;
+    height: 18rem;
+  }
 `;
-
 const StText = styled.div`
   font-size: 1.6rem;
   font-family: "Pretendard-Bold";
