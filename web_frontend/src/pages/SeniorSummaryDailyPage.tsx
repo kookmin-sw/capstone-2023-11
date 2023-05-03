@@ -106,10 +106,7 @@ function SeniorSummaryDailyPage() {
                             {Math.round(mealList.protein * 10) / 10}g
                           </StNutrient>
                         </div>
-                        <StKcal>
-                          {Math.round(mealList.calorie)}
-                          kcal
-                        </StKcal>
+                        <StKcal>{Math.round(mealList.calorie)} kcal</StKcal>
                       </StFoodBox>
                     ))}
                   </div>
@@ -132,15 +129,28 @@ function SeniorSummaryDailyPage() {
           </StRowContainer>
         ) : (
           <DataContainer>
-            <StText>😭 오늘 입력한 데이터가 없습니다</StText>
+            <StText>😭 오늘 입력한 음식 데이터가 없습니다</StText>
           </DataContainer>
         )}
         <StText>운동 입력</StText>
         {data?.data.exercise.length != 0 ? (
-          <DataContainer></DataContainer>
+          <DataContainer>
+            {exerciseData?.map((item: IExercise) => (
+              <div className="col">
+                <StExerciseBox>
+                  <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
+                  <div>
+                    <StFoodName>{item.kor}</StFoodName>
+                    <StNutrient>{item.hour} 시간 하셨어요 !</StNutrient>
+                  </div>
+                  <StKcal>{item.kcal} kcal</StKcal>
+                </StExerciseBox>
+              </div>
+            ))}
+          </DataContainer>
         ) : (
           <DataContainer>
-            <StText>😭 오늘 입력한 데이터가 없습니다</StText>
+            <StText>😭 오늘 입력한 운동 데이터가 없습니다</StText>
           </DataContainer>
         )}
       </STContainer>
@@ -207,6 +217,10 @@ const DataContainer = styled.div`
   .name {
     font-size: 1.7rem;
   }
+  .exerciseIcon {
+    width: 5rem;
+    height: 5rem;
+  }
 `;
 
 const StText = styled.div`
@@ -222,11 +236,21 @@ const StFoodBox = styled.div`
   background: #eaf2ff;
   border-radius: 1.6rem;
   padding: 1.5rem;
+  justify-content: space-between;
   div {
-    width: 18rem;
+    width: 17rem;
     margin-left: 1rem;
   }
   margin-bottom: 1.5rem;
+`;
+const StExerciseBox = styled(StFoodBox)`
+  height: 8rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  div {
+    width: 13rem;
+    margin-left: 1rem;
+  }
 `;
 const StFoodName = styled.p`
   font-size: 1.6rem;
@@ -235,7 +259,7 @@ const StFoodName = styled.p`
 const StNutrient = styled.p`
   color: #006ffd;
   font-size: 1.2rem;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   font-family: "Pretendard-Bold";
 `;
 const StKcal = styled(StFoodName)`
