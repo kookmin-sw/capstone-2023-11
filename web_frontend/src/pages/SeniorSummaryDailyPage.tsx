@@ -45,6 +45,7 @@ function SeniorSummaryDailyPage() {
   const month = now.getMonth() + 1;
   const date = now.getDate();
   const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const korNum = ["첫", "두", "세", "네", "다섯"];
   const [firstApi, setFirstApi] = useState(true);
   const { data } = useQuery("dailyData", () => getDailyData(), { enabled: !!firstApi });
   const [mealData, setMealData] = useState<IMeal[]>([]);
@@ -54,7 +55,6 @@ function SeniorSummaryDailyPage() {
   const [mealState, setMealState] = useState(0);
 
   useEffect(() => {
-    console.log(data?.data);
     setFirstApi(false);
   }, [data]);
 
@@ -65,7 +65,6 @@ function SeniorSummaryDailyPage() {
       setMealLength(data.data.meal.length);
       setExerciseLength(data.data.exercise.length);
       setMealState(data.data.meal.length - 1);
-      console.log(mealState);
     }
   }, [data]);
 
@@ -97,9 +96,12 @@ function SeniorSummaryDailyPage() {
               {mealData?.map((item: IMeal, index) =>
                 index == mealState ? (
                   <div className="col">
+                    <StText>
+                      {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
+                    </StText>
                     <StMealImage src={item.imageUrl} />
                     {item.detail.map((mealList) => (
-                      <StFoodBox>
+                      <StFoodBox id={mealList.name}>
                         <StIcon src={FoodIcn} />
                         <div>
                           <StFoodName>{mealList.name}</StFoodName>
@@ -144,7 +146,7 @@ function SeniorSummaryDailyPage() {
             {exerciseData?.map((item: IExercise) => (
               <div className="col2">
                 <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
-                <StExerciseBox>
+                <StExerciseBox id={item.type}>
                   <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
                   <div>
                     <StExerciseName>{item.kor}</StExerciseName>
