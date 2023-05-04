@@ -98,8 +98,6 @@ const STContainer = styled.div`
   margin: 1rem auto;
 `;
 
-export default SeniorSummaryPage;
-
 const dummyData: IUserData = {
   isMale: true,
   age: 25,
