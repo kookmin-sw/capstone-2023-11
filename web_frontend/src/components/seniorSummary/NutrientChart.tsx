@@ -85,7 +85,7 @@ function NutrientChart() {
           },
         },
         legend: {
-          position: "bottom",
+          position: "top",
           offsetY: 20,
           fontFamily: "Pretendard_Bold",
           itemMargin: {

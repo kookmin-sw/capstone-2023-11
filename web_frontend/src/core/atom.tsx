@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
 export interface IUserData {
+  name: string;
   isMale: boolean;
   age: number;
   weight: number;
