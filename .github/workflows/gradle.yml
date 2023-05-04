@@ -30,8 +30,7 @@ jobs:
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
       run: chmod +x ../../backend/server/gradlew
+      working-directory: .
     - name: Build with Gradle
-#       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-#       with:
-#         arguments: build
       run : ../../backend/server/gradlew clean build --exclude-task test # Test 생략
+      working-directory: .
