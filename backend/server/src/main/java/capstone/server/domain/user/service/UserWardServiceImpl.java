@@ -146,6 +146,22 @@ public class UserWardServiceImpl implements UserWardService{
 
     @Override
     public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
-        return null;
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.MIN);
+        LocalDateTime lastDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX);
+
+        GetWeeklySummaryDto getWeeklySummaryDto = GetWeeklySummaryDto.builder()
+                .name(userWard.getName())
+                .gender(userWard.getGender())
+                .age(LocalDate.now().getYear() - userWard.getBirthday().getYear())
+                .drinkings(userWard.getDrinkings())
+                .smoke(userWard.getSmoke())
+                .height(userWard.getHeight())
+                .weight(userWard.getWeight())
+                .medicalHistory(new ArrayList<>())
+                .foodNutrients(new ArrayList<>())
+                .exerciseCalories(new ArrayList<>())
+                .build();
     }
 }
