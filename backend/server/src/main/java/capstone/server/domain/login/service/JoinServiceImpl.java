@@ -5,7 +5,7 @@ import capstone.server.domain.login.dto.KakaoUserInfoRes;
 import capstone.server.domain.login.dto.WardJoinRequest;
 import capstone.server.domain.login.enums.MedicalCategory;
 import capstone.server.domain.login.exception.DuplicateUserException;
-import capstone.server.domain.medical.repository.MedicalCategoryRepository;
+import capstone.server.domain.medical.repository.MedicalHistoryCategoryRepository;
 import capstone.server.domain.medical.repository.MedicalHistoryUserWardHasRepository;
 import capstone.server.domain.user.repository.UserGuardianRepository;
 import capstone.server.domain.user.repository.UserGuardianUserWardRepository;
@@ -27,7 +27,7 @@ public class JoinServiceImpl implements JoinService{
   private final UserGuardianRepository userGuardianRepository;
   private final UserWardRepository userWardRepository;
   private final UserGuardianUserWardRepository userGuardianUserWardRepository;
-  private final MedicalCategoryRepository medicalCategoryRepository;
+  private final MedicalHistoryCategoryRepository medicalHistoryCategoryRepository;
   private final MedicalHistoryUserWardHasRepository medicalHistoryUserWardHasRepository;
   private final LoginService loginService;
 
@@ -82,7 +82,7 @@ public class JoinServiceImpl implements JoinService{
 
 
 	for (MedicalCategory ill : wardJoinRequest.getIlls()) { // 질병 태그 등록
-	  MedicalHistoryCategory medicalHistoryCategory = medicalCategoryRepository.findMedicalHistoryCategoryByName(ill).get();
+	  MedicalHistoryCategory medicalHistoryCategory = medicalHistoryCategoryRepository.findMedicalHistoryCategoryByName(ill).get();
 	  medicalHistoryUserWardHasRepository.save(
 			  MedicalHistoryUserWardHas.builder()
 					  .medicalHistoryCategory(medicalHistoryCategory)

@@ -18,6 +18,8 @@ public interface MealRepository extends JpaRepository<Meal, Long> {
     List<Meal> findAllByUserWardUserIdOrderByCreatedAtDesc(Long userId);
 
     List<Meal> findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(Long userId, LocalDateTime startDate, LocalDateTime lastDate);
+    List<Meal> findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtAsc(Long userId, LocalDateTime startDate, LocalDateTime lastDate);
+
 
 
     int countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);

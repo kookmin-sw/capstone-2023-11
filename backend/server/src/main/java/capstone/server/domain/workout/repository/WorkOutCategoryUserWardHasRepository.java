@@ -18,6 +18,7 @@ public interface WorkOutCategoryUserWardHasRepository extends JpaRepository<Work
   List<WorkOutUserWardHas> findAllByUserWardOrderByCreatedAtDesc(UserWard userWard);
 
   List<WorkOutUserWardHas> findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtDesc(UserWard userWard, LocalDateTime startDate, LocalDateTime lastDate);
+  List<WorkOutUserWardHas> findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtAsc(UserWard userWard, LocalDateTime startDate, LocalDateTime lastDate);
 
   int countByUserWardAndCreatedAtAfter(UserWard userWard, LocalDateTime startOfToday);
 
