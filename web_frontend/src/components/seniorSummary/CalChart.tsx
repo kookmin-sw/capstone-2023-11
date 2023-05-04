@@ -1,13 +1,17 @@
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { BMRAtom, dateAtom, IUserData } from "../../core/atom";
 
-function CalChart() {
+function CalChart(prop: IUserData) {
+  const BMR = useRecoilValue(BMRAtom);
+  const dateStrings = useRecoilValue(dateAtom);
   return (
     <ApexChart
       type="line"
       series={[
         {
           name: "칼로리",
-          data: [560, 900, 670, 1100, 720, 520, 950],
+          data: prop.calories,
         },
       ]}
       options={{
@@ -37,7 +41,7 @@ function CalChart() {
           axisBorder: { show: false },
           axisTicks: { show: true },
           labels: { show: true },
-          categories: ["3/15", "3/16", "3/17", "3/18", "3/19", "3/20", "3/21"],
+          categories: dateStrings,
         },
         stroke: {
           curve: "smooth",
@@ -53,7 +57,7 @@ function CalChart() {
         annotations: {
           yaxis: [
             {
-              y: 1000,
+              y: BMR,
               borderColor: "#ff616d",
             },
           ],
