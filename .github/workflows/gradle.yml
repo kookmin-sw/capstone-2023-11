@@ -40,7 +40,7 @@ jobs:
     - name: Make Directory for deliver
       run: mkdir deploy
       working-directory: backend/server
-      
+
     # Jar 파일 Copy
     - name: Copy Jar
       run: cp ./build/libs/*.jar ./deploy/
@@ -60,6 +60,6 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \ 
-        ./springboot-intro-build.zip s3://springboot-intro-build/
+        ./springboot-intro-build.zip s3://boksiri-depoly/
       working-directory: backend/server
 
