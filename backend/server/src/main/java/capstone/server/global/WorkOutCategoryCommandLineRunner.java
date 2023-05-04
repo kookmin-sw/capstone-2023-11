@@ -1,10 +1,7 @@
 package capstone.server.global;
 
-import capstone.server.domain.login.enums.MedicalCategory;
-import capstone.server.domain.medical.repository.MedicalCategoryRepository;
 import capstone.server.domain.workout.enums.WorkOutCategoryEnum;
 import capstone.server.domain.workout.repository.WorkOutCategoryRepository;
-import capstone.server.entity.MedicalHistoryCategory;
 import capstone.server.entity.WorkOutCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package capstone.server.global;
 
 import capstone.server.domain.login.enums.MedicalCategory;
-import capstone.server.domain.medical.repository.MedicalCategoryRepository;
+import capstone.server.domain.medical.repository.MedicalHistoryCategoryRepository;
 import capstone.server.entity.MedicalHistoryCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class MedicalCategoryCommandLineRunner implements CommandLineRunner {
 
-  private final MedicalCategoryRepository medicalCategoryRepository;
+  private final MedicalHistoryCategoryRepository medicalHistoryCategoryRepository;
 
   @Override
   public void run(String... args) throws Exception {
 
 	for (MedicalCategory item : MedicalCategory.values()) {
-	  if (!medicalCategoryRepository.findMedicalHistoryCategoryByName(item).isPresent()) {
+	  if (!medicalHistoryCategoryRepository.findMedicalHistoryCategoryByName(item).isPresent()) {
 		// 카테고리가 등록 돼 있지 않을 시 등록시키기
-		medicalCategoryRepository.save(MedicalHistoryCategory.builder()
+		medicalHistoryCategoryRepository.save(MedicalHistoryCategory.builder()
 				.name(item)
 				.kor(item.getKor())
 				.eng(item.getEng())
