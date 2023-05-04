@@ -1,7 +1,5 @@
 package capstone.server.domain.user.dto;
 
-import capstone.server.domain.login.enums.GenderType;
-import capstone.server.entity.MedicalHistoryCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,14 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 public class GetWeeklySummaryDto {
     private String name;
-    private GenderType gender;
+    private String gender;
     private int age;
     private int weight;
     private int height;
-    List<MedicalHistoryCategory> medicalHistory;
+    List<String> medicalHistory;
     private int drinkings;
     private int smoke;
-    List<WeeklyFoodNutrient> foodNutrients;
-    List<Integer> exerciseCalories;
+    List<WeeklyFoodNutrient> weeklyFoodNutrientSum;
+    List<WeeklyExerciseRecord> weeklyExerciseInfo;
 
 }
