@@ -2,21 +2,38 @@ import { atom } from "recoil";
 
 export interface IUserData {
   name: string;
-  isMale: boolean;
+  gender: string;
   age: number;
   weight: number;
   height: number;
-  sick: string[];
-  isSmoke: boolean;
-  exercise: number;
-  calories: number[];
-  nutrient: {
-    protein: number[];
-    carbohydrate: number[];
-    fat: number[];
-    cholesterol: number[];
-    sodium: number[];
-  };
+  medicalHistory: IMedical[];
+  drinkings: number;
+  smoke: number;
+  weeklyFoodNutrientSum: IFoodNut[];
+  weeklyExerciseInfo: IExerciseInfo[];
+}
+
+export interface IMedical {
+  kor: string;
+  eng: string;
+  description: string;
+}
+
+export interface IFoodNut {
+  date: string;
+  calorie: number;
+  carbohydrate: number;
+  protein: number;
+  fat: number;
+  cholesterol: number;
+  natrium: number;
+}
+
+export interface IExerciseInfo {
+  date: string;
+  calorie: number;
+  hour: number;
+  count: number;
 }
 
 export const BMRAtom = atom({
