@@ -58,8 +58,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws s3 cp \
-        --region ap-northeast-2 \
-        --acl private \ 
+          --region ap-northeast-2 \
+          --acl private \ 
         ./springboot-intro-build.zip s3://boksiri-depoly/
       working-directory: backend/server
 
