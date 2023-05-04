@@ -63,7 +63,7 @@ function SeniorMain() {
           <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
           <WhiteButton2
             onClick={() => {
-              navigate(`/senior/MealCheck`);
+              navigate(`/senior/meal`);
             }}>
             <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
             오늘, {info?.todayMealCount}번의 식사를 기록했습니다!

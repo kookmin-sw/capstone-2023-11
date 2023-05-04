@@ -140,7 +140,7 @@ function SeniorMealCheckPage() {
     },
     onSuccess: () => {
       alert("등록이 완료되었습니다!");
-      navigate("/semior/mealList");
+      navigate("/senior/meal");
     },
   });
 
@@ -467,7 +467,6 @@ const StCheckModal = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
 `;
 const StCheckTitle = styled.p`
   width: 25.2rem;
