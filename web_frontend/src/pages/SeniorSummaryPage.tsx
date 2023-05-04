@@ -9,9 +9,39 @@ import { setDatas } from "../components/seniorSummary/SetDatas";
 import { NutComment } from "../components/seniorSummary/NutComment";
 import { CalComment } from "../components/seniorSummary/CalComment";
 
+function SeniorSummaryPage() {
+  setDatas(dummyData);
+  return (
+    <>
+      <StHeader>
+        <BackButton />
+        <HeaderText>주간 보고서</HeaderText>
+      </StHeader>
+      <STContainer>
+        <StTitle>김딸기님의 건강 점수는?? 😃</StTitle>
+        <ScoreChart />
+        <StText>주간 영양소 분석</StText>
+        <ChartContainer>
+          <NutrientChart />
+          <CommentContainer>{NutComment()}</CommentContainer>
+        </ChartContainer>
+        <StText>주간 칼로리 분석</StText>
+        <ChartContainer>
+          {CalChart(dummyData)}
+          <CommentContainer>{CalComment(dummyData)}</CommentContainer>
+        </ChartContainer>
+        <BlueButton>먹은 음식 기록 보기</BlueButton>
+      </STContainer>
+    </>
+  );
+}
+
+export default SeniorSummaryPage;
+
 const StHeader = styled.header`
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   background-color: #ffffff;
   border-bottom: 0.1rem solid #f8f9fe;
@@ -67,33 +97,6 @@ const STContainer = styled.div`
   justify-content: center;
   margin: 1rem auto;
 `;
-
-function SeniorSummaryPage() {
-  setDatas(dummyData);
-  return (
-    <>
-      <StHeader>
-        <BackButton />
-        <HeaderText>주간 보고서</HeaderText>
-      </StHeader>
-      <STContainer>
-        <StTitle>김딸기님의 건강 점수는?? 😃</StTitle>
-        <ScoreChart />
-        <StText>주간 영양소 분석</StText>
-        <ChartContainer>
-          <NutrientChart />
-          <CommentContainer>{NutComment()}</CommentContainer>
-        </ChartContainer>
-        <StText>주간 칼로리 분석</StText>
-        <ChartContainer>
-          {CalChart(dummyData)}
-          <CommentContainer>{CalComment(dummyData)}</CommentContainer>
-        </ChartContainer>
-        <BlueButton>먹은 음식 기록 보기</BlueButton>
-      </STContainer>
-    </>
-  );
-}
 
 export default SeniorSummaryPage;
 
