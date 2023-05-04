@@ -29,8 +29,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
-      run: chmod +x ./backend/server/gradlew
-      working-directory: .
+      run: chmod +x ../../backend/server/gradlew
     - name: Build with Gradle
-      run : ./backend/server/gradlew clean build --exclude-task test # Test 생략
-      working-directory: .
+#       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+#       with:
+#         arguments: build
+      run : ./gradlew clean build --exclude-task test # Test 생략
