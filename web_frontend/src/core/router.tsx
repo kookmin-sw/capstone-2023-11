@@ -16,6 +16,7 @@ import SeniorPillSelf from "../components/seniorPill/SeniorPillSelf";
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
+import SeniorSummaryDailyPage from "../pages/SeniorSummaryDailyPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ function Router() {
         <Route path="/senior/pill/self" element={<SeniorPillSelf />} />
         <Route path="/senior/schedule" element={<SeniorSchedule />} />
         <Route path="/senior/summary" element={<SeniorSummaryPage />} />
+        <Route path="/senior/summary/day" element={<SeniorSummaryDailyPage />} />
         <Route path="/senior/MealCheck" element={<SeniorMealCheckPage />} />
         <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
         <Route path="/senior/exercise/add" element={<SeniorExercise />} />
