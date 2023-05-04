@@ -728,5 +728,5 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/java,vs,react,reactnative,node
 
 # 스프링 프로젝트 properties 이그노어 추가
-*.properties
+**/resources/**.properties
 *.p12
