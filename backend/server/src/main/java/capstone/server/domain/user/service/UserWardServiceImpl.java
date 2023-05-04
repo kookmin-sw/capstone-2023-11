@@ -148,6 +148,7 @@ public class UserWardServiceImpl implements UserWardService{
     public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
+        // 오늘을 기준으로 어제부터 7일동안의 범위 설정
         LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.MIN);
         LocalDateTime lastDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX);
 
@@ -163,5 +164,7 @@ public class UserWardServiceImpl implements UserWardService{
                 .foodNutrients(new ArrayList<>())
                 .exerciseCalories(new ArrayList<>())
                 .build();
+
+        return getWeeklySummaryDto;
     }
 }
