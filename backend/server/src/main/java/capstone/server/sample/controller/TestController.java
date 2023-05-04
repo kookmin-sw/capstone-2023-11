@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/test")
 public class TestController {
-  // Action Testing용 주석 추가
 
   private final TestServiceImpl testService;
 
