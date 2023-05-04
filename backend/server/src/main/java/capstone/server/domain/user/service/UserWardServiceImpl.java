@@ -7,7 +7,6 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
-import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
 import capstone.server.entity.*;
 import capstone.server.utils.DateTimeUtils;
@@ -19,11 +18,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -145,7 +142,7 @@ public class UserWardServiceImpl implements UserWardService{
     }
 
     @Override
-    public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+    public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException{
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
         // 오늘을 기준으로 어제부터 7일동안의 범위 설정
@@ -154,16 +151,71 @@ public class UserWardServiceImpl implements UserWardService{
 
         GetWeeklySummaryDto getWeeklySummaryDto = GetWeeklySummaryDto.builder()
                 .name(userWard.getName())
-                .gender(userWard.getGender())
+                .gender(userWard.getGender().name())
                 .age(LocalDate.now().getYear() - userWard.getBirthday().getYear())
                 .drinkings(userWard.getDrinkings())
                 .smoke(userWard.getSmoke())
                 .height(userWard.getHeight())
                 .weight(userWard.getWeight())
                 .medicalHistory(new ArrayList<>())
-                .foodNutrients(new ArrayList<>())
-                .exerciseCalories(new ArrayList<>())
+                .weeklyFoodNutrientSum(new ArrayList<>(7))
+                .weeklyExerciseInfo(new ArrayList<>(7))
                 .build();
+
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtAsc(userWard.getUserId(), startDateTime, lastDateTime);
+        List<WorkOutUserWardHas> workOutRecords = workOutCategoryUserWardHasRepository.findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtAsc(userWard, startDateTime, lastDateTime);
+
+        // 일일 영양소 총합 계산.
+        {
+            LocalDate begin = startDateTime.toLocalDate();
+
+            int mealIdx = 0;
+
+            for (int i = 0; i < 7; i++) {
+                LocalDate date = begin.plusDays(i);
+                WeeklyFoodNutrient nutrientSum = new WeeklyFoodNutrient(date);
+                getWeeklySummaryDto.getWeeklyFoodNutrientSum().add(nutrientSum);
+                for (int j = mealIdx; j < mealList.size(); j++) {
+                    if (!mealList.get(j).getCreatedAt().toLocalDate().isEqual(date)) {
+                        mealIdx = j;
+                        break;
+                    }
+
+                    List<Food> foods = foodRepository.findAllByMealId(mealList.get(j).getId());
+                    for (Food food : foods) {
+                        nutrientSum.plus(
+                                food.getCalorie(), food.getCarbohyborateTotal(), food.getProtein(), food.getFatTotal(), food.getCholesterol(), food.getNatrium()
+                        );
+                    }
+                }
+
+            }
+        }
+
+        //일일 운동 칼로리 계산
+        {
+            LocalDate begin = startDateTime.toLocalDate();
+
+            int workOutIdx = 0;
+
+            for (int i = 0; i < 7; i++) {
+                LocalDate date = begin.plusDays(i);
+                WeeklyExerciseRecord exerciseSum = new WeeklyExerciseRecord(date);
+                getWeeklySummaryDto.getWeeklyExerciseInfo().add(exerciseSum);
+                for (int j = workOutIdx; j < workOutRecords.size(); j++) {
+                    if (!workOutRecords.get(j).getCreatedAt().toLocalDate().isEqual(date)) {
+                        workOutIdx = j;
+                        break;
+                    }
+
+                    exerciseSum.plus(workOutRecords.get(j).getKcal(), workOutRecords.get(j).getHour());
+                }
+
+            }
+        }
+
+
+
 
         return getWeeklySummaryDto;
     }
