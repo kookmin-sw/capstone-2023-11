@@ -1,6 +1,8 @@
 package capstone.server.entity;
 
 import capstone.server.domain.login.enums.MedicalCategory;
+import capstone.server.domain.medical.dto.MedicalHistoryInfo;
+import capstone.server.domain.workout.dto.WorkOutCategoryResponse;
 import capstone.server.utils.BaseTimeEntity;
 import lombok.*;
 
@@ -32,5 +34,13 @@ public class MedicalHistoryCategory {
      TODO
      병력에 들어가야할 정보 추가해야함
     */
+
+    public MedicalHistoryInfo toDto( ) {
+        return MedicalHistoryInfo.builder()
+                .kor(this.getKor())
+                .eng(this.getEng())
+                .description(this.getDescription())
+                .build();
+    }
 
 }

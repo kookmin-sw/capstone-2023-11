@@ -1,5 +1,7 @@
 package capstone.server.domain.user.dto;
 
+import capstone.server.domain.medical.dto.MedicalHistoryInfo;
+import capstone.server.entity.MedicalHistoryCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,7 @@ public class GetWeeklySummaryDto {
     private int age;
     private int weight;
     private int height;
-    List<String> medicalHistory;
+    List<MedicalHistoryInfo> medicalHistory;
     private int drinkings;
     private int smoke;
     List<WeeklyFoodNutrient> weeklyFoodNutrientSum;

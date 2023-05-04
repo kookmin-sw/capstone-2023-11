@@ -1,5 +1,9 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.login.enums.MedicalCategory;
+import capstone.server.domain.medical.dto.MedicalHistoryInfo;
+import capstone.server.domain.medical.repository.MedicalHistoryCategoryRepository;
+import capstone.server.domain.medical.repository.MedicalHistoryUserWardHasRepository;
 import capstone.server.domain.user.dto.*;
 import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
@@ -7,6 +11,7 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
 import capstone.server.entity.*;
 import capstone.server.utils.DateTimeUtils;
@@ -21,6 +26,7 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -35,6 +41,10 @@ public class UserWardServiceImpl implements UserWardService{
     MealRepository mealRepository;
     @Autowired
     FoodRepository foodRepository;
+    @Autowired
+    MedicalHistoryUserWardHasRepository medicalHistoryUserWardHasRepository;
+    @Autowired
+    MedicalHistoryCategoryRepository medicalHistoryCategoryRepository;
 
     public GetUserWardMainInfoResponseDto getUserWardMainInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
@@ -149,6 +159,11 @@ public class UserWardServiceImpl implements UserWardService{
         LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.MIN);
         LocalDateTime lastDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX);
 
+        //보유 질병 목록 저장
+        List<MedicalHistoryCategory> medicalHistoryCategories = medicalHistoryUserWardHasRepository.findAllByUserWardUserId(userWard.getUserId());
+        //Dto로 변경
+        List<MedicalHistoryInfo> medicalHistoryInfos = medicalHistoryCategories.stream().map(medicalHistoryCategory -> medicalHistoryCategory.toDto()).collect(Collectors.toList());
+
         GetWeeklySummaryDto getWeeklySummaryDto = GetWeeklySummaryDto.builder()
                 .name(userWard.getName())
                 .gender(userWard.getGender().name())
@@ -157,14 +172,13 @@ public class UserWardServiceImpl implements UserWardService{
                 .smoke(userWard.getSmoke())
                 .height(userWard.getHeight())
                 .weight(userWard.getWeight())
-                .medicalHistory(new ArrayList<>())
+                .medicalHistory(medicalHistoryInfos)
                 .weeklyFoodNutrientSum(new ArrayList<>(7))
                 .weeklyExerciseInfo(new ArrayList<>(7))
                 .build();
 
         List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtAsc(userWard.getUserId(), startDateTime, lastDateTime);
         List<WorkOutUserWardHas> workOutRecords = workOutCategoryUserWardHasRepository.findAllByUserWardAndCreatedAtBetweenOrderByCreatedAtAsc(userWard, startDateTime, lastDateTime);
-
         // 일일 영양소 총합 계산.
         {
             LocalDate begin = startDateTime.toLocalDate();
@@ -213,6 +227,10 @@ public class UserWardServiceImpl implements UserWardService{
 
             }
         }
+
+
+
+
 
 
 
