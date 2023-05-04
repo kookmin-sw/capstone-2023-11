@@ -143,4 +143,9 @@ public class UserWardServiceImpl implements UserWardService{
         return getDailySummaryDto;
 
     }
+
+    @Override
+    public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+        return null;
+    }
 }
