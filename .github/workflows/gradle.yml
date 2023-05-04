@@ -18,9 +18,7 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -30,8 +28,9 @@ jobs:
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
       run: chmod +x ./backend/server/gradlew
-      working-directory: ..
+      working-directory: .
     - name: Build with Gradle
       run : ./backend/server/gradlew clean build --exclude-task test # Test 생략
-      working-directory: ..
+      working-directory: .
+    working-directory: ./backend/server
 
