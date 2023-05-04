@@ -34,3 +34,4 @@ jobs:
     - name: Build with Gradle
       run : /backend/server/gradlew clean build --exclude-task test # Test 생략
       working-directory: .
+
