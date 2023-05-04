@@ -19,9 +19,9 @@ public class GetWeeklySummaryDto {
     private int age;
     private int weight;
     private int height;
-    List<MedicalHistoryInfo> medicalHistory;
     private int drinkings;
     private int smoke;
+    List<MedicalHistoryInfo> medicalHistory;
     List<WeeklyFoodNutrient> weeklyFoodNutrientSum;
     List<WeeklyExerciseRecord> weeklyExerciseInfo;
 
