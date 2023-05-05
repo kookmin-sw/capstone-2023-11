@@ -30,12 +30,24 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
       working-directory: backend/server
-      # working-directory: .
 
     - name: Build with Gradle
       run : ./gradlew clean build --exclude-task test # Test 생략
       working-directory: backend/server
-      # working-directory: .
+    
+    # application.properties 폴더 생성
+    - name: make application.properties
+      run:
+        mkdir ./src/main/resources | 
+        touch ./src/main/resources/application.properties 
+      shell: bash
+      working-directory: backend/server
+
+    # 시크릿에 있는거 복사해주기
+    - name: deliver application.properties
+      run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
+      shell: bash
+      working-directory: backend/server
   
     # 전송할 파일을 담을 디렉토리 생성
     - name: Make Directory for deliver
