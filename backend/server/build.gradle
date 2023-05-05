@@ -26,6 +26,10 @@ sourceSets {
     }
 }
 
+jar {
+    enabled = false // -plain.jar 파일이 생성되지 않도록 설정
+}
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
