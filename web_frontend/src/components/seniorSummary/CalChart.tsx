@@ -5,13 +5,18 @@ import { BMRAtom, dateAtom, IUserData } from "../../core/atom";
 function CalChart(prop: IUserData) {
   const BMR = useRecoilValue(BMRAtom);
   const dateStrings = useRecoilValue(dateAtom);
+  const calories = [];
+  for (let i = 0; i < 7; i++) {
+    const calData = prop.weeklyFoodNutrientSum[i].calorie;
+    calories.push(calData);
+  }
   return (
     <ApexChart
       type="line"
       series={[
         {
           name: "칼로리",
-          data: prop.calories,
+          data: calories,
         },
       ]}
       options={{

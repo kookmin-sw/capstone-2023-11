@@ -5,7 +5,12 @@ import { BMRAtom, IUserData } from "../../core/atom";
 export function CalComment(prop: IUserData) {
   const BMR = useRecoilValue(BMRAtom);
   const score: number[] = [];
-  prop.calories.map((calorie) => score.push(calorie - BMR));
+  const calories = [];
+  for (let i = 0; i < 7; i++) {
+    const calData = prop.weeklyFoodNutrientSum[i].fat;
+    calories.push(calData);
+  }
+  calories.map((calorie) => score.push(calorie - BMR));
   const sum = score.reduce(function add(sum, currValue) {
     return sum + currValue;
   }, 0);

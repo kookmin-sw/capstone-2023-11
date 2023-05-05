@@ -3,7 +3,7 @@ import { BMRAtom, carboAtom, dateAtom, fatAtom, IUserData, proteinAtom } from ".
 
 export function setDatas(prop: IUserData) {
   const preBMR = 10 * prop.weight + 6.25 * prop.height - 5 * prop.age;
-  const BMR = Math.round(prop.isMale ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
+  const BMR = Math.round(prop.gender == "male" ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
   const setBMR = useSetRecoilState(BMRAtom);
   const setFat = useSetRecoilState(fatAtom);
   const setPro = useSetRecoilState(proteinAtom);
@@ -21,9 +21,9 @@ export function setDatas(prop: IUserData) {
   const proPercent = [];
   const carPercent = [];
   for (let i = 0; i < 7; i++) {
-    const fat = Math.round((prop.nutrient.fat[i] / goals.fat) * 100);
-    const protein = Math.round((prop.nutrient.protein[i] / goals.protein) * 100);
-    const carbohydrate = Math.round((prop.nutrient.carbohydrate[i] / goals.carbohydrate) * 100);
+    const fat = Math.round((prop.weeklyFoodNutrientSum[i].fat / goals.fat) * 100);
+    const protein = Math.round((prop.weeklyFoodNutrientSum[i].protein / goals.protein) * 100);
+    const carbohydrate = Math.round((prop.weeklyFoodNutrientSum[i].carbohydrate / goals.carbohydrate) * 100);
     fatPercent.push(fat);
     proPercent.push(protein);
     carPercent.push(carbohydrate);

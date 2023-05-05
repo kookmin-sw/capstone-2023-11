@@ -1,17 +1,21 @@
 import ApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
-import { dateAtom, fatAtom } from "../../core/atom";
+import { dateAtom, IUserData } from "../../core/atom";
 
-function ExerciseChart() {
-  const fatPercent = useRecoilValue(fatAtom);
+function ExerciseChart(prop: IUserData) {
   const dateStrings = useRecoilValue(dateAtom);
+  const calories = [];
+  for (let i = 0; i < 7; i++) {
+    const calData = prop.weeklyExerciseInfo[i].calorie;
+    calories.push(calData);
+  }
   return (
     <ApexChart
       type="bar"
       series={[
         {
           name: "칼로리",
-          data: fatPercent,
+          data: calories,
         },
       ]}
       options={{

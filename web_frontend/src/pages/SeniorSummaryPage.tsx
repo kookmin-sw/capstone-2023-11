@@ -8,9 +8,10 @@ import { IUserData } from "../core/atom";
 import { setDatas } from "../components/seniorSummary/SetDatas";
 import { NutComment } from "../components/seniorSummary/NutComment";
 import { CalComment } from "../components/seniorSummary/CalComment";
+import ExerciseChart from "../components/seniorSummary/ExerciseChart";
 
 function SeniorSummaryPage() {
-  setDatas(dummyData);
+  setDatas(dummyData2);
   return (
     <>
       <StHeader>
@@ -18,7 +19,7 @@ function SeniorSummaryPage() {
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
-        <StTitle>김딸기님의 건강 점수는?? 😃</StTitle>
+        <StTitle>{dummyData2.name}님의 건강 점수는?? 😃</StTitle>
         <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
@@ -27,8 +28,17 @@ function SeniorSummaryPage() {
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>
-          {CalChart(dummyData)}
-          <CommentContainer>{CalComment(dummyData)}</CommentContainer>
+          {CalChart(dummyData2)}
+          <CommentContainer>{CalComment(dummyData2)}</CommentContainer>
+        </ChartContainer>
+        <StText>운동 기록 분석</StText>
+        <ChartContainer>
+          {ExerciseChart(dummyData2)}
+          <CommentContainer>굿</CommentContainer>
+        </ChartContainer>
+        <StText>🐶 복실이 총평!</StText>
+        <ChartContainer>
+          <CommentContainer>굿</CommentContainer>
         </ChartContainer>
         <BlueButton>먹은 음식 기록 보기</BlueButton>
       </STContainer>
@@ -98,20 +108,128 @@ const STContainer = styled.div`
   margin: 1rem auto;
 `;
 
-const dummyData: IUserData = {
-  isMale: true,
+const dummyData2: IUserData = {
+  name: "홍길동",
+  gender: "male",
   age: 25,
   weight: 72,
-  height: 170,
-  sick: ["flu"],
-  isSmoke: false,
-  exercise: 3,
-  calories: [2057, 1673, 1912, 1786, 2098, 1561, 2245],
-  nutrient: {
-    protein: [85, 68, 78, 73, 86, 64, 92],
-    carbohydrate: [329, 268, 306, 286, 336, 249, 360],
-    fat: [83, 70, 100, 62, 96, 87, 71],
-    cholesterol: [77, 54, 93, 63, 60, 44, 92],
-    sodium: [2071, 1632, 1864, 1754, 2054, 1524, 2209],
-  },
+  height: 178,
+  drinkings: 0,
+  smoke: 0,
+  medicalHistory: [
+    {
+      kor: "간염",
+      eng: "dsadsadas",
+      description: "sddfdsgsdff",
+    },
+  ],
+  weeklyFoodNutrientSum: [
+    {
+      date: "2023-04-27",
+      calorie: 2057,
+      carbohydrate: 329,
+      protein: 85,
+      fat: 83,
+      cholesterol: 77,
+      natrium: 2071,
+    },
+    {
+      date: "2023-04-28",
+      calorie: 1673,
+      carbohydrate: 268,
+      protein: 68,
+      fat: 70,
+      cholesterol: 54,
+      natrium: 1632,
+    },
+    {
+      date: "2023-04-29",
+      calorie: 1912,
+      carbohydrate: 306,
+      protein: 78,
+      fat: 100,
+      cholesterol: 93,
+      natrium: 1864,
+    },
+    {
+      date: "2023-04-30",
+      calorie: 1786,
+      carbohydrate: 231,
+      protein: 73,
+      fat: 62,
+      cholesterol: 63,
+      natrium: 1754,
+    },
+    {
+      date: "2023-05-01",
+      calorie: 2098,
+      carbohydrate: 336,
+      protein: 86,
+      fat: 96,
+      cholesterol: 60,
+      natrium: 2054,
+    },
+    {
+      date: "2023-05-02",
+      calorie: 1561,
+      carbohydrate: 249,
+      protein: 64,
+      fat: 87,
+      cholesterol: 44,
+      natrium: 1524,
+    },
+    {
+      date: "2023-05-03",
+      calorie: 2245,
+      carbohydrate: 360,
+      protein: 92,
+      fat: 71,
+      cholesterol: 92,
+      natrium: 2209,
+    },
+  ],
+  weeklyExerciseInfo: [
+    {
+      date: "2023-04-27",
+      calorie: 266,
+      hour: 1,
+      count: 1,
+    },
+    {
+      date: "2023-04-28",
+      calorie: 415,
+      hour: 2,
+      count: 1,
+    },
+    {
+      date: "2023-04-29",
+      calorie: 187,
+      hour: 1,
+      count: 1,
+    },
+    {
+      date: "2023-04-30",
+      calorie: 670,
+      hour: 4,
+      count: 1,
+    },
+    {
+      date: "2023-05-01",
+      calorie: 458,
+      hour: 1,
+      count: 1,
+    },
+    {
+      date: "2023-05-02",
+      calorie: 312,
+      hour: 2,
+      count: 1,
+    },
+    {
+      date: "2023-05-03",
+      calorie: 349,
+      hour: 3,
+      count: 1,
+    },
+  ],
 };
