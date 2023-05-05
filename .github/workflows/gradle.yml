@@ -58,6 +58,11 @@ jobs:
     - name: Copy Jar
       run: cp ./build/libs/*.jar ./deploy/
       working-directory: backend/server
+
+    # properties 파일 Copy
+    - name: Copy Properties
+      run: cp ./src/main/resources/application.properties ./deploy/
+      working-directory: backend/server
     
     # appspec.yml Copy
     - name : Copy appspec
