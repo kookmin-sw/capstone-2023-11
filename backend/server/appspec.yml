@@ -13,10 +13,10 @@ permissions:
 
 hooks:
   AfterInstall: # 설치 후에 기존에 돌아가던 서버 중단 시키기
-    - location: ./stop.sh
+    - location: scripts/stop.sh
       timeout: 60
       runas: ec2-user
   ApplicationStart: # 새로운 서버 가동을 위한 스크립트
-    - location: ./start.sh
+    - location: scripts/start.sh
       timeout: 60
       runas: ec2-user
