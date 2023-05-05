@@ -54,7 +54,7 @@ jobs:
 
     # 압축파일 형태로 전달
     - name: Make zip file
-      run: zip -r -qq -j ./springboot-intro-build.zip ./deploy
+      run: zip -r -qq -j ./boksiri-build.zip ./deploy
       working-directory: backend/server
 
     # S3 Bucket으로 copy
@@ -63,7 +63,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws s3 cp --region ap-northeast-2 --acl private ./springboot-intro-build.zip s3://boksiri-depoly/
+        aws s3 cp --region ap-northeast-2 --acl private ./boksiri-build.zip s3://boksiri-depoly/
       working-directory: backend/server
       
     # Deploy
@@ -72,5 +72,5 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws deploy create-deployment --application-name boksirl --deployment-group-name boksirl-codedeploy-deployment-group --file-exists-behavior OVERWRITE --s3-location bucket=boksiri-depoly,bundleType=zip,key=springboot-intro-build.zip --region ap-northeast-2
+        aws deploy create-deployment --application-name boksirl --deployment-group-name boksirl-codedeploy-deployment-group --file-exists-behavior OVERWRITE --s3-location bucket=boksiri-depoly,bundleType=zip,key=boksiri-build.zip --region ap-northeast-2
 
