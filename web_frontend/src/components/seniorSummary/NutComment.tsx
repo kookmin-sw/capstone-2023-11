@@ -1,11 +1,6 @@
-import { useRecoilValue } from "recoil";
 import { nutText } from "../../constants/CommentTexts";
-import { carboAtom, fatAtom, proteinAtom } from "../../core/atom";
 
-export function NutComment() {
-  const fatPercent = useRecoilValue(fatAtom);
-  const proPercent = useRecoilValue(proteinAtom);
-  const carPercent = useRecoilValue(carboAtom);
+export function NutComment(fatPercent: number[], proPercent: number[], carPercent: number[]) {
   const resultFat = fatPercent.reduce(function add(sum, currValue) {
     return sum + currValue;
   }, 0);

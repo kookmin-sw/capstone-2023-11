@@ -1,12 +1,6 @@
 import ApexChart from "react-apexcharts";
-import { useRecoilValue } from "recoil";
-import { carboAtom, dateAtom, fatAtom, proteinAtom } from "../../core/atom";
 
-function NutrientChart() {
-  const fatPercent = useRecoilValue(fatAtom);
-  const proPercent = useRecoilValue(proteinAtom);
-  const carPercent = useRecoilValue(carboAtom);
-  const dateStrings = useRecoilValue(dateAtom);
+function NutrientChart(fatPercent: number[], proPercent: number[], carPercent: number[], dateStrings: string[]) {
   return (
     <ApexChart
       type="bar"

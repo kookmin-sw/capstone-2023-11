@@ -1,13 +1,13 @@
 import ApexChart from "react-apexcharts";
-import { useRecoilValue } from "recoil";
-import { dateAtom, IUserData } from "../../core/atom";
+import { IUserData } from "../../core/atom";
 
-function ExerciseChart(prop: IUserData) {
-  const dateStrings = useRecoilValue(dateAtom);
+function ExerciseChart(prop: IUserData, dateStrings: string[]) {
   const calories = [];
-  for (let i = 0; i < 7; i++) {
-    const calData = prop.weeklyExerciseInfo[i].calorie;
-    calories.push(calData);
+  if (prop) {
+    for (let i = 0; i < 7; i++) {
+      const calData = prop.weeklyExerciseInfo[i].calorie;
+      calories.push(calData);
+    }
   }
   return (
     <ApexChart

@@ -1,14 +1,14 @@
-import { useRecoilValue } from "recoil";
 import { calText } from "../../constants/CommentTexts";
-import { BMRAtom, IUserData } from "../../core/atom";
+import { IUserData } from "../../core/atom";
 
-export function CalComment(prop: IUserData) {
-  const BMR = useRecoilValue(BMRAtom);
+export function CalComment(prop: IUserData, BMR: number) {
   const score: number[] = [];
   const calories = [];
-  for (let i = 0; i < 7; i++) {
-    const calData = prop.weeklyFoodNutrientSum[i].fat;
-    calories.push(calData);
+  if (prop) {
+    for (let i = 0; i < 7; i++) {
+      const calData = prop.weeklyFoodNutrientSum[i].fat;
+      calories.push(calData);
+    }
   }
   calories.map((calorie) => score.push(calorie - BMR));
   const sum = score.reduce(function add(sum, currValue) {
