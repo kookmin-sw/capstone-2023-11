@@ -28,28 +28,25 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    # application.properties 만들기
-    - uses: actions/checkout@v2
-    - run: mkdir ./src/main/resources | touch ./src/main/resources/application.properties
-    - run: echo "${{secrets.PROPERTIES}}" > ./src/main/resources/application.properties
+    # (+++) application.properties 생성 
+    - name:  make application.properties
+      run:
+        mkdir ./src/main/resources | 
+        touch ./src/main/resources/application.properties 
+      shell: bash
+      working-directory: backend/server
+      
+    - name: deliver application.properties
+      run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
+      shell: bash
+      working-directory: backend/server
+
+    # (++++) 
     - uses: actions/upload-artifact@v2
       with:
         name: application.properties
         path: ./src/main/resources/application.properties
-
-    # # application.properties 폴더 생성
-    # - name: make application.properties
-    #   run:
-    #     mkdir ./src/main/resources | 
-    #     touch ./src/main/resources/application.properties 
-    #   shell: bash
-    #   working-directory: backend/server
-
-    # # 시크릿에 있는거 복사해주기
-    # - name: deliver application.properties
-    #   run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
-    #   shell: bash
-    #   working-directory: backend/server
+      working-directory: backend/server
     
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
