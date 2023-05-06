@@ -62,6 +62,8 @@ function SeniorSummaryPage() {
       ) {
         setExample(true);
       }
+    } else {
+      setExample(true);
     }
   }, [data]);
   return (
