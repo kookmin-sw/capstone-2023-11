@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ec2-user/app/deploy"
-JAR_FILE="$PROJECT_ROOT/server-0.0.1-SNAPSHO.jar"
+JAR_FILE="$PROJECT_ROOT/server-0.0.1-SNAPSHOT.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
