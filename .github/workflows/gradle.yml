@@ -30,7 +30,7 @@ jobs:
 
     # application.properties 만들기
     - uses: actions/checkout@v2
-    - run: touch ./src/main/resources/application.properties
+    - run: mkdir ./src/main/resources | touch ./src/main/resources/application.properties
     - run: echo "${{secrets.PROPERTIES}}" > ./src/main/resources/application.properties
     - uses: actions/upload-artifact@v2
       with:
