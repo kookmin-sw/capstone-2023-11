@@ -38,7 +38,7 @@ jobs:
 
     # 시크릿에 있는거 복사해주기
     - name: deliver application.properties
-      run: echo ${{ secrets.PROPERTIES }} > ./src/main/resources/application.properties
+      run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
       shell: bash
       working-directory: backend/server
     
