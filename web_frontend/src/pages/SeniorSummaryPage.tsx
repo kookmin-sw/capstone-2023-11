@@ -77,17 +77,20 @@ function SeniorSummaryPage() {
         <ChartContainer>
           {example
             ? NutrientChart(fatExample, proExample, carExample, dateStrings)
-            : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}
-          <CommentContainer>{NutComment(fatPercent, proPercent, carPercent)}</CommentContainer>
+            : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
+          <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
+          <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>
           {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
+          <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
           <CommentContainer>{example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}</CommentContainer>
         </ChartContainer>
         <StText>운동 기록 분석</StText>
         <ChartContainer>
           {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
+          <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
           <CommentContainer>굿</CommentContainer>
         </ChartContainer>
         <StText>🐶 복실이 총평!</StText>
@@ -129,17 +132,20 @@ const ChartContainer = styled.div`
   background-color: #f8f9fe;
   border-radius: 2rem;
   margin-bottom: 3rem;
+  .summary {
+    /* text-align: center; */
+  }
 `;
 
 const CommentContainer = styled(ChartContainer)`
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   background-color: #ffffff;
   font-size: 1.3rem;
   font-family: "Pretendard-Regular";
   white-space: pre-line;
   letter-spacing: 0.1rem;
   line-height: 1.5;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const StTitle = styled.div`
