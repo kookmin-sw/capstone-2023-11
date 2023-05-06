@@ -1,4 +1,4 @@
-import { calText } from "../../constants/CommentTexts";
+import { calText2 } from "../../constants/CommentTexts";
 import { IWeeklyData } from "../../core/atom";
 
 export function CalComment(prop: IWeeklyData, BMR: number) {
@@ -6,7 +6,7 @@ export function CalComment(prop: IWeeklyData, BMR: number) {
   const calories = [];
   if (prop) {
     for (let i = 0; i < 7; i++) {
-      const calData = prop.weeklyFoodNutrientSum[i].fat;
+      const calData = prop.weeklyFoodNutrientSum[i].calorie;
       calories.push(calData);
     }
   }
@@ -15,5 +15,19 @@ export function CalComment(prop: IWeeklyData, BMR: number) {
     return sum + currValue;
   }, 0);
   const avg = sum / 7;
-  return avg < 0 ? (avg < -200 ? calText[1] : calText[5]) : avg < 200 ? calText[4] : calText[8];
+  console.log(calories);
+  console.log(BMR);
+
+  console.log(avg);
+  let index;
+
+  if (avg <= -200) {
+    index = Math.floor(Math.random() * 4);
+  } else if (avg >= 200) {
+    index = Math.floor(Math.random() * 4) + 6;
+  } else {
+    index = 4 + Math.floor(Math.random() * 2);
+  }
+
+  return <>{calText2[index]}</>;
 }
