@@ -1,7 +1,7 @@
 import ApexChart from "react-apexcharts";
-import { IUserData } from "../../core/atom";
+import { IWeeklyData } from "../../core/atom";
 
-function ExerciseChart(prop: IUserData, dateStrings: string[]) {
+function ExerciseChart(prop: IWeeklyData, dateStrings: string[]) {
   const calories = [];
   if (prop) {
     for (let i = 0; i < 7; i++) {

@@ -1,7 +1,7 @@
 import { calText } from "../../constants/CommentTexts";
-import { IUserData } from "../../core/atom";
+import { IWeeklyData } from "../../core/atom";
 
-export function CalComment(prop: IUserData, BMR: number) {
+export function CalComment(prop: IWeeklyData, BMR: number) {
   const score: number[] = [];
   const calories = [];
   if (prop) {

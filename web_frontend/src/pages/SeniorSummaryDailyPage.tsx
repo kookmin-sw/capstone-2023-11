@@ -5,34 +5,7 @@ import styled from "styled-components";
 import { FoodIcn } from "../assets/icons";
 import BackButton from "../components/common/BackButton";
 import { getDailyData } from "../core/api";
-
-// interface IData {
-//   meal: IMeal[];
-//   exercise: IExercise[];
-// }
-interface IMeal {
-  id: number;
-  createdAt: string;
-  times: number;
-  imageUrl: string;
-  detail: IMealDetail[];
-}
-interface IMealDetail {
-  name: string;
-  calorie: number;
-  carbohyborateTotal: number;
-  protein: number;
-  fatTotal: number;
-}
-interface IExercise {
-  id: number;
-  type: string;
-  kcal: number;
-  createdAt: string;
-  kor: string;
-  eng: string;
-  hour: number;
-}
+import { IExercise, IMeal } from "../core/atom";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);

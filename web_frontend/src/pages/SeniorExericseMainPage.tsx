@@ -7,16 +7,7 @@ import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import moment from "moment";
-
-interface ExerciseForm {
-  createdAt: string;
-  eng: string;
-  id: number;
-  kcal: number;
-  kor: string;
-  type: string;
-  hour: number;
-}
+import { ExerciseForm } from "../core/atom";
 
 function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
