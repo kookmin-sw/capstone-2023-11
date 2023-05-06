@@ -27,14 +27,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
-      working-directory: backend/server
 
-    - name: Build with Gradle
-      run : ./gradlew clean build --exclude-task test # Test 생략
-      working-directory: backend/server
-    
     # application.properties 폴더 생성
     - name: make application.properties
       run:
@@ -48,6 +41,15 @@ jobs:
       run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
       shell: bash
       working-directory: backend/server
+    
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+      working-directory: backend/server
+
+    - name: Build with Gradle
+      run : ./gradlew clean build --exclude-task test # Test 생략
+      working-directory: backend/server
+    
   
     # 전송할 파일을 담을 디렉토리 생성
     - name: Make Directory for deliver
