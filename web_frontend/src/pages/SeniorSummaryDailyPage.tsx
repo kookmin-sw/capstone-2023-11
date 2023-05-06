@@ -48,7 +48,7 @@ function SeniorSummaryDailyPage() {
     <>
       <StHeader>
         <BackButton />
-        <HeaderText>일간 요약</HeaderText>
+        <HeaderText>일간 보고서</HeaderText>
       </StHeader>
       <STContainer>
         <StTitle className="indent">
