@@ -12,11 +12,13 @@ import { getWeeklyData } from "../core/api";
 import { useEffect, useState } from "react";
 import { exampleData } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
+import { useNavigate } from "react-router-dom";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
   const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
   const [example, setExample] = useState(false);
+  const navigate = useNavigate();
 
   const preBMR = 10 * data?.data.weight + 6.25 * data?.data.height - 5 * data?.data.age;
   const BMR = Math.round(data?.data.gender == "male" ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
@@ -98,7 +100,12 @@ function SeniorSummaryPage() {
         <ChartContainer>
           <CommentContainer>굿</CommentContainer>
         </ChartContainer>
-        <BlueButton>일간 보고서 보기</BlueButton>
+        <BlueButton
+          onClick={() => {
+            navigate(`/senior/summary/day`);
+          }}>
+          일간 보고서 보기
+        </BlueButton>
       </STContainer>
     </>
   );

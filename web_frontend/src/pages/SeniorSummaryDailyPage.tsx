@@ -1,9 +1,11 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FoodIcn } from "../assets/icons";
 import BackButton from "../components/common/BackButton";
+import { BlueButton } from "../components/common/BlueButton";
 import { getDailyData } from "../core/api";
 import { IExercise, IMeal } from "../core/atom";
 
@@ -26,6 +28,7 @@ function SeniorSummaryDailyPage() {
   const [mealLength, setMealLength] = useState(0);
   const [exerciseLength, setExerciseLength] = useState(0);
   const [mealState, setMealState] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setFirstApi(false);
@@ -138,6 +141,12 @@ function SeniorSummaryDailyPage() {
             </div>
           </DataContainer>
         )}
+        <BlueButton
+          onClick={() => {
+            navigate(`/senior/summary`);
+          }}>
+          주간 보고서 보기
+        </BlueButton>
       </STContainer>
     </>
   );
