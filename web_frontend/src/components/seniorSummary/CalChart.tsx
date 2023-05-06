@@ -5,7 +5,7 @@ function CalChart(prop: IWeeklyData, BMR: number, dateStrings: string[]) {
   const calories = [];
   if (prop) {
     for (let i = 0; i < 7; i++) {
-      const calData = prop.weeklyFoodNutrientSum[i].calorie;
+      const calData = Math.round(prop.weeklyFoodNutrientSum[i].calorie);
       calories.push(calData);
     }
   }

@@ -62,8 +62,6 @@ function SeniorSummaryPage() {
       ) {
         setExample(true);
       }
-    } else {
-      setExample(true);
     }
   }, [data]);
   return (
@@ -73,7 +71,7 @@ function SeniorSummaryPage() {
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
-        <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
         <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
