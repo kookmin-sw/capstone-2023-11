@@ -197,10 +197,10 @@ const GrayButton = styled(BlueButton)`
 `;
 
 const StModal = styled(Modal)`
-  padding: 5rem;
+  padding: 2rem;
   align-items: center;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 1.5rem;
 `;
 
 const CalContainer = styled.div`

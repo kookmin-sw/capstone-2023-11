@@ -86,7 +86,7 @@ function SeniorExerciseMainPage() {
         )}
       </StContainer>
       <FlexContainer>
-        <StAddButton onClick={onAddClick}>+</StAddButton>
+        <StAddButton src={require("../assets/icons/icon_add.png")} onClick={onAddClick} />
       </FlexContainer>
       <StModal isOpen={showDeleteModal}>
         <StPopContainer>
@@ -166,19 +166,18 @@ const FlexContainer = styled.div`
   padding-bottom: 3rem;
   display: flex;
   justify-content: flex-end;
-  right: 20%;
+  right: 10%;
 `;
-const StAddButton = styled.button`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 2.5rem;
+const StAddButton = styled.img`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 3rem;
   background-color: #006ffd;
-  font-size: 6.5rem;
-  color: white;
-  text-align: center;
   align-items: center;
+  align-self: center;
   display: flex;
   border: none;
+  padding: 1rem;
 `;
 
 const StModal = styled(Modal)`
