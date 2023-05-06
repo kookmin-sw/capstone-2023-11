@@ -10,10 +10,12 @@ import ExerciseChart from "../components/seniorSummary/ExerciseChart";
 import { useQuery } from "react-query";
 import { getWeeklyData } from "../core/api";
 import { useEffect, useState } from "react";
+import { exampleData } from "../core/atom";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
   const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
+  const [example, setExample] = useState(false);
 
   const preBMR = 10 * data?.data.weight + 6.25 * data?.data.height - 5 * data?.data.age;
   const BMR = Math.round(data?.data.gender == "male" ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
@@ -27,6 +29,10 @@ function SeniorSummaryPage() {
   const fatPercent = [];
   const proPercent = [];
   const carPercent = [];
+  const fatExample = [116, 89, 89, 79, 147, 85, 98];
+  const proExample = [78, 125, 98, 143, 125, 62, 79];
+  const carExample = [96, 58, 66, 129, 55, 96, 94];
+
   for (let i = 0; i < 7; i++) {
     const fat = Math.round((data?.data.weeklyFoodNutrientSum[i].fat / goals.fat) * 100);
     const protein = Math.round((data?.data.weeklyFoodNutrientSum[i].protein / goals.protein) * 100);
@@ -48,6 +54,14 @@ function SeniorSummaryPage() {
     if (data) {
       console.log(data);
       setFirstApi(false);
+      if (
+        data.data.weeklyFoodNutrientSum.reduce(
+          (total: number, currentValue: { calorie: number }) => (total = total + currentValue.calorie),
+          0,
+        ) == 0
+      ) {
+        setExample(true);
+      }
     }
   }, [data]);
   return (
@@ -61,17 +75,19 @@ function SeniorSummaryPage() {
         <ScoreChart />
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
-          {NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}
+          {example
+            ? NutrientChart(fatExample, proExample, carExample, dateStrings)
+            : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}
           <CommentContainer>{NutComment(fatPercent, proPercent, carPercent)}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>
-          {CalChart(data?.data, BMR, dateStrings)}
-          <CommentContainer>{CalComment(data?.data, BMR)}</CommentContainer>
+          {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
+          <CommentContainer>{example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}</CommentContainer>
         </ChartContainer>
         <StText>운동 기록 분석</StText>
         <ChartContainer>
-          {ExerciseChart(data?.data, dateStrings)}
+          {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
           <CommentContainer>굿</CommentContainer>
         </ChartContainer>
         <StText>🐶 복실이 총평!</StText>
