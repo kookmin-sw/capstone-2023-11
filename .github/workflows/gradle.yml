@@ -10,8 +10,8 @@ name: Spring Boot & Gradle CI/CD
 on:
   push:
     branches: [ "backend" ]
-  pull_request:
-    branches: [ "backend" ]
+  # pull_request:
+  #   branches: [ "backend" ]
 
 permissions:
   contents: read
