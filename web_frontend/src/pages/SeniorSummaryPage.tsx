@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import CalChart from "../components/seniorSummary/CalChart";
-import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
@@ -101,7 +100,7 @@ function SeniorSummaryPage() {
   return (
     <>
       <StHeader>
-        <BackButton />
+        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
@@ -205,4 +204,9 @@ const STContainer = styled.div`
   padding: 3rem 2rem;
   justify-content: center;
   margin: 1rem auto;
+`;
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;

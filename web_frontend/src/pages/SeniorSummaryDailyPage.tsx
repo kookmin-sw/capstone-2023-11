@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FoodIcn } from "../assets/icons";
-import BackButton from "../components/common/BackButton";
 import { BlueButton } from "../components/common/BlueButton";
 import { getDailyData } from "../core/api";
 import { IExercise, IMeal } from "../core/atom";
@@ -47,14 +46,14 @@ function SeniorSummaryDailyPage() {
   return (
     <>
       <StHeader>
-        <BackButton />
+        <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>일간 보고서</HeaderText>
       </StHeader>
       <STContainer>
         <StTitle className="indent">
           {year + "년 " + month + "월 " + date + "일 " + week[now.getDay()] + "요일"}
         </StTitle>
-        <StText>음식 입력</StText>
+        <StText>오늘 먹은 음식</StText>
         {mealLength != 0 ? (
           <StRowContainer>
             {mealState != mealLength - 1 ? (
@@ -116,7 +115,7 @@ function SeniorSummaryDailyPage() {
             </div>
           </DataContainer>
         )}
-        <StText>운동 입력</StText>
+        <StText>오늘 한 운동</StText>
         {exerciseLength != 0 ? (
           <DataContainer>
             {exerciseData?.map((item: IExercise) => (
@@ -141,12 +140,14 @@ function SeniorSummaryDailyPage() {
             </div>
           </DataContainer>
         )}
-        <BlueButton
-          onClick={() => {
-            navigate(`/senior/summary`);
-          }}>
-          주간 보고서 보기
-        </BlueButton>
+        <div className="row">
+          <BlueButton
+            onClick={() => {
+              navigate(`/senior/summary`);
+            }}>
+            주간 보고서 보기
+          </BlueButton>
+        </div>
       </STContainer>
     </>
   );
@@ -181,6 +182,12 @@ const STContainer = styled.div`
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
+  .row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
 `;
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
@@ -190,7 +197,7 @@ const StTitle = styled.div`
   margin-top: 1rem;
 `;
 const DataContainer = styled.div`
-  padding: 2rem 2rem;
+  padding: 1rem 1rem;
   justify-content: center;
   background-color: #f8f9fe;
   border-radius: 2rem;
@@ -244,6 +251,8 @@ const StFoodBox = styled.div`
 `;
 const StExerciseBox = styled(StFoodBox)`
   height: 8rem;
+  width: 33rem;
+  margin-left: 0.3rem;
   div {
     width: 13rem;
     margin-left: 1rem;
