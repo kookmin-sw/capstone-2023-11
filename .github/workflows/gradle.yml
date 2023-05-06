@@ -31,7 +31,7 @@ jobs:
     # application.properties 폴더 생성
     - name: make application.properties
       run:
-        # mkdir ./src/main/resources | 
+        mkdir ./src/main/resources | 
         touch ./src/main/resources/application.properties 
       shell: bash
       working-directory: backend/server
