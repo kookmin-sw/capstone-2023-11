@@ -15,10 +15,6 @@ export function CalComment(prop: IWeeklyData, BMR: number) {
     return sum + currValue;
   }, 0);
   const avg = sum / 7;
-  console.log(calories);
-  console.log(BMR);
-
-  console.log(avg);
   let index;
 
   if (avg <= -200) {
@@ -26,7 +22,7 @@ export function CalComment(prop: IWeeklyData, BMR: number) {
   } else if (avg >= 200) {
     index = Math.floor(Math.random() * 4) + 6;
   } else {
-    index = 4 + Math.floor(Math.random() * 2);
+    index = Math.floor(Math.random() * 2) + 4;
   }
 
   return <>{calText2[index]}</>;

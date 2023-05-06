@@ -16,7 +16,7 @@ function ExerciseChart(prop: IWeeklyData, dateStrings: string[]) {
     <ApexChart
       series={[
         {
-          name: "소모칼로리",
+          name: "소모 칼로리",
           type: "column",
           data: calories,
         },
@@ -27,6 +27,11 @@ function ExerciseChart(prop: IWeeklyData, dateStrings: string[]) {
         },
       ]}
       options={{
+        plotOptions: {
+          bar: {
+            borderRadius: 5,
+          },
+        },
         theme: {
           mode: "light",
         },

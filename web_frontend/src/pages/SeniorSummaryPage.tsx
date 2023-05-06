@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import { getWeeklyData } from "../core/api";
 import { useEffect, useState } from "react";
 import { exampleData } from "../core/atom";
+import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -91,13 +92,13 @@ function SeniorSummaryPage() {
         <ChartContainer>
           {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
           <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
-          <CommentContainer>굿</CommentContainer>
+          <CommentContainer>{example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}</CommentContainer>
         </ChartContainer>
         <StText>🐶 복실이 총평!</StText>
         <ChartContainer>
           <CommentContainer>굿</CommentContainer>
         </ChartContainer>
-        <BlueButton>먹은 음식 기록 보기</BlueButton>
+        <BlueButton>일간 보고서 보기</BlueButton>
       </STContainer>
     </>
   );
