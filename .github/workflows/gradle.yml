@@ -35,12 +35,7 @@ jobs:
     - name: Build with Gradle
       run : ./gradlew clean build --exclude-task test # Test 생략
       working-directory: backend/server
-  
-    # 전송할 파일을 담을 디렉토리 생성
-    - name: Make Directory for deliver
-      run: mkdir deploy
-      working-directory: backend/server
-    
+
     # application.properties 생성 
     - name: make application.properties
       run:
@@ -52,6 +47,11 @@ jobs:
     - name: deliver application.properties
       run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
       shell: bash
+      working-directory: backend/server
+  
+    # 전송할 파일을 담을 디렉토리 생성
+    - name: Make Directory for deliver
+      run: mkdir deploy
       working-directory: backend/server
 
     # Jar 파일 Copy
