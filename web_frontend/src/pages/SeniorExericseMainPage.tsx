@@ -2,22 +2,12 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BackButton from "../components/common/BackButton";
 import Modal from "react-modal";
 import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import moment from "moment";
-
-interface ExerciseForm {
-  createdAt: string;
-  eng: string;
-  id: number;
-  kcal: number;
-  kor: string;
-  type: string;
-  hour: number;
-}
+import { ExerciseForm } from "../core/atom";
 
 function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -67,7 +57,7 @@ function SeniorExerciseMainPage() {
   return (
     <StContainer>
       <StHeader>
-        <BackButton />
+        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <StTitle>운동 기록</StTitle>
         <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
         <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
@@ -96,7 +86,7 @@ function SeniorExerciseMainPage() {
         )}
       </StContainer>
       <FlexContainer>
-        <StAddButton onClick={onAddClick}>+</StAddButton>
+        <StAddButton src={require("../assets/icons/icon_add.png")} onClick={onAddClick} />
       </FlexContainer>
       <StModal isOpen={showDeleteModal}>
         <StPopContainer>
@@ -176,19 +166,18 @@ const FlexContainer = styled.div`
   padding-bottom: 3rem;
   display: flex;
   justify-content: flex-end;
-  right: 20%;
+  right: 10%;
 `;
-const StAddButton = styled.button`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 2.5rem;
+const StAddButton = styled.img`
+  width: 6rem;
+  height: 6rem;
+  border-radius: 3rem;
   background-color: #006ffd;
-  font-size: 6.5rem;
-  color: white;
-  text-align: center;
   align-items: center;
+  align-self: center;
   display: flex;
   border: none;
+  padding: 1rem;
 `;
 
 const StModal = styled(Modal)`
@@ -217,4 +206,10 @@ const BTNContainer = styled.div`
 const BlueBTN = styled(BlueButton)`
   width: 10rem;
   margin-right: 0.4rem;
+`;
+
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;

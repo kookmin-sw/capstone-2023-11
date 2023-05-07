@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorInfo } from "../core/api";
 import NoPill from "./SeniorMainNoPill";
@@ -7,6 +8,7 @@ import Pill from "./SeniorMainPill";
 
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
       const data = await getSeniorInfo();
@@ -19,7 +21,10 @@ function SeniorMain() {
   return (
     <STContainer>
       <StHeader>
-        <StUserContent>
+        <StUserContent
+          onClick={() => {
+            navigate(`/senior/myPage`);
+          }}>
           <StUser src={require("../assets/images/img_avatar.png")}></StUser>
           <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
         </StUserContent>
@@ -36,7 +41,10 @@ function SeniorMain() {
         </StMainItem>
         <StMainItem>
           <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
-          <ItemContent>
+          <ItemContent
+            onClick={() => {
+              navigate(`/senior/summary`);
+            }}>
             <ItemImgWrapper>
               <ItemImg src={require(`../assets/icons/icon_score.png`)} />
             </ItemImgWrapper>
@@ -51,7 +59,10 @@ function SeniorMain() {
         </StMainItem>
         <StMainItem>
           <StItemHeader>🗓 나의 건강 일지</StItemHeader>
-          <ItemContent>
+          <ItemContent
+            onClick={() => {
+              navigate(`/senior/summary/day`);
+            }}>
             <ItemImgWrapper>
               <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
             </ItemImgWrapper>
@@ -66,11 +77,17 @@ function SeniorMain() {
         </StMainItem>
         <StMainItem>
           <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
-          <WhiteButton2>
+          <WhiteButton2
+            onClick={() => {
+              navigate(`/senior/MealCheck`);
+            }}>
             <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
             오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
           </WhiteButton2>
-          <WhiteButton2>
+          <WhiteButton2
+            onClick={() => {
+              navigate(`/senior/exercise`);
+            }}>
             <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
             오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
           </WhiteButton2>
