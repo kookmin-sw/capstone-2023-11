@@ -252,3 +252,10 @@ export const getDailyData = async () => {
   });
   return data;
 };
+
+export const getWeeklyData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/summary/weekly`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};

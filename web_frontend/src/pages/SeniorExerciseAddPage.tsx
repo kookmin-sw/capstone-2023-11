@@ -8,19 +8,7 @@ import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
 import { useNavigate } from "react-router-dom";
-
-interface ExerciseFixedData {
-  name: string;
-  time: number;
-}
-
-interface GetData {
-  eng: string;
-  kor: string;
-  type: string;
-  kcalPerHour: number;
-  description: string;
-}
+import { ExerciseFixedData, GetExerciseData } from "../core/atom";
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
@@ -44,7 +32,7 @@ function SeniorExercise() {
     setExerciseName([]);
   }, []);
   useEffect(() => {
-    data?.data.map((item: GetData) => {
+    data?.data.map((item: GetExerciseData) => {
       setExerciseName((prevData) => [...prevData, item.kor]);
     });
     setFirstApi(false);
@@ -52,7 +40,7 @@ function SeniorExercise() {
 
   const submitClicked = async () => {
     for (const { name, time } of fixedData) {
-      const postData = data?.data.find((item: GetData) => item.kor === name)?.type;
+      const postData = data?.data.find((item: GetExerciseData) => item.kor === name)?.type;
       const postTime = time;
       try {
         await postExerciseList(postData, postTime);
@@ -94,7 +82,8 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour} Kcal
+                      소모
                     </CalList>
                   </FlexContainer>
                 ))}
@@ -119,7 +108,8 @@ function SeniorExercise() {
                       }}
                     />
                     <CalList>
-                      {name}로 {time * data?.data.find((item: GetData) => item.kor === name)?.kcalPerHour} Kcal 소모
+                      {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour} Kcal
+                      소모
                     </CalList>
                   </FlexContainer>
                 ))}
@@ -207,10 +197,10 @@ const GrayButton = styled(BlueButton)`
 `;
 
 const StModal = styled(Modal)`
-  padding: 5rem;
+  padding: 2rem;
   align-items: center;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 1.5rem;
 `;
 
 const CalContainer = styled.div`

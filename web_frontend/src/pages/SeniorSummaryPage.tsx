@@ -1,36 +1,141 @@
 import styled from "styled-components";
 import CalChart from "../components/seniorSummary/CalChart";
-import BackButton from "../components/common/BackButton";
 import NutrientChart from "../components/seniorSummary/NutrientChart";
 import ScoreChart from "../components/seniorSummary/ScoreChart";
 import { BlueButton } from "../components/common/BlueButton";
-import { IUserData } from "../core/atom";
-import { setDatas } from "../components/seniorSummary/SetDatas";
 import { NutComment } from "../components/seniorSummary/NutComment";
 import { CalComment } from "../components/seniorSummary/CalComment";
+import ExerciseChart from "../components/seniorSummary/ExerciseChart";
+import { useQuery } from "react-query";
+import { getWeeklyData } from "../core/api";
+import { useEffect, useState } from "react";
+import { exampleData } from "../core/atom";
+import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
+import { useNavigate } from "react-router-dom";
 
 function SeniorSummaryPage() {
-  setDatas(dummyData);
+  const [firstApi, setFirstApi] = useState(true);
+  const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
+  const [example, setExample] = useState(false);
+  const SCORE_WEIGHT = {
+    exercise: 3,
+    calorie: 2,
+    nutrient: 1,
+  };
+  const navigate = useNavigate();
+
+  const preBMR = 10 * data?.data.weight + 6.25 * data?.data.height - 5 * data?.data.age;
+  const BMR = Math.round(data?.data.gender == "male" ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
+  const BMI = data?.data.weight / (data?.data.height / 100) ** 2;
+  const goals = {
+    protein: data?.data.weight * 0.8,
+    carbohydrate: (BMR * 0.55) / 4,
+    fat: (BMR * 0.25) / 9,
+    cholesterol: 200,
+    sodium: 2000,
+  };
+  const fatPercent = [];
+  const proPercent = [];
+  const carPercent = [];
+  const exerciseCal = [];
+  const foodCal = [];
+  const fatExample = [116, 89, 89, 79, 147, 85, 98];
+  const proExample = [78, 125, 98, 143, 125, 62, 79];
+  const carExample = [96, 58, 66, 129, 55, 96, 94];
+
+  for (let i = 0; i < 7; i++) {
+    const fat = Math.round((data?.data.weeklyFoodNutrientSum[i].fat / goals.fat) * 100);
+    const protein = Math.round((data?.data.weeklyFoodNutrientSum[i].protein / goals.protein) * 100);
+    const carbohydrate = Math.round((data?.data.weeklyFoodNutrientSum[i].carbohydrate / goals.carbohydrate) * 100);
+    const exerciseData = data?.data.weeklyExerciseInfo[i].calorie;
+    const foodData = data?.data.weeklyFoodNutrientSum[i].calorie;
+    foodCal.push(foodData);
+    exerciseCal.push(exerciseData);
+    fatPercent.push(fat);
+    proPercent.push(protein);
+    carPercent.push(carbohydrate);
+  }
+  const exerciseDeduction = exerciseCal.filter((num) => num === 0).length;
+  const calDeduction = foodCal.filter((num) => num < BMR).length;
+  const carDeduction = carPercent.filter((num) => num < 100).length;
+  const fatDeduction = fatPercent.filter((num) => num < 100).length;
+  const proDeduction = proPercent.filter((num) => num < 100).length;
+  const nutDeduction = carDeduction + fatDeduction + proDeduction;
+  let score =
+    100 -
+    exerciseDeduction * SCORE_WEIGHT.exercise -
+    calDeduction * SCORE_WEIGHT.calorie -
+    nutDeduction * SCORE_WEIGHT.nutrient;
+  if (BMI >= 25) {
+    score = Math.round(score * (90 / 100));
+  } else if (BMI >= 23) {
+    score = Math.round(score * (95 / 100));
+  } else if (BMI < 18.5) {
+    score = Math.round(score * (95 / 100));
+  }
+
+  const dateStrings = [];
+  for (let i = 7; i >= 1; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dateString = `${month}/${day}`;
+    dateStrings.push(dateString);
+  }
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setFirstApi(false);
+      if (
+        data.data.weeklyFoodNutrientSum.reduce(
+          (total: number, currentValue: { calorie: number }) => (total = total + currentValue.calorie),
+          0,
+        ) == 0
+      ) {
+        setExample(true);
+      }
+    }
+  }, [data]);
   return (
     <>
       <StHeader>
-        <BackButton />
+        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>주간 보고서</HeaderText>
       </StHeader>
       <STContainer>
-        <StTitle>김딸기님의 건강 점수는?? 😃</StTitle>
-        <ScoreChart />
+        <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        {ScoreChart(score)}
         <StText>주간 영양소 분석</StText>
         <ChartContainer>
-          <NutrientChart />
-          <CommentContainer>{NutComment()}</CommentContainer>
+          {example
+            ? NutrientChart(fatExample, proExample, carExample, dateStrings)
+            : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
+          <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
+          <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
         </ChartContainer>
         <StText>주간 칼로리 분석</StText>
         <ChartContainer>
-          {CalChart(dummyData)}
-          <CommentContainer>{CalComment(dummyData)}</CommentContainer>
+          {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
+          <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
+          <CommentContainer>{example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}</CommentContainer>
         </ChartContainer>
-        <BlueButton>먹은 음식 기록 보기</BlueButton>
+        <StText>운동 기록 분석</StText>
+        <ChartContainer>
+          {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
+          <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
+          <CommentContainer>{example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}</CommentContainer>
+        </ChartContainer>
+        <StText>🐶 복실이 총평!</StText>
+        <ChartContainer>
+          <CommentContainer>굿</CommentContainer>
+        </ChartContainer>
+        <BlueButton
+          onClick={() => {
+            navigate(`/senior/summary/day`);
+          }}>
+          일간 보고서 보기
+        </BlueButton>
       </STContainer>
     </>
   );
@@ -65,17 +170,20 @@ const ChartContainer = styled.div`
   background-color: #f8f9fe;
   border-radius: 2rem;
   margin-bottom: 3rem;
+  .summary {
+    /* text-align: center; */
+  }
 `;
 
 const CommentContainer = styled(ChartContainer)`
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   background-color: #ffffff;
   font-size: 1.3rem;
   font-family: "Pretendard-Regular";
   white-space: pre-line;
   letter-spacing: 0.1rem;
   line-height: 1.5;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const StTitle = styled.div`
@@ -97,21 +205,8 @@ const STContainer = styled.div`
   justify-content: center;
   margin: 1rem auto;
 `;
-
-const dummyData: IUserData = {
-  isMale: true,
-  age: 25,
-  weight: 72,
-  height: 170,
-  sick: ["flu"],
-  isSmoke: false,
-  exercise: 3,
-  calories: [2057, 1673, 1912, 1786, 2098, 1561, 2245],
-  nutrient: {
-    protein: [85, 68, 78, 73, 86, 64, 92],
-    carbohydrate: [329, 268, 306, 286, 336, 249, 360],
-    fat: [83, 70, 100, 62, 96, 87, 71],
-    cholesterol: [77, 54, 93, 63, 60, 44, 92],
-    sodium: [2071, 1632, 1864, 1754, 2054, 1524, 2209],
-  },
-};
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
+`;

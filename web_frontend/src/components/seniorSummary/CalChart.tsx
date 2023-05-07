@@ -1,17 +1,21 @@
 import ApexChart from "react-apexcharts";
-import { useRecoilValue } from "recoil";
-import { BMRAtom, dateAtom, IUserData } from "../../core/atom";
+import { IWeeklyData } from "../../core/atom";
 
-function CalChart(prop: IUserData) {
-  const BMR = useRecoilValue(BMRAtom);
-  const dateStrings = useRecoilValue(dateAtom);
+function CalChart(prop: IWeeklyData, BMR: number, dateStrings: string[]) {
+  const calories = [];
+  if (prop) {
+    for (let i = 0; i < 7; i++) {
+      const calData = Math.round(prop.weeklyFoodNutrientSum[i].calorie);
+      calories.push(calData);
+    }
+  }
   return (
     <ApexChart
       type="line"
       series={[
         {
           name: "칼로리",
-          data: prop.calories,
+          data: calories,
         },
       ]}
       options={{

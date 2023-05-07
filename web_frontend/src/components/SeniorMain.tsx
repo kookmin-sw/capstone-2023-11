@@ -48,7 +48,7 @@ function SeniorMain() {
           <StItemHeader>🗓 나의 건강 일지</StItemHeader>
           <ItemContent
             onClick={() => {
-              navigate(`/senior/exercise`);
+              navigate(`/senior/summary/day`);
             }}>
             <ItemImgWrapper>
               <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />

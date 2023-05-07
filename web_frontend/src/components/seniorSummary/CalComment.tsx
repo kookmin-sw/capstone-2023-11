@@ -1,14 +1,29 @@
-import { useRecoilValue } from "recoil";
-import { calText } from "../../constants/CommentTexts";
-import { BMRAtom, IUserData } from "../../core/atom";
+import { calText2 } from "../../constants/CommentTexts";
+import { IWeeklyData } from "../../core/atom";
 
-export function CalComment(prop: IUserData) {
-  const BMR = useRecoilValue(BMRAtom);
+export function CalComment(prop: IWeeklyData, BMR: number) {
   const score: number[] = [];
-  prop.calories.map((calorie) => score.push(calorie - BMR));
+  const calories = [];
+  if (prop) {
+    for (let i = 0; i < 7; i++) {
+      const calData = prop.weeklyFoodNutrientSum[i].calorie;
+      calories.push(calData);
+    }
+  }
+  calories.map((calorie) => score.push(calorie - BMR));
   const sum = score.reduce(function add(sum, currValue) {
     return sum + currValue;
   }, 0);
   const avg = sum / 7;
-  return avg < 0 ? (avg < -200 ? calText[1] : calText[5]) : avg < 200 ? calText[4] : calText[8];
+  let index;
+
+  if (avg <= -200) {
+    index = Math.floor(Math.random() * 4);
+  } else if (avg >= 200) {
+    index = Math.floor(Math.random() * 4) + 6;
+  } else {
+    index = Math.floor(Math.random() * 2) + 4;
+  }
+
+  return <>{calText2[index]}</>;
 }
