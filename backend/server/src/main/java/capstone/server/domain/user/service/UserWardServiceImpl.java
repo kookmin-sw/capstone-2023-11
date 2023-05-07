@@ -1,5 +1,6 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.food.dto.FoodInfo;
 import capstone.server.domain.login.enums.MedicalCategory;
 import capstone.server.domain.medical.dto.MedicalHistoryInfo;
 import capstone.server.domain.medical.repository.MedicalHistoryCategoryRepository;
@@ -121,10 +122,16 @@ public class UserWardServiceImpl implements UserWardService{
                 details.add(FoodInfo.builder()
                         .calorie(food.getCalorie())
                         .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .carbohyborateSugar(food.getCarbohyborateSugar())
+                        .carbohyborateDietaryFiber(food.getCarbohyborateDietaryFiber())
                         .fatTotal(food.getFatTotal())
+                        .fatSaturatedfat(food.getFatSaturatedfat())
+                        .fatTransFat(food.getFatTransFat())
+                        .cholesterol(food.getCholesterol())
                         .protein(food.getProtein())
+                        .natrium(food.getNatrium())
                         .name(food.getName())
-                        .build());
+                        .servingSize(food.getServingSize()).build());
             }
             getDailySummaryDto.getMeal().add(MealInfo.builder()
                     .id(meal.getId())
