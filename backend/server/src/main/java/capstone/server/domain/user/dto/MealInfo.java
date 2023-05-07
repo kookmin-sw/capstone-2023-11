@@ -1,5 +1,6 @@
 package capstone.server.domain.user.dto;
 
+import capstone.server.domain.food.dto.FoodInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
