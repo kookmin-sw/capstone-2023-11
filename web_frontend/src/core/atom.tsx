@@ -47,10 +47,17 @@ export interface IMeal {
 }
 export interface IMealDetail {
   name: string;
-  calorie: number;
-  carbohyborateTotal: number;
-  protein: number;
-  fatTotal: number;
+  servingSize: number; //1회 섭취량
+  calorie: number; // 칼로리
+  carbohyborateTotal: number; // 총 탄수화물
+  carbohyborateSugar: number; // 당류
+  carbohyborateDietaryFiber: number; // 식이섬유
+  protein: number; // 단백질
+  fatTotal: number; // 총 지방량
+  fatTransFat: number; // 트랜스지방
+  fatSaturatedfat: number; // 포화지방
+  cholesterol: number; //콜레스테롤
+  natrium: number; // 나트륨
 }
 export interface IExercise {
   id: number;

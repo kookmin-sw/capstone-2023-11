@@ -6,7 +6,9 @@ import styled from "styled-components";
 import { FoodIcn } from "../assets/icons";
 import { BlueButton } from "../components/common/BlueButton";
 import { getDailyData } from "../core/api";
+import Modal from "react-modal";
 import { IExercise, IMeal } from "../core/atom";
+import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);
@@ -27,6 +29,9 @@ function SeniorSummaryDailyPage() {
   const [mealLength, setMealLength] = useState(0);
   const [exerciseLength, setExerciseLength] = useState(0);
   const [mealState, setMealState] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [clickedMeal, setClickedMeal] = useState(0);
+  const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +47,12 @@ function SeniorSummaryDailyPage() {
       setMealState(data.data.meal.length - 1);
     }
   }, [data]);
+
+  function foodClicked(index: number, index2: number) {
+    setIsOpen(true);
+    setClickedMeal(index);
+    setClickedFood(index2);
+  }
 
   return (
     <>
@@ -75,8 +86,8 @@ function SeniorSummaryDailyPage() {
                       {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
                     </StText>
                     <StMealImage src={item.imageUrl} />
-                    {item.detail.map((mealList) => (
-                      <StFoodBox id={mealList.name}>
+                    {item.detail.map((mealList, index2) => (
+                      <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
                         <StIcon src={FoodIcn} />
                         <div>
                           <StFoodName>{mealList.name}</StFoodName>
@@ -148,6 +159,9 @@ function SeniorSummaryDailyPage() {
             주간 보고서 보기
           </BlueButton>
         </div>
+        <StModal isOpen={isOpen}>
+          <FoodDetailPopUp clickedMeal={clickedMeal} clickedFood={clickedFood} data={mealData} setIsOpen={setIsOpen} />
+        </StModal>
       </STContainer>
     </>
   );
@@ -305,4 +319,11 @@ const StButton = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const StModal = styled(Modal)`
+  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
 `;
