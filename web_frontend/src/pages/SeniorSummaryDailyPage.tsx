@@ -159,9 +159,16 @@ function SeniorSummaryDailyPage() {
             주간 보고서 보기
           </BlueButton>
         </div>
-        <StModal isOpen={isOpen}>
-          <FoodDetailPopUp clickedMeal={clickedMeal} clickedFood={clickedFood} data={mealData} setIsOpen={setIsOpen} />
-        </StModal>
+        <div className="row">
+          <StModal isOpen={isOpen}>
+            <FoodDetailPopUp
+              clickedMeal={clickedMeal}
+              clickedFood={clickedFood}
+              data={mealData}
+              setIsOpen={setIsOpen}
+            />
+          </StModal>
+        </div>
       </STContainer>
     </>
   );
@@ -322,7 +329,7 @@ const StButton = styled.img`
 `;
 
 const StModal = styled(Modal)`
-  padding: 2rem;
+  padding: 5rem;
   align-items: center;
   justify-content: center;
   margin-top: 1.5rem;
