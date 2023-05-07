@@ -17,7 +17,6 @@ function SeniorMain() {
     fetchData();
   }, []);
 
-  console.log(info);
   return (
     <STContainer>
       <StHeader>
