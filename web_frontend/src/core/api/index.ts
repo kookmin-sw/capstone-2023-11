@@ -250,6 +250,13 @@ export const getCalendarDate = async () => {
   return data;
 };
 
+export const getRecordMeal = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/food`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
 export const getDailyData = async () => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/summary/daily`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },

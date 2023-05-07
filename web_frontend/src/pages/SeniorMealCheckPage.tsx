@@ -140,7 +140,7 @@ function SeniorMealCheckPage() {
     },
     onSuccess: () => {
       alert("등록이 완료되었습니다!");
-      navigate("/semior/mealList");
+      navigate("/senior/meal");
     },
   });
 
@@ -175,7 +175,7 @@ function SeniorMealCheckPage() {
       setIndex(0);
       if (!data.data?.result[0]?.class_info) {
         alert("사진에서 음식을 인식하지 못했습니다! 음식사진을 올려주세요!");
-        window.location.replace("/senior/mealCheck");
+        window.location.replace("/senior/meal/add");
       }
     }
   }, [data]);
@@ -341,7 +341,7 @@ function SeniorMealCheckPage() {
             })}
           </StBoxContainer>
           <StButtonFooter>
-            <StReupload onClick={() => window.location.replace("/senior/mealCheck")}>다시 사진 올리기</StReupload>
+            <StReupload onClick={() => window.location.replace("/senior/meal/add")}>다시 사진 올리기</StReupload>
             <Stupload onClick={() => foodUpload()}>등록하기</Stupload>
           </StButtonFooter>
         </>
@@ -467,7 +467,6 @@ const StCheckModal = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
 `;
 const StCheckTitle = styled.p`
   width: 25.2rem;
