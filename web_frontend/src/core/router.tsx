@@ -4,19 +4,22 @@ import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
 import SeniorMain from "../components/SeniorMain";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
 
-import SeniorPillMain from "../components/seniorPill/SeniorPillMain";
-import SeniorPillDetail from "../components/seniorPill/SeniorPillDetail";
-import SeniorPillBill from "../components/seniorPill/SeniorPillBill";
+import SeniorPillMain from "../pages/SeniorPillMainPage";
+import SeniorPillDetail from "../pages/SeniorPillDetailPage";
+import SeniorPillBill from "../pages/SeniorPillBillAddPage";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
-import SeniorPillSelf from "../components/seniorPill/SeniorPillSelf";
+import SeniorPillSelf from "../pages/SeniorPillSelfAddPage";
 
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
 import SeniorMealMain from "../pages/SeniorMealMain";
+
+import SeniorSummaryDailyPage from "../pages/SeniorSummaryDailyPage";
+
 function Router() {
   return (
     <BrowserRouter>
@@ -34,6 +37,7 @@ function Router() {
         <Route path="/senior/schedule" element={<SeniorSchedule />} />
         <Route path="/senior/summary" element={<SeniorSummaryPage />} />
         <Route path="/senior/meal/add" element={<SeniorMealCheckPage />} />
+        <Route path="/senior/summary/day" element={<SeniorSummaryDailyPage />} />
         <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
         <Route path="/senior/exercise/add" element={<SeniorExercise />} />
         <Route path="/senior/meal" element={<SeniorMealMain />} />

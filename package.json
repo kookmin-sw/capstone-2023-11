@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "modal": "^1.2.0",
+    "moment": "^2.29.4",
+    "react-calendar": "^4.2.1",
     "react-modal": "^3.16.1",
     "stream-browserify": "^3.0.0",
     "sweetalert": "^2.1.2",

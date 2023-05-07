@@ -204,5 +204,5 @@ const StIllContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 `;

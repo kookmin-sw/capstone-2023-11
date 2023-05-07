@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getPillInfo } from "../../core/api";
+import { getPillInfo } from "../core/api";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IpillData>();

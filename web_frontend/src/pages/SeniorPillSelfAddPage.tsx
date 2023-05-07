@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { fetchPillImg, fetchPillInfo, pillInfoData } from "../../core/api";
+import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
 import Modal from "react-modal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -47,20 +47,22 @@ function SeniorPillSelf() {
       enabled: !!pillStatus,
     },
   );
-  if (pillStatus == true && data !== undefined) {
-    alert("등록되었습니다.");
-    navigate("/senior/pill");
-  }
+  useEffect(() => {
+    if (data && pillStatus == true) {
+      alert("등록되었습니다.");
+      navigate("/senior/pill");
+    }
+  }, [data, navigate]);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-  const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
-  const imgData = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
+  const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
+  const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
     if (pillData) {
-      setName(pillData?.data?.body?.items?.map((item) => item.ITEM_NAME));
+      setName(pillData?.data?.body?.items?.map((item) => (item.ITEM_NAME.match(/^([^(]+)/) || [])[1].trim()));
     }
   };
 
@@ -122,12 +124,22 @@ function SeniorPillSelf() {
   };
 
   return (
-    <>
+    <StContainer>
       <StHeader>
-        <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
-        <StSearchButton onClick={onClickButton}>
-          <StSearchBtnImg src={require("../../assets/images/search.png")} />
-        </StSearchButton>
+        <StHederContent>
+          <StLink to={`/senior/pill`}>
+            <StBackBtn>
+              <StBackBtnImg src={require("../assets/images/img_left.png")} />
+            </StBackBtn>
+          </StLink>
+          <StTitle>직접 입력하기</StTitle>
+        </StHederContent>
+        <StHederContent>
+          <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
+          <StSearchButton onClick={onClickButton}>
+            <StSearchBtnImg src={require("../assets/images/search.png")} />
+          </StSearchButton>
+        </StHederContent>
       </StHeader>
       <StBody>
         <StPillList>
@@ -141,17 +153,21 @@ function SeniorPillSelf() {
                 setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
                 setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
                 const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
-                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
                 const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
                 const [effect, useMethod, caution] = await Promise.all([
                   effectParse(eeDocData),
-                  useMethodParse(udDocData),
-                  cautionParse(nbDocData),
+                  useMethodParse(nbDocData),
+                  cautionParse(udDocData),
                 ]);
                 setEffect(effect);
                 setUseMethod(useMethod);
                 setCaution(caution);
-                setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
+                setImgUrl(
+                  imgData?.data?.body.items
+                    ? imgData?.data?.body.items[0].ITEM_IMAGE
+                    : require(`../assets/images/pillPhoto.png`),
+                );
               }}>
               {value.length < 20 ? value : value.slice(0, 20) + "..."}
             </StPillItem>
@@ -159,10 +175,10 @@ function SeniorPillSelf() {
         </StPillList>
         <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
           <StButtonList>
-            <StTitle>{pillName}</StTitle>
-            <StTitle>복용하는 일 수</StTitle>
-            <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-            <StTitle>복용하는 시간대</StTitle>
+            <StModalTitle>{pillName}</StModalTitle>
+            <StModalTitle>복용하는 일 수</StModalTitle>
+            <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+            <StModalTitle>복용하는 시간대</StModalTitle>
             <StPillComponent>
               {breakfast == false ? (
                 <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
@@ -180,7 +196,7 @@ function SeniorPillSelf() {
                 <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
               )}
             </StPillComponent>
-            <StTitle>등록하시겠습니까?</StTitle>
+            <StModalTitle>등록하시겠습니까?</StModalTitle>
             <StPillComponent2>
               <StSetPillCheckButton
                 onClick={() => {
@@ -194,115 +210,85 @@ function SeniorPillSelf() {
           </StButtonList>
         </StModal>
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
 interface PillData {
-  header: {
-    resultCode: string;
-    resultMsg: string;
-  };
-  body: {
-    numOfRows: string;
-    pageNo: string;
-    totalCount: string;
-    items: [
-      item: {
-        ENTP_NO: string;
-        MAKE_MATERIAL_FLAG: string;
-        NEWDRUG_CLASS_NAME: string;
-        INDUTY_TYPE: string;
-        CANCEL_DATE: string;
-        CANCEL_NAME: string;
-        CHANGE_DATE: string;
-        NARCOTIC_KIND_CODE: string;
-        GBN_NAME: string;
-        TOTAL_CONTENT: string;
-        EE_DOC_DATA: string;
-        UD_DOC_DATA: string;
-        NB_DOC_DATA: string;
-        PN_DOC_DATA: string;
-        MAIN_ITEM_INGR: string;
-        INGR_NAME: string;
-        ATC_CODE: string;
-        ITEM_ENG_NAME: string;
-        ENTP_ENG_NAME: string;
-        MAIN_INGR_ENG: string;
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        CNSGN_MANUF: string;
-        ETC_OTC_CODE: string;
-        CHART: string;
-        BAR_CODE: string;
-        MATERIAL_NAME: string;
-        EE_DOC_ID: string;
-        UD_DOC_ID: string;
-        NB_DOC_ID: string;
-        INSERT_FILE: string;
-        STORAGE_METHOD: string;
-        VALID_TERM: string;
-        REEXAM_TARGET: string;
-        REEXAM_DATE: string;
-        PACK_UNIT: string;
-        EDI_CODE: string;
-        DOC_TEXT: string;
-        PERMIT_KIND_NAME: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: null;
+      resultMsg: null;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_SEQ: number;
+          ITEM_NAME: string;
+          ENTP_NAME: string;
+          STORAGE_METHOD: string;
+          EE_DOC_DATA: string;
+          UD_DOC_DATA: string;
+          NB_DOC_DATA: string;
+        },
+      ];
+    };
   };
 }
 
 interface ImgData {
-  header: { resultCode: string; resultMsg: string };
-  body: {
-    pageNo: number;
-    totalCount: number;
-    numOfRows: number;
-    items: [
-      {
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_SEQ: string;
-        ENTP_NAME: string;
-        CHART: string;
-        ITEM_IMAGE: string;
-        PRINT_FRONT: string;
-        PRINT_BACK: null;
-        DRUG_SHAPE: string;
-        COLOR_CLASS1: string;
-        COLOR_CLASS2: null;
-        LINE_FRONT: null;
-        LINE_BACK: null;
-        LENG_LONG: string;
-        LENG_SHORT: string;
-        THICK: string;
-        IMG_REGIST_TS: string;
-        CLASS_NO: string;
-        CLASS_NAME: string;
-        ETC_OTC_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        FORM_CODE_NAME: string;
-        MARK_CODE_FRONT_ANAL: string;
-        MARK_CODE_BACK_ANAL: string;
-        MARK_CODE_FRONT_IMG: string;
-        MARK_CODE_BACK_IMG: string;
-        ITEM_ENG_NAME: string;
-        CHANGE_DATE: string;
-        MARK_CODE_FRONT: null;
-        MARK_CODE_BACK: null;
-        EDI_CODE: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: string;
+      resultMsg: string;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_IMAGE: string;
+        },
+      ];
+    };
   };
 }
 
-const StHeader = styled.header`
-  padding: 5rem 5rem 0 5rem;
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
   display: flex;
+`;
+
+const StHeader = styled.header`
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
+`;
+
+const StHederContent = styled.div`
+  display: flex;
+`;
+
+const StBackBtn = styled.button`
+  background-color: transparent;
+  border: transparent;
+  font-family: "Pretendard-Bold";
+  width: 5%;
+`;
+
+const StBackBtnImg = styled.img`
+  width: 2rem;
+  height: 2rem;
 `;
 
 const StSearch = styled.input`
@@ -311,8 +297,8 @@ const StSearch = styled.input`
   border: 0.2rem solid gray;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  margin: 2rem 1rem;
+  padding: 2rem;
 `;
 
 const StSearchButton = styled.button`
@@ -320,6 +306,7 @@ const StSearchButton = styled.button`
   height: 3rem;
   background-color: transparent;
   border: 0;
+  margin-top: 2.5rem;
 `;
 
 const StSearchBtnImg = styled.img`
@@ -328,7 +315,6 @@ const StSearchBtnImg = styled.img`
 `;
 
 const StBody = styled.div`
-  padding: 1rem 5rem 5rem 5rem;
   font-size: 2rem;
 `;
 
@@ -342,16 +328,17 @@ const StPillItem = styled.ul`
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
   line-height: 2rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-family: "Pretendard-Bold";
   margin: 1rem;
   background-color: white;
 `;
 
 const StTitle = styled.h1`
-  font-size: 1.7rem;
   font-family: "Pretendard-Bold";
-  padding: 2rem 3rem;
   text-align: center;
+  width: 100%;
+  padding-right: 5%;
 `;
 
 const StButtonList = styled.div`
@@ -370,6 +357,24 @@ const StModal = styled(Modal)`
   width: 25rem;
   height: 50rem;
   font-family: "Pretendard-Regular";
+`;
+
+const StModalTitle = styled.h1`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  margin: 2rem 0rem;
+`;
+
+const StModalSearch = styled.input`
+  width: 80%;
+  height: 4rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  font-family: "Pretendard-Regular";
+  margin: 0rem 10%;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`

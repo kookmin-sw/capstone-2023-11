@@ -1,21 +1,21 @@
 import ApexChart from "react-apexcharts";
 
-function NutrientChart() {
+function NutrientChart(fatPercent: number[], proPercent: number[], carPercent: number[], dateStrings: string[]) {
   return (
     <ApexChart
       type="bar"
       series={[
         {
           name: "지방",
-          data: [17, 23, 7, 16, 28, 7, 9],
+          data: fatPercent,
         },
         {
           name: "단백질",
-          data: [22, 45, 80, 31, 88, 12, 0],
+          data: proPercent,
         },
         {
           name: "탄수화물",
-          data: [32, 50, 60, 45, 40, 30, 25],
+          data: carPercent,
         },
       ]}
       options={{
@@ -46,7 +46,7 @@ function NutrientChart() {
           axisBorder: { show: false },
           axisTicks: { show: false },
           labels: { show: true },
-          categories: ["3/15", "3/16", "3/17", "3/18", "3/19", "3/20", "3/21"],
+          categories: dateStrings,
         },
         fill: {
           opacity: 1,
@@ -79,7 +79,7 @@ function NutrientChart() {
           },
         },
         legend: {
-          position: "bottom",
+          position: "top",
           offsetY: 20,
           fontFamily: "Pretendard_Bold",
           itemMargin: {

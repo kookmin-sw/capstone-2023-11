@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorInfo } from "../core/api";
+import NoPill from "./SeniorMainNoPill";
 import Pill from "./SeniorMainPill";
 
 function SeniorMain() {
@@ -14,6 +16,8 @@ function SeniorMain() {
     }
     fetchData();
   }, []);
+
+  console.log(info);
   return (
     <STContainer>
       <StHeader>
@@ -22,12 +26,18 @@ function SeniorMain() {
             navigate(`/senior/myPage`);
           }}>
           <StUser src={require("../assets/images/img_avatar.png")}></StUser>
-          <StUsercode>{info?.userCode}</StUsercode>
+          <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
         </StUserContent>
       </StHeader>
       <MenuList>
         <StMainItem>
-          <Pill />
+          <StPillHeader>
+            <StItemHeader>💊 복용하는 약</StItemHeader>
+            <StLink to={`/senior/pill`}>
+              <StPillAddBtn>자세히 보기</StPillAddBtn>
+            </StLink>
+          </StPillHeader>
+          {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
         </StMainItem>
         <StMainItem>
           <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
@@ -40,7 +50,10 @@ function SeniorMain() {
             </ItemImgWrapper>
             <ItemTextContainer>
               <ItemTitle>건강 분석하러 가기</ItemTitle>
-              <ItemComment>4/14에 기록된 딸기님의 점수는 xx입니다.</ItemComment>
+              <ItemComment>
+                4/14에 기록된 {info?.userName ? info?.userName : "xx"}님의 점수는 <br />
+                xx입니다.
+              </ItemComment>
             </ItemTextContainer>
           </ItemContent>
         </StMainItem>
@@ -48,14 +61,17 @@ function SeniorMain() {
           <StItemHeader>🗓 나의 건강 일지</StItemHeader>
           <ItemContent
             onClick={() => {
-              navigate(`/senior/exercise`);
+              navigate(`/senior/summary/day`);
             }}>
             <ItemImgWrapper>
               <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
             </ItemImgWrapper>
             <ItemTextContainer>
               <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
-              <ItemComment>이번달에는 {info?.monthRecordCount}개의 기록을 남기셨습니다.</ItemComment>
+              <ItemComment>
+                이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
+                {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
+              </ItemComment>
             </ItemTextContainer>
           </ItemContent>
         </StMainItem>
@@ -83,6 +99,7 @@ function SeniorMain() {
 
 interface MainInfo {
   userCode: number;
+  userName: string;
   medicineInfoList: [
     {
       id: number;
@@ -105,6 +122,12 @@ interface MainInfo {
   todayMealCount: number;
   todayWorkOutCount: number;
 }
+
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  display: flex;
+`;
 
 const STContainer = styled.div`
   padding: 3rem 2rem;
@@ -131,7 +154,8 @@ const StUser = styled.img`
 
 const StUsercode = styled.div`
   font-size: 1.5rem;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
+  text-align: center;
 `;
 
 const StUserContent = styled.div`
@@ -152,12 +176,35 @@ const StItemHeader = styled.div`
   font-family: "Pretendard-Bold";
 `;
 
+const StPillHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 0rem 0rem 0rem 0rem;
+  width: 35rem;
+  height: 2rem;
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+`;
+
 const StMainItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0rem 1.6rem 2rem 1.6rem;
   gap: 1.6rem;
+  border: 0;
+  background-color: transparent;
+`;
+
+const StPillAddBtn = styled.button`
+  font-family: "retendard-Bold";
+  font-size: 1.5rem;
+  line-height: 1rem;
+  color: #006ffd;
+  flex: none;
+  flex-grow: 0;
   border: 0;
   background-color: transparent;
 `;
@@ -169,6 +216,7 @@ const ItemImgWrapper = styled.div`
   background-color: #b4dbff;
   padding: 1rem 0rem;
   border-radius: 1.2rem 0rem 0rem 1.2rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 `;
 
 const ItemImg = styled.img`
@@ -190,6 +238,7 @@ const ItemContent = styled.button`
   border: 0;
   border-radius: 1.2rem;
   margin-bottom: 1rem;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
 `;
 
 const ItemTextContainer = styled.div`
@@ -200,7 +249,7 @@ const ItemTextContainer = styled.div`
 const ItemTitle = styled.div`
   color: black;
   font-size: 1.6rem;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   margin-bottom: 0.5rem;
 `;
 
@@ -231,11 +280,5 @@ const IconImg = styled.img`
   padding: 0.5rem;
   border-radius: 0.8rem;
 `;
-
-// const StLink = styled(Link)`
-//   text-decoration: none;
-//   color: black;
-//   display: flex;
-// `;
 
 export default SeniorMain;

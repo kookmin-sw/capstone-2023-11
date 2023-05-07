@@ -1,10 +1,10 @@
 import ApexChart from "react-apexcharts";
 
-function ScoreChart() {
+function ScoreChart(prop: number) {
   return (
     <ApexChart
       type="radialBar"
-      series={[70]}
+      series={[prop]}
       options={{
         stroke: {
           lineCap: "round",

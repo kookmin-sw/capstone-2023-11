@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import PillAddModal from "./PillAddModal";
+import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
-import { deletePillData, getPillInfo, modifyPillData } from "../../core/api";
+import { deletePillData, getPillInfo, modifyPillData } from "../core/api/index";
 import Modal from "react-modal";
 
 Modal.setAppElement("#root");
@@ -60,11 +60,11 @@ function SeniorPillMain() {
   };
 
   return (
-    <>
+    <StContainer>
       <StHeader>
         <StLink to={`/senior/main`}>
           <StBackBtn>
-            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+            <StBackBtnImg src={require("../assets/images/img_left.png")} />
           </StBackBtn>
         </StLink>
         <StTitle>복용하는 약 목록</StTitle>
@@ -80,7 +80,7 @@ function SeniorPillMain() {
                     <StItemImg src={value.imageUrl} />
                   </StItemImgBox>
                   <StItemContent>
-                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 8) + "..." : value.name}</StItemName>
+                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 7) + "..." : value.name}</StItemName>
                     <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
                     <StDaySwapper>
                       {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
@@ -100,13 +100,13 @@ function SeniorPillMain() {
                       setDayValue(value.remainDay);
                       handleOpenModal();
                     }}>
-                    <StModifyButtonImg src={require("../../assets/images/edit.png")} />
+                    <StModifyButtonImg src={require("../assets/images/edit.png")} />
                   </StModifyButton>
                   <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                     <StButtonList>
                       <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
                       <StModalTitle>복용하는 일 수</StModalTitle>
-                      <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                      <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                       <StModalTitle>복용하는 시간대</StModalTitle>
                       <StPillComponent>
                         {breakfast == false ? (
@@ -129,7 +129,7 @@ function SeniorPillMain() {
                       <StPillComponent2>
                         <StSetPillCheckButton
                           onClick={async () => {
-                            handleCloseModal;
+                            handleCloseModal();
                             await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
                             window.location.reload();
                           }}>
@@ -144,7 +144,7 @@ function SeniorPillMain() {
                       handleOpenModal2();
                       setID(value.id);
                     }}>
-                    <StDeleteButtonImg src={require("../../assets/images/delete.png")} />
+                    <StDeleteButtonImg src={require("../assets/images/delete.png")} />
                   </StDeleteButton>
                   <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
                     <StButtonList>
@@ -168,7 +168,7 @@ function SeniorPillMain() {
           ))}
         </StPillList>
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
@@ -207,10 +207,17 @@ interface pillInfo {
   ];
 }
 
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
 const StHeader = styled.header`
-  padding: 5rem 2rem 0 2rem;
+  padding-bottom: 2rem;
   display: flex;
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
 `;
 
 const StBackBtn = styled.button`
@@ -251,15 +258,15 @@ const StPillList = styled.ul`
 const StItem = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   background-color: #f8f9fe;
   border-radius: 1.6rem;
-  padding: 2.4rem;
+  padding: 1.4rem 2.4rem;
 `;
 
 const StItemImgBox = styled.div`
   width: 30%;
-  height: 8rem;
+  height: 7rem;
   margin-right: 2rem;
 `;
 
@@ -301,7 +308,7 @@ const StPillNoTake = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 `;
 
 const StPillTake = styled.div`
@@ -315,7 +322,7 @@ const StPillTake = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
 `;
 
 const StLink = styled(Link)`
@@ -352,17 +359,7 @@ const StButtonList = styled.div`
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
   background-color: white;
-  padding: 2rem 0rem;
-`;
-
-const StSearch = styled.input`
-  width: 80%;
-  height: 4rem;
-  border: 0.2rem solid gray;
-  border-radius: 1rem;
-  font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  padding-bottom: 3rem;
 `;
 
 const StModal = styled(Modal)`
@@ -374,16 +371,24 @@ const StModal = styled(Modal)`
   width: 25rem;
   height: 50rem;
   font-family: "Pretendard-Regular";
-  font-size: 2rem;
-  background-color: white;
 `;
 
 const StModalTitle = styled.h1`
   font-family: "Pretendard-Bold";
+  font-size: 2rem;
   text-align: center;
   width: 100%;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
+  margin: 2rem 0rem;
+`;
+
+const StModalSearch = styled.input`
+  width: 80%;
+  height: 4rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  font-family: "Pretendard-Regular";
+  margin: 0rem 10%;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`

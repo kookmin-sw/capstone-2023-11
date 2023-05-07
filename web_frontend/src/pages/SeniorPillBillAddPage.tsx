@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchPillImg, fetchPillInfo, pillImg } from "../../core/api/index";
+import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 
 Modal.setAppElement("#root");
 
 function PillImgUpload() {
-  const imageInput = useRef<any>(null);
+  const imageInput = useRef<HTMLInputElement | null>(null);
   const onClickImageUpload = () => {
     if (imageInput.current) {
       imageInput.current.click();
@@ -65,8 +65,8 @@ function PillImgUpload() {
   }, []);
 
   const [value, setValue] = useState("");
-  const pillData = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
-  const imgData = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
+  const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
+  const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -124,8 +124,8 @@ function PillImgUpload() {
   };
 
   const pillInfo = async () => {
-    await setPillName(pillData.data?.body.items[0].ITEM_NAME);
-    await setCompany(pillData.data?.body.items[0].ENTP_NAME);
+    await setPillName(pillData?.data?.body.items[0].ITEM_NAME);
+    await setCompany(pillData?.data?.body.items[0].ENTP_NAME);
     await setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
     const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
@@ -138,7 +138,9 @@ function PillImgUpload() {
     await setEffect(effect);
     await setUseMethod(useMethod);
     await setCaution(caution);
-    await setImgUrl(imgData.data?.body.items[0].ITEM_IMAGE);
+    await setImgUrl(
+      imgData?.data?.body?.items ? imgData?.data?.body.items[0].ITEM_IMAGE : require(`../assets/images/pillPhoto.png`),
+    );
     setRegiester(true);
   };
 
@@ -187,14 +189,14 @@ function PillImgUpload() {
   }, [register]);
 
   return (
-    <>
+    <StContainer>
       <StHeader>
         <Link to={`/senior/pill`}>
           <StBackBtn>
-            <StBackBtnImg src={require("../../assets/images/img_left.png")} />
+            <StBackBtnImg src={require("../assets/images/img_left.png")} />
           </StBackBtn>
         </Link>
-        <StTitle>처방전 인식하기</StTitle>
+        <StTitle>약봉투 인식하기</StTitle>
       </StHeader>
       <StBody>
         {uploadSts ? (
@@ -215,7 +217,6 @@ function PillImgUpload() {
                       );
                     }}>
                     {name}
-                    {index}
                   </StItemChecked>
                 ) : (
                   <StItem
@@ -231,7 +232,6 @@ function PillImgUpload() {
                       );
                     }}>
                     {name}
-                    {index}
                   </StItem>
                 ),
               )}
@@ -245,7 +245,7 @@ function PillImgUpload() {
             </StList>
             <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
               <StButtonList>
-                <StModalTitle>{pillData.data?.body.items[0].ITEM_NAME}</StModalTitle>
+                <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
                 <StModalTitle>복용하는 일 수</StModalTitle>
                 <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
                 <StModalTitle>복용하는 시간대</StModalTitle>
@@ -289,7 +289,7 @@ function PillImgUpload() {
           <>
             <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
             <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
-            <StImg width={"100%"} src={require("../../assets/images/pillBillImg.jpeg")} />
+            <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
             <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
             <StInfoContainer>
               <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>
@@ -300,115 +300,65 @@ function PillImgUpload() {
           </>
         )}
       </StBody>
-    </>
+    </StContainer>
   );
 }
 
 interface PillData {
-  header: {
-    resultCode: string;
-    resultMsg: string;
-  };
-  body: {
-    numOfRows: string;
-    pageNo: string;
-    totalCount: string;
-    items: [
-      item: {
-        ENTP_NO: string;
-        MAKE_MATERIAL_FLAG: string;
-        NEWDRUG_CLASS_NAME: string;
-        INDUTY_TYPE: string;
-        CANCEL_DATE: string;
-        CANCEL_NAME: string;
-        CHANGE_DATE: string;
-        NARCOTIC_KIND_CODE: string;
-        GBN_NAME: string;
-        TOTAL_CONTENT: string;
-        EE_DOC_DATA: string;
-        UD_DOC_DATA: string;
-        NB_DOC_DATA: string;
-        PN_DOC_DATA: string;
-        MAIN_ITEM_INGR: string;
-        INGR_NAME: string;
-        ATC_CODE: string;
-        ITEM_ENG_NAME: string;
-        ENTP_ENG_NAME: string;
-        MAIN_INGR_ENG: string;
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        CNSGN_MANUF: string;
-        ETC_OTC_CODE: string;
-        CHART: string;
-        BAR_CODE: string;
-        MATERIAL_NAME: string;
-        EE_DOC_ID: string;
-        UD_DOC_ID: string;
-        NB_DOC_ID: string;
-        INSERT_FILE: string;
-        STORAGE_METHOD: string;
-        VALID_TERM: string;
-        REEXAM_TARGET: string;
-        REEXAM_DATE: string;
-        PACK_UNIT: string;
-        EDI_CODE: string;
-        DOC_TEXT: string;
-        PERMIT_KIND_NAME: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: null;
+      resultMsg: null;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_SEQ: number;
+          ITEM_NAME: string;
+          ENTP_NAME: string;
+          STORAGE_METHOD: string;
+          EE_DOC_DATA: string;
+          UD_DOC_DATA: string;
+          NB_DOC_DATA: string;
+        },
+      ];
+    };
   };
 }
 
 interface ImgData {
-  header: { resultCode: string; resultMsg: string };
-  body: {
-    pageNo: number;
-    totalCount: number;
-    numOfRows: number;
-    items: [
-      {
-        ITEM_SEQ: string;
-        ITEM_NAME: string;
-        ENTP_SEQ: string;
-        ENTP_NAME: string;
-        CHART: string;
-        ITEM_IMAGE: string;
-        PRINT_FRONT: string;
-        PRINT_BACK: null;
-        DRUG_SHAPE: string;
-        COLOR_CLASS1: string;
-        COLOR_CLASS2: null;
-        LINE_FRONT: null;
-        LINE_BACK: null;
-        LENG_LONG: string;
-        LENG_SHORT: string;
-        THICK: string;
-        IMG_REGIST_TS: string;
-        CLASS_NO: string;
-        CLASS_NAME: string;
-        ETC_OTC_NAME: string;
-        ITEM_PERMIT_DATE: string;
-        FORM_CODE_NAME: string;
-        MARK_CODE_FRONT_ANAL: string;
-        MARK_CODE_BACK_ANAL: string;
-        MARK_CODE_FRONT_IMG: string;
-        MARK_CODE_BACK_IMG: string;
-        ITEM_ENG_NAME: string;
-        CHANGE_DATE: string;
-        MARK_CODE_FRONT: null;
-        MARK_CODE_BACK: null;
-        EDI_CODE: string;
-      },
-    ];
+  data: {
+    header: {
+      resultCode: string;
+      resultMsg: string;
+    };
+    body: {
+      pageNo: number;
+      totalCount: number;
+      numOfRows: number;
+      items: [
+        {
+          ITEM_IMAGE: string;
+        },
+      ];
+    };
   };
 }
 
+const StContainer = styled.div`
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+`;
+
 const StHeader = styled.header`
-  padding-top: 5rem;
+  padding-bottom: 2rem;
   display: flex;
   font-size: 2rem;
+  border-bottom: 0.1rem solid #006ffd;
 `;
 
 const StBackBtn = styled.button`
@@ -416,13 +366,11 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
-  padding: 0;
 `;
 
 const StBackBtnImg = styled.img`
   width: 2rem;
   height: 2rem;
-  padding: 0;
 `;
 
 const StTitle = styled.h1`
@@ -434,8 +382,7 @@ const StTitle = styled.h1`
 
 const StBody = styled.div`
   font-size: 2rem;
-  font-family: "Pretendard-Regular";
-  padding: 3rem;
+  font-family: "Pretendard-Bold";
   width: 100%;
   align-items: center;
   text-align: center;
@@ -450,6 +397,7 @@ const StList = styled.ul`
   background-color: #f8f9fe;
   border-radius: 2rem;
   text-align: center;
+  margin-top: 1rem;
 `;
 
 const StItem = styled.li`
@@ -459,7 +407,7 @@ const StItem = styled.li`
   height: 5rem;
   margin: 2rem;
   color: #000000;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #ffffff;
@@ -472,7 +420,7 @@ const StItemChecked = styled.li`
   height: 5rem;
   margin: 2rem;
   color: #000000;
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #eaf2ff;
@@ -517,7 +465,7 @@ const StUploadButton = styled.button`
 `;
 
 const StCheckButton = styled.button`
-  width: 32.7rem;
+  width: 100%;
   height: 4.8rem;
   background-color: #006ffd;
   border: none;
