@@ -363,7 +363,6 @@ const InsertFormPositioner = styled.div`
   height: 17rem;
   bottom: 8rem;
   margin-right: 2rem;
-  /* left: 50%; */
   right: 1%;
   position: absolute;
   display: block;
