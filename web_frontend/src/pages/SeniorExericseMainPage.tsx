@@ -55,13 +55,13 @@ function SeniorExerciseMainPage() {
     });
   };
   return (
-    <StContainer>
+    <StSeniorExerciseMain>
       <StHeader>
         <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <StTitle>운동 기록</StTitle>
-        <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
-        <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       </StHeader>
+      <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
+      <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       <StContainer>
         {!selectedDate ? (
           <div>Loading...</div>
@@ -69,13 +69,13 @@ function SeniorExerciseMainPage() {
           selected?.map((item: ExerciseForm) => (
             <StExercise>
               <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-              <StExercise className="content">
+              <div className="col">
                 <div className="title">{item.kor}</div>
                 <div className="content" style={{ whiteSpace: "nowrap" }}>
                   {item.kcal}Kcal 소모
                 </div>
                 <div className="content">{item.hour}시간</div>
-              </StExercise>
+              </div>
               <img
                 className="esc"
                 onClick={() => onDeleteClick(item.id)}
@@ -85,9 +85,10 @@ function SeniorExerciseMainPage() {
           ))
         )}
       </StContainer>
-      <FlexContainer>
+      <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+      {/* <FlexContainer>
         <StAddButton src={require("../assets/icons/icon_add.png")} onClick={onAddClick} />
-      </FlexContainer>
+      </FlexContainer> */}
       <StModal isOpen={showDeleteModal}>
         <StPopContainer>
           <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
@@ -97,59 +98,69 @@ function SeniorExerciseMainPage() {
           </BTNContainer>
         </StPopContainer>
       </StModal>
-    </StContainer>
+    </StSeniorExerciseMain>
   );
 }
 
 export default SeniorExerciseMainPage;
 
+const StSeniorExerciseMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  overflow: scroll;
+  max-height: 30rem;
+  margin-top: 1.6rem;
 `;
 
-const StTitle = styled.div`
+const StTitle = styled.p`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
   text-align: center;
-  margin-bottom: 0rem;
-  align-self: center;
-  padding-bottom: 1rem;
-  border-bottom: 0.1rem solid #006ffd;
+  padding-right: 2.5rem;
 `;
 
-const StDate = styled(StTitle)`
+const StDate = styled.p`
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
   border-bottom: 0rem solid #ffffff;
 `;
 
-const StHeader = styled.div`
-  display: block;
-  position: sticky;
-  top: 0rem;
-  background-color: white;
+const StHeader = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
 `;
 
 const StExercise = styled.div`
   background-color: #eaf2ff;
   padding: 1rem;
-  margin-top: 1rem;
-  border-radius: 2rem;
+  margin-bottom: 1.5rem;
+  width: 32rem;
+  border-radius: 1.6rem;
   font-family: "Pretendard-Regular";
   display: flex;
   font-size: 1.7rem;
   img {
     margin-right: 1rem;
-    width: 10rem;
-    height: 10rem;
+    width: 6rem;
+    height: 6rem;
   }
   .title {
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
+    margin-top: 0.2rem;
     font-family: "Pretendard-Bold";
   }
-  .content {
+  .col {
     flex-direction: column;
+    width: 18rem;
   }
   .esc {
     margin-left: 2rem;
@@ -157,27 +168,12 @@ const StExercise = styled.div`
     width: 2rem;
     height: 2rem;
   }
-`;
-
-const FlexContainer = styled.div`
-  position: fixed;
-  bottom: 0rem;
-  padding-top: 1rem;
-  padding-bottom: 3rem;
-  display: flex;
-  justify-content: flex-end;
-  right: 10%;
-`;
-const StAddButton = styled.img`
-  width: 6rem;
-  height: 6rem;
-  border-radius: 3rem;
-  background-color: #006ffd;
-  align-items: center;
-  align-self: center;
-  display: flex;
-  border: none;
-  padding: 1rem;
+  .content {
+    color: #006ffd;
+    font-size: 1.3rem;
+    margin-top: 0.2rem;
+    font-family: "Pretendard-Bold";
+  }
 `;
 
 const StModal = styled(Modal)`
@@ -212,4 +208,17 @@ const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+const StCheckButton = styled.button`
+  width: 32.7rem;
+  height: 4.8rem;
+  background-color: #006ffd;
+  border: none;
+  border-radius: 1.2rem;
+  color: white;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  position: relative;
+  bottom: 0rem;
+  margin-bottom: 1rem;
 `;

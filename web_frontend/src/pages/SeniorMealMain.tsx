@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import BackButton from "../components/common/BackButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import { useState } from "react";
 import moment from "moment";
@@ -14,7 +13,7 @@ function SeniorMealMain() {
   return (
     <StSeniorMealMain>
       <StHeader>
-        <BackButton />
+        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <StTitle>식단 기록</StTitle>
       </StHeader>
       <SeniorCalendar setDate={setSelectedDate} />
@@ -157,4 +156,9 @@ const StCheckButton = styled.button`
   position: relative;
   bottom: 0rem;
   margin-bottom: 1rem;
+`;
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;
