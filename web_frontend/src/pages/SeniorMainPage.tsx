@@ -51,8 +51,7 @@ function SeniorMain() {
             <ItemTextContainer>
               <ItemTitle>건강 분석하러 가기</ItemTitle>
               <ItemComment>
-                4/14에 기록된 {info?.userName ? info?.userName : "xx"}님의 점수는 <br />
-                xx입니다.
+                지난 7일동안 기록한 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
               </ItemComment>
             </ItemTextContainer>
           </ItemContent>

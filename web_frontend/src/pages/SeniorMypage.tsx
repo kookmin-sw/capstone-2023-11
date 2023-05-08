@@ -1,15 +1,27 @@
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getSeniorInfo } from "../core/api";
 
 function SeniorMypage() {
   const navigate = useNavigate();
+  const [firstApi, setFirstApi] = useState(true);
+  const { data } = useQuery("userData", () => getSeniorInfo(), {
+    enabled: !!firstApi,
+  });
+
+  useEffect(() => {
+    setFirstApi(false);
+  }, [data]);
+
   return (
     <StSeniorMypage>
-      <StIntroText>안녕하세요 김딸기님.</StIntroText>
+      <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
       <StInfoContainer>
         <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
-        <StName>김딸기</StName>
-        <StUserCode>#7732</StUserCode>
+        <StName>{data?.userName}</StName>
+        <StUserCode>#{data?.userCode}</StUserCode>
       </StInfoContainer>
 
       <StButtonContainer onClick={() => navigate("#")}>
@@ -25,7 +37,7 @@ function SeniorMypage() {
         <StButtonIcon src={require("../assets/images/img_right.png")} />
       </StButtonContainer>
       <StLogContainer>
-        <StLogoutButton onClick={() => navigate(-1)}>로그아웃</StLogoutButton>
+        <StLogoutButton onClick={() => navigate(`/login`)}>로그아웃</StLogoutButton>
       </StLogContainer>
     </StSeniorMypage>
   );
@@ -104,8 +116,8 @@ const StLogoutButton = styled.button`
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   color: #006ffd;
-  font-family: "Pretendard-Regular";
-  font-size: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.5rem;
   background-color: white;
   margin-top: 9rem;
 `;
