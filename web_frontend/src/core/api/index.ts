@@ -1,17 +1,21 @@
 import axios from "axios";
 import { DOMAIN } from "../../constants/domain";
 
-export async function fetchPillInfo(value: string) {
-  return await fetch(
+export const fetchPillInfo = async (value: string) => {
+  const response = axios.get(
     `https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService03/getDrugPrdtPrmsnDtlInq02?serviceKey=${process.env.REACT_APP_SERVICE_KEY}&type=json&item_name=${value}`,
-  ).then((response) => response.json());
-}
+  );
 
-export async function fetchPillImg(value: string) {
-  return await fetch(
-    `http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey=${process.env.REACT_APP_SERVICE_KEY}&numOfRows=3&pageNo=1&type=json&item_name=${value}`,
-  ).then((response) => response.json());
-}
+  return response;
+};
+
+export const fetchPillImg = async (value: string) => {
+  const response = axios.get(
+    `https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey=${process.env.REACT_APP_SERVICE_KEY}&numOfRows=3&pageNo=1&type=json&item_name=${value}`,
+  );
+
+  return response;
+};
 
 export const pillImg = async (file: FormData) => {
   const data = axios.post(`${process.env.REACT_APP_SERVER}/api/medicine/ocr`, file, {
@@ -241,6 +245,27 @@ export const deleteExerciseList = async (id: number) => {
 
 export const getCalendarDate = async () => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/calendar`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getRecordMeal = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/food`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getDailyData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/summary/daily`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getWeeklyData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/summary/weekly`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
   });
   return data;

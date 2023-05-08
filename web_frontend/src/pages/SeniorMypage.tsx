@@ -1,33 +1,46 @@
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import BackButton from "../components/common/BackButton";
+import { getSeniorInfo } from "../core/api";
+import { motion } from "framer-motion";
 
 function SeniorMypage() {
   const navigate = useNavigate();
-  return (
-    <StSeniorMypage>
-      <StIntroText>안녕하세요 김딸기님.</StIntroText>
-      <StInfoContainer>
-        <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
-        <StName>김딸기</StName>
-        <StUserCode>#7732</StUserCode>
-      </StInfoContainer>
+  const [firstApi, setFirstApi] = useState(true);
+  const { data } = useQuery("userData", () => getSeniorInfo(), {
+    enabled: !!firstApi,
+  });
 
-      <StButtonContainer onClick={() => navigate("#")}>
-        <StButtonInfo>개인정보 변경하기</StButtonInfo>
-        <StButtonIcon src={require("../assets/images/img_right.png")} />
-      </StButtonContainer>
-      <StButtonContainer onClick={() => navigate("#")}>
-        <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
-        <StButtonIcon src={require("../assets/images/img_right.png")} />
-      </StButtonContainer>
-      <StButtonContainer onClick={() => navigate("#")}>
-        <StButtonInfo>연결된 카메라 확인하기</StButtonInfo>
-        <StButtonIcon src={require("../assets/images/img_right.png")} />
-      </StButtonContainer>
-      <StLogContainer>
-        <StLogoutButton onClick={() => navigate(-1)}>로그아웃</StLogoutButton>
-      </StLogContainer>
-    </StSeniorMypage>
+  useEffect(() => {
+    setFirstApi(false);
+  }, [data]);
+
+  return (
+    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+      <StSeniorMypage>
+        <BackButton />
+        <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
+        <StInfoContainer>
+          <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
+          <StName>{data?.userName}</StName>
+          <StUserCode># {data?.userCode}</StUserCode>
+        </StInfoContainer>
+
+        <StButtonContainer onClick={() => navigate("#")}>
+          <StButtonInfo>개인정보 변경하기</StButtonInfo>
+          <StButtonIcon src={require("../assets/images/img_right.png")} />
+        </StButtonContainer>
+        <StButtonContainer onClick={() => navigate("#")}>
+          <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
+          <StButtonIcon src={require("../assets/images/img_right.png")} />
+        </StButtonContainer>
+        <StLogContainer>
+          <StLogoutButton onClick={() => navigate(`/login`)}>로그아웃</StLogoutButton>
+        </StLogContainer>
+      </StSeniorMypage>
+    </motion.div>
   );
 }
 
@@ -36,6 +49,7 @@ export default SeniorMypage;
 const StSeniorMypage = styled.div`
   display: flex;
   flex-direction: column;
+  /* align-items: center; */
 `;
 const StIntroText = styled.span`
   font-family: "Pretendard-Bold";
@@ -43,6 +57,7 @@ const StIntroText = styled.span`
   margin-top: 3.5rem;
   margin-left: 2.2rem;
   letter-spacing: -0.05rem;
+  text-align: center;
 `;
 const StInfoContainer = styled.div`
   display: flex;
@@ -60,13 +75,14 @@ const StProfilePhoto = styled.img`
 
 const StName = styled.span`
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   margin-top: 0.8rem;
   margin-bottom: 0.4rem;
 `;
 
 const StUserCode = styled.span`
-  font-family: "Pretendard-Regular";
+  font-family: "Pretendard-Bold";
+  font-size: 1.5rem;
   color: #71727a;
 `;
 
@@ -104,8 +120,8 @@ const StLogoutButton = styled.button`
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   color: #006ffd;
-  font-family: "Pretendard-Regular";
-  font-size: 1.2rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.5rem;
   background-color: white;
   margin-top: 9rem;
 `;

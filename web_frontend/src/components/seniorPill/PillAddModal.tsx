@@ -18,7 +18,9 @@ function PillAddModal() {
 
   return (
     <>
-      <StModalButton onClick={handleOpenModal}>➕ 약 추가하기</StModalButton>
+      <FlexContainer>
+        <StModalButton onClick={handleOpenModal}>+</StModalButton>
+      </FlexContainer>
       <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
         <StButtonList>
           <Link to={"/senior/pill/bill"}>
@@ -35,15 +37,16 @@ function PillAddModal() {
 }
 
 const StModalButton = styled.button`
-  font-family: "Pretendard-Bold";
-  font-size: 2rem;
-  border: 0;
-  color: #0066ff;
-  background-color: white;
-  padding: 0 3rem;
-  width: 100%;
-  text-align: left;
-  margin: 1.5rem 0;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 2.5rem;
+  background-color: #006ffd;
+  font-size: 6.5rem;
+  color: white;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  border: none;
 `;
 
 const StButtonList = styled.div`
@@ -61,6 +64,16 @@ const StButton = styled.button`
   background-color: transparent;
   color: #0066ff;
   border: 0;
+`;
+
+const FlexContainer = styled.div`
+  position: fixed;
+  bottom: 0rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  display: flex;
+  justify-content: flex-end;
+  right: 20%;
 `;
 
 const StModal = styled(Modal)`
