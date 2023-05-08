@@ -116,6 +116,10 @@ export interface IpillData {
 export interface MainInfo {
   userCode: number;
   userName: string;
+  height: number;
+  weight: number;
+  gender: string;
+  age: number;
   medicineInfoList: [
     {
       id: number;
