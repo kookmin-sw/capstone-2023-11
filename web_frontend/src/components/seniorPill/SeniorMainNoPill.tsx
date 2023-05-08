@@ -8,7 +8,7 @@ function NoPill() {
         <StNoPill>
           <StContent1>현재 복용중인 약이 없습니다</StContent1>
           <StImgBox>
-            <StPlusImg src={require(`../assets/icons/add.png`)} />
+            <StPlusImg src={require(`../../assets/icons/add.png`)} />
           </StImgBox>
           <StContent2>약 등록하기</StContent2>
         </StNoPill>

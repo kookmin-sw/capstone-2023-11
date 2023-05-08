@@ -9,6 +9,7 @@ import { getDailyData } from "../core/api";
 import Modal from "react-modal";
 import { IExercise, IMeal } from "../core/atom";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
+import { motion } from "framer-motion";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);
@@ -34,6 +35,26 @@ function SeniorSummaryDailyPage() {
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
 
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   useEffect(() => {
     setFirstApi(false);
   }, [data]);
@@ -55,7 +76,7 @@ function SeniorSummaryDailyPage() {
   }
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
         <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>일간 보고서</HeaderText>
@@ -78,33 +99,37 @@ function SeniorSummaryDailyPage() {
             ) : (
               <StButton src={require("../assets/icons/icon_nobefore.png")} />
             )}
-            <DataContainer>
-              {mealData?.map((item: IMeal, index) =>
-                index == mealState ? (
-                  <div className="col">
-                    <StText>
-                      {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
-                    </StText>
-                    <StMealImage src={item.imageUrl} />
-                    {item.detail.map((mealList, index2) => (
-                      <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
-                        <StIcon src={FoodIcn} />
-                        <div>
-                          <StFoodName>{mealList.name}</StFoodName>
-                          <StNutrient>
-                            탄수화물: {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
-                            {Math.round(mealList.protein * 10) / 10}g
-                          </StNutrient>
-                        </div>
-                        <StKcal>{Math.round(mealList.calorie)} kcal</StKcal>
-                      </StFoodBox>
-                    ))}
-                  </div>
-                ) : (
-                  <></>
-                ),
-              )}
-            </DataContainer>
+            <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+              <DataContainer>
+                {mealData?.map((item: IMeal, index) =>
+                  index == mealState ? (
+                    <div className="col">
+                      <StText>
+                        {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
+                      </StText>
+                      <StMealImage src={item.imageUrl} />
+                      {item.detail.map((mealList, index2) => (
+                        <motion.li key={index} className="item" variants={items}>
+                          <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
+                            <StIcon src={FoodIcn} />
+                            <div>
+                              <StFoodName>{mealList.name}</StFoodName>
+                              <StNutrient>
+                                탄수화물: {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
+                                {Math.round(mealList.protein * 10) / 10}g
+                              </StNutrient>
+                            </div>
+                            <StKcal>{Math.round(mealList.calorie)} kcal</StKcal>
+                          </StFoodBox>
+                        </motion.li>
+                      ))}
+                    </div>
+                  ) : (
+                    <></>
+                  ),
+                )}
+              </DataContainer>
+            </motion.ul>
             {mealState != 0 ? (
               <div
                 className="buttonContainer"
@@ -128,21 +153,28 @@ function SeniorSummaryDailyPage() {
         )}
         <StText>오늘 한 운동</StText>
         {exerciseLength != 0 ? (
-          <DataContainer>
-            {exerciseData?.map((item: IExercise) => (
-              <div className="col2">
-                <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
-                <StExerciseBox id={item.type}>
-                  <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-                  <div>
-                    <StExerciseName>{item.kor}</StExerciseName>
-                    <StHour>{item.hour}시간 하셨어요 !</StHour>
+          <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+            <DataContainer>
+              {exerciseData?.map((item: IExercise, index: number) => (
+                <motion.li key={index} className="item" variants={items}>
+                  <div className="col2">
+                    <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
+                    <StExerciseBox id={item.type}>
+                      <StIcon
+                        className="exerciseIcon"
+                        src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)}
+                      />
+                      <div>
+                        <StExerciseName>{item.kor}</StExerciseName>
+                        <StHour>{item.hour}시간 하셨어요 !</StHour>
+                      </div>
+                      <StKcal>{item.kcal} kcal</StKcal>
+                    </StExerciseBox>
                   </div>
-                  <StKcal>{item.kcal} kcal</StKcal>
-                </StExerciseBox>
-              </div>
-            ))}
-          </DataContainer>
+                </motion.li>
+              ))}
+            </DataContainer>
+          </motion.ul>
         ) : (
           <DataContainer>
             <div className="col">
@@ -170,7 +202,7 @@ function SeniorSummaryDailyPage() {
           </StModal>
         </div>
       </STContainer>
-    </>
+    </motion.div>
   );
 }
 

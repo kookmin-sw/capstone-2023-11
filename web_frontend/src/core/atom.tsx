@@ -92,6 +92,53 @@ export interface ExerciseForm {
   hour: number;
 }
 
+export interface IpillData {
+  medicines: [
+    {
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      createdAt: string;
+      dueAt: string;
+      remainDay: number;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+    },
+  ];
+}
+
+export interface MainInfo {
+  userCode: number;
+  userName: string;
+  medicineInfoList: [
+    {
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      createdAt: string;
+      dueAt: string;
+      remainDay: number;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+    },
+  ];
+  monthRecordCount: number;
+  todayMealCount: number;
+  todayWorkOutCount: number;
+}
+
 export const exampleData: IWeeklyData = {
   name: "홍길동",
   gender: "male",

@@ -4,6 +4,7 @@ import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
 import { deletePillData, getPillInfo, modifyPillData } from "../core/api/index";
 import Modal from "react-modal";
+import { motion } from "framer-motion";
 
 Modal.setAppElement("#root");
 
@@ -59,116 +60,142 @@ function SeniorPillMain() {
     alert("삭제되었습니다.");
   };
 
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
-    <StContainer>
-      <StHeader>
-        <StLink to={`/senior/main`}>
-          <StBackBtn>
-            <StBackBtnImg src={require("../assets/images/img_left.png")} />
-          </StBackBtn>
-        </StLink>
-        <StTitle>복용하는 약 목록</StTitle>
-      </StHeader>
-      <StBody>
-        <PillAddModal />
-        <StPillList>
-          {pillData?.medicines.map((value, index) => (
-            <>
-              <StItem key={index}>
-                <StLink to={`/senior/pill/detail/${value.id}`}>
-                  <StItemImgBox>
-                    <StItemImg src={value.imageUrl} />
-                  </StItemImgBox>
-                  <StItemContent>
-                    <StItemName>{value.name.length >= 8 ? value.name.slice(0, 7) + "..." : value.name}</StItemName>
-                    <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
-                    <StDaySwapper>
-                      {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
-                      {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
-                      {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
-                    </StDaySwapper>
-                  </StItemContent>
-                </StLink>
-                <StSetComponent>
-                  <StModifyButton
-                    onClick={() => {
-                      setID(value.id);
-                      setName(value.name);
-                      setBreakfast(value.breakfast);
-                      setLunch(value.lunch);
-                      setDinner(value.dinner);
-                      setDayValue(value.remainDay);
-                      handleOpenModal();
-                    }}>
-                    <StModifyButtonImg src={require("../assets/images/edit.png")} />
-                  </StModifyButton>
-                  <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
-                    <StButtonList>
-                      <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
-                      <StModalTitle>복용하는 일 수</StModalTitle>
-                      <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-                      <StModalTitle>복용하는 시간대</StModalTitle>
-                      <StPillComponent>
-                        {breakfast == false ? (
-                          <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
-                        ) : (
-                          <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
-                        )}
-                        {lunch == false ? (
-                          <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
-                        ) : (
-                          <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
-                        )}
-                        {dinner == false ? (
-                          <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
-                        ) : (
-                          <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
-                        )}
-                      </StPillComponent>
-                      <StModalTitle>수정하시겠습니까?</StModalTitle>
-                      <StPillComponent2>
-                        <StSetPillCheckButton
-                          onClick={async () => {
-                            handleCloseModal();
-                            await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
-                            window.location.reload();
-                          }}>
-                          네
-                        </StSetPillCheckButton>
-                        <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
-                      </StPillComponent2>
-                    </StButtonList>
-                  </StModal>
-                  <StDeleteButton
-                    onClick={() => {
-                      handleOpenModal2();
-                      setID(value.id);
-                    }}>
-                    <StDeleteButtonImg src={require("../assets/images/delete.png")} />
-                  </StDeleteButton>
-                  <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
-                    <StButtonList>
-                      <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
-                      <StPillComponent2>
-                        <StSetPillCheckButton
-                          onClick={async () => {
-                            handleCloseModal2();
-                            await DeletePillData(id);
-                            window.location.replace("/senior/pill/");
-                          }}>
-                          네
-                        </StSetPillCheckButton>
-                        <StSetPillCheckButton onClick={handleCloseModal2}>아니요</StSetPillCheckButton>
-                      </StPillComponent2>
-                    </StButtonList>
-                  </StModal>
-                </StSetComponent>
-              </StItem>
-            </>
-          ))}
-        </StPillList>
-      </StBody>
-    </StContainer>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+        <StContainer>
+          <StHeader>
+            <StLink to={`/senior/main`}>
+              <StBackBtn>
+                <StBackBtnImg src={require("../assets/images/img_left.png")} />
+              </StBackBtn>
+            </StLink>
+            <StTitle>복용하는 약 목록</StTitle>
+          </StHeader>
+          <StBody>
+            <StPillList>
+              {pillData?.medicines.map((value, index) => (
+                <motion.li className="item" variants={items}>
+                  <StItem key={index}>
+                    <StLink to={`/senior/pill/detail/${value.id}`}>
+                      <StItemImgBox>
+                        <StItemImg src={value.imageUrl} />
+                      </StItemImgBox>
+                      <StItemContent>
+                        <StItemName>{value.name.length >= 8 ? value.name.slice(0, 7) + "..." : value.name}</StItemName>
+                        <StItemRemainingDays>남은 복용 일자: {value.remainDay}</StItemRemainingDays>
+                        <StDaySwapper>
+                          {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                          {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
+                          {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                        </StDaySwapper>
+                      </StItemContent>
+                    </StLink>
+                    <StSetComponent>
+                      <StModifyButton
+                        onClick={() => {
+                          setID(value.id);
+                          setName(value.name);
+                          setBreakfast(value.breakfast);
+                          setLunch(value.lunch);
+                          setDinner(value.dinner);
+                          setDayValue(value.remainDay);
+                          handleOpenModal();
+                        }}>
+                        <StModifyButtonImg src={require("../assets/images/edit.png")} />
+                      </StModifyButton>
+                      <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+                        <StButtonList>
+                          <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
+                          <StModalTitle>복용하는 일 수</StModalTitle>
+                          <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                          <StModalTitle>복용하는 시간대</StModalTitle>
+                          <StPillComponent>
+                            {breakfast == false ? (
+                              <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
+                            ) : (
+                              <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
+                            )}
+                            {lunch == false ? (
+                              <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
+                            ) : (
+                              <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
+                            )}
+                            {dinner == false ? (
+                              <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
+                            ) : (
+                              <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
+                            )}
+                          </StPillComponent>
+                          <StModalTitle>수정하시겠습니까?</StModalTitle>
+                          <StPillComponent2>
+                            <StSetPillCheckButton
+                              onClick={async () => {
+                                handleCloseModal();
+                                await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
+                                window.location.reload();
+                              }}>
+                              네
+                            </StSetPillCheckButton>
+                            <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                          </StPillComponent2>
+                        </StButtonList>
+                      </StModal>
+                      <StDeleteButton
+                        onClick={() => {
+                          handleOpenModal2();
+                          setID(value.id);
+                        }}>
+                        <StDeleteButtonImg src={require("../assets/images/delete.png")} />
+                      </StDeleteButton>
+                      <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
+                        <StButtonList>
+                          <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
+                          <StPillComponent2>
+                            <StSetPillCheckButton
+                              onClick={async () => {
+                                handleCloseModal2();
+                                await DeletePillData(id);
+                                window.location.replace("/senior/pill/");
+                              }}>
+                              네
+                            </StSetPillCheckButton>
+                            <StSetPillCheckButton onClick={handleCloseModal2}>아니요</StSetPillCheckButton>
+                          </StPillComponent2>
+                        </StButtonList>
+                      </StModal>
+                    </StSetComponent>
+                  </StItem>
+                </motion.li>
+              ))}
+            </StPillList>
+            <motion.li className="item" variants={items}>
+              <PillAddModal />
+            </motion.li>
+          </StBody>
+        </StContainer>
+      </motion.ul>
+    </motion.div>
   );
 }
 

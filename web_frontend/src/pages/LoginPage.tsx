@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { GuardianIcn, RadioButton, RadioUnclickedButton, SeniorIcn } from "../assets/icons";
 import KakaoLoginButton from "../components/common/KakaoLoginButton";
+import { motion } from "framer-motion";
 
 function LoginPage() {
   const [userStatus, setUserStatus] = useState("userGuardian");
@@ -9,39 +10,41 @@ function LoginPage() {
     localStorage.setItem("userStatus", userStatus);
   }, [userStatus]);
   return (
-    <StLoginPage>
-      <StLogo src={require("../../src/assets/images/img_logo.png")} />
-      <StTitle>사용할 서비스를 선택하세요</StTitle>
-      <StSelectContainer>
-        {userStatus == "userGuardian" ? (
-          <StClickedButton>
-            <StIcon src={RadioButton} />
-            <StButtonText>보호자 서비스</StButtonText>
-            <StUserIcon src={GuardianIcn} />
-          </StClickedButton>
-        ) : (
-          <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
-            <StIcon src={RadioUnclickedButton} />
-            <StButtonText>보호자 서비스</StButtonText>
-            <StUserIcon src={GuardianIcn} />
-          </StUnclickedButton>
-        )}
-        {userStatus == "userWard" ? (
-          <StClickedButton>
-            <StIcon src={RadioButton} />
-            <StButtonText>시니어 서비스</StButtonText>
-            <StUserIcon src={SeniorIcn} />
-          </StClickedButton>
-        ) : (
-          <StUnclickedButton onClick={() => setUserStatus("userWard")}>
-            <StIcon src={RadioUnclickedButton} />
-            <StButtonText>시니어 서비스</StButtonText>
-            <StUserIcon src={SeniorIcn} />
-          </StUnclickedButton>
-        )}
-      </StSelectContainer>
-      <KakaoLoginButton />
-    </StLoginPage>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StLoginPage>
+        <StLogo src={require("../../src/assets/images/img_logo.png")} />
+        <StTitle>사용할 서비스를 선택하세요</StTitle>
+        <StSelectContainer>
+          {userStatus == "userGuardian" ? (
+            <StClickedButton>
+              <StIcon src={RadioButton} />
+              <StButtonText>보호자 서비스</StButtonText>
+              <StUserIcon src={GuardianIcn} />
+            </StClickedButton>
+          ) : (
+            <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
+              <StIcon src={RadioUnclickedButton} />
+              <StButtonText>보호자 서비스</StButtonText>
+              <StUserIcon src={GuardianIcn} />
+            </StUnclickedButton>
+          )}
+          {userStatus == "userWard" ? (
+            <StClickedButton>
+              <StIcon src={RadioButton} />
+              <StButtonText>시니어 서비스</StButtonText>
+              <StUserIcon src={SeniorIcn} />
+            </StClickedButton>
+          ) : (
+            <StUnclickedButton onClick={() => setUserStatus("userWard")}>
+              <StIcon src={RadioUnclickedButton} />
+              <StButtonText>시니어 서비스</StButtonText>
+              <StUserIcon src={SeniorIcn} />
+            </StUnclickedButton>
+          )}
+        </StSelectContainer>
+        <KakaoLoginButton />
+      </StLoginPage>
+    </motion.div>
   );
 }
 export default LoginPage;

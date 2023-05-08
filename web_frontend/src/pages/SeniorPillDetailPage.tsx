@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
+import { IpillData } from "../core/atom";
+import { motion } from "framer-motion";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IpillData>();
@@ -18,7 +20,7 @@ function PillDetail() {
   }, []);
 
   const selectPill = pillData?.medicines.find((pill) => pill.id === Number(id));
-
+  const navigate = useNavigate();
   const effectContent = selectPill?.effect ? JSON.parse(selectPill.effect) : [];
   const useMethodContent = selectPill?.useMethod ? JSON.parse(selectPill.useMethod) : [];
   const cautionContent = selectPill?.caution ? JSON.parse(selectPill.caution) : [];
@@ -51,7 +53,7 @@ function PillDetail() {
     .join("<br>");
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
         <StPillTitle>약 세부정보</StPillTitle>
       </StHeader>
@@ -82,39 +84,16 @@ function PillDetail() {
             <StItemName>주의 사항</StItemName>
             <StItemContent dangerouslySetInnerHTML={{ __html: resultCaution }} />
           </StContentItem>
-          <StLink to={"/senior/pill"}>
-            <BlueButton>돌아가기</BlueButton>
-          </StLink>
+          <BlueButton onClick={() => navigate(-1)}>돌아가기</BlueButton>
         </StContentList>
       </StBody>
-    </>
+    </motion.div>
   );
 }
 
-interface IpillData {
-  medicines: [
-    {
-      id: number;
-      name: string;
-      companyName: string;
-      effect: string;
-      useMethod: string;
-      caution: string;
-      depositMethod: string;
-      imageUrl: string;
-      createdAt: string;
-      dueAt: string;
-      remainDay: number;
-      breakfast: boolean;
-      lunch: boolean;
-      dinner: boolean;
-    },
-  ];
-}
-
 const StHeader = styled.header`
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   font-size: 2rem;
 `;
 
@@ -127,6 +106,7 @@ const StPillTitle = styled.h1`
 const StBody = styled.div`
   font-size: 2rem;
   padding: 0 2rem 0 2rem;
+  margin-bottom: 3rem;
 `;
 
 const StImg = styled.img`
@@ -140,6 +120,7 @@ const StContentList = styled.ul`
   padding: 2rem;
   border: 0.2rem solid #006ffd;
   border-radius: 2rem;
+  margin-bottom: 3rem;
 `;
 
 const StContentItem = styled.li`
@@ -170,10 +151,6 @@ const BlueButton = styled.button`
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   margin-top: 3rem;
-`;
-
-const StLink = styled(Link)`
-  text-decoration: none;
 `;
 
 export default PillDetail;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
 import Modal from "react-modal";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 Modal.setAppElement("#root");
 
@@ -124,93 +125,95 @@ function SeniorPillSelf() {
   };
 
   return (
-    <StContainer>
-      <StHeader>
-        <StHederContent>
-          <StLink to={`/senior/pill`}>
-            <StBackBtn>
-              <StBackBtnImg src={require("../assets/images/img_left.png")} />
-            </StBackBtn>
-          </StLink>
-          <StTitle>직접 입력하기</StTitle>
-        </StHederContent>
-        <StHederContent>
-          <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
-          <StSearchButton onClick={onClickButton}>
-            <StSearchBtnImg src={require("../assets/images/search.png")} />
-          </StSearchButton>
-        </StHederContent>
-      </StHeader>
-      <StBody>
-        <StPillList>
-          {name?.map((value) => (
-            <StPillItem
-              key={value.toString()}
-              onClick={async () => {
-                handleOpenModal(value.toString());
-                setValue(value.toString());
-                onClickButton();
-                setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
-                setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
-                const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
-                const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
-                const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
-                const [effect, useMethod, caution] = await Promise.all([
-                  effectParse(eeDocData),
-                  useMethodParse(nbDocData),
-                  cautionParse(udDocData),
-                ]);
-                setEffect(effect);
-                setUseMethod(useMethod);
-                setCaution(caution);
-                setImgUrl(
-                  imgData?.data?.body.items
-                    ? imgData?.data?.body.items[0].ITEM_IMAGE
-                    : require(`../assets/images/pillPhoto.png`),
-                );
-              }}>
-              {value.length < 20 ? value : value.slice(0, 20) + "..."}
-            </StPillItem>
-          ))}
-        </StPillList>
-        <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
-          <StButtonList>
-            <StModalTitle>{pillName}</StModalTitle>
-            <StModalTitle>복용하는 일 수</StModalTitle>
-            <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-            <StModalTitle>복용하는 시간대</StModalTitle>
-            <StPillComponent>
-              {breakfast == false ? (
-                <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
-              ) : (
-                <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
-              )}
-              {lunch == false ? (
-                <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
-              ) : (
-                <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
-              )}
-              {dinner == false ? (
-                <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
-              ) : (
-                <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
-              )}
-            </StPillComponent>
-            <StModalTitle>등록하시겠습니까?</StModalTitle>
-            <StPillComponent2>
-              <StSetPillCheckButton
-                onClick={() => {
-                  handleCloseModal;
-                  pillInfo();
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StContainer>
+        <StHeader>
+          <StHederContent>
+            <StLink to={`/senior/pill`}>
+              <StBackBtn>
+                <StBackBtnImg src={require("../assets/images/img_left.png")} />
+              </StBackBtn>
+            </StLink>
+            <StTitle>직접 입력하기</StTitle>
+          </StHederContent>
+          <StHederContent>
+            <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
+            <StSearchButton onClick={onClickButton}>
+              <StSearchBtnImg src={require("../assets/images/search.png")} />
+            </StSearchButton>
+          </StHederContent>
+        </StHeader>
+        <StBody>
+          <StPillList>
+            {name?.map((value) => (
+              <StPillItem
+                key={value.toString()}
+                onClick={async () => {
+                  handleOpenModal(value.toString());
+                  setValue(value.toString());
+                  onClickButton();
+                  setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
+                  setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
+                  const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
+                  const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+                  const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
+                  const [effect, useMethod, caution] = await Promise.all([
+                    effectParse(eeDocData),
+                    useMethodParse(nbDocData),
+                    cautionParse(udDocData),
+                  ]);
+                  setEffect(effect);
+                  setUseMethod(useMethod);
+                  setCaution(caution);
+                  setImgUrl(
+                    imgData?.data?.body.items
+                      ? imgData?.data?.body.items[0].ITEM_IMAGE
+                      : require(`../assets/images/pillPhoto.png`),
+                  );
                 }}>
-                네
-              </StSetPillCheckButton>
-              <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
-            </StPillComponent2>
-          </StButtonList>
-        </StModal>
-      </StBody>
-    </StContainer>
+                {value.length < 20 ? value : value.slice(0, 20) + "..."}
+              </StPillItem>
+            ))}
+          </StPillList>
+          <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+            <StButtonList>
+              <StModalTitle>{pillName}</StModalTitle>
+              <StModalTitle>복용하는 일 수</StModalTitle>
+              <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+              <StModalTitle>복용하는 시간대</StModalTitle>
+              <StPillComponent>
+                {breakfast == false ? (
+                  <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
+                ) : (
+                  <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
+                )}
+                {lunch == false ? (
+                  <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
+                ) : (
+                  <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
+                )}
+                {dinner == false ? (
+                  <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
+                ) : (
+                  <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
+                )}
+              </StPillComponent>
+              <StModalTitle>등록하시겠습니까?</StModalTitle>
+              <StPillComponent2>
+                <StSetPillCheckButton
+                  onClick={() => {
+                    handleCloseModal;
+                    pillInfo();
+                  }}>
+                  네
+                </StSetPillCheckButton>
+                <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+              </StPillComponent2>
+            </StButtonList>
+          </StModal>
+        </StBody>
+      </StContainer>
+    </motion.div>
   );
 }
 
