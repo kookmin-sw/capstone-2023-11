@@ -5,11 +5,21 @@ import moment from "moment";
 import { useQuery } from "react-query";
 import { getRecordMeal } from "../core/api";
 import { useNavigate } from "react-router-dom";
+import { IMealDetail } from "../core/atom";
+
+interface IMealData {
+  id: number;
+  dateTime: string;
+  times: number;
+  imageUrl: string;
+  detail: IMealDetail[];
+}
 
 function SeniorMealMain() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { data } = useQuery("mealData", getRecordMeal);
+
   return (
     <StSeniorMealMain>
       <StHeader>
@@ -20,9 +30,9 @@ function SeniorMealMain() {
       <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
       <StFoodContainer>
         {data?.data?.mealInfos
-          .filter((mealCon: any) => mealCon.dateTime.includes(selectedDate))
-          .map((mealCon: any) => {
-            return mealCon?.detail.map((meal: any, index: number) => {
+          .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
+          .map((mealCon: IMealData) => {
+            return mealCon?.detail.map((meal: IMealDetail, index: number) => {
               if (index % 2 == 0) {
                 return (
                   <StFoodBox1>
