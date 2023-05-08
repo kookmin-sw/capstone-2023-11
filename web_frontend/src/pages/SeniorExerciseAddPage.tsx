@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { ExerciseFixedData, GetExerciseData } from "../core/atom";
+import { motion } from "framer-motion";
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
@@ -52,85 +53,87 @@ function SeniorExercise() {
   };
 
   return (
-    <StContainer>
-      <StHeader>
-        <BackButton />
-        <StTitle>운동 추가</StTitle>
-        <StCenterContainer>
-          <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
-        </StCenterContainer>
-      </StHeader>
-      <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
-      <STButtonContainer>
-        {fixedData[0] == null ? (
-          isSelected == "" ? (
-            <GrayButton disabled={true}>운동 선택</GrayButton>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StContainer>
+        <StHeader>
+          <BackButton />
+          <StTitle>운동 추가</StTitle>
+          <StCenterContainer>
+            <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
+          </StCenterContainer>
+        </StHeader>
+        <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
+        <STButtonContainer>
+          {fixedData[0] == null ? (
+            isSelected == "" ? (
+              <GrayButton disabled={true}>운동 선택</GrayButton>
+            ) : (
+              <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+            )
+          ) : isSelected == "" ? (
+            <>
+              <CalContainer>
+                <StTitle className="title">선택한 운동</StTitle>
+                <FlexContainer>
+                  {fixedData.map(({ name, time }) => (
+                    <FlexContainer key={name}>
+                      <StButtonBack
+                        src={require("../assets/images/img_esc.png")}
+                        onClick={() => {
+                          onRemove(name);
+                        }}
+                      />
+                      <CalList>
+                        {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                        Kcal 소모
+                      </CalList>
+                    </FlexContainer>
+                  ))}
+                </FlexContainer>
+              </CalContainer>
+              <FlexContainer>
+                <GrayBTN disabled={true}>운동 추가</GrayBTN>
+                <BlueBTN>확인</BlueBTN>
+              </FlexContainer>
+            </>
           ) : (
-            <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
-          )
-        ) : isSelected == "" ? (
-          <>
-            <CalContainer>
-              <StTitle className="title">선택한 운동</StTitle>
+            <>
+              <CalContainer>
+                <StTitle className="title">선택한 운동</StTitle>
+                <FlexContainer>
+                  {fixedData.map(({ name, time }) => (
+                    <FlexContainer key={name}>
+                      <StButtonBack
+                        src={require("../assets/images/img_esc.png")}
+                        onClick={() => {
+                          onRemove(name);
+                        }}
+                      />
+                      <CalList>
+                        {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                        Kcal 소모
+                      </CalList>
+                    </FlexContainer>
+                  ))}
+                </FlexContainer>
+              </CalContainer>
               <FlexContainer>
-                {fixedData.map(({ name, time }) => (
-                  <FlexContainer key={name}>
-                    <StButtonBack
-                      src={require("../assets/images/img_esc.png")}
-                      onClick={() => {
-                        onRemove(name);
-                      }}
-                    />
-                    <CalList>
-                      {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour} Kcal
-                      소모
-                    </CalList>
-                  </FlexContainer>
-                ))}
+                <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
+                <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
               </FlexContainer>
-            </CalContainer>
-            <FlexContainer>
-              <GrayBTN disabled={true}>운동 추가</GrayBTN>
-              <BlueBTN>확인</BlueBTN>
-            </FlexContainer>
-          </>
-        ) : (
-          <>
-            <CalContainer>
-              <StTitle className="title">선택한 운동</StTitle>
-              <FlexContainer>
-                {fixedData.map(({ name, time }) => (
-                  <FlexContainer key={name}>
-                    <StButtonBack
-                      src={require("../assets/images/img_esc.png")}
-                      onClick={() => {
-                        onRemove(name);
-                      }}
-                    />
-                    <CalList>
-                      {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour} Kcal
-                      소모
-                    </CalList>
-                  </FlexContainer>
-                ))}
-              </FlexContainer>
-            </CalContainer>
-            <FlexContainer>
-              <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
-              <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
-            </FlexContainer>
-          </>
-        )}
-      </STButtonContainer>
-      <StModal isOpen={isOpen}>
-        <ExercisePopUp
-          selectedData={isSelected}
-          setIsOpen={setIsOpen}
-          setFixedData={setFixedData}
-          getData={data?.data}
-        />
-      </StModal>
-    </StContainer>
+            </>
+          )}
+        </STButtonContainer>
+        <StModal isOpen={isOpen}>
+          <ExercisePopUp
+            selectedData={isSelected}
+            setIsOpen={setIsOpen}
+            setFixedData={setFixedData}
+            getData={data?.data}
+          />
+        </StModal>
+      </StContainer>
+    </motion.div>
   );
 }
 

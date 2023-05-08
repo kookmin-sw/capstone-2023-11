@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
 import { IpillData } from "../core/atom";
+import { motion } from "framer-motion";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IpillData>();
@@ -52,7 +53,7 @@ function PillDetail() {
     .join("<br>");
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
         <StPillTitle>약 세부정보</StPillTitle>
       </StHeader>
@@ -88,7 +89,7 @@ function PillDetail() {
           </StLink>
         </StContentList>
       </StBody>
-    </>
+    </motion.div>
   );
 }
 

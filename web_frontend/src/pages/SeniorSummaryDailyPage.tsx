@@ -9,6 +9,7 @@ import { getDailyData } from "../core/api";
 import Modal from "react-modal";
 import { IExercise, IMeal } from "../core/atom";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
+import { motion } from "framer-motion";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);
@@ -55,7 +56,7 @@ function SeniorSummaryDailyPage() {
   }
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
         <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>일간 보고서</HeaderText>
@@ -170,7 +171,7 @@ function SeniorSummaryDailyPage() {
           </StModal>
         </div>
       </STContainer>
-    </>
+    </motion.div>
   );
 }
 

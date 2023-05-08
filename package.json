@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "framer-motion": "^10.12.8",
     "modal": "^1.2.0",
     "moment": "^2.29.4",
     "react-calendar": "^4.2.1",

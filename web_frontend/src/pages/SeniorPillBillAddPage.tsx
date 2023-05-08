@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 Modal.setAppElement("#root");
 
@@ -189,118 +190,120 @@ function PillImgUpload() {
   }, [register]);
 
   return (
-    <StContainer>
-      <StHeader>
-        <Link to={`/senior/pill`}>
-          <StBackBtn>
-            <StBackBtnImg src={require("../assets/images/img_left.png")} />
-          </StBackBtn>
-        </Link>
-        <StTitle>약봉투 인식하기</StTitle>
-      </StHeader>
-      <StBody>
-        {uploadSts ? (
-          <>
-            <StList>
-              {nameList?.data?.data?.map((name: string, index: number) =>
-                selected[index] ? (
-                  <StItemChecked
-                    key={name.toString()}
-                    onClick={() => {
-                      handleOpenModal();
-                      setSelectedIndex(index);
-                      setValue(
-                        name
-                          .toString()
-                          .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
-                          .trim(),
-                      );
-                    }}>
-                    {name}
-                  </StItemChecked>
-                ) : (
-                  <StItem
-                    key={name.toString()}
-                    onClick={() => {
-                      handleOpenModal();
-                      setSelectedIndex(index);
-                      setValue(
-                        name
-                          .toString()
-                          .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
-                          .trim(),
-                      );
-                    }}>
-                    {name}
-                  </StItem>
-                ),
-              )}
-              모든 약을 등록하셨습니까?
-              <BtnWrapper>
-                <Link to={"/senior/pill"}>
-                  <StButton>네</StButton>
-                </Link>
-                <StButton onClick={SetUploadReset}>아니요</StButton>
-              </BtnWrapper>
-            </StList>
-            <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
-              <StButtonList>
-                <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
-                <StModalTitle>복용하는 일 수</StModalTitle>
-                <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-                <StModalTitle>복용하는 시간대</StModalTitle>
-                <StPillComponent>
-                  {breakfast == false ? (
-                    <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StContainer>
+        <StHeader>
+          <Link to={`/senior/pill`}>
+            <StBackBtn>
+              <StBackBtnImg src={require("../assets/images/img_left.png")} />
+            </StBackBtn>
+          </Link>
+          <StTitle>약봉투 인식하기</StTitle>
+        </StHeader>
+        <StBody>
+          {uploadSts ? (
+            <>
+              <StList>
+                {nameList?.data?.data?.map((name: string, index: number) =>
+                  selected[index] ? (
+                    <StItemChecked
+                      key={name.toString()}
+                      onClick={() => {
+                        handleOpenModal();
+                        setSelectedIndex(index);
+                        setValue(
+                          name
+                            .toString()
+                            .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
+                            .trim(),
+                        );
+                      }}>
+                      {name}
+                    </StItemChecked>
                   ) : (
-                    <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
-                  )}
-                  {lunch == false ? (
-                    <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
-                  ) : (
-                    <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
-                  )}
-                  {dinner == false ? (
-                    <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
-                  ) : (
-                    <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
-                  )}
-                </StPillComponent>
-                <StModalTitle>등록하시겠습니까?</StModalTitle>
-                <StPillComponent2>
-                  <StSetPillCheckButton
-                    onClick={() => {
-                      handleCloseModal();
-                      pillInfo();
-                      setSelected((prev: boolean[]) => {
-                        const newSelected = [...prev];
-                        newSelected[selectedIndex] = true;
-                        return newSelected;
-                      });
-                    }}>
-                    네
-                  </StSetPillCheckButton>
-                  <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
-                </StPillComponent2>
-              </StButtonList>
-            </StModal>
-          </>
-        ) : (
-          <>
-            <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
-            <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
-            <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
-            <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
-            <StInfoContainer>
-              <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>
-              <StInfo>2. 약 확인하기를 누른 후, 약을 확인한다.</StInfo>
-              <StInfo>3. 각각의 약을 눌러서 복용일자, 복용시간을 확인한다.</StInfo>
-            </StInfoContainer>
-            <StCheckButton onClick={() => uploadImage()}>약 확인하기</StCheckButton>
-          </>
-        )}
-      </StBody>
-    </StContainer>
+                    <StItem
+                      key={name.toString()}
+                      onClick={() => {
+                        handleOpenModal();
+                        setSelectedIndex(index);
+                        setValue(
+                          name
+                            .toString()
+                            .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
+                            .trim(),
+                        );
+                      }}>
+                      {name}
+                    </StItem>
+                  ),
+                )}
+                모든 약을 등록하셨습니까?
+                <BtnWrapper>
+                  <Link to={"/senior/pill"}>
+                    <StButton>네</StButton>
+                  </Link>
+                  <StButton onClick={SetUploadReset}>아니요</StButton>
+                </BtnWrapper>
+              </StList>
+              <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+                <StButtonList>
+                  <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
+                  <StModalTitle>복용하는 일 수</StModalTitle>
+                  <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                  <StModalTitle>복용하는 시간대</StModalTitle>
+                  <StPillComponent>
+                    {breakfast == false ? (
+                      <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
+                    ) : (
+                      <StSetPillCheckButton onClick={() => setBreakfast(false)}>아침</StSetPillCheckButton>
+                    )}
+                    {lunch == false ? (
+                      <StSetPillButton onClick={() => setLunch(true)}>점심</StSetPillButton>
+                    ) : (
+                      <StSetPillCheckButton onClick={() => setLunch(false)}>점심</StSetPillCheckButton>
+                    )}
+                    {dinner == false ? (
+                      <StSetPillButton onClick={() => setDinner(true)}>저녁</StSetPillButton>
+                    ) : (
+                      <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
+                    )}
+                  </StPillComponent>
+                  <StModalTitle>등록하시겠습니까?</StModalTitle>
+                  <StPillComponent2>
+                    <StSetPillCheckButton
+                      onClick={() => {
+                        handleCloseModal();
+                        pillInfo();
+                        setSelected((prev: boolean[]) => {
+                          const newSelected = [...prev];
+                          newSelected[selectedIndex] = true;
+                          return newSelected;
+                        });
+                      }}>
+                      네
+                    </StSetPillCheckButton>
+                    <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                  </StPillComponent2>
+                </StButtonList>
+              </StModal>
+            </>
+          ) : (
+            <>
+              <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
+              <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
+              <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
+              <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
+              <StInfoContainer>
+                <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>
+                <StInfo>2. 약 확인하기를 누른 후, 약을 확인한다.</StInfo>
+                <StInfo>3. 각각의 약을 눌러서 복용일자, 복용시간을 확인한다.</StInfo>
+              </StInfoContainer>
+              <StCheckButton onClick={() => uploadImage()}>약 확인하기</StCheckButton>
+            </>
+          )}
+        </StBody>
+      </StContainer>
+    </motion.div>
   );
 }
 

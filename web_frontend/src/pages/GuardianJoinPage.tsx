@@ -4,6 +4,7 @@ import { GrandFather, GrandMother } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { guardianJoin } from "../core/api";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 
 function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<number[]>([]);
@@ -23,63 +24,65 @@ function GuardianJoinPage() {
     navigate("/login");
   }
   return (
-    <StGuardianPage>
-      <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
-      <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
-      <StContainer>
-        <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>
-        <StInputContainer>
-          <StInputLabel htmlFor="jb-input-text"> # </StInputLabel>
-          <StNormalInput
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            id="jb-input-text"
-            type="tel"
-            placeholder="피보호인의 유저 코드를 입력해주세요"></StNormalInput>
-          <StCodeButton
-            onClick={() => {
-              if (code.length >= 8) {
-                setCode("");
-                setSeniors([...seniors, Number(code)]);
-              } else {
-                alert("유저코드를 제대로 입력해주세요!");
-              }
-            }}>
-            추가
-          </StCodeButton>
-        </StInputContainer>
-      </StContainer>
-      <StCodeContainer>
-        {seniors.map((senior, index) =>
-          index % 2 == 0 ? (
-            <StSeniorCode
-              onClick={(e) =>
-                setSeniors(
-                  seniors.filter(
-                    (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
-                  ),
-                )
-              }>
-              <img src={GrandFather} />#{senior}
-            </StSeniorCode>
-          ) : (
-            <StSeniorCode2
-              onClick={(e) =>
-                setSeniors(
-                  seniors.filter(
-                    (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
-                  ),
-                )
-              }>
-              <img src={GrandMother} />#{senior}
-            </StSeniorCode2>
-          ),
-        )}
-      </StCodeContainer>
-      <StButtonContainer>
-        <StJoinButton onClick={() => ControllJoin()}>다음으로</StJoinButton>
-      </StButtonContainer>
-    </StGuardianPage>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StGuardianPage>
+        <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+        <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
+        <StContainer>
+          <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>
+          <StInputContainer>
+            <StInputLabel htmlFor="jb-input-text"> # </StInputLabel>
+            <StNormalInput
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              id="jb-input-text"
+              type="tel"
+              placeholder="피보호인의 유저 코드를 입력해주세요"></StNormalInput>
+            <StCodeButton
+              onClick={() => {
+                if (code.length >= 8) {
+                  setCode("");
+                  setSeniors([...seniors, Number(code)]);
+                } else {
+                  alert("유저코드를 제대로 입력해주세요!");
+                }
+              }}>
+              추가
+            </StCodeButton>
+          </StInputContainer>
+        </StContainer>
+        <StCodeContainer>
+          {seniors.map((senior, index) =>
+            index % 2 == 0 ? (
+              <StSeniorCode
+                onClick={(e) =>
+                  setSeniors(
+                    seniors.filter(
+                      (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
+                    ),
+                  )
+                }>
+                <img src={GrandFather} />#{senior}
+              </StSeniorCode>
+            ) : (
+              <StSeniorCode2
+                onClick={(e) =>
+                  setSeniors(
+                    seniors.filter(
+                      (senior) => String(senior) !== (e.target as HTMLLIElement).innerHTML.split(">")[1].split("#")[1],
+                    ),
+                  )
+                }>
+                <img src={GrandMother} />#{senior}
+              </StSeniorCode2>
+            ),
+          )}
+        </StCodeContainer>
+        <StButtonContainer>
+          <StJoinButton onClick={() => ControllJoin()}>다음으로</StJoinButton>
+        </StButtonContainer>
+      </StGuardianPage>
+    </motion.div>
   );
 }
 export default GuardianJoinPage;

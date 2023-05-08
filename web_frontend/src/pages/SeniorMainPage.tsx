@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { getSeniorInfo } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
 import { MainInfo } from "../core/atom";
+import { motion } from "framer-motion";
 
+interface IBTN {
+  open: boolean;
+}
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
@@ -17,84 +22,106 @@ function SeniorMain() {
     }
     fetchData();
   }, []);
+  const onToggle = () => setOpen(!open);
 
   return (
-    <STContainer>
-      <StHeader>
-        <StUserContent
-          onClick={() => {
-            navigate(`/senior/myPage`);
-          }}>
-          <StUser src={require("../assets/images/img_avatar.png")}></StUser>
-          <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
-        </StUserContent>
-      </StHeader>
-      <MenuList>
-        <StMainItem>
-          <StPillHeader>
-            <StItemHeader>💊 복용하는 약</StItemHeader>
-            <StLink to={`/senior/pill`}>
-              <StPillAddBtn>자세히 보기</StPillAddBtn>
-            </StLink>
-          </StPillHeader>
-          {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
-        </StMainItem>
-        <StMainItem>
-          <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
-          <ItemContent
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <STContainer>
+        <StHeader>
+          <StUserContent
             onClick={() => {
-              navigate(`/senior/summary`);
+              navigate(`/senior/myPage`);
             }}>
-            <ItemImgWrapper>
-              <ItemImg src={require(`../assets/icons/icon_score.png`)} />
-            </ItemImgWrapper>
-            <ItemTextContainer>
-              <ItemTitle>건강 분석하러 가기</ItemTitle>
-              <ItemComment>
-                지난 7일동안 기록한 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
-              </ItemComment>
-            </ItemTextContainer>
-          </ItemContent>
-        </StMainItem>
-        <StMainItem>
-          <StItemHeader>🗓 나의 건강 일지</StItemHeader>
-          <ItemContent
-            onClick={() => {
-              navigate(`/senior/summary/day`);
-            }}>
-            <ItemImgWrapper>
-              <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
-            </ItemImgWrapper>
-            <ItemTextContainer>
-              <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
-              <ItemComment>
-                이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
-                {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
-              </ItemComment>
-            </ItemTextContainer>
-          </ItemContent>
-        </StMainItem>
-        <StMainItem>
-          <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
-          <WhiteButton2
-            onClick={() => {
-              navigate(`/senior/meal`);
-            }}>
-            <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
-            오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
-          </WhiteButton2>
-          <WhiteButton2
-            onClick={() => {
-              navigate(`/senior/exercise`);
-            }}>
-            <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
-            오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
-          </WhiteButton2>
-        </StMainItem>
-      </MenuList>
-    </STContainer>
+            <StUser src={require("../assets/images/img_avatar.png")}></StUser>
+            <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
+          </StUserContent>
+        </StHeader>
+        <MenuList>
+          <StMainItem>
+            <StPillHeader>
+              <StItemHeader>💊 복용하는 약</StItemHeader>
+              <StLink to={`/senior/pill`}>
+                <StPillAddBtn>자세히 보기</StPillAddBtn>
+              </StLink>
+            </StPillHeader>
+            {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
+          </StMainItem>
+          <StMainItem>
+            <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
+            <ItemContent
+              onClick={() => {
+                navigate(`/senior/summary`);
+              }}>
+              <ItemImgWrapper>
+                <ItemImg src={require(`../assets/icons/icon_score.png`)} />
+              </ItemImgWrapper>
+              <ItemTextContainer>
+                <ItemTitle>건강 분석하러 가기</ItemTitle>
+                <ItemComment>
+                  지난 7일동안 기록한 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
+                </ItemComment>
+              </ItemTextContainer>
+            </ItemContent>
+          </StMainItem>
+          <StMainItem>
+            <StItemHeader>🗓 나의 건강 일지</StItemHeader>
+            <ItemContent
+              onClick={() => {
+                navigate(`/senior/summary/day`);
+              }}>
+              <ItemImgWrapper>
+                <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
+              </ItemImgWrapper>
+              <ItemTextContainer>
+                <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
+                <ItemComment>
+                  이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
+                  {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
+                </ItemComment>
+              </ItemTextContainer>
+            </ItemContent>
+          </StMainItem>
+          <StMainItem>
+            <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
+            <WhiteButton2>
+              <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
+              오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
+            </WhiteButton2>
+            <WhiteButton2>
+              <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
+              오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
+            </WhiteButton2>
+          </StMainItem>
+        </MenuList>
+        {open ? (
+          <InsertFormPositioner>
+            <BtnContainer
+              onClick={() => {
+                navigate(`/senior/meal`);
+              }}>
+              <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#f8f9fe" }} />
+              <StText>식사 입력</StText>
+            </BtnContainer>
+            <BtnContainer
+              onClick={() => {
+                navigate(`/senior/exercise`);
+              }}>
+              <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
+              <StText>운동 입력</StText>
+            </BtnContainer>
+          </InsertFormPositioner>
+        ) : (
+          <></>
+        )}
+        <CircleButton onClick={onToggle} open={open}>
+          +
+        </CircleButton>
+      </STContainer>
+    </motion.div>
   );
 }
+
+export default SeniorMain;
 
 const StLink = styled(Link)`
   text-decoration: none;
@@ -254,4 +281,61 @@ const IconImg = styled.img`
   border-radius: 0.8rem;
 `;
 
-export default SeniorMain;
+const CircleButton = styled.button`
+  background: #6abaff;
+
+  z-index: 5;
+  cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  position: fixed;
+  left: 90%;
+  bottom: 5rem;
+  transform: translate(-50%, 50%);
+  color: white;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.125s all ease-in;
+  ${(props: IBTN) =>
+    props.open &&
+    css`
+      background: #ff6b6b;
+      &:active {
+        background: #fa5252;
+      }
+      transform: translate(-50%, 50%) rotate(45deg);
+    `}
+`;
+
+const StText = styled.div`
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  padding: 1.5rem;
+`;
+const InsertFormPositioner = styled.div`
+  padding: 2rem;
+  width: 25rem;
+  height: 17rem;
+  bottom: 10rem;
+  margin-right: 2rem;
+  left: 50%;
+  right: 10%;
+  position: absolute;
+  display: block;
+  position: fixed;
+  background-color: #f8f9fe;
+  border-radius: 2rem;
+`;
+
+const BtnContainer = styled(WhiteButton2)`
+  margin-bottom: 1rem;
+`;

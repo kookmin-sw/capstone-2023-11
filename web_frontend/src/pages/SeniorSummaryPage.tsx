@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { exampleData } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -98,7 +99,7 @@ function SeniorSummaryPage() {
     }
   }, [data]);
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
         <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
         <HeaderText>주간 보고서</HeaderText>
@@ -137,7 +138,7 @@ function SeniorSummaryPage() {
           일간 보고서 보기
         </BlueButton>
       </STContainer>
-    </>
+    </motion.div>
   );
 }
 
@@ -170,9 +171,6 @@ const ChartContainer = styled.div`
   background-color: #f8f9fe;
   border-radius: 2rem;
   margin-bottom: 3rem;
-  .summary {
-    /* text-align: center; */
-  }
 `;
 
 const CommentContainer = styled(ChartContainer)`
