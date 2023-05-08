@@ -109,11 +109,17 @@ function SeniorMain() {
             <motion.ul className="container" variants={items}>
               <StMainItem>
                 <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
-                <WhiteButton2>
+                <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/meal`);
+                  }}>
                   <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
                   오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
                 </WhiteButton2>
-                <WhiteButton2>
+                <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/exercise`);
+                  }}>
                   <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
                   오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
                 </WhiteButton2>
@@ -126,14 +132,14 @@ function SeniorMain() {
             <motion.ul className="container" variants={items} initial="hidden" animate="visible">
               <BtnContainer
                 onClick={() => {
-                  navigate(`/senior/meal`);
+                  navigate(`/senior/meal/add`);
                 }}>
                 <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>식사 입력</StText>
               </BtnContainer>
               <BtnContainer
                 onClick={() => {
-                  navigate(`/senior/exercise`);
+                  navigate(`/senior/exercise/add`);
                 }}>
                 <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>운동 입력</StText>
