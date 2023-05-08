@@ -15,6 +15,11 @@ import java.util.List;
 public class GetUserWardMainInfoResponseDto {
     private Long userCode;
     private String userName;
+
+    private int height;
+    private int weight;
+    private String gender;
+    private int age;
     private List<ResponseMedicineInfo> medicineInfoList;
     private int monthRecordCount;
     private int todayMealCount;
