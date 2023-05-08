@@ -123,7 +123,7 @@ function SeniorMain() {
         </motion.ul>
         {open ? (
           <InsertFormPositioner>
-            <motion.ul className="container" variants={items}>
+            <motion.ul className="container" variants={items} initial="hidden" animate="visible">
               <BtnContainer
                 onClick={() => {
                   navigate(`/senior/meal`);
