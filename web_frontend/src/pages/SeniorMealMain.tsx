@@ -18,6 +18,7 @@ interface IMealData {
 function SeniorMealMain() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  let mode = true;
   const { data } = useQuery("mealData", getRecordMeal);
 
   return (
@@ -32,8 +33,9 @@ function SeniorMealMain() {
         {data?.data?.mealInfos
           .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
           .map((mealCon: IMealData) => {
-            return mealCon?.detail.map((meal: IMealDetail, index: number) => {
-              if (index % 2 == 0) {
+            return mealCon?.detail.map((meal: IMealDetail) => {
+              if (mode) {
+                mode = !mode;
                 return (
                   <StFoodBox1>
                     <img src={mealCon.imageUrl}></img>
@@ -47,6 +49,7 @@ function SeniorMealMain() {
                   </StFoodBox1>
                 );
               } else {
+                mode = !mode;
                 return (
                   <StFoodBox2>
                     <img src={mealCon.imageUrl}></img>
@@ -118,25 +121,9 @@ const StFoodBox1 = styled.div`
   }
   margin-bottom: 1.5rem;
 `;
-const StFoodBox2 = styled.div`
-  display: flex;
-  align-items: center;
-  width: 32rem;
-  height: 6rem;
+const StFoodBox2 = styled(StFoodBox1)`
   background: #ffffff;
   border: 0.3rem solid #eaf2ff;
-  border-radius: 1.6rem;
-  padding: 1.5rem;
-  img {
-    width: 4rem;
-    height: 3.5rem;
-    border-radius: 1rem;
-  }
-  div {
-    width: 18rem;
-    margin-left: 1rem;
-  }
-  margin-bottom: 1.5rem;
 `;
 const StKcal = styled.p`
   font-size: 1.6rem;
