@@ -1,9 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SeniorMypage from "../pages/SeniorMypage";
 import SeniorSchedule from "../components/seniorSchedule/seniorSchedule";
-import SeniorMain from "../components/SeniorMain";
+import SeniorMain from "../pages/SeniorMainPage";
 import SeniorSummaryPage from "../pages/SeniorSummaryPage";
-
 import SeniorPillMain from "../pages/SeniorPillMainPage";
 import SeniorPillDetail from "../pages/SeniorPillDetailPage";
 import SeniorPillBill from "../pages/SeniorPillBillAddPage";
@@ -12,12 +11,10 @@ import KakaoAuthPage from "../pages/KakaoAuthPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorPillSelf from "../pages/SeniorPillSelfAddPage";
-
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
 import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
 import SeniorMealMain from "../pages/SeniorMealMain";
-
 import SeniorSummaryDailyPage from "../pages/SeniorSummaryDailyPage";
 
 function Router() {

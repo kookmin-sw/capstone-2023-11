@@ -11,7 +11,7 @@ interface food {
 }
 
 function SeniorMealCheckPage() {
-  const imageInput = useRef<any>(null);
+  const imageInput = useRef<HTMLInputElement>(null);
   const onClickImageUpload = () => {
     if (imageInput.current) {
       imageInput.current.click();

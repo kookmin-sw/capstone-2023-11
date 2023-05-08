@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorInfo } from "../core/api";
-import NoPill from "./SeniorMainNoPill";
-import Pill from "./SeniorMainPill";
+import NoPill from "../components/seniorPill/SeniorMainNoPill";
+import Pill from "../components/seniorPill/SeniorMainPill";
+import { MainInfo } from "../core/atom";
 
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
@@ -94,32 +95,6 @@ function SeniorMain() {
       </MenuList>
     </STContainer>
   );
-}
-
-interface MainInfo {
-  userCode: number;
-  userName: string;
-  medicineInfoList: [
-    {
-      id: number;
-      name: string;
-      companyName: string;
-      effect: string;
-      useMethod: string;
-      caution: string;
-      depositMethod: string;
-      imageUrl: string;
-      createdAt: string;
-      dueAt: string;
-      remainDay: number;
-      breakfast: boolean;
-      lunch: boolean;
-      dinner: boolean;
-    },
-  ];
-  monthRecordCount: number;
-  todayMealCount: number;
-  todayWorkOutCount: number;
 }
 
 const StLink = styled(Link)`

@@ -110,6 +110,7 @@ const StFoodBox1 = styled.div`
   background: #eaf2ff;
   border-radius: 1.6rem;
   padding: 1.5rem;
+  border: 0.3rem solid #eaf2ff;
   img {
     width: 4rem;
     height: 3.5rem;

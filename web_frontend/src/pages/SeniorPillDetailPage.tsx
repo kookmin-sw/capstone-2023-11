@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
+import { IpillData } from "../core/atom";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IpillData>();
@@ -89,27 +90,6 @@ function PillDetail() {
       </StBody>
     </>
   );
-}
-
-interface IpillData {
-  medicines: [
-    {
-      id: number;
-      name: string;
-      companyName: string;
-      effect: string;
-      useMethod: string;
-      caution: string;
-      depositMethod: string;
-      imageUrl: string;
-      createdAt: string;
-      dueAt: string;
-      remainDay: number;
-      breakfast: boolean;
-      lunch: boolean;
-      dinner: boolean;
-    },
-  ];
 }
 
 const StHeader = styled.header`
