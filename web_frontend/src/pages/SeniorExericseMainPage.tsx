@@ -19,6 +19,25 @@ function SeniorExerciseMainPage() {
     enabled: !!firstApi,
   });
   const [selected, setSelected] = useState<ExerciseForm[]>([]);
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,50 +76,59 @@ function SeniorExerciseMainPage() {
   };
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <StSeniorExerciseMain>
-        <StHeader>
-          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-          <StTitle>운동 기록</StTitle>
-        </StHeader>
-        <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
-        <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
-        <StContainer>
-          {!selectedDate ? (
-            <div>Loading...</div>
-          ) : (
-            selected?.map((item: ExerciseForm) => (
-              <StExercise>
-                <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-                <div className="col">
-                  <div className="title">{item.kor}</div>
-                  <div className="content" style={{ whiteSpace: "nowrap" }}>
-                    {item.kcal}Kcal 소모
-                  </div>
-                  <div className="content">{item.hour}시간</div>
-                </div>
-                <img
-                  className="esc"
-                  onClick={() => onDeleteClick(item.id)}
-                  src={require(`../assets/images/img_esc.png`)}
-                />
-              </StExercise>
-            ))
-          )}
-        </StContainer>
-        <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
-        {/* <FlexContainer>
-        <StAddButton src={require("../assets/icons/icon_add.png")} onClick={onAddClick} />
-      </FlexContainer> */}
-        <StModal isOpen={showDeleteModal}>
-          <StPopContainer>
-            <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
-            <BTNContainer>
-              <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
-              <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
-            </BTNContainer>
-          </StPopContainer>
-        </StModal>
-      </StSeniorExerciseMain>
+      <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+        <StSeniorExerciseMain>
+          <StHeader>
+            <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+            <StTitle>운동 기록</StTitle>
+          </StHeader>
+          <motion.li className="item" variants={items}>
+            <SeniorCalendar setDate={setSelectedDate}></SeniorCalendar>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StContainer>
+              {!selectedDate ? (
+                <div>Loading...</div>
+              ) : (
+                selected?.map((item: ExerciseForm) => (
+                  <motion.li className="item" variants={items}>
+                    <StExercise>
+                      <img src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
+                      <div className="col">
+                        <div className="title">{item.kor}</div>
+                        <div className="content" style={{ whiteSpace: "nowrap" }}>
+                          {item.kcal}Kcal 소모
+                        </div>
+                        <div className="content">{item.hour}시간</div>
+                      </div>
+                      <img
+                        className="esc"
+                        onClick={() => onDeleteClick(item.id)}
+                        src={require(`../assets/images/img_esc.png`)}
+                      />
+                    </StExercise>
+                  </motion.li>
+                ))
+              )}
+            </StContainer>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+          </motion.li>
+          <StModal isOpen={showDeleteModal}>
+            <StPopContainer>
+              <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
+              <BTNContainer>
+                <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
+                <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
+              </BTNContainer>
+            </StPopContainer>
+          </StModal>
+        </StSeniorExerciseMain>
+      </motion.ul>
     </motion.div>
   );
 }

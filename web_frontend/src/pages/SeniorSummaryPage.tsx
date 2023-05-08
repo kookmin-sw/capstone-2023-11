@@ -24,6 +24,25 @@ function SeniorSummaryPage() {
     nutrient: 1,
   };
   const navigate = useNavigate();
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   const preBMR = 10 * data?.data.weight + 6.25 * data?.data.height - 5 * data?.data.age;
   const BMR = Math.round(data?.data.gender == "male" ? preBMR + 5 * 1.375 + 300 : preBMR - 161 * 1.375 + 350);
@@ -106,37 +125,51 @@ function SeniorSummaryPage() {
       </StHeader>
       <STContainer>
         <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
-        {ScoreChart(score)}
-        <StText>주간 영양소 분석</StText>
-        <ChartContainer>
-          {example
-            ? NutrientChart(fatExample, proExample, carExample, dateStrings)
-            : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
-          <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
-          <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
-        </ChartContainer>
-        <StText>주간 칼로리 분석</StText>
-        <ChartContainer>
-          {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
-          <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
-          <CommentContainer>{example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}</CommentContainer>
-        </ChartContainer>
-        <StText>운동 기록 분석</StText>
-        <ChartContainer>
-          {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
-          <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
-          <CommentContainer>{example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}</CommentContainer>
-        </ChartContainer>
-        <StText>🐶 복실이 총평!</StText>
-        <ChartContainer>
-          <CommentContainer>굿</CommentContainer>
-        </ChartContainer>
-        <BlueButton
-          onClick={() => {
-            navigate(`/senior/summary/day`);
-          }}>
-          일간 보고서 보기
-        </BlueButton>
+        <ScoreChart score={score} />
+        <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+          <motion.li className="item" variants={items}>
+            <StText>주간 영양소 분석</StText>
+            <ChartContainer>
+              {example
+                ? NutrientChart(fatExample, proExample, carExample, dateStrings)
+                : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
+              <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
+              <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
+            </ChartContainer>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StText>주간 칼로리 분석</StText>
+            <ChartContainer>
+              {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
+              <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
+              <CommentContainer>
+                {example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}
+              </CommentContainer>
+            </ChartContainer>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StText>운동 기록 분석</StText>
+            <ChartContainer>
+              {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
+              <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
+              <CommentContainer>
+                {example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}
+              </CommentContainer>
+            </ChartContainer>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StText>🐶 복실이 총평!</StText>
+            <ChartContainer>
+              <CommentContainer>굿</CommentContainer>
+            </ChartContainer>
+          </motion.li>
+          <BlueButton
+            onClick={() => {
+              navigate(`/senior/summary/day`);
+            }}>
+            일간 보고서 보기
+          </BlueButton>
+        </motion.ul>
       </STContainer>
     </motion.div>
   );

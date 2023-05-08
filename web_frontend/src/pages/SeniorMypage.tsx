@@ -18,7 +18,7 @@ function SeniorMypage() {
   }, [data]);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
       <StSeniorMypage>
         <BackButton />
         <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>

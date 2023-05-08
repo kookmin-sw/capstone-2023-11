@@ -35,6 +35,26 @@ function SeniorSummaryDailyPage() {
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
 
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   useEffect(() => {
     setFirstApi(false);
   }, [data]);
@@ -79,33 +99,37 @@ function SeniorSummaryDailyPage() {
             ) : (
               <StButton src={require("../assets/icons/icon_nobefore.png")} />
             )}
-            <DataContainer>
-              {mealData?.map((item: IMeal, index) =>
-                index == mealState ? (
-                  <div className="col">
-                    <StText>
-                      {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
-                    </StText>
-                    <StMealImage src={item.imageUrl} />
-                    {item.detail.map((mealList, index2) => (
-                      <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
-                        <StIcon src={FoodIcn} />
-                        <div>
-                          <StFoodName>{mealList.name}</StFoodName>
-                          <StNutrient>
-                            탄수화물: {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
-                            {Math.round(mealList.protein * 10) / 10}g
-                          </StNutrient>
-                        </div>
-                        <StKcal>{Math.round(mealList.calorie)} kcal</StKcal>
-                      </StFoodBox>
-                    ))}
-                  </div>
-                ) : (
-                  <></>
-                ),
-              )}
-            </DataContainer>
+            <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+              <DataContainer>
+                {mealData?.map((item: IMeal, index) =>
+                  index == mealState ? (
+                    <div className="col">
+                      <StText>
+                        {formatTime(item.createdAt)}에 {korNum[item.times - 1]}번째로 이 음식을 드셨습니다!
+                      </StText>
+                      <StMealImage src={item.imageUrl} />
+                      {item.detail.map((mealList, index2) => (
+                        <motion.li key={index} className="item" variants={items}>
+                          <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
+                            <StIcon src={FoodIcn} />
+                            <div>
+                              <StFoodName>{mealList.name}</StFoodName>
+                              <StNutrient>
+                                탄수화물: {Math.round(mealList.carbohyborateTotal * 10) / 10}g 단백질:{" "}
+                                {Math.round(mealList.protein * 10) / 10}g
+                              </StNutrient>
+                            </div>
+                            <StKcal>{Math.round(mealList.calorie)} kcal</StKcal>
+                          </StFoodBox>
+                        </motion.li>
+                      ))}
+                    </div>
+                  ) : (
+                    <></>
+                  ),
+                )}
+              </DataContainer>
+            </motion.ul>
             {mealState != 0 ? (
               <div
                 className="buttonContainer"

@@ -94,8 +94,8 @@ function PillDetail() {
 }
 
 const StHeader = styled.header`
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   font-size: 2rem;
 `;
 
@@ -108,6 +108,7 @@ const StPillTitle = styled.h1`
 const StBody = styled.div`
   font-size: 2rem;
   padding: 0 2rem 0 2rem;
+  margin-bottom: 3rem;
 `;
 
 const StImg = styled.img`
@@ -121,6 +122,7 @@ const StContentList = styled.ul`
   padding: 2rem;
   border: 0.2rem solid #006ffd;
   border-radius: 2rem;
+  margin-bottom: 3rem;
 `;
 
 const StContentItem = styled.li`

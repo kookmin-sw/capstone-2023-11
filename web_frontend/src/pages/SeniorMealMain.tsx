@@ -21,55 +21,88 @@ function SeniorMealMain() {
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   let mode = true;
   const { data } = useQuery("mealData", getRecordMeal);
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <StSeniorMealMain>
-        <StHeader>
-          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-          <StTitle>식단 기록</StTitle>
-        </StHeader>
-        <SeniorCalendar setDate={setSelectedDate} />
-        <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
-        <StFoodContainer>
-          {data?.data?.mealInfos
-            .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
-            .map((mealCon: IMealData) => {
-              return mealCon?.detail.map((meal: IMealDetail) => {
-                if (mode) {
-                  mode = !mode;
-                  return (
-                    <StFoodBox1>
-                      <img src={mealCon.imageUrl}></img>
-                      <div>
-                        <StFoodName>{meal.name}</StFoodName>
-                        <StNutrient>
-                          탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
-                        </StNutrient>
-                      </div>
-                      <StKcal>{meal.calorie} Kcal</StKcal>
-                    </StFoodBox1>
-                  );
-                } else {
-                  mode = !mode;
-                  return (
-                    <StFoodBox2>
-                      <img src={mealCon.imageUrl}></img>
-                      <div>
-                        <StFoodName>{meal.name}</StFoodName>
-                        <StNutrient>
-                          탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
-                        </StNutrient>
-                      </div>
-                      <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
-                    </StFoodBox2>
-                  );
-                }
-              });
-            })}
-        </StFoodContainer>
-        <StCheckButton onClick={() => navigate("/senior/meal/add")}>추가하기</StCheckButton>
-      </StSeniorMealMain>
+      <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+        <StSeniorMealMain>
+          <StHeader>
+            <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+            <StTitle>식단 기록</StTitle>
+          </StHeader>
+          <motion.li className="item" variants={items}>
+            <SeniorCalendar setDate={setSelectedDate} />
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StDate className="date">{moment(selectedDate).format("YYYY년 MM월 DD일")}</StDate>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StFoodContainer>
+              {data?.data?.mealInfos
+                .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
+                .map((mealCon: IMealData) => {
+                  return mealCon?.detail.map((meal: IMealDetail) => {
+                    if (mode) {
+                      mode = !mode;
+                      return (
+                        <motion.li className="item" variants={items}>
+                          <StFoodBox1>
+                            <img src={mealCon.imageUrl}></img>
+                            <div>
+                              <StFoodName>{meal.name}</StFoodName>
+                              <StNutrient>
+                                탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
+                              </StNutrient>
+                            </div>
+                            <StKcal>{meal.calorie} Kcal</StKcal>
+                          </StFoodBox1>
+                        </motion.li>
+                      );
+                    } else {
+                      mode = !mode;
+                      return (
+                        <motion.li className="item" variants={items}>
+                          <StFoodBox2>
+                            <img src={mealCon.imageUrl}></img>
+                            <div>
+                              <StFoodName>{meal.name}</StFoodName>
+                              <StNutrient>
+                                탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
+                              </StNutrient>
+                            </div>
+                            <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
+                          </StFoodBox2>
+                        </motion.li>
+                      );
+                    }
+                  });
+                })}
+            </StFoodContainer>
+          </motion.li>
+          <motion.li className="item" variants={items}>
+            <StCheckButton onClick={() => navigate("/senior/meal/add")}>추가하기</StCheckButton>
+          </motion.li>
+        </StSeniorMealMain>
+      </motion.ul>
     </motion.div>
   );
 }
