@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
 import { IpillData } from "../core/atom";
@@ -20,7 +20,7 @@ function PillDetail() {
   }, []);
 
   const selectPill = pillData?.medicines.find((pill) => pill.id === Number(id));
-
+  const navigate = useNavigate();
   const effectContent = selectPill?.effect ? JSON.parse(selectPill.effect) : [];
   const useMethodContent = selectPill?.useMethod ? JSON.parse(selectPill.useMethod) : [];
   const cautionContent = selectPill?.caution ? JSON.parse(selectPill.caution) : [];
@@ -84,9 +84,7 @@ function PillDetail() {
             <StItemName>주의 사항</StItemName>
             <StItemContent dangerouslySetInnerHTML={{ __html: resultCaution }} />
           </StContentItem>
-          <StLink to={"/senior/pill"}>
-            <BlueButton>돌아가기</BlueButton>
-          </StLink>
+          <BlueButton onClick={() => navigate(-1)}>돌아가기</BlueButton>
         </StContentList>
       </StBody>
     </motion.div>
@@ -153,10 +151,6 @@ const BlueButton = styled.button`
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
   margin-top: 3rem;
-`;
-
-const StLink = styled(Link)`
-  text-decoration: none;
 `;
 
 export default PillDetail;
