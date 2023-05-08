@@ -189,6 +189,25 @@ function SeniorMealCheckPage() {
     selectFoods.push(currentSelect);
     setIndex(index + 1);
   };
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -267,86 +286,97 @@ function SeniorMealCheckPage() {
           <></>
         )}
         {finishDetect == 1 ? (
-          <>
-            <StFoodImg width={"100%"} src={imageSrc} />
-
-            <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
-            <StBoxContainer>
-              {selectFoods.map((numdex: number, index: number) => {
-                if (index != -1 && numdex != -1) {
-                  if (index % 2 == 0) {
-                    return (
-                      <StFoodBox1>
-                        <img src={FoodIcn}></img>
-                        <div>
-                          <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                          <StNutrient>
-                            탄수화물:
-                            {
-                              data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
-                                "탄수화물"
-                              ]["총량(g)"]
-                            }
-                            g 단백질:{" "}
-                            {
-                              data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
-                                "단백질(g)"
-                              ]
-                            }
-                            g
-                          </StNutrient>
-                        </div>
-                        <StKcal>
-                          {Math.round(
-                            data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
-                              "열량(kcal)"
-                            ],
-                          )}
-                          kcal
-                        </StKcal>
-                      </StFoodBox1>
-                    );
-                  } else {
-                    return (
-                      <StFoodBox2>
-                        <img src={FoodIcn}></img>
-                        <div>
-                          <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
-                          <StNutrient>
-                            탄수화물:
-                            {
-                              data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
-                                "탄수화물"
-                              ]["총량(g)"]
-                            }
-                            g 단백질:{" "}
-                            {
-                              data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
-                                "단백질(g)"
-                              ]
-                            }
-                            g
-                          </StNutrient>
-                        </div>
-                        <StKcal>
-                          {Math.round(
-                            data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
-                              "열량(kcal)"
-                            ],
-                          )}
-                          kcal
-                        </StKcal>
-                      </StFoodBox2>
-                    );
+          <div className="center">
+            <StMotionContainer className="container" variants={container} initial="hidden" animate="visible">
+              <StMotionlist className="item" variants={items}>
+                <StFoodImg width={"100%"} src={imageSrc} />
+              </StMotionlist>
+              <StMotionlist className="item" variants={items}>
+                <StTitleContainer>🧐 당신이 먹은 음식은...</StTitleContainer>
+              </StMotionlist>
+              <StBoxContainer>
+                {selectFoods.map((numdex: number, index: number) => {
+                  if (index != -1 && numdex != -1) {
+                    if (index % 2 == 0) {
+                      return (
+                        <StMotionlist className="item" variants={items}>
+                          <StFoodBox1>
+                            <img src={FoodIcn}></img>
+                            <div>
+                              <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                              <StNutrient>
+                                탄수화물:
+                                {
+                                  data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                                    "탄수화물"
+                                  ]["총량(g)"]
+                                }
+                                g 단백질:{" "}
+                                {
+                                  data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                                    "단백질(g)"
+                                  ]
+                                }
+                                g
+                              </StNutrient>
+                            </div>
+                            <StKcal>
+                              {Math.round(
+                                data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                                  "열량(kcal)"
+                                ],
+                              )}
+                              kcal
+                            </StKcal>
+                          </StFoodBox1>
+                        </StMotionlist>
+                      );
+                    } else {
+                      return (
+                        <StMotionlist className="item" variants={items}>
+                          <StFoodBox2>
+                            <img src={FoodIcn}></img>
+                            <div>
+                              <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
+                              <StNutrient>
+                                탄수화물:
+                                {
+                                  data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                                    "탄수화물"
+                                  ]["총량(g)"]
+                                }
+                                g 단백질:{" "}
+                                {
+                                  data?.data?.result[index]?.class_info[numdex].food_nutrients["1회제공량당_영양성분"][
+                                    "단백질(g)"
+                                  ]
+                                }
+                                g
+                              </StNutrient>
+                            </div>
+                            <StKcal>
+                              {Math.round(
+                                data?.data?.result[index]?.class_info[numdex]?.food_nutrients["1회제공량당_영양성분"][
+                                  "열량(kcal)"
+                                ],
+                              )}
+                              kcal
+                            </StKcal>
+                          </StFoodBox2>
+                        </StMotionlist>
+                      );
+                    }
                   }
-                }
-              })}
-            </StBoxContainer>
-            <StButtonFooter>
-              <StReupload onClick={() => window.location.replace("/senior/meal/add")}>다시 사진 올리기</StReupload>
-              <Stupload onClick={() => foodUpload()}>등록하기</Stupload>
-            </StButtonFooter>
-          </>
+                })}
+              </StBoxContainer>
+              <StMotionlist className="item" variants={items}>
+                <StButtonFooter>
+                  <StReupload onClick={() => window.location.replace("/senior/meal/add")}>다시 사진 올리기</StReupload>
+                  <Stupload onClick={() => foodUpload()}>등록하기</Stupload>
+                </StButtonFooter>
+              </StMotionlist>
+            </StMotionContainer>
+          </div>
         ) : (
           <></>
         )}
@@ -360,6 +390,11 @@ const StMealCheckPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .center {
+    justify-content: center;
+    align-items: center;
+    margin-left: 3rem;
+  }
 
   input[type="file"] {
     display: none;
@@ -415,6 +450,7 @@ const StFoodImg = styled.img`
   margin-top: 2.3rem;
   border-radius: 1.2rem;
   margin-bottom: 1rem;
+  margin-left: 2rem;
 `;
 const StFoodText = styled.p`
   font-size: 2.3rem;
@@ -529,7 +565,7 @@ const StTitleContainer = styled.p`
   font-family: "Pretendard-Bold";
   font-size: 2.2rem;
   line-height: 3rem;
-
+  margin-left: 5rem;
   margin-top: 1.2rem;
 `;
 const StFoodBox1 = styled.div`
@@ -619,13 +655,14 @@ const StBoxContainer = styled.div`
   margin-top: 2rem;
   padding-bottom: 10rem;
 `;
-// const StWhereFood = styled.div`
-//   background: none;
-//   border: 1.5px solid red;
-//   width: 5rem;
-//   height: 5rem;
-//   position: fixed;
-// `;
+const StMotionContainer = styled(motion.ul)`
+  align-items: center;
+  justify-content: center;
+`;
+const StMotionlist = styled(motion.li)`
+  align-items: center;
+  justify-content: center;
+`;
 const StAiFoodContainer = styled.div`
   display: flex;
   justify-content: center;

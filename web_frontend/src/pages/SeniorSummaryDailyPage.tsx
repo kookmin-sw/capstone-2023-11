@@ -153,21 +153,28 @@ function SeniorSummaryDailyPage() {
         )}
         <StText>오늘 한 운동</StText>
         {exerciseLength != 0 ? (
-          <DataContainer>
-            {exerciseData?.map((item: IExercise) => (
-              <div className="col2">
-                <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
-                <StExerciseBox id={item.type}>
-                  <StIcon className="exerciseIcon" src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)} />
-                  <div>
-                    <StExerciseName>{item.kor}</StExerciseName>
-                    <StHour>{item.hour}시간 하셨어요 !</StHour>
+          <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+            <DataContainer>
+              {exerciseData?.map((item: IExercise, index: number) => (
+                <motion.li key={index} className="item" variants={items}>
+                  <div className="col2">
+                    <StText>{month + "월 " + date + "일 " + formatTime(item.createdAt)}</StText>
+                    <StExerciseBox id={item.type}>
+                      <StIcon
+                        className="exerciseIcon"
+                        src={require(`../assets/images/exerciseImg/img_${item.eng}.png`)}
+                      />
+                      <div>
+                        <StExerciseName>{item.kor}</StExerciseName>
+                        <StHour>{item.hour}시간 하셨어요 !</StHour>
+                      </div>
+                      <StKcal>{item.kcal} kcal</StKcal>
+                    </StExerciseBox>
                   </div>
-                  <StKcal>{item.kcal} kcal</StKcal>
-                </StExerciseBox>
-              </div>
-            ))}
-          </DataContainer>
+                </motion.li>
+              ))}
+            </DataContainer>
+          </motion.ul>
         ) : (
           <DataContainer>
             <div className="col">

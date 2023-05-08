@@ -51,9 +51,28 @@ function SeniorExercise() {
     }
     navigate(`/senior/exercise`);
   };
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const items = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.ul className="container" variants={container} initial="hidden" animate="visible">
       <StContainer>
         <StHeader>
           <BackButton />
@@ -62,32 +81,40 @@ function SeniorExercise() {
             <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
           </StCenterContainer>
         </StHeader>
-        <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
+        <motion.li className="item" variants={items}>
+          <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
+        </motion.li>
         <STButtonContainer>
           {fixedData[0] == null ? (
             isSelected == "" ? (
-              <GrayButton disabled={true}>운동 선택</GrayButton>
+              <motion.li className="item" variants={items}>
+                <GrayButton disabled={true}>운동 선택</GrayButton>
+              </motion.li>
             ) : (
-              <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+              <motion.li className="item" variants={items}>
+                <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+              </motion.li>
             )
           ) : isSelected == "" ? (
-            <>
+            <motion.li className="item" variants={items}>
               <CalContainer>
                 <StTitle className="title">선택한 운동</StTitle>
                 <FlexContainer>
                   {fixedData.map(({ name, time }) => (
-                    <FlexContainer key={name}>
-                      <StButtonBack
-                        src={require("../assets/images/img_esc.png")}
-                        onClick={() => {
-                          onRemove(name);
-                        }}
-                      />
-                      <CalList>
-                        {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
-                        Kcal 소모
-                      </CalList>
-                    </FlexContainer>
+                    <motion.li className="item" variants={items}>
+                      <FlexContainer key={name}>
+                        <StButtonBack
+                          src={require("../assets/images/img_esc.png")}
+                          onClick={() => {
+                            onRemove(name);
+                          }}
+                        />
+                        <CalList>
+                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                          Kcal 소모
+                        </CalList>
+                      </FlexContainer>
+                    </motion.li>
                   ))}
                 </FlexContainer>
               </CalContainer>
@@ -95,9 +122,9 @@ function SeniorExercise() {
                 <GrayBTN disabled={true}>운동 추가</GrayBTN>
                 <BlueBTN>확인</BlueBTN>
               </FlexContainer>
-            </>
+            </motion.li>
           ) : (
-            <>
+            <motion.li className="item" variants={items}>
               <CalContainer>
                 <StTitle className="title">선택한 운동</StTitle>
                 <FlexContainer>
@@ -121,7 +148,7 @@ function SeniorExercise() {
                 <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
                 <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
               </FlexContainer>
-            </>
+            </motion.li>
           )}
         </STButtonContainer>
         <StModal isOpen={isOpen}>
@@ -133,7 +160,7 @@ function SeniorExercise() {
           />
         </StModal>
       </StContainer>
-    </motion.div>
+    </motion.ul>
   );
 }
 
