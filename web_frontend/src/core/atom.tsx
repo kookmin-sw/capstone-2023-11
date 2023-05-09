@@ -92,7 +92,7 @@ export interface ExerciseForm {
   hour: number;
 }
 
-export interface IpillData {
+export interface IPillData {
   medicines: [
     {
       id: number;
@@ -112,10 +112,48 @@ export interface IpillData {
     },
   ];
 }
+export interface IPillInfo {
+  medicines: [
+    {
+      createdAt: string;
+      modifiedAt: string;
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      dueAt: string;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+      remainDay: number;
+      userWard: {
+        createdAt: string;
+        modifiedAt: string;
+        userId: number;
+        kakaoAccountId: number;
+        name: string;
+        birthday: string;
+        gender: string;
+        weight: number;
+        height: number;
+        drinkings: number;
+        smoke: number;
+      };
+    },
+  ];
+}
 
 export interface MainInfo {
   userCode: number;
   userName: string;
+  height: number;
+  weight: number;
+  gender: string;
+  age: number;
   medicineInfoList: [
     {
       id: number;

@@ -29,8 +29,8 @@ function SeniorMain() {
       opacity: 1,
       scale: 1,
       transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.2,
+        delayChildren: 0.1,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -140,6 +140,7 @@ function SeniorMain() {
               <BtnContainer
                 onClick={() => {
                   navigate(`/senior/exercise/add`);
+                  window.location.reload();
                 }}>
                 <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>운동 입력</StText>
@@ -166,9 +167,9 @@ const StLink = styled(Link)`
 `;
 
 const STContainer = styled.div`
-  padding: 3rem 2rem;
+  padding: 0.5rem;
   justify-content: center;
-  margin: 1rem auto;
+  margin-top: 1.6rem;
 `;
 
 const StHeader = styled.header`
@@ -236,7 +237,7 @@ const StMainItem = styled.div`
 
 const StPillAddBtn = styled.button`
   font-family: "retendard-Bold";
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1rem;
   color: #006ffd;
   flex: none;
@@ -317,9 +318,9 @@ const IconImg = styled.img`
   border-radius: 0.8rem;
 `;
 
-const CircleButton = styled.button`
+const CircleButton = styled.div`
   background: #6abaff;
-
+  font-family: "Pretendard-Regular";
   z-index: 5;
   cursor: pointer;
   width: 5rem;
@@ -327,17 +328,16 @@ const CircleButton = styled.button`
   display: block;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 6rem;
   position: fixed;
+  padding-bottom: 1rem;
   left: 90%;
   bottom: 5rem;
   transform: translate(-50%, 50%);
   color: white;
   border-radius: 50%;
   border: none;
-  outline: none;
   display: flex;
-  align-items: center;
   justify-content: center;
 
   transition: 0.125s all ease-in;
@@ -363,7 +363,6 @@ const InsertFormPositioner = styled.div`
   height: 17rem;
   bottom: 8rem;
   margin-right: 2rem;
-  /* left: 50%; */
   right: 1%;
   position: absolute;
   display: block;

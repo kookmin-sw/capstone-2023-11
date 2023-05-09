@@ -6,6 +6,8 @@ import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 import { motion } from "framer-motion";
+import BackButton from "../components/common/BackButton";
+import { BlueStarIcn, PhotoIcn } from "../assets/icons";
 
 Modal.setAppElement("#root");
 
@@ -18,14 +20,17 @@ function PillImgUpload() {
   };
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
+  const [imgInput, setImgInput]: any = useState();
   const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
       const reader = new FileReader();
       formData.append("image", file);
+      reader.readAsDataURL(file);
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {
+            setImgInput(reader.result);
             resolve();
           }
         };
@@ -193,17 +198,14 @@ function PillImgUpload() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StContainer>
         <StHeader>
-          <Link to={`/senior/pill`}>
-            <StBackBtn>
-              <StBackBtnImg src={require("../assets/images/img_left.png")} />
-            </StBackBtn>
-          </Link>
+          <BackButton />
           <StTitle>약봉투 인식하기</StTitle>
         </StHeader>
         <StBody>
           {uploadSts ? (
             <>
               <StList>
+                <StBillTitle>약을 선택해 등록해주세요</StBillTitle>
                 {nameList?.data?.data?.map((name: string, index: number) =>
                   selected[index] ? (
                     <StItemChecked
@@ -237,21 +239,27 @@ function PillImgUpload() {
                     </StItem>
                   ),
                 )}
-                모든 약을 등록하셨습니까?
-                <BtnWrapper>
+                <StModalContent>모든 약을 등록하셨습니까?</StModalContent>
+                <StPillComponent2>
                   <Link to={"/senior/pill"}>
-                    <StButton>네</StButton>
+                    <StSetPillSubmitButton>네</StSetPillSubmitButton>
                   </Link>
-                  <StButton onClick={SetUploadReset}>아니요</StButton>
-                </BtnWrapper>
+                  <StSetPillSubmitButton onClick={SetUploadReset}>아니요</StSetPillSubmitButton>
+                </StPillComponent2>
               </StList>
               <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                 <StButtonList>
+                  <StButtonBack
+                    src={require("../assets/images/img_esc.png")}
+                    onClick={() => setIsOpen(false)}></StButtonBack>
                   <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
-                  <StModalTitle>복용하는 일 수</StModalTitle>
-                  <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-                  <StModalTitle>복용하는 시간대</StModalTitle>
+                  <div className="line" />
                   <StPillComponent>
+                    <StModalContent>복용 일 수</StModalContent>
+                    <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                  </StPillComponent>
+                  <StPillComponent>
+                    <StModalContent>복용 시간</StModalContent>
                     {breakfast == false ? (
                       <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
                     ) : (
@@ -268,9 +276,9 @@ function PillImgUpload() {
                       <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
                     )}
                   </StPillComponent>
-                  <StModalTitle>등록하시겠습니까?</StModalTitle>
+                  <StModalContent>등록하시겠습니까?</StModalContent>
                   <StPillComponent2>
-                    <StSetPillCheckButton
+                    <StSetPillSubmitButton
                       onClick={() => {
                         handleCloseModal();
                         pillInfo();
@@ -281,25 +289,41 @@ function PillImgUpload() {
                         });
                       }}>
                       네
-                    </StSetPillCheckButton>
-                    <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                    </StSetPillSubmitButton>
+                    <StSetPillSubmitButton onClick={handleCloseModal}>아니요</StSetPillSubmitButton>
                   </StPillComponent2>
                 </StButtonList>
               </StModal>
             </>
           ) : (
-            <>
+            <div className="center">
               <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
-              <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
-              <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
-              <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
+              <StUploadButton onClick={onClickImageUpload}>
+                <img src={PhotoIcn} />
+                사진 업로드
+              </StUploadButton>
+              {imgInput ? (
+                <StImg width={"100%"} src={imgInput} />
+              ) : (
+                <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
+              )}
+              <StInfoTitle>🧐 복약봉투 인식하는 방법</StInfoTitle>
               <StInfoContainer>
-                <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>
-                <StInfo>2. 약 확인하기를 누른 후, 약을 확인한다.</StInfo>
-                <StInfo>3. 각각의 약을 눌러서 복용일자, 복용시간을 확인한다.</StInfo>
+                <StMainInfo>위 사진은 다음의 확인 과정을 거치게 됩니다.</StMainInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />
+                  사진 업로드를 이용해서 사진을 올린다.
+                </StInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />약 확인하기를 누른다.
+                </StInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />
+                  인식된 약을 눌러 추가 정보를 입력한다
+                </StInfo>
               </StInfoContainer>
               <StCheckButton onClick={() => uploadImage()}>약 확인하기</StCheckButton>
-            </>
+            </div>
           )}
         </StBody>
       </StContainer>
@@ -352,35 +376,30 @@ interface ImgData {
 }
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .center {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StHeader = styled.header`
-  padding-bottom: 2rem;
   display: flex;
-  font-size: 2rem;
-  border-bottom: 0.1rem solid #006ffd;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
 `;
-
-const StBackBtn = styled.button`
-  background-color: transparent;
-  border: transparent;
-  font-family: "Pretendard-Bold";
-  width: 5%;
-`;
-
-const StBackBtnImg = styled.img`
-  width: 2rem;
-  height: 2rem;
-`;
-
 const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
-  padding-right: 5%;
+  padding-right: 3.5rem;
 `;
 
 const StBody = styled.div`
@@ -429,26 +448,6 @@ const StItemChecked = styled.li`
   background-color: #eaf2ff;
 `;
 
-const BtnWrapper = styled.div`
-  margin-bottom: 3rem;
-`;
-
-const StButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 2rem;
-  font-size: 2rem;
-  padding: 2rem;
-  width: 10rem;
-  margin: 2rem 1rem 0 1rem;
-
-  &:active {
-    background-color: #0062cc;
-    color: #fff;
-  }
-`;
-
 const StUploadButton = styled.button`
   width: 25rem;
   height: 4rem;
@@ -459,6 +458,7 @@ const StUploadButton = styled.button`
   border: 0;
   border-radius: 1.2rem;
   margin-top: 4.3rem;
+  display: flex;
   justify-content: center;
   align-items: center;
   img {
@@ -468,7 +468,7 @@ const StUploadButton = styled.button`
 `;
 
 const StCheckButton = styled.button`
-  width: 100%;
+  width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
   border: none;
@@ -486,74 +486,118 @@ const StImg = styled.img`
 `;
 
 const StInfoTitle = styled.div`
+  font-size: 2.3rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
-  text-align: center;
-  padding: 1rem 3rem;
+  margin-top: 1.6rem;
+  margin-bottom: 1.3rem;
+`;
+
+const StMainInfo = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.63rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.6rem;
 `;
 
 const StInfo = styled.div`
+  img {
+    margin-right: 1.2rem;
+  }
   font-family: "Pretendard-Regular";
-  font-size: 1.4rem;
-  text-align: left;
-  padding: 1rem 3rem;
-  line-height: 1.8rem;
+  font-size: 1.5rem;
+  width: 28.4rem;
+  display: flex;
+  margin-bottom: 1.6rem;
 `;
 
 const StInfoContainer = styled.div`
+  width: 33.2rem;
+  height: 16.3rem;
   background: #f8f9fe;
   border-radius: 1.6rem;
   padding: 2.4rem;
   margin-bottom: 1.3rem;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StButtonList = styled.div`
-  border: 0.2rem solid #0066ff;
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+  background-color: #f8f9fe;
   border-radius: 1rem;
-  background-color: white;
-  padding-bottom: 3rem;
+  align-items: center;
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .right {
+    text-align: end;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const StModal = styled(Modal)`
-  position: relative;
-  top: 30%;
-  bottom: auto;
-  left: 18%;
-  right: auto;
-  width: 25rem;
-  height: 50rem;
-  font-family: "Pretendard-Regular";
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 const StModalTitle = styled.h1`
-  font-size: 1.7rem;
   font-family: "Pretendard-Bold";
-  padding: 2rem 3rem;
+  font-size: 2.3rem;
   text-align: center;
+  margin-bottom: 3rem;
+  align-self: center;
 `;
 
-const StSearch = styled.input`
-  width: 80%;
+const StBillTitle = styled(StModalTitle)`
+  margin-top: 2rem;
+`;
+
+const StModalContent = styled.div`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  text-align: center;
+  margin: 2rem;
+  align-self: center;
+`;
+
+const StModalSearch = styled.input`
   height: 4rem;
   border: 0.2rem solid gray;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
-  padding: 0rem 3rem;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
 `;
 
 const StPillComponent2 = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
+  justify-content: space-evenly;
+  gap: 3rem;
   padding: 0rem 6rem;
 `;
 
@@ -580,6 +624,25 @@ const StSetPillCheckButton = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
+`;
+const StSetPillSubmitButton = styled.div`
+  width: 8rem;
+  height: 4rem;
+  background: #006ffd;
+  border-radius: 1rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 1rem;
 `;
 
 export default PillImgUpload;

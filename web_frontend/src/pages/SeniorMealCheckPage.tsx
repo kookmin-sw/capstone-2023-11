@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "react-query";
 import { checkMeal, uploadMeal } from "../core/api/index";
-import BackButton from "../components/common/BackButton";
 import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -152,7 +151,6 @@ function SeniorMealCheckPage() {
       const reader = new FileReader();
       formData.append("image", file);
       reader.readAsDataURL(file);
-
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {
@@ -213,11 +211,15 @@ function SeniorMealCheckPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StMealCheckPage>
         <StHeader>
-          <BackButton />
+          <StButtonBack
+            src={require("../assets/images/img_left.png")}
+            onClick={() => {
+              setUploadSts(false);
+              navigate(-1);
+            }}></StButtonBack>
           <StTitle>식단 등록하기</StTitle>
         </StHeader>
-
-        {index >= 0 && finishDetect == 0 && data?.data?.result[index]?.class_info ? (
+        {index >= 0 && finishDetect == 0 && data?.data?.result[index]?.class_info && uploadSts ? (
           <StBackground>
             <StCheckModal>
               <StCheckTitle>
@@ -283,9 +285,6 @@ function SeniorMealCheckPage() {
             <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
           </>
         ) : (
-          <></>
-        )}
-        {finishDetect == 1 ? (
           <div className="center">
             <StMotionContainer className="container" variants={container} initial="hidden" animate="visible">
               <StMotionlist className="item" variants={items}>
@@ -377,8 +376,6 @@ function SeniorMealCheckPage() {
               </StMotionlist>
             </StMotionContainer>
           </div>
-        ) : (
-          <></>
         )}
       </StMealCheckPage>
     </motion.div>
@@ -624,8 +621,6 @@ const StButtonFooter = styled.footer`
   justify-content: space-between;
   background-color: white;
   margin-top: 3rem;
-  position: fixed;
-  bottom: 0;
   padding-bottom: 2vh;
   padding-top: 0.8rem;
 `;
@@ -653,7 +648,7 @@ const StBoxContainer = styled.div`
   height: 45vh;
   overflow: scroll;
   margin-top: 2rem;
-  padding-bottom: 10rem;
+  max-height: 35rem;
 `;
 const StMotionContainer = styled(motion.ul)`
   align-items: center;
@@ -676,4 +671,9 @@ const StAiFoodContainer = styled.div`
     margin-top: 1rem;
     height: 20vh;
   }
+`;
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;

@@ -99,7 +99,12 @@ function SeniorMealMain() {
             </StFoodContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
-            <StCheckButton onClick={() => navigate("/senior/meal/add")}>추가하기</StCheckButton>
+            <StCheckButton
+              onClick={() => {
+                navigate("/senior/meal/add");
+              }}>
+              추가하기
+            </StCheckButton>
           </motion.li>
         </StSeniorMealMain>
       </motion.ul>

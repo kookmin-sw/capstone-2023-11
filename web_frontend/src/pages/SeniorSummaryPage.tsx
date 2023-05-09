@@ -190,12 +190,13 @@ const StHeader = styled.header`
   z-index: 9999;
 `;
 const HeaderText = styled.div`
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-align: center;
   font-family: "Pretendard-Regular";
   align-self: center;
   color: #71727a;
   flex: 1 1 0;
+  padding-right: 2.5rem;
 `;
 
 const ChartContainer = styled.div`

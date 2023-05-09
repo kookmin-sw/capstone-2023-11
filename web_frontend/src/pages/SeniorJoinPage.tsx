@@ -362,6 +362,7 @@ const StJoinButton = styled.button`
   background-color: #006ffd;
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
+  margin-bottom: 2rem;
 `;
 
 const StAnswerContainer = styled.div`

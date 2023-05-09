@@ -75,11 +75,15 @@ function SeniorExercise() {
     <motion.ul className="container" variants={container} initial="hidden" animate="visible">
       <StContainer>
         <StHeader>
-          <BackButton />
-          <StTitle>운동 추가</StTitle>
-          <StCenterContainer>
-            <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
-          </StCenterContainer>
+          <div className="col">
+            <div className="row">
+              <BackButton />
+              <StTitle>운동 추가</StTitle>
+            </div>
+            <StCenterContainer>
+              <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="🔎 운동을 입력해주세요" />
+            </StCenterContainer>
+          </div>
         </StHeader>
         <motion.li className="item" variants={items}>
           <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
@@ -100,22 +104,22 @@ function SeniorExercise() {
               <CalContainer>
                 <StTitle className="title">선택한 운동</StTitle>
                 <FlexContainer>
-                  {fixedData.map(({ name, time }) => (
-                    <motion.li className="item" variants={items}>
-                      <FlexContainer key={name}>
+                  <div className="col">
+                    {fixedData.map(({ name, time }) => (
+                      <StListContainer key={name}>
+                        <CalList>
+                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                          Kcal 소모
+                        </CalList>
                         <StButtonBack
                           src={require("../assets/images/img_esc.png")}
                           onClick={() => {
                             onRemove(name);
                           }}
                         />
-                        <CalList>
-                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
-                          Kcal 소모
-                        </CalList>
-                      </FlexContainer>
-                    </motion.li>
-                  ))}
+                      </StListContainer>
+                    ))}
+                  </div>
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
@@ -128,20 +132,22 @@ function SeniorExercise() {
               <CalContainer>
                 <StTitle className="title">선택한 운동</StTitle>
                 <FlexContainer>
-                  {fixedData.map(({ name, time }) => (
-                    <FlexContainer key={name}>
-                      <StButtonBack
-                        src={require("../assets/images/img_esc.png")}
-                        onClick={() => {
-                          onRemove(name);
-                        }}
-                      />
-                      <CalList>
-                        {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
-                        Kcal 소모
-                      </CalList>
-                    </FlexContainer>
-                  ))}
+                  <div className="col">
+                    {fixedData.map(({ name, time }) => (
+                      <StListContainer key={name}>
+                        <CalList>
+                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                          Kcal 소모
+                        </CalList>
+                        <StButtonBack
+                          src={require("../assets/images/img_esc.png")}
+                          onClick={() => {
+                            onRemove(name);
+                          }}
+                        />
+                      </StListContainer>
+                    ))}
+                  </div>
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
@@ -180,7 +186,6 @@ const StInput = styled.input`
   align-self: center;
 
   ::placeholder {
-    background-image: url(https://cdn1.iconfinder.com/fixedData/icons/hawcons/32/698627-icon-111-search-256.png);
     background-size: contain;
     background-position: 0.1rem center;
     background-repeat: no-repeat;
@@ -188,25 +193,37 @@ const StInput = styled.input`
 `;
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StTitle = styled.div`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
-  align-self: center;
+  padding-right: 2.5rem;
+  margin-top: 0.5rem;
 `;
 
-const StHeader = styled.div`
-  display: block;
+const StHeader = styled.header`
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
   border-bottom: 0.1rem solid #006ffd;
   position: sticky;
   top: 0rem;
   background-color: white;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.3rem;
+  }
 `;
 
 const StCenterContainer = styled.div`
@@ -262,6 +279,20 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   display: fixed;
   flex-wrap: wrap;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const StListContainer = styled.div`
+  display: flex;
+  width: 30rem;
+  justify-content: space-between;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const BlueBTN = styled(BlueButton)`

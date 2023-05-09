@@ -20,14 +20,30 @@ function SeniorMypage() {
   return (
     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
       <StSeniorMypage>
-        <BackButton />
-        <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
+        <StHeader>
+          <BackButton />
+          <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
+        </StHeader>
         <StInfoContainer>
-          <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
-          <StName>{data?.userName}</StName>
-          <StUserCode># {data?.userCode}</StUserCode>
+          <div className="col">
+            <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
+            <StName>{data?.userName}</StName>
+          </div>
+          <div className="col2">
+            <div className="row">
+              <StName>{data?.height} cm</StName>
+              <StName>{data?.weight} kg</StName>
+            </div>
+            <div className="row">
+              <StName>{data?.gender == "MALE" ? `남성` : `여성`}</StName>
+              <StName>{data?.age}세</StName>
+            </div>
+            <div className="line" />
+            <div className="right">
+              <StUserCode># {data?.userCode}</StUserCode>
+            </div>
+          </div>
         </StInfoContainer>
-
         <StButtonContainer onClick={() => navigate("#")}>
           <StButtonInfo>개인정보 변경하기</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
@@ -49,22 +65,67 @@ export default SeniorMypage;
 const StSeniorMypage = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+`;
+const StHeader = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
 `;
 const StIntroText = styled.span`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
-  font-size: 3.2rem;
-  margin-top: 3.5rem;
-  margin-left: 2.2rem;
-  letter-spacing: -0.05rem;
   text-align: center;
+  padding-right: 2.5rem;
 `;
 const StInfoContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-top: 5.7rem;
+  margin-top: 3rem;
   margin-bottom: 3.3rem;
+  background-color: #f8f9fe;
+  border-radius: 2rem;
+  padding: 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .col2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1rem;
+    background-color: #ffffff;
+    border-radius: 2rem;
+    padding: 1rem;
+    margin-right: 1rem;
+  }
+  .row {
+    display: flex;
+    width: 20rem;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+  .right {
+    display: flex;
+    justify-content: end;
+    width: 20rem;
+  }
+  .line {
+    width: 100%;
+    border-top: 0.2rem solid #f8f9fe;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const StProfilePhoto = styled.img`
