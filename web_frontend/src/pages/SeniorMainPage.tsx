@@ -237,7 +237,7 @@ const StMainItem = styled.div`
 
 const StPillAddBtn = styled.button`
   font-family: "retendard-Bold";
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1rem;
   color: #006ffd;
   flex: none;

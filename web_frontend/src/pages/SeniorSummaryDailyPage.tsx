@@ -364,5 +364,5 @@ const StModal = styled(Modal)`
   padding: 5rem;
   align-items: center;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 `;

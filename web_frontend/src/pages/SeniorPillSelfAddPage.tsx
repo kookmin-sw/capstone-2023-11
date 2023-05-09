@@ -171,11 +171,17 @@ function SeniorPillSelf() {
           </StPillList>
           <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
             <StButtonList>
+              <StButtonBack
+                src={require("../assets/images/img_esc.png")}
+                onClick={() => setIsOpen(false)}></StButtonBack>
               <StModalTitle>{pillName}</StModalTitle>
-              <StModalTitle>복용하는 일 수</StModalTitle>
-              <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-              <StModalTitle>복용하는 시간대</StModalTitle>
+              <div className="line" />
               <StPillComponent>
+                <StModalContent>복용 일 수</StModalContent>
+                <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+              </StPillComponent>
+              <StPillComponent>
+                <StModalContent>복용 시간</StModalContent>
                 {breakfast == false ? (
                   <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
                 ) : (
@@ -192,16 +198,16 @@ function SeniorPillSelf() {
                   <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
                 )}
               </StPillComponent>
-              <StModalTitle>등록하시겠습니까?</StModalTitle>
+              <StModalContent>등록하시겠습니까?</StModalContent>
               <StPillComponent2>
-                <StSetPillCheckButton
+                <StSetPillSubmitButton
                   onClick={() => {
                     handleCloseModal;
                     pillInfo();
                   }}>
                   네
-                </StSetPillCheckButton>
-                <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                </StSetPillSubmitButton>
+                <StSetPillSubmitButton onClick={handleCloseModal}>아니요</StSetPillSubmitButton>
               </StPillComponent2>
             </StButtonList>
           </StModal>
@@ -210,6 +216,7 @@ function SeniorPillSelf() {
     </motion.div>
   );
 }
+export default SeniorPillSelf;
 
 interface PillData {
   data: {
@@ -332,7 +339,6 @@ const StPillItem = styled.ul`
   background-color: #f8f9fe;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
 `;
 
 const StPillText = styled.div`
@@ -352,52 +358,75 @@ const StTitle = styled.h1`
 `;
 
 const StButtonList = styled.div`
-  border: 0.2rem solid #0066ff;
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+  background-color: #f8f9fe;
   border-radius: 1rem;
-  background-color: white;
-  padding-bottom: 3rem;
+  align-items: center;
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .right {
+    text-align: end;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const StModal = styled(Modal)`
-  position: relative;
-  top: 30%;
-  bottom: auto;
-  left: 18%;
-  right: auto;
-  width: 25rem;
-  height: 50rem;
-  font-family: "Pretendard-Regular";
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 const StModalTitle = styled.h1`
   font-family: "Pretendard-Bold";
+  font-size: 2.3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  align-self: center;
+`;
+
+const StModalContent = styled.div`
+  font-family: "Pretendard-Bold";
   font-size: 2rem;
   text-align: center;
-  width: 100%;
-  margin: 2rem 0rem;
+  margin: 2rem;
+  align-self: center;
 `;
 
 const StModalSearch = styled.input`
-  width: 80%;
   height: 4rem;
   border: 0.2rem solid gray;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
-  margin: 0rem 10%;
   padding: 2rem;
 `;
 
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
-  padding: 0rem 3rem;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
 `;
 
 const StPillComponent2 = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
+  justify-content: space-evenly;
+  gap: 3rem;
   padding: 0rem 6rem;
 `;
 
@@ -413,17 +442,28 @@ const StSetPillButton = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
-const StSetPillCheckButton = styled.div`
-  width: 6rem;
-  height: 3.5rem;
+
+const StSetPillCheckButton = styled(StSetPillButton)`
+  color: white;
   background: #006ffd;
-  border-radius: 1.2rem;
+`;
+
+const StSetPillSubmitButton = styled.div`
+  width: 8rem;
+  height: 4rem;
+  background: #006ffd;
+  border-radius: 1rem;
   font-family: "Pretendard-Bold";
   font-size: 1.8rem;
   color: white;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 1rem;
 `;
 
-export default SeniorPillSelf;
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
+`;

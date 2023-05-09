@@ -202,6 +202,7 @@ function PillImgUpload() {
           {uploadSts ? (
             <>
               <StList>
+                <StBillTitle>약을 선택해 등록해주세요</StBillTitle>
                 {nameList?.data?.data?.map((name: string, index: number) =>
                   selected[index] ? (
                     <StItemChecked
@@ -235,21 +236,27 @@ function PillImgUpload() {
                     </StItem>
                   ),
                 )}
-                모든 약을 등록하셨습니까?
-                <BtnWrapper>
+                <StModalContent>모든 약을 등록하셨습니까?</StModalContent>
+                <StPillComponent2>
                   <Link to={"/senior/pill"}>
-                    <StButton>네</StButton>
+                    <StSetPillSubmitButton>네</StSetPillSubmitButton>
                   </Link>
-                  <StButton onClick={SetUploadReset}>아니요</StButton>
-                </BtnWrapper>
+                  <StSetPillSubmitButton onClick={SetUploadReset}>아니요</StSetPillSubmitButton>
+                </StPillComponent2>
               </StList>
               <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
                 <StButtonList>
+                  <StButtonBack
+                    src={require("../assets/images/img_esc.png")}
+                    onClick={() => setIsOpen(false)}></StButtonBack>
                   <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
-                  <StModalTitle>복용하는 일 수</StModalTitle>
-                  <StSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-                  <StModalTitle>복용하는 시간대</StModalTitle>
+                  <div className="line" />
                   <StPillComponent>
+                    <StModalContent>복용 일 수</StModalContent>
+                    <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                  </StPillComponent>
+                  <StPillComponent>
+                    <StModalContent>복용 시간</StModalContent>
                     {breakfast == false ? (
                       <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
                     ) : (
@@ -266,9 +273,9 @@ function PillImgUpload() {
                       <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
                     )}
                   </StPillComponent>
-                  <StModalTitle>등록하시겠습니까?</StModalTitle>
+                  <StModalContent>등록하시겠습니까?</StModalContent>
                   <StPillComponent2>
-                    <StSetPillCheckButton
+                    <StSetPillSubmitButton
                       onClick={() => {
                         handleCloseModal();
                         pillInfo();
@@ -279,8 +286,8 @@ function PillImgUpload() {
                         });
                       }}>
                       네
-                    </StSetPillCheckButton>
-                    <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                    </StSetPillSubmitButton>
+                    <StSetPillSubmitButton onClick={handleCloseModal}>아니요</StSetPillSubmitButton>
                   </StPillComponent2>
                 </StButtonList>
               </StModal>
@@ -434,26 +441,6 @@ const StItemChecked = styled.li`
   background-color: #eaf2ff;
 `;
 
-const BtnWrapper = styled.div`
-  margin-bottom: 3rem;
-`;
-
-const StButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 2rem;
-  font-size: 2rem;
-  padding: 2rem;
-  width: 10rem;
-  margin: 2rem 1rem 0 1rem;
-
-  &:active {
-    background-color: #0062cc;
-    color: #fff;
-  }
-`;
-
 const StUploadButton = styled.button`
   width: 25rem;
   height: 4rem;
@@ -531,51 +518,79 @@ const StInfoContainer = styled.div`
 `;
 
 const StButtonList = styled.div`
-  border: 0.2rem solid #0066ff;
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+  background-color: #f8f9fe;
   border-radius: 1rem;
-  background-color: white;
-  padding-bottom: 3rem;
+  align-items: center;
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .right {
+    text-align: end;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const StModal = styled(Modal)`
-  position: relative;
-  top: 30%;
-  bottom: auto;
-  left: 18%;
-  right: auto;
-  width: 25rem;
-  height: 50rem;
-  font-family: "Pretendard-Regular";
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 const StModalTitle = styled.h1`
-  font-size: 1.7rem;
   font-family: "Pretendard-Bold";
-  padding: 2rem 3rem;
+  font-size: 2.3rem;
   text-align: center;
+  margin-bottom: 3rem;
+  align-self: center;
 `;
 
-const StSearch = styled.input`
-  width: 80%;
+const StBillTitle = styled(StModalTitle)`
+  margin-top: 2rem;
+`;
+
+const StModalContent = styled.div`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+  text-align: center;
+  margin: 2rem;
+  align-self: center;
+`;
+
+const StModalSearch = styled.input`
   height: 4rem;
   border: 0.2rem solid gray;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
-  padding-left: 2rem;
-  margin: 0rem 2.5rem;
+  padding: 2rem;
 `;
 
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
-  padding: 0rem 3rem;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
 `;
 
 const StPillComponent2 = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
+  justify-content: space-evenly;
+  gap: 3rem;
   padding: 0rem 6rem;
 `;
 
@@ -602,6 +617,25 @@ const StSetPillCheckButton = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+`;
+
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
+`;
+const StSetPillSubmitButton = styled.div`
+  width: 8rem;
+  height: 4rem;
+  background: #006ffd;
+  border-radius: 1rem;
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 1rem;
 `;
 
 export default PillImgUpload;

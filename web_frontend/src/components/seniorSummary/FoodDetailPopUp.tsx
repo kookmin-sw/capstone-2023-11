@@ -25,9 +25,6 @@ function FoodDetailPopUp(prop: IData) {
         <StText>{food.calorie} kcal</StText>
       </div>
       <div className="line" />
-      {/* <div className="row">
-        <StText>칼로리 : </StText>
-      </div> */}
       <div className="row">
         <StText>총 탄수화물 : </StText>
         <StText>{food.carbohyborateTotal} g</StText>
@@ -71,7 +68,7 @@ function FoodDetailPopUp(prop: IData) {
 export default FoodDetailPopUp;
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   justify-content: center;
   margin: auto;
   background-color: #f8f9fe;
@@ -109,5 +106,5 @@ const StText = styled.div`
   font-size: 1.6rem;
   font-family: "Pretendard-Bold";
   padding: 1rem 1rem;
-  margin-top: 1rem;
+  margin-top: 0.8rem;
 `;
