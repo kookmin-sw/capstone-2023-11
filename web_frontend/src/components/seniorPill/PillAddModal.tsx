@@ -21,13 +21,17 @@ function PillAddModal() {
       <StCheckButton onClick={handleOpenModal}>추가하기</StCheckButton>
       <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
         <StButtonList>
-          <Link to={"/senior/pill/bill"}>
-            <StButton>💊 약봉투 인식하기</StButton>
-          </Link>
-          <Link to={"/senior/pill/self"}>
-            <StButton>📝 직접 입력하기</StButton>
-          </Link>
-          <StButton onClick={handleCloseModal}>⬅️ 돌아가기</StButton>
+          <StTitle>약 추가하기</StTitle>
+          <div className="line" />
+          <div className="col">
+            <Link to={"/senior/pill/bill"}>
+              <StButton>💊 약봉투 인식하기</StButton>
+            </Link>
+            <Link to={"/senior/pill/self"}>
+              <StButton>📝 직접 입력하기</StButton>
+            </Link>
+            <StButton onClick={handleCloseModal}>⬅️ 돌아가기</StButton>
+          </div>
         </StButtonList>
       </StModal>
     </>
@@ -35,31 +39,44 @@ function PillAddModal() {
 }
 
 const StButtonList = styled.div`
+  padding: 1rem 1rem;
   border: 0.2rem solid #0066ff;
   border-radius: 1rem;
-  background-color: white;
+  justify-content: center;
+  background-color: #ffffff;
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const StButton = styled.button`
-  padding: 1rem 2rem;
-  margin: 1rem;
-  width: 100%;
-  font-size: 2rem;
-  text-align: left;
-  background-color: transparent;
-  color: #0066ff;
-  border: 0;
+  width: 32.7rem;
+  height: 4.8rem;
+  border: 0.15rem solid #006ffd;
+  border-radius: 1.2rem;
+  background-color: white;
+  color: #006ffd;
+  font-size: 1.6rem;
+  font-family: "Pretendard-Bold";
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 `;
 
 const StModal = styled(Modal)`
-  position: relative;
-  top: 30%;
-  bottom: auto;
-  left: 25%;
-  right: auto;
-  width: 25rem;
-  height: 50rem;
-  font-family: "Pretendard-Regular";
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 
 const StCheckButton = styled.button`
@@ -74,6 +91,15 @@ const StCheckButton = styled.button`
   position: relative;
   bottom: 0rem;
   margin-bottom: 1rem;
+`;
+
+const StTitle = styled.div`
+  font-family: "Pretendard-Bold";
+  font-size: 2.3rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  align-self: center;
 `;
 
 export default PillAddModal;

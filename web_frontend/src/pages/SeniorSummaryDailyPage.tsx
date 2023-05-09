@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FoodIcn } from "../assets/icons";
 import { BlueButton } from "../components/common/BlueButton";
 import { getDailyData } from "../core/api";
 import Modal from "react-modal";
@@ -34,6 +33,7 @@ function SeniorSummaryDailyPage() {
   const [clickedMeal, setClickedMeal] = useState(0);
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
+  const RANDOM_NUMBER = Math.floor(Math.random() * 3) + 1;
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -111,7 +111,7 @@ function SeniorSummaryDailyPage() {
                       {item.detail.map((mealList, index2) => (
                         <motion.li key={index} className="item" variants={items}>
                           <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
-                            <StIcon src={FoodIcn} />
+                            <StIcon src={require(`../assets/icons/icon_food${RANDOM_NUMBER}.png`)} />
                             <div>
                               <StFoodName>{mealList.name}</StFoodName>
                               <StNutrient>
@@ -145,7 +145,7 @@ function SeniorSummaryDailyPage() {
         ) : (
           <DataContainer>
             <div className="col">
-              <img className="foodIcon" src={require("../assets/icons/icon_food.png")} />
+              <img className="foodIcon" src={require("../assets/icons/icon_food1.png")} />
               <StText>😭 오늘 입력한 음식 데이터가 없습니다 😭</StText>
               <StText>식사를 찍고 입력해주세요!</StText>
             </div>
@@ -220,12 +220,13 @@ const StHeader = styled.header`
   justify-content: center;
 `;
 const HeaderText = styled.div`
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-align: center;
   font-family: "Pretendard-Regular";
   align-self: center;
   color: #71727a;
   flex: 1 1 0;
+  padding-right: 2.5rem;
 `;
 const STContainer = styled.div`
   padding: 3rem 1rem;
@@ -295,10 +296,10 @@ const StFoodBox = styled.div`
   background: #eaf2ff;
   border-radius: 1.6rem;
   padding: 1.5rem;
-  justify-content: space-between;
   div {
     width: 17rem;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    justify-content: space-between;
   }
   margin-bottom: 1.5rem;
 `;
@@ -328,7 +329,7 @@ const StHour = styled(StNutrient)`
   margin-top: 1rem;
 `;
 const StKcal = styled(StFoodName)`
-  margin-left: 1.2rem;
+  margin-left: auto;
 `;
 const StMealImage = styled.img`
   padding: 1rem;
@@ -339,8 +340,8 @@ const StMealImage = styled.img`
   margin-bottom: 2rem;
 `;
 const StIcon = styled.img`
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
 `;
 const StRowContainer = styled.div`
   display: flex;
