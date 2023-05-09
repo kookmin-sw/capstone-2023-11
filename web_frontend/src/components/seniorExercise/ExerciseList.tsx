@@ -52,14 +52,14 @@ function ExerciseList({ selectedData, setSelected, getData }: IProp) {
 export default ExerciseList;
 
 const StContainer = styled.div`
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
   justify-content: center;
-  margin: 1rem auto;
+  /* margin: 1rem auto; */
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  margin-bottom: 5rem;
+  margin-bottom: 8rem;
 `;
 
 const StExercise = styled.div`
@@ -73,6 +73,7 @@ const StExercise = styled.div`
   font-family: "Pretendard-Regular";
   font-size: 1.8rem;
   padding-bottom: 0.5rem;
+  width: 13rem;
   img {
     padding: 1rem;
     width: 10rem;
