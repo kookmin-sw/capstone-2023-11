@@ -317,9 +317,9 @@ const IconImg = styled.img`
   border-radius: 0.8rem;
 `;
 
-const CircleButton = styled.button`
+const CircleButton = styled.div`
   background: #6abaff;
-
+  font-family: "Pretendard-Regular";
   z-index: 5;
   cursor: pointer;
   width: 5rem;
@@ -327,17 +327,16 @@ const CircleButton = styled.button`
   display: block;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 6rem;
   position: fixed;
+  padding-bottom: 1rem;
   left: 90%;
   bottom: 5rem;
   transform: translate(-50%, 50%);
   color: white;
   border-radius: 50%;
   border: none;
-  outline: none;
   display: flex;
-  align-items: center;
   justify-content: center;
 
   transition: 0.125s all ease-in;
