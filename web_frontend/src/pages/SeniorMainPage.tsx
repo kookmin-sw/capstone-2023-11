@@ -140,6 +140,7 @@ function SeniorMain() {
               <BtnContainer
                 onClick={() => {
                   navigate(`/senior/exercise/add`);
+                  window.location.reload();
                 }}>
                 <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>운동 입력</StText>
@@ -166,9 +167,9 @@ const StLink = styled(Link)`
 `;
 
 const STContainer = styled.div`
-  padding: 3rem 2rem;
+  padding: 0.5rem;
   justify-content: center;
-  margin: 1rem auto;
+  margin-top: 1.6rem;
 `;
 
 const StHeader = styled.header`

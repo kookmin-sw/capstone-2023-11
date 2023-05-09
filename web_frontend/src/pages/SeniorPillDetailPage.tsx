@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
-import { IpillData } from "../core/atom";
+import { IPillData } from "../core/atom";
 import { motion } from "framer-motion";
 
 function PillDetail() {
-  const [pillData, setPillData] = useState<IpillData>();
+  const [pillData, setPillData] = useState<IPillData>();
 
   const { id } = useParams();
 

@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../../core/api";
+import { IPillInfo } from "../../core/atom";
 
 function Pill() {
-  const [pillData, setPillData] = useState<pillInfo>();
+  const [pillData, setPillData] = useState<IPillInfo>();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,41 +39,6 @@ function Pill() {
       </StPillList>
     </StPill>
   );
-}
-
-interface pillInfo {
-  medicines: [
-    {
-      createdAt: string;
-      modifiedAt: string;
-      id: number;
-      name: string;
-      companyName: string;
-      effect: string;
-      useMethod: string;
-      caution: string;
-      depositMethod: string;
-      imageUrl: string;
-      dueAt: string;
-      breakfast: boolean;
-      lunch: boolean;
-      dinner: boolean;
-      remainDay: number;
-      userWard: {
-        createdAt: string;
-        modifiedAt: string;
-        userId: number;
-        kakaoAccountId: number;
-        name: string;
-        birthday: string;
-        gender: string;
-        weight: number;
-        height: number;
-        drinkings: number;
-        smoke: number;
-      };
-    },
-  ];
 }
 
 const StPill = styled.div`
@@ -165,12 +131,12 @@ const StDaySwapper = styled.div`
 `;
 
 const StPillTake = styled.div`
-  width: 4rem;
+  width: 5rem;
   height: 2.5rem;
   background: #006ffd;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: white;
   display: flex;
   justify-content: space-evenly;

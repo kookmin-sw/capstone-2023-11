@@ -6,6 +6,8 @@ import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 import { motion } from "framer-motion";
+import BackButton from "../components/common/BackButton";
+import { BlueStarIcn, PhotoIcn } from "../assets/icons";
 
 Modal.setAppElement("#root");
 
@@ -193,11 +195,7 @@ function PillImgUpload() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StContainer>
         <StHeader>
-          <Link to={`/senior/pill`}>
-            <StBackBtn>
-              <StBackBtnImg src={require("../assets/images/img_left.png")} />
-            </StBackBtn>
-          </Link>
+          <BackButton />
           <StTitle>약봉투 인식하기</StTitle>
         </StHeader>
         <StBody>
@@ -288,18 +286,30 @@ function PillImgUpload() {
               </StModal>
             </>
           ) : (
-            <>
+            <div className="center">
               <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
-              <StUploadButton onClick={onClickImageUpload}>사진 올리기</StUploadButton>
+              <StUploadButton onClick={onClickImageUpload}>
+                <img src={PhotoIcn} />
+                사진 업로드
+              </StUploadButton>
               <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
-              <StInfoTitle>• 복약봉투 인식하는 방법은 다음과 같습니다.</StInfoTitle>
+              <StInfoTitle>🧐 복약봉투 인식하는 방법</StInfoTitle>
               <StInfoContainer>
-                <StInfo>1. 사진 올리기를 이용해서 사진을 올린다.</StInfo>
-                <StInfo>2. 약 확인하기를 누른 후, 약을 확인한다.</StInfo>
-                <StInfo>3. 각각의 약을 눌러서 복용일자, 복용시간을 확인한다.</StInfo>
+                <StMainInfo>위 사진은 다음의 확인 과정을 거치게 됩니다.</StMainInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />
+                  사진 업로드를 이용해서 사진을 올린다.
+                </StInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />약 확인하기를 누른다.
+                </StInfo>
+                <StInfo>
+                  <img src={BlueStarIcn} />
+                  인식된 약을 눌러 추가 정보를 입력한다
+                </StInfo>
               </StInfoContainer>
               <StCheckButton onClick={() => uploadImage()}>약 확인하기</StCheckButton>
-            </>
+            </div>
           )}
         </StBody>
       </StContainer>
@@ -352,35 +362,30 @@ interface ImgData {
 }
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .center {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StHeader = styled.header`
-  padding-bottom: 2rem;
   display: flex;
-  font-size: 2rem;
-  border-bottom: 0.1rem solid #006ffd;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
 `;
-
-const StBackBtn = styled.button`
-  background-color: transparent;
-  border: transparent;
-  font-family: "Pretendard-Bold";
-  width: 5%;
-`;
-
-const StBackBtnImg = styled.img`
-  width: 2rem;
-  height: 2rem;
-`;
-
 const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
-  padding-right: 5%;
+  padding-right: 3.5rem;
 `;
 
 const StBody = styled.div`
@@ -459,6 +464,7 @@ const StUploadButton = styled.button`
   border: 0;
   border-radius: 1.2rem;
   margin-top: 4.3rem;
+  display: flex;
   justify-content: center;
   align-items: center;
   img {
@@ -468,7 +474,7 @@ const StUploadButton = styled.button`
 `;
 
 const StCheckButton = styled.button`
-  width: 100%;
+  width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
   border: none;
@@ -486,26 +492,42 @@ const StImg = styled.img`
 `;
 
 const StInfoTitle = styled.div`
+  font-size: 2.3rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
-  text-align: center;
-  padding: 1rem 3rem;
+  margin-top: 1.6rem;
+  margin-bottom: 1.3rem;
+`;
+
+const StMainInfo = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.63rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.6rem;
 `;
 
 const StInfo = styled.div`
+  img {
+    margin-right: 1.2rem;
+  }
   font-family: "Pretendard-Regular";
-  font-size: 1.4rem;
-  text-align: left;
-  padding: 1rem 3rem;
-  line-height: 1.8rem;
+  font-size: 1.5rem;
+  width: 28.4rem;
+  display: flex;
+  margin-bottom: 1.6rem;
 `;
 
 const StInfoContainer = styled.div`
+  width: 33.2rem;
+  height: 16.3rem;
   background: #f8f9fe;
   border-radius: 1.6rem;
   padding: 2.4rem;
   margin-bottom: 1.3rem;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StButtonList = styled.div`

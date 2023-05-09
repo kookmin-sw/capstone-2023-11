@@ -3,8 +3,9 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
 import Modal from "react-modal";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import BackButton from "../components/common/BackButton";
 
 Modal.setAppElement("#root");
 
@@ -54,10 +55,6 @@ function SeniorPillSelf() {
       navigate("/senior/pill");
     }
   }, [data, navigate]);
-
-  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
   const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
   const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
   const [name, setName] = useState<string[] | undefined>([]);
@@ -129,15 +126,11 @@ function SeniorPillSelf() {
       <StContainer>
         <StHeader>
           <StHederContent>
-            <StLink to={`/senior/pill`}>
-              <StBackBtn>
-                <StBackBtnImg src={require("../assets/images/img_left.png")} />
-              </StBackBtn>
-            </StLink>
-            <StTitle>직접 입력하기</StTitle>
+            <BackButton />
+            <StTitle>약 직접입력</StTitle>
           </StHederContent>
           <StHederContent>
-            <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={onChangeValue} />
+            <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={(prop) => setValue(prop.target.value)} />
             <StSearchButton onClick={onClickButton}>
               <StSearchBtnImg src={require("../assets/images/search.png")} />
             </StSearchButton>
@@ -171,7 +164,8 @@ function SeniorPillSelf() {
                       : require(`../assets/images/pillPhoto.png`),
                   );
                 }}>
-                {value.length < 20 ? value : value.slice(0, 20) + "..."}
+                💊
+                <StPillText>{value.length < 20 ? value : value.slice(0, 20) + "..."}</StPillText>
               </StPillItem>
             ))}
           </StPillList>
@@ -262,46 +256,49 @@ interface ImgData {
 }
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
-`;
-
-const StLink = styled(Link)`
-  text-decoration: none;
-  color: black;
   display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StHeader = styled.header`
-  font-size: 2rem;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
   border-bottom: 0.1rem solid #006ffd;
+  position: sticky;
+  top: 0rem;
+  background-color: white;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.3rem;
+  }
 `;
 
 const StHederContent = styled.div`
   display: flex;
 `;
-
-const StBackBtn = styled.button`
-  background-color: transparent;
-  border: transparent;
-  font-family: "Pretendard-Bold";
-  width: 5%;
-`;
-
-const StBackBtnImg = styled.img`
-  width: 2rem;
-  height: 2rem;
-`;
-
 const StSearch = styled.input`
   width: 80%;
   height: 4rem;
-  border: 0.2rem solid gray;
+  color: rgba(0, 0, 0, 0.8);
+  border-color: #0066ff;
   border-radius: 1rem;
   font-family: "Pretendard-Regular";
   margin: 2rem 1rem;
   padding: 2rem;
+  letter-spacing: 0.3rem;
+
+  ::placeholder {
+    background-size: contain;
+    background-position: 0.1rem center;
+    background-repeat: no-repeat;
+  }
 `;
 
 const StSearchButton = styled.button`
@@ -327,21 +324,31 @@ const StPillList = styled.ul`
 `;
 
 const StPillItem = styled.ul`
-  padding: 1rem 3rem;
-  border: 0.2rem solid #0066ff;
+  padding: 1rem 1rem;
+  border: 0.2rem solid #6abaff;
+  width: 30rem;
   border-radius: 1rem;
+  margin: 1.5rem;
+  background-color: #f8f9fe;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+`;
+
+const StPillText = styled.div`
   line-height: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-family: "Pretendard-Bold";
-  margin: 1rem;
-  background-color: white;
+  margin-left: 1rem;
 `;
 
 const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
-  padding-right: 5%;
+  padding-right: 2.5rem;
+  margin-top: 0.5rem;
 `;
 
 const StButtonList = styled.div`

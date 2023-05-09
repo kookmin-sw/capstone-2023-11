@@ -81,7 +81,7 @@ function SeniorExercise() {
               <StTitle>운동 추가</StTitle>
             </div>
             <StCenterContainer>
-              <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
+              <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="🔎 운동을 입력해주세요" />
             </StCenterContainer>
           </div>
         </StHeader>
@@ -186,7 +186,6 @@ const StInput = styled.input`
   align-self: center;
 
   ::placeholder {
-    background-image: url(https://cdn1.iconfinder.com/fixedData/icons/hawcons/32/698627-icon-111-search-256.png);
     background-size: contain;
     background-position: 0.1rem center;
     background-repeat: no-repeat;

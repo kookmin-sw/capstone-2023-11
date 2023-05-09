@@ -20,8 +20,10 @@ function SeniorMypage() {
   return (
     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
       <StSeniorMypage>
-        <BackButton />
-        <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
+        <StHeader>
+          <BackButton />
+          <StIntroText>안녕하세요 {data?.userName}님!</StIntroText>
+        </StHeader>
         <StInfoContainer>
           <div className="col">
             <StProfilePhoto src={require("../assets/images/img_avatar.png")} />
@@ -64,13 +66,19 @@ const StSeniorMypage = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const StHeader = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
+`;
 const StIntroText = styled.span`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
-  font-size: 3.2rem;
-  margin-top: 2rem;
-  margin-left: 2.2rem;
-  letter-spacing: -0.05rem;
   text-align: center;
+  padding-right: 2.5rem;
 `;
 const StInfoContainer = styled.div`
   display: flex;

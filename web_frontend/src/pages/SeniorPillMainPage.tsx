@@ -107,7 +107,7 @@ function SeniorPillMain() {
                         <StDaySwapper>
                           {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
                           {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
-                          {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                          {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>저녁</StPillNoTake>}
                         </StDaySwapper>
                       </StItemContent>
                     </StLink>
@@ -235,16 +235,18 @@ interface pillInfo {
 }
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StHeader = styled.header`
-  padding-bottom: 2rem;
   display: flex;
-  font-size: 2rem;
-  border-bottom: 0.1rem solid #006ffd;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const StBackBtn = styled.button`
@@ -262,10 +264,11 @@ const StBackBtnImg = styled.img`
 `;
 
 const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
-  padding-right: 5%;
+  padding-right: 2.5rem;
 `;
 
 const StBody = styled.div`
@@ -328,9 +331,9 @@ const StPillNoTake = styled.div`
   width: 6rem;
   height: 2.7rem;
   background: #eaf2ff;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #006ffd;
   display: flex;
   justify-content: space-evenly;
@@ -342,9 +345,9 @@ const StPillTake = styled.div`
   width: 6rem;
   height: 2.7rem;
   background: #006ffd;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: white;
   display: flex;
   justify-content: space-evenly;

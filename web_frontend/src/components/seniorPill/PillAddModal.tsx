@@ -18,9 +18,7 @@ function PillAddModal() {
 
   return (
     <>
-      <FlexContainer>
-        <StModalButton onClick={handleOpenModal}>+</StModalButton>
-      </FlexContainer>
+      <StCheckButton onClick={handleOpenModal}>추가하기</StCheckButton>
       <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
         <StButtonList>
           <Link to={"/senior/pill/bill"}>
@@ -35,19 +33,6 @@ function PillAddModal() {
     </>
   );
 }
-
-const StModalButton = styled.button`
-  width: 5rem;
-  height: 5rem;
-  border-radius: 2.5rem;
-  background-color: #006ffd;
-  font-size: 6.5rem;
-  color: white;
-  text-align: center;
-  align-items: center;
-  display: flex;
-  border: none;
-`;
 
 const StButtonList = styled.div`
   border: 0.2rem solid #0066ff;
@@ -66,25 +51,29 @@ const StButton = styled.button`
   border: 0;
 `;
 
-const FlexContainer = styled.div`
-  position: fixed;
-  bottom: 0rem;
-  padding-top: 1rem;
-  padding-bottom: 3rem;
-  display: flex;
-  justify-content: flex-end;
-  right: 20%;
-`;
-
 const StModal = styled(Modal)`
   position: relative;
   top: 30%;
   bottom: auto;
-  left: 18%;
+  left: 25%;
   right: auto;
   width: 25rem;
   height: 50rem;
   font-family: "Pretendard-Regular";
+`;
+
+const StCheckButton = styled.button`
+  width: 32.7rem;
+  height: 4.8rem;
+  background-color: #006ffd;
+  border: none;
+  border-radius: 1.2rem;
+  color: white;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  position: relative;
+  bottom: 0rem;
+  margin-bottom: 1rem;
 `;
 
 export default PillAddModal;
