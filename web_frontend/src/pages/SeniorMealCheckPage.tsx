@@ -151,7 +151,6 @@ function SeniorMealCheckPage() {
       const reader = new FileReader();
       formData.append("image", file);
       reader.readAsDataURL(file);
-
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {

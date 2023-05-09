@@ -20,14 +20,17 @@ function PillImgUpload() {
   };
   const [uploadSts, setUploadSts] = useState(false);
   const [formData] = useState<FormData>(new FormData());
+  const [imgInput, setImgInput]: any = useState();
   const uploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
       const file = e.target.files[0];
       const reader = new FileReader();
       formData.append("image", file);
+      reader.readAsDataURL(file);
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {
+            setImgInput(reader.result);
             resolve();
           }
         };
@@ -299,7 +302,11 @@ function PillImgUpload() {
                 <img src={PhotoIcn} />
                 사진 업로드
               </StUploadButton>
-              <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
+              {imgInput ? (
+                <StImg width={"100%"} src={imgInput} />
+              ) : (
+                <StImg width={"100%"} src={require("../assets/images/pillBillImg.jpeg")} />
+              )}
               <StInfoTitle>🧐 복약봉투 인식하는 방법</StInfoTitle>
               <StInfoContainer>
                 <StMainInfo>위 사진은 다음의 확인 과정을 거치게 됩니다.</StMainInfo>
