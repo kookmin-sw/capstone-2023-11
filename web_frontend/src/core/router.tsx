@@ -8,8 +8,6 @@ import SeniorPillDetail from "../pages/SeniorPillDetailPage";
 import SeniorPillBill from "../pages/SeniorPillBillAddPage";
 import LoginPage from "../pages/LoginPage";
 import KakaoAuthPage from "../pages/KakaoAuthPage";
-import SeniorJoinPage from "../pages/SeniorJoinPage";
-import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorPillSelf from "../pages/SeniorPillSelfAddPage";
 import SeniorMealCheckPage from "../pages/SeniorMealCheckPage";
 import SeniorExercise from "../pages/SeniorExerciseAddPage";
@@ -25,8 +23,6 @@ function Router() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/kakao" element={<KakaoAuthPage />} />
-          <Route path="/join/guardian" element={<GuardianJoinPage />} />
-          <Route path="/join/senior" element={<SeniorJoinPage />} />
           <Route path="/senior/main" element={<SeniorMain />} />
           <Route path="/senior/myPage" element={<SeniorMypage />} />
           <Route path="/senior/pill" element={<SeniorPillMain />} />
