@@ -43,7 +43,7 @@ function SeniorJoinPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <StSeniorPage>
-          <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+          <StWelcomMessage>어서오세요!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
           <StMedicalContainer>
             <StHeight>
