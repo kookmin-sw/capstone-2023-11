@@ -60,7 +60,7 @@ const StButtonList = styled.div`
 `;
 
 const StButton = styled.button`
-  width: 32.7rem;
+  width: 100%;
   height: 4.8rem;
   border: 0.15rem solid #006ffd;
   border-radius: 1.2rem;
@@ -100,6 +100,7 @@ const StTitle = styled.div`
   margin-bottom: 2rem;
   margin-top: 2rem;
   align-self: center;
+  justify-content: center;
 `;
 
 export default PillAddModal;
