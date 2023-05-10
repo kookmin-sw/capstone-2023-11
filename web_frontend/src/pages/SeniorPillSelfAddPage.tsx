@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
@@ -22,6 +22,19 @@ function SeniorPillSelf() {
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
   const [pillStatus, setPillStatus] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(0);
+  const dropdownItems = [1, 3, 5, 7, 10, 14, 30];
+
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
+
+  const selectItem = (prop: number) => {
+    setSelectedValue(prop);
+    setIsActive((prev) => !prev);
+  };
+
   const navigate = useNavigate();
   useEffect(() => {
     setPillStatus(false);
@@ -74,10 +87,6 @@ function SeniorPillSelf() {
 
   const handleCloseModal = () => {
     setIsOpen(false);
-  };
-
-  const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDayValue(parseInt(e.target.value));
   };
 
   const parser = new DOMParser();
@@ -169,16 +178,44 @@ function SeniorPillSelf() {
               </StPillItem>
             ))}
           </StPillList>
-          <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+          <StModal isOpen={isOpen}>
             <StButtonList>
               <StButtonBack
                 src={require("../assets/images/img_esc.png")}
-                onClick={() => setIsOpen(false)}></StButtonBack>
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsActive(false);
+                  setSelectedValue(0);
+                }}></StButtonBack>
               <StModalTitle>{pillName}</StModalTitle>
               <div className="line" />
               <StPillComponent>
-                <StModalContent>복용 일 수</StModalContent>
-                <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                <StModalContent>복용 일수</StModalContent>
+                <DropdownContainer>
+                  <DropdownBody onClick={isActiveToggle}>
+                    {selectedValue ? (
+                      <>
+                        <ItemName>{selectedValue}</ItemName>
+                      </>
+                    ) : (
+                      <>
+                        <DropdownSelect>선택해주세요.</DropdownSelect>
+                      </>
+                    )}
+                  </DropdownBody>
+                  {isActive ? (
+                    <DropdownMenuActive>
+                      {dropdownItems.map((item) => (
+                        <DropdownItemContainer id="item" key={item} onClick={() => selectItem(item)}>
+                          <ItemName id="item">{item} 일</ItemName>
+                        </DropdownItemContainer>
+                      ))}
+                    </DropdownMenuActive>
+                  ) : (
+                    <></>
+                  )}
+                </DropdownContainer>
+                {/* <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} /> */}
               </StPillComponent>
               <StPillComponent>
                 <StModalContent>복용 시간</StModalContent>
@@ -202,12 +239,20 @@ function SeniorPillSelf() {
               <StPillComponent2>
                 <StSetPillSubmitButton
                   onClick={() => {
+                    setDayValue(selectedValue);
                     handleCloseModal;
                     pillInfo();
                   }}>
                   네
                 </StSetPillSubmitButton>
-                <StSetPillSubmitButton onClick={handleCloseModal}>아니요</StSetPillSubmitButton>
+                <StSetPillSubmitButton
+                  onClick={() => {
+                    setSelectedValue(0);
+                    setIsOpen(false);
+                    setIsActive(false);
+                  }}>
+                  아니요
+                </StSetPillSubmitButton>
               </StPillComponent2>
             </StButtonList>
           </StModal>
@@ -406,14 +451,6 @@ const StModalContent = styled.div`
   align-self: center;
 `;
 
-const StModalSearch = styled.input`
-  height: 4rem;
-  border: 0.2rem solid gray;
-  border-radius: 1rem;
-  font-family: "Pretendard-Regular";
-  padding: 2rem;
-`;
-
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
@@ -466,4 +503,58 @@ const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const DropdownContainer = styled.div`
+  width: fit-content;
+  margin-top: 0.5rem;
+`;
+
+const DropdownBody = styled.div`
+  display: flex;
+  width: 15rem;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  background: white;
+  border-radius: 1rem;
+  border: 0.2rem solid #d4d6dd;
+`;
+
+const DropdownSelect = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+const DropdownMenuActive = styled.ul`
+  display: block;
+  width: 15rem;
+  background-color: white;
+  position: absolute;
+  border: 0.2rem solid #d4d6dd;
+  border-radius: 1rem;
+`;
+
+const DropdownItemContainer = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 0.2rem solid #d4d6dd;
+  border-top: none;
+  border-radius: 0.1rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const ItemName = styled.p`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
 `;
