@@ -2,11 +2,14 @@ import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { nameAtom } from "../core/atom";
 
 function KakaoAuthPage() {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const router = useLocation();
+  const setNameAtom = useSetRecoilState(nameAtom);
   const authenticationCode = router.search.split("=")[1];
   const { data } = useQuery("accessToken", () => getKakaoAccessToken(authenticationCode), {
     enabled: !!authenticationCode,
@@ -32,12 +35,14 @@ function KakaoAuthPage() {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
+          setNameAtom(loginData.data.name);
           navigate("/join/guardian");
         }
         if (loginData.data.userType == "userWard") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
+          setNameAtom(loginData.data.name);
           navigate("/join/senior");
         }
       }

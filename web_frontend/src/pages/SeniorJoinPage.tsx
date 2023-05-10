@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { wardJoin } from "../core/api/index";
 import { motion } from "framer-motion";
+import { nameAtom } from "../core/atom";
+import { useRecoilValue } from "recoil";
 
 function SeniorJoinPage() {
   const [process, setProcess] = useState(1);
@@ -15,6 +17,7 @@ function SeniorJoinPage() {
   const [ills, setIlls] = useState<string[]>([]);
   const [genderType, setGenderType] = useState("MALE");
   const [joinStatus, setJoinStatus] = useState(false);
+  const getNameAtom = useRecoilValue(nameAtom);
   const navigate = useNavigate();
   const joinWard = () => {
     setJoinStatus(true);
@@ -43,7 +46,7 @@ function SeniorJoinPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <StSeniorPage>
-          <StWelcomMessage>어서오세요! </StWelcomMessage>
+          <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
           <StMedicalContainer>
             <StHeight>
@@ -156,7 +159,7 @@ function SeniorJoinPage() {
     return (
       <motion.div className="loginPage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <StSeniorPage>
-          <StWelcomMessage>어서오세요! </StWelcomMessage>
+          <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
           <StSecondContainer>
             <StIllInfo>

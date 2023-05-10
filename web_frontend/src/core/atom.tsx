@@ -1,3 +1,10 @@
+import { atom } from "recoil";
+
+export const nameAtom = atom({
+  key: "name",
+  default: "홍길동",
+});
+
 export interface IWeeklyData {
   name: string;
   gender: string;
