@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { guardianJoin } from "../core/api";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
+import { useRecoilValue } from "recoil";
+import { nameAtom } from "../core/atom";
 
 function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<number[]>([]);
   const [code, setCode] = useState("");
   const [joinState, setJoinState] = useState(false);
+  const getNameAtom = useRecoilValue(nameAtom);
   const navigate = useNavigate();
   const ControllJoin = () => {
     if (seniors.length < 1) {
@@ -28,7 +31,7 @@ function GuardianJoinPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StGuardianPage>
-        <StWelcomMessage>어서오세요! </StWelcomMessage>
+        <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
         <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
         <StContainer>
           <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>
