@@ -2,8 +2,6 @@ import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
-import GuardianJoinPage from "./GuardianJoinPage";
-import SeniorJoinPage from "./SeniorJoinPage";
 
 function KakaoAuthPage() {
   const navigate = useNavigate();
@@ -34,13 +32,13 @@ function KakaoAuthPage() {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
-          GuardianJoinPage(loginData.data.name);
+          navigate("/join/guardian");
         }
         if (loginData.data.userType == "userWard") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
-          SeniorJoinPage(loginData.data.name);
+          navigate("/join/senior");
         }
       }
     }
