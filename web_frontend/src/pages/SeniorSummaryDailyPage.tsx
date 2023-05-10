@@ -33,7 +33,7 @@ function SeniorSummaryDailyPage() {
   const [clickedMeal, setClickedMeal] = useState(0);
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
-  const RANDOM_NUMBER = Math.floor(Math.random() * 3) + 1;
+  const RANDOM_NUMBER = Math.floor(Math.random() * 4) + 1;
 
   const container = {
     hidden: { opacity: 1, scale: 0 },

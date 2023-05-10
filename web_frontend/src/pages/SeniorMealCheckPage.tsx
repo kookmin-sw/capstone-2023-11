@@ -252,7 +252,13 @@ function SeniorMealCheckPage() {
               ) : (
                 <StFoodUnselected onClick={() => setCurrentSelect(-1)}>여기엔 없어요 ㅜㅜ</StFoodUnselected>
               )}
-              <StNextButton onClick={() => FoodDetect()}>다음으로</StNextButton>
+              <StNextButton
+                onClick={() => {
+                  FoodDetect();
+                  setCurrentSelect(0);
+                }}>
+                다음으로
+              </StNextButton>
             </StCheckModal>
           </StBackground>
         ) : (
@@ -440,6 +446,7 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
+  margin-bottom: 2rem;
 `;
 const StFoodImg = styled.img`
   max-width: 80%;
@@ -648,7 +655,7 @@ const StBoxContainer = styled.div`
   height: 45vh;
   overflow: scroll;
   margin-top: 2rem;
-  max-height: 35rem;
+  max-height: 30rem;
 `;
 const StMotionContainer = styled(motion.ul)`
   align-items: center;
