@@ -15,6 +15,8 @@ import SeniorExerciseMainPage from "../pages/SeniorExericseMainPage";
 import SeniorMealMain from "../pages/SeniorMealMain";
 import SeniorSummaryDailyPage from "../pages/SeniorSummaryDailyPage";
 import { AnimatePresence } from "framer-motion";
+import GuardianJoinPage from "../pages/GuardianJoinPage";
+import SeniorJoinPage from "../pages/SeniorJoinPage";
 
 function Router() {
   return (
@@ -23,6 +25,8 @@ function Router() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/kakao" element={<KakaoAuthPage />} />
+          <Route path="/join/guardian" element={<GuardianJoinPage />} />
+          <Route path="/join/senior" element={<SeniorJoinPage />} />
           <Route path="/senior/main" element={<SeniorMain />} />
           <Route path="/senior/myPage" element={<SeniorMypage />} />
           <Route path="/senior/pill" element={<SeniorPillMain />} />
