@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { wardJoin } from "../core/api/index";
 import { motion } from "framer-motion";
 
-function SeniorJoinPage() {
+function SeniorJoinPage(prop: string) {
   const [process, setProcess] = useState(1);
   const [height, setHeight] = useState<number | string>(0);
   const [weight, setWeight] = useState<number | string>(0);
@@ -43,7 +43,7 @@ function SeniorJoinPage() {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <StSeniorPage>
-          <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+          <StWelcomMessage>어서오세요! {prop}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
           <StMedicalContainer>
             <StHeight>
@@ -156,7 +156,7 @@ function SeniorJoinPage() {
     return (
       <motion.div className="loginPage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <StSeniorPage>
-          <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+          <StWelcomMessage>어서오세요! {prop}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
           <StSecondContainer>
             <StIllInfo>

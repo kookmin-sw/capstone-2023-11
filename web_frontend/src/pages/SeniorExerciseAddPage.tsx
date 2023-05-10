@@ -102,7 +102,7 @@ function SeniorExercise() {
           ) : isSelected == "" ? (
             <motion.li className="item" variants={items}>
               <CalContainer>
-                <StTitle className="title">선택한 운동</StTitle>
+                <StText className="title">선택한 운동</StText>
                 <FlexContainer>
                   <div className="col">
                     {fixedData.map(({ name, time }) => (
@@ -130,7 +130,7 @@ function SeniorExercise() {
           ) : (
             <motion.li className="item" variants={items}>
               <CalContainer>
-                <StTitle className="title">선택한 운동</StTitle>
+                <StText className="title">선택한 운동</StText>
                 <FlexContainer>
                   <div className="col">
                     {fixedData.map(({ name, time }) => (
@@ -207,6 +207,13 @@ const StTitle = styled.div`
   margin-top: 0.5rem;
 `;
 
+const StText = styled.div`
+  font-size: 2.5rem;
+  font-family: "Pretendard-Bold";
+  text-align: center;
+  margin-top: 0.5rem;
+`;
+
 const StHeader = styled.header`
   align-items: center;
   margin-top: 1.6rem;
@@ -265,9 +272,10 @@ const CalContainer = styled.div`
 const CalList = styled.li`
   font-family: "Pretendard-Regular";
   font-size: 1.7rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   list-style: none;
   margin-left: 2rem;
+  margin-top: 0.2rem;
 `;
 
 const StButtonBack = styled.img`
@@ -289,6 +297,7 @@ const StListContainer = styled.div`
   display: flex;
   width: 30rem;
   justify-content: space-between;
+  margin-top: 1rem;
   .col {
     display: flex;
     flex-direction: column;

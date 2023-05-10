@@ -44,6 +44,7 @@ const StButtonList = styled.div`
   border-radius: 1rem;
   justify-content: center;
   background-color: #ffffff;
+  margin-top: 10rem;
   .line {
     border-bottom: 0.2rem solid #d4d6dd;
     padding: 0.5rem;

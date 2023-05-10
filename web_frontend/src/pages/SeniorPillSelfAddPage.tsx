@@ -215,7 +215,6 @@ function SeniorPillSelf() {
                     <></>
                   )}
                 </DropdownContainer>
-                {/* <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} /> */}
               </StPillComponent>
               <StPillComponent>
                 <StModalContent>복용 시간</StModalContent>

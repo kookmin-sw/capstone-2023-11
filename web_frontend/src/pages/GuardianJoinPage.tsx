@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrandFather, GrandMother } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { guardianJoin } from "../core/api";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 
-function GuardianJoinPage() {
+function GuardianJoinPage(prop: string) {
   const [seniors, setSeniors] = useState<number[]>([]);
   const [code, setCode] = useState("");
   const [joinState, setJoinState] = useState(false);
@@ -19,14 +19,16 @@ function GuardianJoinPage() {
     }
   };
   const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: !!joinState });
-  if (data != undefined) {
-    alert("회원가입이 완료되었습니다.");
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (data) {
+      alert("회원가입이 완료되었습니다.");
+      navigate("/login");
+    }
+  }, [data]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StGuardianPage>
-        <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+        <StWelcomMessage>어서오세요! {prop}님!</StWelcomMessage>
         <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
         <StContainer>
           <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>

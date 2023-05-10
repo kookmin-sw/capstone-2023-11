@@ -33,7 +33,7 @@ function SeniorSummaryDailyPage() {
   const [clickedMeal, setClickedMeal] = useState(0);
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
-  const RANDOM_NUMBER = Math.floor(Math.random() * 3) + 1;
+  // const RANDOM_NUMBER = Math.floor(Math.random() * 4) + 1;
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -111,7 +111,7 @@ function SeniorSummaryDailyPage() {
                       {item.detail.map((mealList, index2) => (
                         <motion.li key={index} className="item" variants={items}>
                           <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
-                            <StIcon src={require(`../assets/icons/icon_food${RANDOM_NUMBER}.png`)} />
+                            <StIcon src={require(`../assets/icons/icon_food1.png`)} />
                             <div>
                               <StFoodName>{mealList.name}</StFoodName>
                               <StNutrient>

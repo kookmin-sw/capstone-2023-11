@@ -212,15 +212,15 @@ const StModal = styled(Modal)`
   align-items: center;
   justify-content: center;
   display: flex;
-  margin-top: 5rem;
+  text-align: center;
+  margin-top: 25rem;
 `;
 const StPopContainer = styled.div`
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   justify-content: center;
-  margin-top: 50%;
   background-color: #f8f9fe;
   border-radius: 1rem;
-  width: 80%;
+  width: 30rem;
   .POP {
     padding: 2rem;
   }
@@ -228,11 +228,13 @@ const StPopContainer = styled.div`
 const BTNContainer = styled.div`
   justify-content: space-evenly;
   display: flex;
+  gap: 1rem;
 `;
 
 const BlueBTN = styled(BlueButton)`
   width: 10rem;
   margin-right: 0.4rem;
+  font-family: "Pretendard-Regular";
 `;
 
 const StButtonBack = styled.img`
