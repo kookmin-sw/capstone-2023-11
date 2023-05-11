@@ -36,6 +36,7 @@ const StSplashPage = styled.div`
   img {
     width: 100vw;
     height: 100vh;
+    max-width: 40rem;
   }
   width: 100vw;
   height: 100vh;
