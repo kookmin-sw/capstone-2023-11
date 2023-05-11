@@ -547,10 +547,17 @@
                                                             align="center">
 
                                                             <img align="center" border="0"
-                                                                 src="https://assets.unlayer.com/stock-templates1683829040456-돈까스사진.jpg"
+                                                                 th:src="${imageUrl}"
                                                                  alt="" title=""
                                                                  style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 66%;max-width: 382.8px;"
                                                                  width="382.8"/>
+
+
+<!--                                                            <img align="center" border="0"-->
+<!--                                                                 src="https://assets.unlayer.com/stock-templates1683829040456-돈까스사진.jpg"-->
+<!--                                                                 alt="" title=""-->
+<!--                                                                 style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 66%;max-width: 382.8px;"-->
+<!--                                                                 width="382.8"/>-->
 
                                                         </td>
                                                     </tr>
@@ -582,21 +589,18 @@
                                 <th><strong>단백질(g)</strong></th>
                                 <th><strong>칼로리(kcal)</strong></th>
                             </tr>
-
                         </thead>
 
                         <tbody >
-                            <tr >
-                                <td align="center"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong></p></td>
-                                <td align="center"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong> g</p></td>
-                                <td align="center"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong> kcal</p></td>
+                            <tr th:each="meal : ${meals}">
+                                <td align="center" th:text="${meal.getName()}"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong></p></td>
+                                <td align="center" th:text="${meal.getCarbohyborateTotal()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${meal.getFatTotal()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${meal.getProtein()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${meal.getCalorie()()}"><p style="font-size: 14px; line-height: 140%;"><strong>100</strong> kcal</p></td>
                             </tr>
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
 
@@ -749,7 +753,7 @@
                                                 <div class="v-text-align"
                                                      style="color: #ffffff; line-height: 140%; text-align: right; word-wrap: break-word;">
                                                     <p style="font-size: 14px; line-height: 140%;"><span
-                                                            style="font-size: 18px; line-height: 25.2px;"><strong>4000 kcal</strong></span>
+                                                            style="font-size: 18px; line-height: 25.2px;"><strong><span th:text="${totalKcal}">4000</span> kcal</strong></span>
                                                     </p>
                                                 </div>
 
