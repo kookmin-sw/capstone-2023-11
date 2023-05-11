@@ -13,7 +13,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
@@ -25,7 +24,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class notificationServiceImpl implements notificationService{
+public class NotificationServiceImpl implements NotificationService {
   private final JavaMailSender javaMailSender;
   private final SpringTemplateEngine springTemplateEngine;
   private final UserGuardianUserWardRepository userGuardianUserWardRepository;
@@ -80,11 +79,6 @@ public class notificationServiceImpl implements notificationService{
 	  javaMailSender.send(mimeMessage);
 	}
 
-
-  }
-
-  @Override
-  public void sendFoodMail(MealInfoMailDto mealInfoMailDto) throws MessagingException {
 
   }
 
