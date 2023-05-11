@@ -1,8 +1,23 @@
 import { motion } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function SplashPage() {
+  const navigate = useNavigate();
+  setTimeout(() => {
+    {
+      const accessToken = localStorage.getItem("accessToken");
+      const userStatus = localStorage.getItem("userStatus");
+
+      if (accessToken && userStatus == "userGuardian") {
+        navigate("/guardian/main");
+      } else if (accessToken && userStatus == "userWard") {
+        navigate("/senior/main");
+      } else {
+        navigate("/login");
+      }
+    }
+  }, 2000);
   return (
     <StSplashPage>
       <motion.img
