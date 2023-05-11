@@ -107,7 +107,7 @@ public class NotificationServiceImpl implements NotificationService {
 		helper.setTo(emailName.getEmail());
 		// 보호자 이름 변경
 		context.setVariable("guardianName", emailName.getName());
-		// 메일 쓰레드로 보내기
+		// TODO 메일 쓰레드로 보내기
 		javaMailSender.send(mimeMessage);
 
 	  }
