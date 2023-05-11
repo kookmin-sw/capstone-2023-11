@@ -6,6 +6,6 @@ import javax.mail.MessagingException;
 
 public interface NotificationService {
 
-  void sendFoodMail(MealInfoMailDto mealInfoMailDto) throws MessagingException;
+  void sendFoodMail(MealInfoMailDto mealInfoMailDto);
   void sendMedicineMail() throws MessagingException;
 }

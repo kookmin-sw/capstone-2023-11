@@ -32,37 +32,39 @@ public class NotificationServiceImpl implements NotificationService {
   @Value("${spring.mail.username}")
   String senderEmailAdderess;
 
+
   @Override
-  public void sendFoodMail(MealInfoMailDto mealInfoMailDto) throws MessagingException {
+  public void sendFoodMail(MealInfoMailDto mealInfoMailDto){
 	MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-	MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+	try {
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-	// 보호자 조회
-	if (!userWardRepository.findById(mealInfoMailDto.getWardId()).isPresent()) return; // 없으면
-	UserWard userWard = userWardRepository.findById(mealInfoMailDto.getWardId()).get();
-	List<UserGuardianUserWard> guardianWards = userGuardianUserWardRepository.findUserGuardianUserWardsByUserWard(userWard);
-	ArrayList<EmailName> emailReceivers = new ArrayList<>();
+		// 보호자 조회
+		if (!userWardRepository.findById(mealInfoMailDto.getWardId()).isPresent()) return; // 없으면
+		UserWard userWard = userWardRepository.findById(mealInfoMailDto.getWardId()).get();
+		List<UserGuardianUserWard> guardianWards = userGuardianUserWardRepository.findUserGuardianUserWardsByUserWard(userWard);
+		ArrayList<EmailName> emailReceivers = new ArrayList<>();
 
-	// 메일을 받을 보호자 명단 추리기
-	for ( UserGuardianUserWard guardianWard : guardianWards) {
-	  emailReceivers.add(
-			  EmailName.builder()
-					  .email(guardianWard.getUserGuardian().getEmail())
-					  .name(guardianWard.getUserGuardian().getName())
-					  .build()
-	  );
-	}
+		// 메일을 받을 보호자 명단 추리기
+		for ( UserGuardianUserWard guardianWard : guardianWards) {
+			emailReceivers.add(
+					EmailName.builder()
+							.email(guardianWard.getUserGuardian().getEmail())
+							.name(guardianWard.getUserGuardian().getName())
+							.build()
+			);
+		}
 
-	for (EmailName emailName : emailReceivers) {
-	  //메일 제목 설정
-	  String emailTitle = userWard.getName() + "님이 식사 정보를 기록하셨습니다.";
-	  helper.setSubject(emailTitle);
-	  //수신자 설정
-	  helper.setTo(emailName.getEmail());
-	  //발신자 설정
-	  helper.setFrom(senderEmailAdderess);
+		for (EmailName emailName : emailReceivers) {
+			//메일 제목 설정
+			String emailTitle = userWard.getName() + "님이 식사 정보를 기록하셨습니다.";
+			helper.setSubject(emailTitle);
+			//수신자 설정
+			helper.setTo(emailName.getEmail());
+			//발신자 설정
+			helper.setFrom(senderEmailAdderess);
 
-	  //메일 템플릿
+			//메일 템플릿
 //	  Context context = new Context(); // 타임리프 컨텍스트
 //	  context.setVariable("managerName",managerDto.getName());
 
@@ -76,9 +78,11 @@ public class NotificationServiceImpl implements NotificationService {
 //	  helper.addInline("image4", new ClassPathResource("static/images/image-4.png"));
 //	  helper.addInline("image5", new ClassPathResource("static/images/image-5.png"));
 
-	  javaMailSender.send(mimeMessage);
-	}
+			javaMailSender.send(mimeMessage);
+		}
+	} catch (MessagingException e) {
 
+	}
 
   }
 

@@ -5,6 +5,8 @@ import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
 import capstone.server.domain.image.repository.ImageRepository;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.notification.dto.MealInfoMailDto;
+import capstone.server.domain.notification.service.NotificationService;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Food;
 import capstone.server.entity.Image;
@@ -45,6 +47,8 @@ public class FoodServiceImpl implements FoodService{
     private ImageRepository imageRepository;
     @Autowired
     private UserWardRepository userWardRepository;
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private S3Util s3Util;
@@ -91,6 +95,15 @@ public class FoodServiceImpl implements FoodService{
         log.info(title);
         log.info(url);
 
+        //mail에 전송하기 위한 객체
+        MealInfoMailDto mealInfoMailDto = MealInfoMailDto.builder()
+                .dateTime(LocalDateTime.now())
+                .times(times)
+                .imageUrl(url)
+                .details(new ArrayList<>())
+                .wardId(userWard.getUserId())
+                .build();
+
         // S3에 업로드한 이미지 DB에 저장
         Image savedImage = Image.builder()
                 .title(title)
@@ -121,8 +134,13 @@ public class FoodServiceImpl implements FoodService{
                     .servingSize(info.getServingSize())
                     .meal(meal).build();
 
+            // MailDto에 음식 상세정보 추가
+            mealInfoMailDto.getDetails().add(info);
+
             foodRepository.save(food);
         }
+
+        notificationService.sendFoodMail(mealInfoMailDto);
 
         return "식사 등록에 성공하였습니다.";
     }

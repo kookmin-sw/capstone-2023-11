@@ -1,7 +1,6 @@
 package capstone.server.domain.notification.dto;
 
 import capstone.server.domain.food.dto.FoodInfo;
-import capstone.server.domain.food.dto.MealInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
