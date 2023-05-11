@@ -242,9 +242,9 @@ function SeniorPillMain() {
                 </motion.li>
               ))}
             </StPillList>
-            <motion.li className="item" variants={items}>
+            <StBtnContainer className="item" variants={items}>
               <PillAddModal />
-            </motion.li>
+            </StBtnContainer>
           </StBody>
         </StContainer>
       </motion.ul>
@@ -624,4 +624,9 @@ const ItemName = styled.p`
   text-align: center;
   font-family: "Pretendard-Bold";
   font-size: 1.3rem;
+`;
+
+const StBtnContainer = styled(motion.li)`
+  display: flex;
+  justify-content: center;
 `;
