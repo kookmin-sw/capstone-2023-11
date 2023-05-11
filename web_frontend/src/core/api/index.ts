@@ -148,10 +148,10 @@ export const getUserStatus = async (userStatus: string | null, accessToken: stri
   return data;
 };
 
-export const guardianJoin = async (wardCodes: number[]) => {
+export const guardianJoin = async (wardCodes: number[], email: string) => {
   const data = axios.post(
     `${process.env.REACT_APP_SERVER}/api/join/guardian`,
-    { wardCodes: wardCodes, kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken") },
+    { wardCodes: wardCodes, email: email, kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken") },
     {},
   );
 

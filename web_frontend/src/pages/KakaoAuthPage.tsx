@@ -27,9 +27,12 @@ function KakaoAuthPage() {
   }, [data, accessToken]);
   useEffect(() => {
     if (loginData) {
-      if (loginData.data.result == "login") {
+      if (loginData.data.result == "login" && localStorage.getItem("userStatus") == "userWard") {
         localStorage.setItem("accessToken", loginData.data.jwt);
         navigate("/senior/main");
+      } else if (loginData.data.result == "login" && localStorage.getItem("userStatus") == "userGuardian") {
+        localStorage.setItem("accessToken", loginData.data.jwt);
+        navigate("/guardian/main");
       } else {
         if (loginData.data.userType == "userGuardian") {
           if (accessToken) {

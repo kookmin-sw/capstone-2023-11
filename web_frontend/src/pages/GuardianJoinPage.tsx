@@ -12,6 +12,7 @@ function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<number[]>([]);
   const [code, setCode] = useState("");
   const [joinState, setJoinState] = useState(false);
+  const [email, setEmail] = useState("");
   const getNameAtom = useRecoilValue(nameAtom);
   const navigate = useNavigate();
   const ControllJoin = () => {
@@ -21,7 +22,7 @@ function GuardianJoinPage() {
       setJoinState(true);
     }
   };
-  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: !!joinState });
+  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors, email), { enabled: !!joinState });
   useEffect(() => {
     if (data) {
       alert("회원가입이 완료되었습니다.");
@@ -33,6 +34,12 @@ function GuardianJoinPage() {
       <StGuardianPage>
         <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
         <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
+        <StMedicalContainer>
+          <div>
+            <StInfoInput>📨 이메일을 알려주세요!</StInfoInput>
+            <StEmailInput placeholder="이메일을 알려주세요" onChange={(e) => setEmail(e.target.value)} type="email" />
+          </div>
+        </StMedicalContainer>
         <StContainer>
           <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>
           <StInputContainer>
@@ -212,4 +219,28 @@ const StButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+const StMedicalContainer = styled.div`
+  display: flex;
+  margin-left: 2.5rem;
+  margin-bottom: 1rem;
+`;
+const StInfoInput = styled.p`
+  font-size: 1.8rem;
+  font-family: "Pretendard-Bold";
+  margin-top: 2.7rem;
+  padding-left: 0.1rem;
+  margin-bottom: 1.5rem;
+`;
+const StEmailInput = styled.input`
+  width: 29.5rem;
+  height: 4.8rem;
+  border: 0.15rem solid;
+  border-radius: 1.2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 1.5rem;
+  background-color: white;
+  border: 0.15rem solid #006ffd;
+  font-family: "Pretendard-Regular";
 `;
