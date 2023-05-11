@@ -12,7 +12,7 @@ function LoginPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
       <StLoginPage>
-        <StLogo src={require("../../src/assets/images/img_logo.png")} />
+        <StLogo src={require("../../src/assets/images/img_logo.jpeg")} />
         <StTitle>사용할 서비스를 선택하세요</StTitle>
         <StSelectContainer>
           {userStatus == "userGuardian" ? (
@@ -103,5 +103,6 @@ const StClickedButton = styled.button`
   margin-bottom: 2.3rem;
 `;
 const StLogo = styled.img`
-  max-width: 100vw;
+  max-width: 39rem;
+  margin-top: 5rem;
 `;
