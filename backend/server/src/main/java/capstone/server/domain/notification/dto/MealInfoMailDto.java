@@ -11,7 +11,5 @@ import java.util.List;
 @Builder
 public class MealInfoMailDto {
 	private MealInfo mealInfo;
-	private List<FoodInfo> foodInfos;
-	private String imageUrl;
 	private Long wardId;
 }
