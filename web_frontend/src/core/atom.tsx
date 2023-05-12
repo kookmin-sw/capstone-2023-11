@@ -154,6 +154,20 @@ export interface IPillInfo {
   ];
 }
 
+export interface MedicineData {
+  name: string;
+  companyName: string;
+  depositMethod: string;
+  effect: string;
+  useMethod: string;
+  caution: string;
+  imageUrl: string;
+  breakfast: boolean;
+  lunch: boolean;
+  dinner: boolean;
+  daysToTake: number;
+}
+
 export interface MainInfo {
   userCode: number;
   userName: string;
