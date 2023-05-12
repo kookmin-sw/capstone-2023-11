@@ -1,16 +1,30 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { IWeeklyData, nameAtom } from "../../core/atom";
 
 const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
-export function SeniorAdvice() {
-  const [answer, setAnswer] = useState("");
+export function SeniorAdvice(data: IWeeklyData) {
+  const getNameAtom = useRecoilValue(nameAtom);
+  const exerCalories = [];
+  if (data) {
+    for (let i = 0; i < 7; i++) {
+      const calData = data.weeklyExerciseInfo[i].calorie;
+      exerCalories.push(calData);
+    }
+  }
+  console.log(exerCalories);
 
+  const countExercise = exerCalories.filter((num) => num !== 0).length;
+
+  const [answer, setAnswer] = useState("");
+  console.log(data);
   useEffect(() => {
     callOpenAIApi();
-  }, []);
+  }, [data]);
 
   async function callOpenAIApi() {
     console.log("calling api...");
@@ -22,11 +36,14 @@ export function SeniorAdvice() {
       I will give you the answer to Korean. 
       If you ask me a question that is nonsense, trickery, or has no clear answer, 
       I will respond with "잘 모르겠어요.".
-      Q: 이사람의 이름은 김덕춘이고, 69세, 163cm, 37kg 여성입니다. 
-      김덕춘의 지난 7일간 식사 데이터를 알려드리겠습니다. 
-      평균 칼로리 섭취량 1600kcal, 평균 단백질 섭취량 30g, 평균 탄수화물 섭취량 200g, 평균 지방 섭취량 12g입니다. 
-      지난 7일간 운동을 한 일자는 0일 입니다. 이 사람의 한줄평 및 추천하는 식사의 예, 추천하는 운동을 아래의 예시처럼 보여주세요.
-      "김덕춘의 종합평가는 같은 연령대에 비해 ~~합니다.\n ~~와 같은 이유 때문에 ~~와 같은 음식을 추천드립니다.\n ~~와 같은 이유 때문에 ~~와 같은 운동을 추천드립니다." A:`,
+      Q: 이사람의 이름은 ${getNameAtom}이고, ${data.age}세, ${data.height}cm, ${data.weight}kg ${
+        data.gender == "MALE" ? "남성" : "여성"
+      }입니다. 
+      이 사람은 7일간 총 ${countExercise}일 운동했습니다.
+      이 사람의 한줄평 및 추천하는 식사의 예, 추천하는 운동을 아래의 예시처럼 보여주세요.
+      "${data.name}의 종합평가는 같은 연령대${
+        data.age
+      }에 비해 ~~합니다.\n ~~와 같은 이유 때문에 ~~와 같은 음식을 추천드립니다.\n ~~와 같은 이유 때문에 ~~와 같은 운동을 추천드립니다." A:`,
       temperature: 0,
       max_tokens: 2000,
       top_p: 1,
