@@ -93,11 +93,11 @@ public class NotificationServiceImpl implements NotificationService {
 	  context.setVariable("totalKcal", totalkcal);
 
 	  // 템플릿 이미지 cid로 삽입
-	  helper.addInline("image1", new ClassPathResource("static/images/image-1.png"));
-	  helper.addInline("image2", new ClassPathResource("static/images/image-2.png"));
-	  helper.addInline("image3", new ClassPathResource("static/images/image-3.png"));
-	  helper.addInline("image4", new ClassPathResource("static/images/image-4.png"));
-	  helper.addInline("image5", new ClassPathResource("static/images/image-5.png"));
+	  helper.addInline("facebook", new ClassPathResource("static/images/image-1.png"));
+	  helper.addInline("twitter", new ClassPathResource("static/images/image-2.png"));
+	  helper.addInline("linkedin", new ClassPathResource("static/images/image-3.png"));
+	  helper.addInline("instagram", new ClassPathResource("static/images/image-4.png"));
+	  helper.addInline("boksiri", new ClassPathResource("static/images/image-5.png"));
 
 	  /* --------------------- */
 
