@@ -139,9 +139,7 @@ public class FoodServiceImpl implements FoodService{
 
             foodRepository.save(food);
         }
-
         notificationService.sendFoodMail(mealInfoMailDto);
-
         return "식사 등록에 성공하였습니다.";
     }
 

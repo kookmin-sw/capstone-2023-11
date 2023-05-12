@@ -397,7 +397,7 @@
                                                 <div class="v-text-align"
                                                      style="color: #34495e; line-height: 140%; text-align: left; word-wrap: break-word;">
                                                     <p style="font-size: 14px; line-height: 140%;"><span
-                                                            style="font-size: 18px; line-height: 25.2px;"><strong> <span th:text="${wardName}">{WARD}</span> 님의 보호자 <span th:text="${guardianName}">{GUARDIAN} 님 안녕하세요 !</span></strong></span>
+                                                            style="font-size: 18px; line-height: 25.2px;"><strong> <span th:text="${wardName}">{WARD}</span> 님의 보호자 <span th:text="${guardianName}">{GUARDIAN}</span> 님 안녕하세요!</strong></span>
                                                     </p>
                                                 </div>
 
@@ -592,12 +592,12 @@
                         </thead>
 
                         <tbody >
-                            <tr th:each="meal : ${meals}">
-                                <td align="center" th:text="${meal.getName()}"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong></p></td>
-                                <td align="center" th:text="${meal.getCarbohyborateTotal()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${meal.getFatTotal()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${meal.getProtein()()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${meal.getCalorie()()}"><p style="font-size: 14px; line-height: 140%;"><strong>100</strong> kcal</p></td>
+                            <tr th:each=" foodinfo: ${meals}">
+                                <td align="center" th:text="${foodinfo.getName()}"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong></p></td>
+                                <td align="center" th:text="${foodinfo.getCarbohyborateTotal()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${foodinfo.getFatTotal()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${foodinfo.getProtein()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${foodinfo.getCalorie()}"><p style="font-size: 14px; line-height: 140%;"><strong>100</strong> kcal</p></td>
                             </tr>
                         </tbody>
                     </table>
@@ -892,7 +892,6 @@
                                 <!--[if (!mso)&(!IE)]><!-->
                                 <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
                                     <!--<![endif]-->
-
                                     <table style="font-family:'Montserrat',sans-serif;" role="presentation"
                                            cellpadding="0" cellspacing="0" width="100%" border="0">
                                         <tbody>
