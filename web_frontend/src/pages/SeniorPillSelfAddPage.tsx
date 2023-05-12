@@ -150,7 +150,6 @@ function SeniorPillSelf() {
           <StPillList>
             {name?.map((value) => (
               <StPillItem
-                key={value.toString()}
                 onClick={async () => {
                   handleOpenModal(value.toString());
                   setValue(value.toString());
