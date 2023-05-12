@@ -94,7 +94,7 @@ public class UserGuardianServiceImpl implements UserGuardianService {
     }
 
     @Override
-    public String connectWards(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId) throws HttpClientErrorException, NoSuchElementException{
+    public String connectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId) throws HttpClientErrorException, NoSuchElementException{
         UserGuardian userGuardian = userGuardianRepository.findUserGuardianByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
 
         // 해당 유저코드가 없으면 예외발생

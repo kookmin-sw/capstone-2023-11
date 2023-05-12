@@ -10,14 +10,12 @@ import capstone.server.domain.user.service.UserGuardianService;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -97,10 +95,10 @@ public class UserGuardianController {
     }
 
     @PostMapping(value = "/connect")
-    public ResponseEntity<?> connectWards(Authentication authentication, @RequestBody Long userWardKakaoAccountId) {
+    public ResponseEntity<?> connectWard(Authentication authentication, @RequestBody Long userWardKakaoAccountId) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
-            String result = userGuardianService.connectWards(kaKaoAccountIdAndUserType, userWardKakaoAccountId);
+            String result = userGuardianService.connectWard(kaKaoAccountIdAndUserType, userWardKakaoAccountId);
             return ResponseEntity.ok().body(result);
 
         } catch (HttpClientErrorException e) {
