@@ -363,6 +363,7 @@ const StSearchButton = styled.button`
 const StSearchBtnImg = styled.img`
   width: 3rem;
   height: 3rem;
+  padding: 0.3rem;
 `;
 
 const StBody = styled.div`
