@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
-import { BlueStarIcn, PhotoIcn } from "../assets/icons";
+import { BlueStarIcn, PhotoIcn, CheckedIcn } from "../assets/icons";
 
 Modal.setAppElement("#root");
 
@@ -223,6 +223,7 @@ function PillImgUpload() {
                         );
                       }}>
                       {name}
+                      <img src={CheckedIcn} />
                     </StItemChecked>
                   ) : (
                     <StItem
@@ -430,12 +431,13 @@ const StItem = styled.li`
   padding: 3rem;
   align-items: center;
   height: 5rem;
-  margin: 2rem;
+  margin: 1.2rem;
   color: #000000;
   font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #ffffff;
+  justify-content: space-between;
 `;
 
 const StItemChecked = styled.li`
@@ -443,10 +445,11 @@ const StItemChecked = styled.li`
   padding: 3rem;
   align-items: center;
   height: 5rem;
-  margin: 2rem;
-  color: #000000;
+  margin: 1.2rem;
+  color: #006ffd;
   font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
+  justify-content: space-between;
   border-radius: 1.2rem;
   background-color: #eaf2ff;
 `;
