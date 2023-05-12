@@ -71,7 +71,10 @@ public class NotificationServiceImpl implements NotificationService {
 		// 시니어 이름
 		context.setVariable("wardName", userWard.getName());
 		// 식사 생성일
-		context.setVariable("datetime", mealInfoMailDto.getDateTime());
+		LocalDateTime dateTime = mealInfoMailDto.getDateTime();
+		context.setVariable("datetime", dateTime.toLocalDate());
+		// 끼니 정보
+		context.setVariable("times", mealInfoMailDto.getTimes());
 		// 식사 이미지
 		context.setVariable("imageUrl", mealInfoMailDto.getImageUrl());
 		// 보호자 이름 변경
@@ -94,7 +97,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 		// 템플릿 이미지 cid로 삽입
 		helper.addInline("facebook", new ClassPathResource("static/images/image-1.png"));
-		helper.addInline("twitter", new ClassPathResource("static/images/image-2.png"));
+//		helper.addInline("twitter", new ClassPathResource("static/images/image-2.png"));
 		helper.addInline("linkedin", new ClassPathResource("static/images/image-3.png"));
 		helper.addInline("instagram", new ClassPathResource("static/images/image-4.png"));
 		helper.addInline("boksiri", new ClassPathResource("static/images/image-5.png"));
