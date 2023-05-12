@@ -10,6 +10,7 @@ import BackButton from "../components/common/BackButton";
 Modal.setAppElement("#root");
 
 function SeniorPillSelf() {
+  const [search, setSearch] = useState("");
   const [value, setValue] = useState("");
   const [company, setCompany] = useState<string | undefined>("");
   const [depositMethod, setDepositMethod] = useState<string | undefined>("");
@@ -68,8 +69,8 @@ function SeniorPillSelf() {
       navigate("/senior/pill");
     }
   }, [data, navigate]);
-  const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
-  const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
+  const { data: pillData } = useQuery<PillData>(["info", search], () => fetchPillInfo(search));
+  const { data: imgData } = useQuery<ImgData>(["img", search], () => fetchPillImg(search));
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
     if (pillData) {
@@ -139,7 +140,7 @@ function SeniorPillSelf() {
             <StTitle>약 직접입력</StTitle>
           </StHederContent>
           <StHederContent>
-            <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={(prop) => setValue(prop.target.value)} />
+            <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={(prop) => setSearch(prop.target.value)} />
             <StSearchButton onClick={onClickButton}>
               <StSearchBtnImg src={require("../assets/images/search.png")} />
             </StSearchButton>
