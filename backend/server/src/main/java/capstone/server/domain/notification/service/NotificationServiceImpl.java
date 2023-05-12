@@ -44,6 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 	  if (!userWardRepository.findById(mealInfoMailDto.getWardId()).isPresent()) return; // 없으면
 	  UserWard userWard = userWardRepository.findById(mealInfoMailDto.getWardId()).get();
 	  List<UserGuardianUserWard> guardianWards = userGuardianUserWardRepository.findUserGuardianUserWardsByUserWard(userWard);
+	  if (guardianWards.isEmpty()) return; // 연관관계가 없으면 메일전송 시스템이 발동하면 안된다.
 	  ArrayList<EmailName> emailReceivers = new ArrayList<>();
 
 	  // 메일을 받을 보호자 명단 추리기
@@ -104,16 +105,15 @@ public class NotificationServiceImpl implements NotificationService {
 		helper.setTo(emailName.getEmail());
 		// TODO 메일 쓰레드로 보내기
 		javaMailSender.send(mimeMessage);
+		log.info(emailName.getEmail() + "에게 메일 전송 완료" );
 
 	  }
 	} catch (MessagingException e) {
 	  log.error(e.toString());
 	}
-
   }
 
   @Override
   public void sendMedicineMail() {
-
   }
 }
