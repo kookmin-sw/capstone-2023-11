@@ -108,7 +108,7 @@ const StPillRemainday = styled.div`
 `;
 
 const StPillContent = styled.div`
-  font-family: "retendard-Bold";
+  font-family: "Pretendard-Bold";
   font-size: 1.6rem;
   padding: 0.5rem 1rem 0rem 1rem;
   width: 20rem;
