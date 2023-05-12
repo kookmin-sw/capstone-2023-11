@@ -71,6 +71,7 @@ function PillImgUpload() {
   }, []);
 
   const [value, setValue] = useState("");
+  const [pillName2, setPillName2] = useState("");
   const { data: pillData } = useQuery<PillData>(["info", value], () => fetchPillInfo(value));
   const { data: imgData } = useQuery<ImgData>(["img", value], () => fetchPillImg(value));
 
@@ -213,6 +214,7 @@ function PillImgUpload() {
                       onClick={() => {
                         handleOpenModal();
                         setSelectedIndex(index);
+                        setPillName2(name);
                         setValue(
                           name
                             .toString()
@@ -228,6 +230,7 @@ function PillImgUpload() {
                       onClick={() => {
                         handleOpenModal();
                         setSelectedIndex(index);
+                        setPillName2(name);
                         setValue(
                           name
                             .toString()
@@ -252,7 +255,7 @@ function PillImgUpload() {
                   <StButtonBack
                     src={require("../assets/images/img_esc.png")}
                     onClick={() => setIsOpen(false)}></StButtonBack>
-                  <StModalTitle>{pillData?.data?.body.items[0].ITEM_NAME.match(/^([^(]+)/)?.[1]}</StModalTitle>
+                  <StModalTitle>{pillName2}</StModalTitle>
                   <div className="line" />
                   <StPillComponent>
                     <StModalContent>복용 일 수</StModalContent>
