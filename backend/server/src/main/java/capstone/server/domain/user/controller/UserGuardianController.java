@@ -128,5 +128,35 @@ public class UserGuardianController {
         }
     }
 
+    @DeleteMapping(value = "/connect/{userWardId}")
+    public ResponseEntity<?> disconnectWard(Authentication authentication, @PathVariable Long userWardId) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            String result = userGuardianService.disconnectWard(kaKaoAccountIdAndUserType, userWardId);
+            return ResponseEntity.ok().body(
+                    DefaultResponse.builder()
+                            .status(200)
+                            .message(result)
+                            .success(true)
+                            .build()
+            );
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(500).body(
+                    DefaultResponse.builder()
+                            .status(e.getStatusCode().value())
+                            .message(e.getMessage())
+                            .success(false)
+                            .build()
+            );
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    DefaultResponse.builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .message("등록되어있지 않은 유저이거나 이미 삭제되었습니다.")
+                            .success(false)
+                            .build()
+            );
+        }
+    }
 
 }

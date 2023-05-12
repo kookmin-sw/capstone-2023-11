@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserGuardianUserWardRepository extends JpaRepository<UserGuardianUserWard,Long> {
     boolean existsByUserGuardianAndUserWard(UserGuardian userGuardian, UserWard userWard);
+
+    void deleteByUserGuardianAndUserWard(UserGuardian userGuardian, UserWard userWard);
+
 }

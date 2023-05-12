@@ -116,4 +116,16 @@ public class UserGuardianServiceImpl implements UserGuardianService {
 
         return "새로운 시니어 등록이 완료되었습니다.";
     }
+
+    @Override
+    public String disconnectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId) throws HttpClientErrorException, NoSuchElementException{
+        UserGuardian userGuardian = userGuardianRepository.findUserGuardianByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
+
+        // 해당 유저코드가 없으면 예외발생
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(userWardKakaoAccountId).get();
+
+        userGuardianUserWardRepository.deleteByUserGuardianAndUserWard(userGuardian, userWard);
+
+        return "해당 연결이 정상적으로 삭제되었습니다.";
+    }
 }
