@@ -209,19 +209,7 @@ function PillImgUpload() {
                 <StBillTitle>약을 선택해 등록해주세요</StBillTitle>
                 {nameList?.data?.data?.map((name: string, index: number) =>
                   selected[index] ? (
-                    <StItemChecked
-                      key={name.toString()}
-                      onClick={() => {
-                        handleOpenModal();
-                        setSelectedIndex(index);
-                        setPillName2(name);
-                        setValue(
-                          name
-                            .toString()
-                            .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
-                            .trim(),
-                        );
-                      }}>
+                    <StItemChecked key={name.toString()}>
                       {name}
                       <img src={CheckedIcn} />
                     </StItemChecked>
