@@ -48,7 +48,7 @@ function SeniorMypage() {
           <StButtonInfo>개인정보 변경하기</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>
-        <StButtonContainer onClick={() => navigate("#")}>
+        <StButtonContainer>
           <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>

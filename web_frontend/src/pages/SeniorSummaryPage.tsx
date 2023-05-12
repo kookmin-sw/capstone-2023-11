@@ -13,6 +13,7 @@ import { exampleData } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { SeniorAdvice } from "../components/seniorSummary/Advice";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -105,7 +106,6 @@ function SeniorSummaryPage() {
   }
   useEffect(() => {
     if (data) {
-      console.log(data);
       setFirstApi(false);
       if (
         data.data.weeklyFoodNutrientSum.reduce(
@@ -159,9 +159,8 @@ function SeniorSummaryPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
-            <ChartContainer>
-              <CommentContainer>굿</CommentContainer>
-            </ChartContainer>
+            {SeniorAdvice(data?.data)}
+            {/* <SeniorAdvice {...data?.data} /> */}
           </motion.li>
           <BlueButton
             onClick={() => {

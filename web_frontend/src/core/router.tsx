@@ -17,6 +17,7 @@ import SeniorSummaryDailyPage from "../pages/SeniorSummaryDailyPage";
 import { AnimatePresence } from "framer-motion";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
+import SplashPage from "../pages/SplashPage";
 
 function Router() {
   return (
@@ -40,6 +41,7 @@ function Router() {
           <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
           <Route path="/senior/exercise/add" element={<SeniorExercise />} />
           <Route path="/senior/meal" element={<SeniorMealMain />} />
+          <Route path="" element={<SplashPage />} />
         </Routes>
       </AnimatePresence>
     </BrowserRouter>
