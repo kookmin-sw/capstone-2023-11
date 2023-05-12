@@ -14,4 +14,5 @@ public interface UserGuardianService {
     public GetDailySummaryDto getDailySummary(Long userWardKakaoAccountId);
     public GetWeeklySummaryDto getWeeklySummary(Long userWardKakaoAccountId);
     public List<ConnectedWard> getConnectedWards(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
+    public String connectWards(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId);
 }
