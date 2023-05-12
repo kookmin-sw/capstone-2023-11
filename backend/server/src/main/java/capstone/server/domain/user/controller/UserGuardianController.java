@@ -1,5 +1,7 @@
 package capstone.server.domain.user.controller;
 
+import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
+import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.dto.ConnectedWard;
 import capstone.server.domain.user.dto.GetDailySummaryDto;
@@ -7,21 +9,29 @@ import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
 import capstone.server.domain.user.dto.GetWeeklySummaryDto;
 import capstone.server.domain.user.exception.DuplicateUserConnectException;
 import capstone.server.domain.user.service.UserGuardianService;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
+import capstone.server.domain.workout.service.WorkOutService;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/userguardian")
+@Slf4j
 public class UserGuardianController {
     private final UserGuardianService userGuardianService;
 
@@ -89,6 +99,99 @@ public class UserGuardianController {
                             .success(false)
                             .message(e.getResponseBodyAsString())
                             .status(500)
+                            .build()
+            );
+        }
+    }
+    @GetMapping("/workout/records")
+    public ResponseEntity<?> getAllWorkOutRecords(Authentication authentication,
+                                                  @RequestParam(value = "wardId") Long userWardKakaoAccountId,
+                                                  @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM") String dateStr) {
+
+
+        try {
+            if (dateStr == null) {
+                // 모든 운동력 조회
+                List<WorkOutRecordResponse> allWorkOutRecords = userGuardianService.getAllWorkOutRecords(userWardKakaoAccountId);
+                return ResponseEntity.ok()
+                        .body(allWorkOutRecords);
+            } else {
+                log.info(dateStr);
+
+                int year = Integer.parseInt(dateStr.substring(0, 4));
+                int month = Integer.parseInt(dateStr.substring(5));
+
+                // yyyy-MM-dd로 사용
+                LocalDate startDate = LocalDate.of(year,month,1);
+                LocalDate lastDate = LocalDate.of(year,month,startDate.lengthOfMonth());
+
+                // DB 조회를 위해서 시간대로 변경
+                LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.MIN);
+                LocalDateTime lastDateTime = LocalDateTime.of(lastDate, LocalTime.MAX);
+
+                log.info("startDateTime : " + startDateTime + " lastDateTime : " + lastDateTime);
+
+                List<WorkOutRecordResponse> workOutRecordsByYearMonth = userGuardianService.getWorkOutRecordsByYearMonth(userWardKakaoAccountId, startDateTime,lastDateTime);
+                return ResponseEntity.ok()
+                        .body(workOutRecordsByYearMonth);
+            }
+
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(
+                            DefaultResponse.builder()
+                                    .success(false)
+                                    .status(e.getStatusCode().value())
+                                    .message(e.getMessage())
+                                    .build()
+                    );
+        }
+    }
+    @GetMapping(value = "/food")
+    public ResponseEntity<?> getFoodInfo(Authentication authentication,
+                                         @RequestParam(value = "wardId") Long userWardKakaoAccountId,
+                                         @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM") String dateStr) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                    .kakaoAccountId(userWardKakaoAccountId)
+                    .userType("ward")
+                    .build();
+
+            if (dateStr == null) {
+                GetFoodInfoResponseDto getFoodInfoResponseDto = userGuardianService.getFoodInfo(userWardKakaoAccountId);
+                return ResponseEntity.ok().body(getFoodInfoResponseDto);
+            } else {
+                int year = Integer.parseInt(dateStr.substring(0, 4));
+                int month = Integer.parseInt(dateStr.substring(5));
+
+                // yyyy-MM-dd로 사용
+                LocalDate startDate = LocalDate.of(year,month,1);
+                LocalDate lastDate = LocalDate.of(year,month,startDate.lengthOfMonth());
+
+                // DB 조회를 위해서 시간대로 변경
+                LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.MIN);
+                LocalDateTime lastDateTime = LocalDateTime.of(lastDate, LocalTime.MAX);
+
+                log.info("startDateTime : " + startDateTime + " lastDateTime : " + lastDateTime);
+
+                GetFoodInfoResponseDto getFoodInfoResponseDto = userGuardianService.getFoodInfoByYearMonth(userWardKakaoAccountId, startDateTime, lastDateTime);
+                return ResponseEntity.ok().body(getFoodInfoResponseDto);
+            }
+
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getMessage())
+                            .build()
+            );
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(204).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(204)
+                            .message(e.getMessage())
                             .build()
             );
         }

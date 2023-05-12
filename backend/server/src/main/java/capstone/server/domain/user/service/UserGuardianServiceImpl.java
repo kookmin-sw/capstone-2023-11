@@ -1,5 +1,7 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
+import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.dto.ConnectedWard;
 import capstone.server.domain.user.dto.GetDailySummaryDto;
@@ -9,6 +11,8 @@ import capstone.server.domain.user.exception.DuplicateUserConnectException;
 import capstone.server.domain.user.repository.UserGuardianRepository;
 import capstone.server.domain.user.repository.UserGuardianUserWardRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
+import capstone.server.domain.workout.service.WorkOutService;
 import capstone.server.entity.UserGuardian;
 import capstone.server.entity.UserGuardianUserWard;
 import capstone.server.entity.UserWard;
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,6 +35,8 @@ import java.util.NoSuchElementException;
 public class UserGuardianServiceImpl implements UserGuardianService {
 
     private final UserService userService;
+    private final FoodService foodService;
+    private final WorkOutService workOutService;
     private final UserGuardianRepository userGuardianRepository;
     private final UserWardRepository userWardRepository;
     private final UserGuardianUserWardRepository userGuardianUserWardRepository;
@@ -91,6 +98,46 @@ public class UserGuardianServiceImpl implements UserGuardianService {
 
         return result;
 
+    }
+
+    @Override
+    public GetFoodInfoResponseDto getFoodInfo(Long userWardKakaoAccountId) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return foodService.getFoodInfo(kaKaoAccountIdAndUserType);
+    }
+
+    @Override
+    public GetFoodInfoResponseDto getFoodInfoByYearMonth(Long userWardKakaoAccountId, LocalDateTime startDate, LocalDateTime lastDate) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return foodService.getFoodInfoByYearMonth(kaKaoAccountIdAndUserType, startDate, lastDate);
+    }
+
+    @Override
+    public List<WorkOutRecordResponse> getAllWorkOutRecords(Long userWardKakaoAccountId) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return workOutService.getAllWorkOutRecords(kaKaoAccountIdAndUserType);
+    }
+
+    @Override
+    public List<WorkOutRecordResponse> getWorkOutRecordsByYearMonth(Long userWardKakaoAccountId, LocalDateTime startDate, LocalDateTime lastDate) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return workOutService.getWorkOutRecordsByYearMonth(kaKaoAccountIdAndUserType, startDate, lastDate);
     }
 
     @Override

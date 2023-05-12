@@ -1,11 +1,14 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.dto.ConnectedWard;
 import capstone.server.domain.user.dto.GetDailySummaryDto;
 import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
 import capstone.server.domain.user.dto.GetWeeklySummaryDto;
+import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserGuardianService {
@@ -14,6 +17,10 @@ public interface UserGuardianService {
     public GetDailySummaryDto getDailySummary(Long userWardKakaoAccountId);
     public GetWeeklySummaryDto getWeeklySummary(Long userWardKakaoAccountId);
     public List<ConnectedWard> getConnectedWards(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
+    public GetFoodInfoResponseDto getFoodInfo(Long userWardKakaoAccountId);
+    public GetFoodInfoResponseDto getFoodInfoByYearMonth(Long userWardKakaoAccountId, LocalDateTime startDate, LocalDateTime lastDate);
+    List<WorkOutRecordResponse> getAllWorkOutRecords(Long userWardKakaoAccountId);
+    List<WorkOutRecordResponse> getWorkOutRecordsByYearMonth(Long userWardKakaoAccountId, LocalDateTime startDate, LocalDateTime lastDate);
     public String connectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId);
     public String disconnectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId);
 }
