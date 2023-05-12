@@ -22,8 +22,5 @@ public class UserGuardian extends BaseTimeEntity {
     private Long kakaoAccountId;
     @Column(name = "name")
     private String name;
-
-    @Column(name = "email")
-    private String email;
 }
 

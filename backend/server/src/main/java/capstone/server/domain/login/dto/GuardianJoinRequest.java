@@ -10,6 +10,5 @@ import java.util.ArrayList;
 public class GuardianJoinRequest {
   private ArrayList<Long> wardCodes;
   private String kakaoAccesstoken;
-  private String email;
 
 }
