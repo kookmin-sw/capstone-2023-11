@@ -133,16 +133,16 @@ function PillImgUpload() {
     return JSON.stringify(result);
   };
 
-  const pillInfo = () => {
+  const pillInfo = async () => {
     setPillName(pillData?.data?.body.items[0].ITEM_NAME);
     setCompany(pillData?.data?.body.items[0].ENTP_NAME);
     setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
     const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
     const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
-    effectParse(eeDocData).then((effectParseData) => setEffect(effectParseData));
-    useMethodParse(udDocData).then((useMethodParseData) => setUseMethod(useMethodParseData));
-    cautionParse(nbDocData).then((cautionParseData) => setCaution(cautionParseData));
+    await effectParse(eeDocData).then((effectParseData) => setEffect(effectParseData));
+    await useMethodParse(udDocData).then((useMethodParseData) => setUseMethod(useMethodParseData));
+    await cautionParse(nbDocData).then((cautionParseData) => setCaution(cautionParseData));
     setImgUrl(
       imgData?.data?.body?.items ? imgData?.data?.body.items[0].ITEM_IMAGE : require(`../assets/images/pillPhoto.png`),
     );
@@ -280,9 +280,9 @@ function PillImgUpload() {
                   <StModalContent>등록하시겠습니까?</StModalContent>
                   <StPillComponent2>
                     <StSetPillSubmitButton
-                      onClick={() => {
-                        pillInfo();
-                        setSetting(true);
+                      onClick={async () => {
+                        await pillInfo();
+                        await setSetting(true);
                         handleCloseModal();
                         setSelected((prev: boolean[]) => {
                           const newSelected = [...prev];
