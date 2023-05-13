@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
 import { IPillData } from "../core/atom";
@@ -55,7 +55,12 @@ function PillDetail() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
-        <StPillTitle>약 세부정보</StPillTitle>
+        <StLink to={`/senior/pill`}>
+          <StBackBtn>
+            <StBackBtnImg src={require("../assets/images/img_left.png")} />
+          </StBackBtn>
+        </StLink>
+        <StTitle>약 세부정보</StTitle>
       </StHeader>
       <StBody>
         <StContentList>
@@ -92,21 +97,46 @@ function PillDetail() {
 }
 
 const StHeader = styled.header`
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
 `;
 
-const StPillTitle = styled.h1`
+const StLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  display: flex;
+`;
+
+const StBackBtn = styled.button`
+  background-color: transparent;
+  border: transparent;
+  font-family: "Pretendard-Bold";
+  width: 5%;
+  padding: 0;
+`;
+
+const StBackBtnImg = styled.img`
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+`;
+
+const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
+  padding-right: 2.5rem;
 `;
 
 const StBody = styled.div`
   font-size: 2rem;
   padding: 0 2rem 0 2rem;
-  margin-bottom: 3rem;
+  margin: 3rem 0rem;
 `;
 
 const StImg = styled.img`

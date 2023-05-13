@@ -165,7 +165,6 @@ function SeniorSummaryPage() {
           <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
             {SeniorAdvice(data?.data)}
-            {/* <SeniorAdvice {...data?.data} /> */}
           </motion.li>
           <BlueButton
             onClick={() => {
