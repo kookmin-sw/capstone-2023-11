@@ -65,7 +65,6 @@ function SeniorExerciseMainPage() {
 
   const onAddClick = () => {
     navigate(`/senior/exercise/add`);
-    window.location.reload();
   };
   const onDeleteClick = (id: number) => {
     setDeleteId(id);

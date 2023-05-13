@@ -188,6 +188,36 @@ export const wardJoin = async (
   return data;
 };
 
+export const wardModify = async (
+  height: number,
+  weight: number,
+  drinkings: number,
+  smoke: number,
+  year: number,
+  month: number,
+  day: number,
+  genderType: string,
+  ills: string[],
+) => {
+  const data = axios.patch(
+    `${process.env.REACT_APP_SERVER}/api/userward/modify`,
+    {
+      height: height,
+      weight: weight,
+      drinkings: drinkings,
+      smoke: smoke,
+      year: year,
+      month: month,
+      day: day,
+      genderType: genderType,
+      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
+      ills: ills,
+    },
+    { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } },
+  );
+  return data;
+};
+
 export const checkMeal = async (file: FormData) => {
   const data = axios.post(`${process.env.REACT_APP_SERVER}/api/food/detect`, file, {
     headers: {

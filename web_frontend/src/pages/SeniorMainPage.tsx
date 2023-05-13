@@ -5,7 +5,18 @@ import styled, { css } from "styled-components";
 import { getSeniorInfo } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
-import { MainInfo, navigateIndex } from "../core/atom";
+import {
+  birthdayAtom,
+  drinkingsAtom,
+  genderAtom,
+  heightAtom,
+  illAtom,
+  MainInfo,
+  nameAtom,
+  navigateIndex,
+  smokeAtom,
+  weightAtom,
+} from "../core/atom";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
 
@@ -15,16 +26,36 @@ interface IBTN {
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
   const [open, setOpen] = useState(false);
-  const setNameAtom = useSetRecoilState(navigateIndex);
+  const setNavigateAtom = useSetRecoilState(navigateIndex);
+  const setNameAtom = useSetRecoilState(nameAtom);
+  const setHeightAtom = useSetRecoilState(heightAtom);
+  const setWeightAtom = useSetRecoilState(weightAtom);
+  const setBirthdayAtom = useSetRecoilState(birthdayAtom);
+  const setDrinkingsAtom = useSetRecoilState(drinkingsAtom);
+  const setSmokeAtom = useSetRecoilState(smokeAtom);
+  const setIllAtom = useSetRecoilState(illAtom);
+  const setGenderAtom = useSetRecoilState(genderAtom);
   const navigate = useNavigate();
   useEffect(() => {
-    setNameAtom(0);
+    setNavigateAtom(0);
     async function fetchData() {
       const data = await getSeniorInfo();
       setInfo(data);
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    if (info) {
+      setNameAtom(info.userName);
+      setHeightAtom(info.height);
+      setWeightAtom(info.weight);
+      setBirthdayAtom(info.birthday);
+      setDrinkingsAtom(info.drinkings);
+      setSmokeAtom(info.smoke);
+      setIllAtom(info.ills);
+      setGenderAtom(info.gender);
+    }
+  }, [info]);
   const onToggle = () => setOpen(!open);
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -162,7 +193,6 @@ function SeniorMain() {
               <BtnContainer
                 onClick={() => {
                   navigate(`/senior/exercise/add`);
-                  window.location.reload();
                 }}>
                 <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>운동 입력</StText>

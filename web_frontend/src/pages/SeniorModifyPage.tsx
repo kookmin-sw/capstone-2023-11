@@ -1,31 +1,52 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { wardJoin } from "../core/api/index";
+import { wardModify } from "../core/api/index";
 import { motion } from "framer-motion";
-import { nameAtom } from "../core/atom";
+import {
+  birthdayAtom,
+  drinkingsAtom,
+  genderAtom,
+  heightAtom,
+  illAtom,
+  nameAtom,
+  smokeAtom,
+  weightAtom,
+} from "../core/atom";
 import { useRecoilValue } from "recoil";
 
-function SeniorJoinPage() {
-  const [process, setProcess] = useState(1);
-  const [height, setHeight] = useState<number | string>(0);
-  const [weight, setWeight] = useState<number | string>(0);
-  const [birth, setBirth] = useState<string>();
-  const [drinkings, setDrinkings] = useState<number>(0);
-  const [smoke, setSmoke] = useState<number>(0);
-  const [ills, setIlls] = useState<string[]>([]);
-  const [genderType, setGenderType] = useState("MALE");
-  const [joinStatus, setJoinStatus] = useState(false);
+function SeniorModifyPage() {
   const getNameAtom = useRecoilValue(nameAtom);
+  const getHeightAtom = useRecoilValue(heightAtom);
+  const getWeightAtom = useRecoilValue(weightAtom);
+  const getBirthdayAtom = useRecoilValue(birthdayAtom);
+  const getDrinkingsAtom = useRecoilValue(drinkingsAtom);
+  const getSmokeAtom = useRecoilValue(smokeAtom);
+  const getIllAtom = useRecoilValue(illAtom);
+  const getGenderAtom = useRecoilValue(genderAtom);
+  const illList = [];
+  for (let i = 0; i < getIllAtom.length; i++) {
+    const calData = getIllAtom[i].name;
+    illList.push(calData);
+  }
+  const [process, setProcess] = useState(1);
+  const [height, setHeight] = useState<number | string>(getHeightAtom);
+  const [weight, setWeight] = useState<number | string>(getWeightAtom);
+  const [birth, setBirth] = useState<string>(getBirthdayAtom);
+  const [drinkings, setDrinkings] = useState<number>(getDrinkingsAtom);
+  const [smoke, setSmoke] = useState<number>(getSmokeAtom);
+  const [ills, setIlls] = useState<string[]>(illList);
+  const [genderType, setGenderType] = useState(getGenderAtom);
+  const [fixStatus, setFixStatus] = useState(false);
   const navigate = useNavigate();
   const joinWard = () => {
-    setJoinStatus(true);
+    setFixStatus(true);
   };
   const { data } = useQuery(
-    "joinWard",
+    "wardModify",
     () =>
-      wardJoin(
+      wardModify(
         Number(height),
         Number(weight),
         drinkings,
@@ -36,12 +57,15 @@ function SeniorJoinPage() {
         genderType,
         ills,
       ),
-    { cacheTime: 0, enabled: !!joinStatus },
+    { cacheTime: 0, enabled: !!fixStatus },
   );
-  if (data != undefined) {
-    alert("회원가입이 완료되었습니다.");
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (data) {
+      alert("개인정보가 수정되었습니다.");
+      navigate("/senior/main");
+    }
+  }, [data]);
+
   if (process == 1) {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -51,17 +75,27 @@ function SeniorJoinPage() {
           <StMedicalContainer>
             <StHeight>
               <StInfoInput>키</StInfoInput>
-              <StMedicalInput type="tel" onChange={(e) => setHeight(e.target.value)} placeholder="cm 단위" />
+              <StMedicalInput
+                type="tel"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                placeholder="cm 단위"
+              />
             </StHeight>
             <StWeight>
               <StInfoInput>몸무게</StInfoInput>
-              <StMedicalInput type="tel" onChange={(e) => setWeight(e.target.value)} placeholder="kg 단위" />
+              <StMedicalInput
+                type="tel"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="kg 단위"
+              />
             </StWeight>
           </StMedicalContainer>
           <StMedicalContainer>
             <div>
               <StInfoInput>💊 생년월일을 알려주세요!</StInfoInput>
-              <StNormalInput onChange={(e) => setBirth(e.target.value)} type="date" />
+              <StNormalInput value={birth} onChange={(e) => setBirth(e.target.value)} type="date" />
             </div>
           </StMedicalContainer>
           <StMedicalContainer>
@@ -286,14 +320,19 @@ function SeniorJoinPage() {
               )}
             </StIllContainer>
 
-            <StJoinButton onClick={() => joinWard()}>다음으로</StJoinButton>
+            <StJoinButton
+              onClick={() => {
+                joinWard();
+              }}>
+              다음으로
+            </StJoinButton>
           </StSecondContainer>
         </StSeniorPage>
       </motion.div>
     );
   }
 }
-export default SeniorJoinPage;
+export default SeniorModifyPage;
 
 const StSeniorPage = styled.div`
   display: flex;
