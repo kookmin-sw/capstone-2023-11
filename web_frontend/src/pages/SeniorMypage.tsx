@@ -44,7 +44,7 @@ function SeniorMypage() {
             </div>
           </div>
         </StInfoContainer>
-        <StButtonContainer onClick={() => navigate("#")}>
+        <StButtonContainer onClick={() => navigate(`/modify/senior`)}>
           <StButtonInfo>개인정보 변경하기</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>
