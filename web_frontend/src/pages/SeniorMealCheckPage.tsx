@@ -5,6 +5,8 @@ import { checkMeal, uploadMeal } from "../core/api/index";
 import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { navigateIndex } from "../core/atom";
+import { useSetRecoilState } from "recoil";
 
 interface food {
   food_name: string;
@@ -26,7 +28,7 @@ function SeniorMealCheckPage() {
   const [selectFoods] = useState<number[]>([]);
   const [image, setImage] = useState<any>();
   const [foodFormData] = useState<FormData>(new FormData());
-
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const canvasRef = useRef<any>(null);
 
   useEffect(() => {
@@ -48,6 +50,9 @@ function SeniorMealCheckPage() {
     }
   }, [canvasRef, imageSrc, index]);
 
+  useEffect(() => {
+    setNameAtom(2);
+  }, []);
   const navigate = useNavigate();
   const foodUpload = () => {
     const foodBody = { food: [{}] };

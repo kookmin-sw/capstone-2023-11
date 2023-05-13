@@ -9,16 +9,18 @@ import ExerciseChart from "../components/seniorSummary/ExerciseChart";
 import { useQuery } from "react-query";
 import { getWeeklyData } from "../core/api";
 import { useEffect, useState } from "react";
-import { exampleData } from "../core/atom";
+import { exampleData, navigateIndex } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SeniorAdvice } from "../components/seniorSummary/Advice";
+import { useSetRecoilState } from "recoil";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
   const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
   const [example, setExample] = useState(false);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const SCORE_WEIGHT = {
     exercise: 3,
     calorie: 2,
@@ -104,6 +106,9 @@ function SeniorSummaryPage() {
     const dateString = `${month}/${day}`;
     dateStrings.push(dateString);
   }
+  useEffect(() => {
+    setNameAtom(1);
+  }, []);
   useEffect(() => {
     if (data) {
       setFirstApi(false);
