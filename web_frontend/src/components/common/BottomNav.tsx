@@ -85,7 +85,7 @@ const StNavigation = styled.nav`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 5rem;
+  height: 7rem;
   border-top: 0.2rem solid #eaf2ff;
   background-color: #ffffff;
   div {
@@ -96,9 +96,9 @@ const StNavigation = styled.nav`
     line-height: 6rem;
   }
   img {
-    margin-top: 1rem;
-    width: 2rem;
-    height: 2rem;
+    margin-top: 1.5rem;
+    width: 3rem;
+    height: 3rem;
   }
   .active {
     background-color: #eaf2ff;
