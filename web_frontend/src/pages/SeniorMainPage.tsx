@@ -69,6 +69,38 @@ function SeniorMain() {
             </motion.ul>
             <motion.ul className="container" variants={items}>
               <StMainItem>
+                <StItemHeader>🍽 ⛳️ 식사 및 운동</StItemHeader>
+                {/* <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/meal`);
+                  }}>
+                  <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
+                  오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
+                </WhiteButton2>
+                <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/exercise`);
+                  }}>
+                  <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
+                  오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
+                </WhiteButton2> */}
+                <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
+                <StCountSwapper>
+                  <StCount>
+                    식사
+                    <div className="line" />
+                    <StCountText>{info?.todayMealCount ? info?.todayMealCount : 0} 번</StCountText>
+                  </StCount>
+                  <StCount>
+                    운동
+                    <div className="line" />
+                    <StCountText>{info?.todayWorkOutCount ? info?.todayWorkOutCount : 0} 번</StCountText>
+                  </StCount>
+                </StCountSwapper>
+              </StMainItem>
+            </motion.ul>
+            <motion.ul className="container" variants={items}>
+              <StMainItem>
                 <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
                 <ItemContent
                   onClick={() => {
@@ -80,7 +112,7 @@ function SeniorMain() {
                   <ItemTextContainer>
                     <ItemTitle>건강 분석하러 가기</ItemTitle>
                     <ItemComment>
-                      지난 7일동안 기록한 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
+                      지난 일주일간 기록된 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
                     </ItemComment>
                   </ItemTextContainer>
                 </ItemContent>
@@ -104,25 +136,6 @@ function SeniorMain() {
                     </ItemComment>
                   </ItemTextContainer>
                 </ItemContent>
-              </StMainItem>
-            </motion.ul>
-            <motion.ul className="container" variants={items}>
-              <StMainItem>
-                <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
-                <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/meal`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
-                  오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
-                </WhiteButton2>
-                <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/exercise`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
-                  오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
-                </WhiteButton2>
               </StMainItem>
             </motion.ul>
           </MenuList>
@@ -170,6 +183,7 @@ const STContainer = styled.div`
   padding: 0.5rem;
   justify-content: center;
   margin-top: 1.6rem;
+  background-color: #f8f9fe;
 `;
 
 const StHeader = styled.header`
@@ -373,4 +387,36 @@ const InsertFormPositioner = styled.div`
 
 const BtnContainer = styled(WhiteButton2)`
   margin-bottom: 1rem;
+`;
+
+const StCountSwapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-family: "Pretendard-Bold";
+  width: 100%;
+`;
+
+const StCount = styled.div`
+  font-size: 2.5rem;
+  width: 14rem;
+  height: 10rem;
+  margin: 1rem;
+  padding-top: 1rem;
+  border-radius: 1.2rem;
+  text-align: center;
+  line-height: 3rem;
+  color: #006ffd;
+  background-color: #eaf2ff;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin: 0rem 1rem;
+  }
+`;
+
+const StCountText = styled.div`
+  font-size: 2rem;
+  padding-top: 1rem;
+  color: black;
 `;
