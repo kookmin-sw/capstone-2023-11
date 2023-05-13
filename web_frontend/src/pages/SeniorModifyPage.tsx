@@ -4,7 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { wardModify } from "../core/api/index";
 import { motion } from "framer-motion";
-import { birthdayAtom, drinkingsAtom, heightAtom, illAtom, nameAtom, smokeAtom, weightAtom } from "../core/atom";
+import {
+  birthdayAtom,
+  drinkingsAtom,
+  genderAtom,
+  heightAtom,
+  illAtom,
+  nameAtom,
+  smokeAtom,
+  weightAtom,
+} from "../core/atom";
 import { useRecoilValue } from "recoil";
 
 function SeniorModifyPage() {
@@ -15,6 +24,7 @@ function SeniorModifyPage() {
   const getDrinkingsAtom = useRecoilValue(drinkingsAtom);
   const getSmokeAtom = useRecoilValue(smokeAtom);
   const getIllAtom = useRecoilValue(illAtom);
+  const getGenderAtom = useRecoilValue(genderAtom);
   const illList = [];
   for (let i = 0; i < getIllAtom.length; i++) {
     const calData = getIllAtom[i].name;
@@ -27,7 +37,7 @@ function SeniorModifyPage() {
   const [drinkings, setDrinkings] = useState<number>(getDrinkingsAtom);
   const [smoke, setSmoke] = useState<number>(getSmokeAtom);
   const [ills, setIlls] = useState<string[]>(illList);
-  const [genderType, setGenderType] = useState("MALE");
+  const [genderType, setGenderType] = useState(getGenderAtom);
   const [fixStatus, setFixStatus] = useState(false);
   const navigate = useNavigate();
   const joinWard = () => {

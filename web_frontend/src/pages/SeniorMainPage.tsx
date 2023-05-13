@@ -8,6 +8,7 @@ import Pill from "../components/seniorPill/SeniorMainPill";
 import {
   birthdayAtom,
   drinkingsAtom,
+  genderAtom,
   heightAtom,
   illAtom,
   MainInfo,
@@ -33,6 +34,7 @@ function SeniorMain() {
   const setDrinkingsAtom = useSetRecoilState(drinkingsAtom);
   const setSmokeAtom = useSetRecoilState(smokeAtom);
   const setIllAtom = useSetRecoilState(illAtom);
+  const setGenderAtom = useSetRecoilState(genderAtom);
   const navigate = useNavigate();
   useEffect(() => {
     setNavigateAtom(0);
@@ -51,6 +53,7 @@ function SeniorMain() {
       setDrinkingsAtom(info.drinkings);
       setSmokeAtom(info.smoke);
       setIllAtom(info.ills);
+      setGenderAtom(info.gender);
     }
   }, [info]);
   const onToggle = () => setOpen(!open);

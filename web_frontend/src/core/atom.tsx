@@ -28,6 +28,10 @@ export const illAtom = atom({
   key: "ill",
   default: [{ id: 0, name: "", kor: "", eng: "", description: "" }],
 });
+export const genderAtom = atom({
+  key: "gender",
+  default: "MALE",
+});
 
 export const navigateIndex = atom({
   key: "navigateIndex",
