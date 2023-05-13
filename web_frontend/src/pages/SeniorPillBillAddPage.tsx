@@ -170,7 +170,6 @@ function PillImgUpload() {
       ]);
     }
     setSetting(false);
-    console.log(pillList);
   }, [setting]);
 
   const [isLoading, setIsLoading] = useState(false);
