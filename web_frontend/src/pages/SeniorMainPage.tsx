@@ -5,8 +5,9 @@ import styled, { css } from "styled-components";
 import { getSeniorInfo } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
-import { MainInfo } from "../core/atom";
+import { MainInfo, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 interface IBTN {
   open: boolean;
@@ -14,8 +15,10 @@ interface IBTN {
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
   const [open, setOpen] = useState(false);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const navigate = useNavigate();
   useEffect(() => {
+    setNameAtom(0);
     async function fetchData() {
       const data = await getSeniorInfo();
       setInfo(data);
@@ -332,7 +335,7 @@ const CircleButton = styled.div`
   position: fixed;
   padding-bottom: 1rem;
   left: 90%;
-  bottom: 5rem;
+  bottom: 10rem;
   transform: translate(-50%, 50%);
   color: white;
   border-radius: 50%;
@@ -361,7 +364,7 @@ const InsertFormPositioner = styled.div`
   padding: 2rem;
   width: 25rem;
   height: 17rem;
-  bottom: 8rem;
+  bottom: 13rem;
   margin-right: 2rem;
   right: 1%;
   position: absolute;
