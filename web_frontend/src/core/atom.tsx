@@ -32,6 +32,10 @@ export const genderAtom = atom({
   key: "gender",
   default: "MALE",
 });
+export const adviceAtom = atom({
+  key: "advice",
+  default: "",
+});
 
 export const navigateIndex = atom({
   key: "navigateIndex",

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { IWeeklyData, nameAtom } from "../../core/atom";
+import { adviceAtom, IWeeklyData, nameAtom } from "../../core/atom";
 
 const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
@@ -16,6 +16,8 @@ export function SeniorAdvice(prop: IWeeklyData) {
   const amountFat = [];
   const amountCarbohy = [];
   const [answer, setAnswer] = useState("");
+  const getAdviceAtom = useRecoilValue(adviceAtom);
+  const setAdviceAtom = useSetRecoilState(adviceAtom);
 
   if (prop) {
     for (let i = 0; i < 7; i++) {
@@ -50,7 +52,11 @@ export function SeniorAdvice(prop: IWeeklyData) {
   useEffect(() => {
     if (prop && firstAPI == false) {
       setFirstAPI(true);
-      callOpenAIApi();
+      if (getAdviceAtom == "") {
+        callOpenAIApi();
+      } else {
+        setAnswer(getAdviceAtom);
+      }
     }
   }, [[prop]]);
 
@@ -90,6 +96,7 @@ export function SeniorAdvice(prop: IWeeklyData) {
       })
       .then((response) => {
         setAnswer(response?.data?.choices[0]?.text);
+        setAdviceAtom(response?.data?.choices[0]?.text);
       })
       .catch((error) => {
         console.error(error);

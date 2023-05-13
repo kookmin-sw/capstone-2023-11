@@ -3,13 +3,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { nameAtom } from "../core/atom";
+import { adviceAtom, nameAtom } from "../core/atom";
 
 function KakaoAuthPage() {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const router = useLocation();
   const setNameAtom = useSetRecoilState(nameAtom);
+  const setAdviceAtom = useSetRecoilState(adviceAtom);
   const authenticationCode = router.search.split("=")[1];
   const { data } = useQuery("accessToken", () => getKakaoAccessToken(authenticationCode), {
     enabled: !!authenticationCode,
@@ -34,6 +35,7 @@ function KakaoAuthPage() {
         localStorage.setItem("accessToken", loginData.data.jwt);
         navigate("/guardian/main");
       } else {
+        setAdviceAtom("");
         if (loginData.data.userType == "userGuardian") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
