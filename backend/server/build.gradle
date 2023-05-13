@@ -47,6 +47,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링 시큐리티
     implementation 'io.jsonwebtoken:jjwt:0.9.1' // jwt
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' // s3
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail' // gmail
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 타임리프 템플릿 엔진 추가
 }
 
 tasks.named('test') {

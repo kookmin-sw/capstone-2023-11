@@ -22,4 +22,6 @@ public class FoodInfo {
     private double fatSaturatedfat;
     private double cholesterol;
     private double natrium;
+
+
 }
