@@ -283,6 +283,9 @@ function PillImgUpload() {
                         await pillInfo();
                         await setSetting(true);
                         handleCloseModal();
+                        setBreakfast(false);
+                        setLunch(false);
+                        setDinner(false);
                         setSelected((prev: boolean[]) => {
                           const newSelected = [...prev];
                           newSelected[selectedIndex] = true;
@@ -291,7 +294,15 @@ function PillImgUpload() {
                       }}>
                       네
                     </StSetPillSubmitButton>
-                    <StSetPillSubmitButton onClick={handleCloseModal}>아니요</StSetPillSubmitButton>
+                    <StSetPillSubmitButton
+                      onClick={() => {
+                        setBreakfast(false);
+                        setLunch(false);
+                        setDinner(false);
+                        handleCloseModal();
+                      }}>
+                      아니요
+                    </StSetPillSubmitButton>
                   </StPillComponent2>
                 </StButtonList>
               </StModal>
