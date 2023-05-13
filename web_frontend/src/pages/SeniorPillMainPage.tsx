@@ -6,6 +6,8 @@ import { deletePillData, getPillInfo, modifyPillData } from "../core/api/index";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { BlueButton } from "../components/common/BlueButton";
+import { navigateIndex } from "../core/atom";
+import { useSetRecoilState } from "recoil";
 
 Modal.setAppElement("#root");
 
@@ -31,8 +33,12 @@ function SeniorPillMain() {
   const [dinner, setDinner] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [selectedValue, setSelectedValue] = useState(0);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const dropdownItems = [1, 3, 5, 7, 10, 14, 30];
 
+  useEffect(() => {
+    setNameAtom(4);
+  }, []);
   const isActiveToggle = useCallback(() => {
     setIsActive((prev) => !prev);
   }, []);

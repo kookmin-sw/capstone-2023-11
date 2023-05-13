@@ -5,6 +5,11 @@ export const nameAtom = atom({
   default: "홍길동",
 });
 
+export const navigateIndex = atom({
+  key: "navigateIndex",
+  default: 0,
+});
+
 export interface IWeeklyData {
   name: string;
   gender: string;
@@ -152,6 +157,20 @@ export interface IPillInfo {
       };
     },
   ];
+}
+
+export interface MedicineData {
+  name: string;
+  companyName: string;
+  depositMethod: string;
+  effect: string;
+  useMethod: string;
+  caution: string;
+  imageUrl: string;
+  breakfast: boolean;
+  lunch: boolean;
+  dinner: boolean;
+  daysToTake: number;
 }
 
 export interface MainInfo {

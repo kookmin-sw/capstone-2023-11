@@ -7,14 +7,16 @@ import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import moment from "moment";
-import { ExerciseForm } from "../core/atom";
+import { ExerciseForm, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
   const [deleteId, setDeleteId] = useState<number>(999);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
@@ -51,6 +53,9 @@ function SeniorExerciseMainPage() {
   }, [data, selectedDate]);
   const { mutate } = useMutation(deleteExerciseList);
 
+  useEffect(() => {
+    setNameAtom(3);
+  }, []);
   useEffect(() => {
     setFirstApi(false);
   }, [data]);

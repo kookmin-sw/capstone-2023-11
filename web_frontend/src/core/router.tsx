@@ -18,6 +18,7 @@ import { AnimatePresence } from "framer-motion";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SplashPage from "../pages/SplashPage";
+import BottomNav from "../components/common/BottomNav";
 
 function Router() {
   return (
@@ -28,20 +29,23 @@ function Router() {
           <Route path="/auth/kakao" element={<KakaoAuthPage />} />
           <Route path="/join/guardian" element={<GuardianJoinPage />} />
           <Route path="/join/senior" element={<SeniorJoinPage />} />
-          <Route path="/senior/main" element={<SeniorMain />} />
-          <Route path="/senior/myPage" element={<SeniorMypage />} />
-          <Route path="/senior/pill" element={<SeniorPillMain />} />
-          <Route path="/senior/pill/detail/:id" element={<SeniorPillDetail />} />
-          <Route path="/senior/pill/bill" element={<SeniorPillBill />} />
-          <Route path="/senior/pill/self" element={<SeniorPillSelf />} />
-          <Route path="/senior/schedule" element={<SeniorSchedule />} />
-          <Route path="/senior/summary" element={<SeniorSummaryPage />} />
-          <Route path="/senior/meal/add" element={<SeniorMealCheckPage />} />
-          <Route path="/senior/summary/day" element={<SeniorSummaryDailyPage />} />
-          <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
-          <Route path="/senior/exercise/add" element={<SeniorExercise />} />
-          <Route path="/senior/meal" element={<SeniorMealMain />} />
+          <Route element={<BottomNav />}>
+            <Route path="/senior/main" element={<SeniorMain />} />
+            <Route path="/senior/myPage" element={<SeniorMypage />} />
+            <Route path="/senior/pill" element={<SeniorPillMain />} />
+            <Route path="/senior/pill/detail/:id" element={<SeniorPillDetail />} />
+            <Route path="/senior/pill/bill" element={<SeniorPillBill />} />
+            <Route path="/senior/pill/self" element={<SeniorPillSelf />} />
+            <Route path="/senior/schedule" element={<SeniorSchedule />} />
+            <Route path="/senior/summary" element={<SeniorSummaryPage />} />
+            <Route path="/senior/meal/add" element={<SeniorMealCheckPage />} />
+            <Route path="/senior/summary/day" element={<SeniorSummaryDailyPage />} />
+            <Route path="/senior/exercise" element={<SeniorExerciseMainPage />} />
+            <Route path="/senior/exercise/add" element={<SeniorExercise />} />
+            <Route path="/senior/meal" element={<SeniorMealMain />} />
+          </Route>
           <Route path="" element={<SplashPage />} />
+          <Route path="test" element={<BottomNav />} />
         </Routes>
       </AnimatePresence>
     </BrowserRouter>

@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import SeniorCalendar from "../components/common/SeniorCalendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useQuery } from "react-query";
 import { getRecordMeal } from "../core/api";
 import { useNavigate } from "react-router-dom";
-import { IMealDetail } from "../core/atom";
+import { IMealDetail, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 interface IMealData {
   id: number;
@@ -19,6 +20,7 @@ interface IMealData {
 function SeniorMealMain() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const setNameAtom = useSetRecoilState(navigateIndex);
   let mode = true;
   const { data } = useQuery("mealData", getRecordMeal);
   const container = {
@@ -33,6 +35,9 @@ function SeniorMealMain() {
     },
   };
 
+  useEffect(() => {
+    setNameAtom(2);
+  }, []);
   const items = {
     hidden: { y: 20, opacity: 0 },
     visible: {

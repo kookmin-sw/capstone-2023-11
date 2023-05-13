@@ -8,8 +8,9 @@ import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
 import { useNavigate } from "react-router-dom";
-import { ExerciseFixedData, GetExerciseData } from "../core/atom";
+import { ExerciseFixedData, GetExerciseData, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
@@ -18,6 +19,7 @@ function SeniorExercise() {
   const [isSelected, setIsSelected] = useState("");
   const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
   const [firstApi, setFirstApi] = useState(true);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const navigate = useNavigate();
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
@@ -31,6 +33,7 @@ function SeniorExercise() {
 
   useEffect(() => {
     setExerciseName([]);
+    setNameAtom(3);
   }, []);
   useEffect(() => {
     data?.data.map((item: GetExerciseData) => {

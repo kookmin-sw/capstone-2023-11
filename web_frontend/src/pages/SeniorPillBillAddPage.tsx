@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
 import Modal from "react-modal";
 import axios from "axios";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
-import { BlueStarIcn, PhotoIcn } from "../assets/icons";
+import { BlueStarIcn, PhotoIcn, CheckedIcn } from "../assets/icons";
+import { MedicineData } from "../core/atom";
+import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
@@ -65,6 +66,8 @@ function PillImgUpload() {
   const [lunch, setLunch] = useState(false);
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
+
+  const [pillList, setPillList] = useState<MedicineData[]>([]);
 
   useEffect(() => {
     setRegiester(false);
@@ -131,25 +134,43 @@ function PillImgUpload() {
   };
 
   const pillInfo = async () => {
-    await setPillName(pillData?.data?.body.items[0].ITEM_NAME);
-    await setCompany(pillData?.data?.body.items[0].ENTP_NAME);
-    await setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
+    setPillName(pillData?.data?.body.items[0].ITEM_NAME);
+    setCompany(pillData?.data?.body.items[0].ENTP_NAME);
+    setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
     const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
     const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
-    const [effect, useMethod, caution] = await Promise.all([
-      effectParse(eeDocData),
-      useMethodParse(udDocData),
-      cautionParse(nbDocData),
-    ]);
-    await setEffect(effect);
-    await setUseMethod(useMethod);
-    await setCaution(caution);
-    await setImgUrl(
+    await effectParse(eeDocData).then((effectParseData) => setEffect(effectParseData));
+    await useMethodParse(udDocData).then((useMethodParseData) => setUseMethod(useMethodParseData));
+    await cautionParse(nbDocData).then((cautionParseData) => setCaution(cautionParseData));
+    setImgUrl(
       imgData?.data?.body?.items ? imgData?.data?.body.items[0].ITEM_IMAGE : require(`../assets/images/pillPhoto.png`),
     );
-    setRegiester(true);
   };
+
+  const [setting, setSetting] = useState(false);
+
+  useEffect(() => {
+    if (setting) {
+      setPillList((prev) => [
+        ...prev,
+        {
+          name: String(pillName),
+          companyName: String(company),
+          depositMethod: String(depositMethod),
+          effect: String(effect),
+          useMethod: String(useMethod),
+          caution: String(caution),
+          imageUrl: String(imgUrl),
+          breakfast: breakfast,
+          lunch: lunch,
+          dinner: dinner,
+          daysToTake: dayValue,
+        },
+      ]);
+    }
+    setSetting(false);
+  }, [setting]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -160,35 +181,24 @@ function PillImgUpload() {
 
     setIsLoading(true);
 
-    const response = await axios.post(
-      `${process.env.REACT_APP_SERVER}/api/medicine`,
-      [
-        {
-          name: pillName,
-          companyName: company,
-          depositMethod: depositMethod,
-          effect: effect,
-          useMethod: useMethod,
-          caution: caution,
-          imageUrl: imgUrl,
-          breakfast: breakfast,
-          lunch: lunch,
-          dinner: dinner,
-          daysToTake: dayValue,
-        },
-      ],
-      {
-        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-      },
-    );
+    const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/medicine`, pillList, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    });
     const data = response.data;
     return data;
   };
+
+  const RegisterData = () => {
+    setRegiester(true);
+  };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (register == true) {
       postPillInfo().then(() => {
         alert("등록되었습니다.");
+        navigate("/senior/pill");
         setIsLoading(false);
       });
       setRegiester(false);
@@ -209,20 +219,9 @@ function PillImgUpload() {
                 <StBillTitle>약을 선택해 등록해주세요</StBillTitle>
                 {nameList?.data?.data?.map((name: string, index: number) =>
                   selected[index] ? (
-                    <StItemChecked
-                      key={name.toString()}
-                      onClick={() => {
-                        handleOpenModal();
-                        setSelectedIndex(index);
-                        setPillName2(name);
-                        setValue(
-                          name
-                            .toString()
-                            .replace(/[^0-9ㄱ-ㅎㅏ-ㅣ가-힣]+/g, "")
-                            .trim(),
-                        );
-                      }}>
+                    <StItemChecked key={name.toString()}>
                       {name}
+                      <img src={CheckedIcn} />
                     </StItemChecked>
                   ) : (
                     <StItem
@@ -244,9 +243,7 @@ function PillImgUpload() {
                 )}
                 <StModalContent>모든 약을 등록하셨습니까?</StModalContent>
                 <StPillComponent2>
-                  <Link to={"/senior/pill"}>
-                    <StSetPillSubmitButton>네</StSetPillSubmitButton>
-                  </Link>
+                  <StSetPillSubmitButton onClick={RegisterData}>네</StSetPillSubmitButton>
                   <StSetPillSubmitButton onClick={SetUploadReset}>아니요</StSetPillSubmitButton>
                 </StPillComponent2>
               </StList>
@@ -282,9 +279,10 @@ function PillImgUpload() {
                   <StModalContent>등록하시겠습니까?</StModalContent>
                   <StPillComponent2>
                     <StSetPillSubmitButton
-                      onClick={() => {
+                      onClick={async () => {
+                        await pillInfo();
+                        await setSetting(true);
                         handleCloseModal();
-                        pillInfo();
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);
@@ -441,12 +439,13 @@ const StItem = styled.li`
   padding: 3rem;
   align-items: center;
   height: 5rem;
-  margin: 2rem;
+  margin: 1.2rem;
   color: #000000;
   font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
   border-radius: 1.2rem;
   background-color: #ffffff;
+  justify-content: space-between;
 `;
 
 const StItemChecked = styled.li`
@@ -454,10 +453,11 @@ const StItemChecked = styled.li`
   padding: 3rem;
   align-items: center;
   height: 5rem;
-  margin: 2rem;
-  color: #000000;
+  margin: 1.2rem;
+  color: #006ffd;
   font-family: "Pretendard-Bold";
   border: 0.15rem solid #eaf2ff;
+  justify-content: space-between;
   border-radius: 1.2rem;
   background-color: #eaf2ff;
 `;
