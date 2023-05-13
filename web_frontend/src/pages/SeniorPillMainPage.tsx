@@ -488,7 +488,7 @@ const StPopContainer = styled.div`
 `;
 
 const StModal = styled(Modal)`
-  padding: 5rem;
+  padding: 3rem;
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
@@ -526,8 +526,9 @@ const StPopTitle = styled.p`
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
-  padding: 0rem 3rem;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StPillComponent2 = styled.div`
@@ -544,7 +545,7 @@ const BTNContainer = styled.div`
   gap: 1rem;
 `;
 const StSetPillButton = styled.div`
-  width: 6rem;
+  width: 5rem;
   height: 3.5rem;
   background: #eaf2ff;
   border-radius: 1.2rem;

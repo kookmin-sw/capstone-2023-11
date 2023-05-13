@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillImg } from "../core/api/index";
@@ -66,8 +66,19 @@ function PillImgUpload() {
   const [lunch, setLunch] = useState(false);
   const [dinner, setDinner] = useState(false);
   const [dayValue, setDayValue] = useState(0);
-
+  const [selectedValue, setSelectedValue] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const dropdownItems = [1, 3, 5, 7, 10, 14, 30];
   const [pillList, setPillList] = useState<MedicineData[]>([]);
+
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
+
+  const selectItem = (prop: number) => {
+    setSelectedValue(prop);
+    setIsActive((prev) => !prev);
+  };
 
   useEffect(() => {
     setRegiester(false);
@@ -88,9 +99,9 @@ function PillImgUpload() {
     setIsOpen(false);
   };
 
-  const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDayValue(parseInt(e.target.value));
-  };
+  // const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setDayValue(parseInt(e.target.value));
+  // };
 
   const parser = new DOMParser();
 
@@ -256,7 +267,37 @@ function PillImgUpload() {
                   <div className="line" />
                   <StPillComponent>
                     <StModalContent>복용 일 수</StModalContent>
-                    <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
+                    <DropdownContainer>
+                      <DropdownBody onClick={isActiveToggle}>
+                        {selectedValue ? (
+                          <>
+                            <ItemName>{selectedValue}</ItemName>
+                          </>
+                        ) : (
+                          <>
+                            <DropdownSelect>선택해주세요.</DropdownSelect>
+                          </>
+                        )}
+                      </DropdownBody>
+                      {isActive ? (
+                        <DropdownMenuActive>
+                          {dropdownItems.map((item) => (
+                            <DropdownItemContainer
+                              id="item"
+                              key={item}
+                              onClick={() => {
+                                selectItem(item);
+                                setDayValue(item);
+                              }}>
+                              <ItemName id="item">{item} 일</ItemName>
+                            </DropdownItemContainer>
+                          ))}
+                        </DropdownMenuActive>
+                      ) : (
+                        <></>
+                      )}
+                    </DropdownContainer>
+                    {/* <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} /> */}
                   </StPillComponent>
                   <StPillComponent>
                     <StModalContent>복용 시간</StModalContent>
@@ -286,6 +327,8 @@ function PillImgUpload() {
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);
+                        selectItem(0);
+                        setDayValue(0);
                         setSelected((prev: boolean[]) => {
                           const newSelected = [...prev];
                           newSelected[selectedIndex] = true;
@@ -299,6 +342,8 @@ function PillImgUpload() {
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);
+                        selectItem(0);
+                        setDayValue(0);
                         handleCloseModal();
                       }}>
                       아니요
@@ -386,6 +431,8 @@ interface ImgData {
     };
   };
 }
+
+export default PillImgUpload;
 
 const StContainer = styled.div`
   display: flex;
@@ -565,7 +612,7 @@ const StButtonList = styled.div`
 `;
 
 const StModal = styled(Modal)`
-  padding: 5rem;
+  padding: 3rem;
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
@@ -591,20 +638,20 @@ const StModalContent = styled.div`
   align-self: center;
 `;
 
-const StModalSearch = styled.input`
-  height: 4rem;
-  border: 0.2rem solid gray;
-  border-radius: 1rem;
-  font-family: "Pretendard-Regular";
-  padding: 2rem;
-`;
+// const StModalSearch = styled.input`
+//   height: 4rem;
+//   border: 0.2rem solid gray;
+//   border-radius: 1rem;
+//   font-family: "Pretendard-Regular";
+//   padding: 2rem;
+// `;
 
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StPillComponent2 = styled.div`
@@ -616,7 +663,7 @@ const StPillComponent2 = styled.div`
 `;
 
 const StSetPillButton = styled.div`
-  width: 6rem;
+  width: 5rem;
   height: 3.5rem;
   background: #eaf2ff;
   border-radius: 1.2rem;
@@ -627,17 +674,9 @@ const StSetPillButton = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
-const StSetPillCheckButton = styled.div`
-  width: 6rem;
-  height: 3.5rem;
-  background: #006ffd;
-  border-radius: 1.2rem;
-  font-family: "Pretendard-Bold";
-  font-size: 1.8rem;
+const StSetPillCheckButton = styled(StSetPillButton)`
   color: white;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  background: #006ffd;
 `;
 
 const StButtonBack = styled.img`
@@ -659,4 +698,56 @@ const StSetPillSubmitButton = styled.div`
   margin-bottom: 1rem;
 `;
 
-export default PillImgUpload;
+const DropdownContainer = styled.div`
+  width: fit-content;
+  margin-top: 0.5rem;
+`;
+
+const DropdownBody = styled.div`
+  display: flex;
+  width: 15rem;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  background: white;
+  border-radius: 1rem;
+  border: 0.2rem solid #d4d6dd;
+`;
+
+const DropdownSelect = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+const DropdownMenuActive = styled.ul`
+  display: block;
+  width: 15rem;
+  background-color: white;
+  position: absolute;
+  border: 0.2rem solid #d4d6dd;
+  border-radius: 1rem;
+`;
+
+const DropdownItemContainer = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 0.2rem solid #d4d6dd;
+  border-top: none;
+  border-radius: 0.1rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const ItemName = styled.p`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
+`;

@@ -430,7 +430,7 @@ const StButtonList = styled.div`
 `;
 
 const StModal = styled(Modal)`
-  padding: 5rem;
+  padding: 3rem;
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
@@ -456,8 +456,8 @@ const StPillComponent = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StPillComponent2 = styled.div`
@@ -469,7 +469,7 @@ const StPillComponent2 = styled.div`
 `;
 
 const StSetPillButton = styled.div`
-  width: 6rem;
+  width: 5rem;
   height: 3.5rem;
   background: #eaf2ff;
   border-radius: 1.2rem;
