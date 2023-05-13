@@ -16,6 +16,7 @@ function SeniorExerciseMainPage() {
   const [deleteId, setDeleteId] = useState<number>(999);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const today = selectedDate ? moment(new Date()).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD");
   const setNameAtom = useSetRecoilState(navigateIndex);
   const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
@@ -121,7 +122,11 @@ function SeniorExerciseMainPage() {
             </StContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
-            <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+            {today == selectedDate ? (
+              <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+            ) : (
+              <GrayButton>추가하기</GrayButton>
+            )}
           </motion.li>
           <StModal isOpen={showDeleteModal}>
             <StPopContainer>
@@ -259,4 +264,9 @@ const StCheckButton = styled.button`
   position: relative;
   bottom: 0rem;
   margin-bottom: 1rem;
+`;
+
+const GrayButton = styled(StCheckButton)`
+  background-color: #e8e9f1;
+  border: none;
 `;
