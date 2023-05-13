@@ -28,6 +28,7 @@ function SeniorExercise() {
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList(), {
+    cacheTime: 0,
     enabled: !!firstApi,
   });
 
