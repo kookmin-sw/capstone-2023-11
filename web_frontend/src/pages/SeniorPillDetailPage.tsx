@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
 import { IPillData } from "../core/atom";
 import { motion } from "framer-motion";
+import BackButton from "../components/common/BackButton";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IPillData>();
@@ -55,11 +56,7 @@ function PillDetail() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
-        <StLink to={`/senior/pill`}>
-          <StBackBtn>
-            <StBackBtnImg src={require("../assets/images/img_left.png")} />
-          </StBackBtn>
-        </StLink>
+        <BackButton />
         <StTitle>약 세부정보</StTitle>
       </StHeader>
       <StBody>
@@ -105,26 +102,6 @@ const StHeader = styled.header`
   width: 100%;
 `;
 
-const StLink = styled(Link)`
-  text-decoration: none;
-  color: black;
-  display: flex;
-`;
-
-const StBackBtn = styled.button`
-  background-color: transparent;
-  border: transparent;
-  font-family: "Pretendard-Bold";
-  width: 5%;
-  padding: 0;
-`;
-
-const StBackBtnImg = styled.img`
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-`;
-
 const StTitle = styled.h1`
   width: 100%;
   font-size: 3rem;
@@ -137,6 +114,7 @@ const StBody = styled.div`
   font-size: 2rem;
   padding: 0 2rem 0 2rem;
   margin: 3rem 0rem;
+  padding-bottom: 7rem;
 `;
 
 const StImg = styled.img`
@@ -147,7 +125,7 @@ const StImg = styled.img`
 `;
 
 const StContentList = styled.ul`
-  padding: 2rem;
+  padding: 1rem;
   border: 0.2rem solid #006ffd;
   border-radius: 2rem;
   margin-bottom: 3rem;

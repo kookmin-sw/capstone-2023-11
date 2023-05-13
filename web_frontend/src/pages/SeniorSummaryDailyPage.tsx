@@ -189,12 +189,12 @@ function SeniorSummaryDailyPage() {
           </DataContainer>
         )}
         <div className="row">
-          <BlueButton
+          <StBlueBTn
             onClick={() => {
               navigate(`/senior/summary`);
             }}>
             주간 보고서 보기
-          </BlueButton>
+          </StBlueBTn>
         </div>
         <div className="row">
           <StModal isOpen={isOpen}>
@@ -371,4 +371,8 @@ const StModal = styled(Modal)`
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
+`;
+
+const StBlueBTn = styled(BlueButton)`
+  margin-bottom: 7rem;
 `;

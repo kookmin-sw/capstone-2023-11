@@ -54,12 +54,11 @@ export default ExerciseList;
 const StContainer = styled.div`
   padding: 2rem 2rem;
   justify-content: center;
-  /* margin: 1rem auto; */
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  margin-bottom: 8rem;
+  margin-bottom: 15rem;
 `;
 
 const StExercise = styled.div`

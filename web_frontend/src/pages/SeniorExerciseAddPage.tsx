@@ -246,6 +246,7 @@ const STButtonContainer = styled.div`
   bottom: 0rem;
   padding-top: 1rem;
   padding-bottom: 3rem;
+  margin-bottom: 6rem;
 `;
 
 const GrayButton = styled(BlueButton)`

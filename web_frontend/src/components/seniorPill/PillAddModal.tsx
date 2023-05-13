@@ -91,7 +91,7 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 9rem;
 `;
 
 const StTitle = styled.div`

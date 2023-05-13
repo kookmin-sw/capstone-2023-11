@@ -632,9 +632,10 @@ const StButtonFooter = styled.footer`
   display: flex;
   justify-content: space-between;
   background-color: white;
-  margin-top: 3rem;
+  margin-top: 1rem;
   padding-bottom: 2vh;
   padding-top: 0.8rem;
+  margin-bottom: 7rem;
 `;
 const StReupload = styled.button`
   width: 15rem;

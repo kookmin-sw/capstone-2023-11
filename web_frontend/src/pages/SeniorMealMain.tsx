@@ -23,6 +23,7 @@ function SeniorMealMain() {
   const setNameAtom = useSetRecoilState(navigateIndex);
   let mode = true;
   const { data } = useQuery("mealData", getRecordMeal);
+  const today = moment(new Date()).format("YYYY-MM-DD");
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -104,12 +105,16 @@ function SeniorMealMain() {
             </StFoodContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
-            <StCheckButton
-              onClick={() => {
-                navigate("/senior/meal/add");
-              }}>
-              추가하기
-            </StCheckButton>
+            {selectedDate == today ? (
+              <StCheckButton
+                onClick={() => {
+                  navigate("/senior/meal/add");
+                }}>
+                추가하기
+              </StCheckButton>
+            ) : (
+              <GrayButton>추가하기</GrayButton>
+            )}
           </motion.li>
         </StSeniorMealMain>
       </motion.ul>
@@ -199,10 +204,15 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 8rem;
 `;
 const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const GrayButton = styled(StCheckButton)`
+  background-color: #e8e9f1;
+  border: none;
 `;
