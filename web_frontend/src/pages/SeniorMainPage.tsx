@@ -89,12 +89,18 @@ function SeniorMain() {
                 </WhiteButton2> */}
                 <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
                 <StCountSwapper>
-                  <StCount>
+                  <StCount
+                    onClick={() => {
+                      navigate(`/senior/meal`);
+                    }}>
                     식사
                     <div className="line" />
                     <StCountText>{info?.todayMealCount ? info?.todayMealCount : 0} 번</StCountText>
                   </StCount>
-                  <StCount>
+                  <StCount
+                    onClick={() => {
+                      navigate(`/senior/exercise`);
+                    }}>
                     운동
                     <div className="line" />
                     <StCountText>{info?.todayWorkOutCount ? info?.todayWorkOutCount : 0} 번</StCountText>
