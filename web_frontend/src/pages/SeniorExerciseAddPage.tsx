@@ -33,7 +33,6 @@ function SeniorExercise() {
   });
 
   useEffect(() => {
-    setExerciseName([]);
     setNameAtom(3);
   }, []);
   useEffect(() => {

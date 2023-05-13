@@ -193,7 +193,6 @@ function SeniorMain() {
               <BtnContainer
                 onClick={() => {
                   navigate(`/senior/exercise/add`);
-                  window.location.reload();
                 }}>
                 <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
                 <StText>운동 입력</StText>

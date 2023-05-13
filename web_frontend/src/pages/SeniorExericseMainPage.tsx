@@ -18,7 +18,7 @@ function SeniorExerciseMainPage() {
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const today = selectedDate ? moment(new Date()).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD");
   const setNameAtom = useSetRecoilState(navigateIndex);
-  const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
+  const { data } = useQuery("exerciseHistoryList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
   const [selected, setSelected] = useState<ExerciseForm[]>([]);
@@ -65,7 +65,6 @@ function SeniorExerciseMainPage() {
 
   const onAddClick = () => {
     navigate(`/senior/exercise/add`);
-    window.location.reload();
   };
   const onDeleteClick = (id: number) => {
     setDeleteId(id);
