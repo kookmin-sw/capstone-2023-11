@@ -6,9 +6,10 @@ import styled from "styled-components";
 import { BlueButton } from "../components/common/BlueButton";
 import { getDailyData } from "../core/api";
 import Modal from "react-modal";
-import { IExercise, IMeal } from "../core/atom";
+import { IExercise, IMeal, navigateIndex } from "../core/atom";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);
@@ -33,6 +34,7 @@ function SeniorSummaryDailyPage() {
   const [clickedMeal, setClickedMeal] = useState(0);
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
+  const setNameAtom = useSetRecoilState(navigateIndex);
   // const RANDOM_NUMBER = Math.floor(Math.random() * 4) + 1;
 
   const container = {
@@ -54,6 +56,9 @@ function SeniorSummaryDailyPage() {
       opacity: 1,
     },
   };
+  useEffect(() => {
+    setNameAtom(1);
+  }, []);
 
   useEffect(() => {
     setFirstApi(false);

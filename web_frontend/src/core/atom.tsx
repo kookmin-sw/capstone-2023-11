@@ -5,6 +5,11 @@ export const nameAtom = atom({
   default: "홍길동",
 });
 
+export const navigateIndex = atom({
+  key: "navigateIndex",
+  default: 0,
+});
+
 export interface IWeeklyData {
   name: string;
   gender: string;
