@@ -4,6 +4,7 @@ import capstone.server.domain.food.dto.FoodInfo;
 import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.login.enums.MedicalCategory;
 import capstone.server.domain.medical.dto.MedicalHistoryInfo;
 import capstone.server.domain.medical.repository.MedicalHistoryCategoryRepository;
 import capstone.server.domain.medical.repository.MedicalHistoryUserWardHasRepository;
@@ -54,18 +55,26 @@ public class UserServiceImpl implements UserService{
         // 이번달 입력 횟수 (운동 + 식사)
         int monthRecordCount = mealRepository.countByUserWardAndCreatedAtBetween(userWard, startOfMonth, endOfMonth) + workOutCategoryUserWardHasRepository.countByUserWardAndCreatedAtBetween(userWard, startOfMonth, endOfMonth);
 
+        // 질병 목록
+        List<MedicalHistoryCategory> medicalHistoryCategories = medicalHistoryUserWardHasRepository.findAllByUserWardUserId(userWard.getUserId());
+
         GetUserWardMainInfoResponseDto response = GetUserWardMainInfoResponseDto.builder()
                 .userCode(kaKaoAccountIdAndUserType.getKakaoAccountId())
                 .userName(userWard.getName())
-                .gender(userWard.getGender().name())
+                .gender(userWard.getGender())
                 .height(userWard.getHeight())
                 .weight(userWard.getWeight())
+                .birthday(userWard.getBirthday())
+                .drinkings(userWard.getDrinkings())
+                .smoke(userWard.getSmoke())
                 .age(LocalDate.now().getYear() - userWard.getBirthday().getYear())
+                .ills(medicalHistoryCategories)
                 .medicineInfoList(new ArrayList<>())
                 .monthRecordCount(monthRecordCount)
                 .todayMealCount(todayMealCount)
                 .todayWorkOutCount(todayWorkOutCount)
                 .build();
+
 
         List<Medicine> medicineList = medicineRepository.findAllByUserWardUserId(userWard.getUserId());
 
