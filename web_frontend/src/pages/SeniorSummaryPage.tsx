@@ -166,12 +166,14 @@ function SeniorSummaryPage() {
             <StText>🐶 복실이 총평!</StText>
             {SeniorAdvice(data?.data)}
           </motion.li>
-          <StBlueBTn
-            onClick={() => {
-              navigate(`/senior/summary/day`);
-            }}>
-            일간 보고서 보기
-          </StBlueBTn>
+          <div className="row">
+            <StBlueBTn
+              onClick={() => {
+                navigate(`/senior/summary/day`);
+              }}>
+              일간 보고서 보기
+            </StBlueBTn>
+          </div>
         </motion.ul>
       </STContainer>
     </motion.div>
@@ -239,6 +241,12 @@ const STContainer = styled.div`
   padding: 3rem 2rem;
   justify-content: center;
   margin: 1rem auto;
+  .row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
 `;
 const StButtonBack = styled.img`
   width: 2rem;
