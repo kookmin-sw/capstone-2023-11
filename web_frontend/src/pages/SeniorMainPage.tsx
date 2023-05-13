@@ -262,6 +262,7 @@ const StPillAddBtn = styled.button`
   font-family: "retendard-Bold";
   font-size: 1.3rem;
   line-height: 1rem;
+  height: 1.5rem;
   color: #006ffd;
   flex: none;
   flex-grow: 0;
