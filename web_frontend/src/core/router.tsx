@@ -19,6 +19,7 @@ import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SplashPage from "../pages/SplashPage";
 import BottomNav from "../components/common/BottomNav";
+import SeniorModifyPage from "../pages/SeniorModifyPage";
 
 function Router() {
   return (
@@ -29,6 +30,7 @@ function Router() {
           <Route path="/auth/kakao" element={<KakaoAuthPage />} />
           <Route path="/join/guardian" element={<GuardianJoinPage />} />
           <Route path="/join/senior" element={<SeniorJoinPage />} />
+          <Route path="/modify/senior" element={<SeniorModifyPage />} />
           <Route element={<BottomNav />}>
             <Route path="/senior/main" element={<SeniorMain />} />
             <Route path="/senior/myPage" element={<SeniorMypage />} />

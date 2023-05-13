@@ -4,6 +4,30 @@ export const nameAtom = atom({
   key: "name",
   default: "홍길동",
 });
+export const heightAtom = atom({
+  key: "height",
+  default: 0,
+});
+export const weightAtom = atom({
+  key: "weight",
+  default: 0,
+});
+export const birthdayAtom = atom({
+  key: "birthday",
+  default: "2000-01-01",
+});
+export const drinkingsAtom = atom({
+  key: "drinkings",
+  default: 0,
+});
+export const smokeAtom = atom({
+  key: "smoke",
+  default: 0,
+});
+export const illAtom = atom({
+  key: "ill",
+  default: [{ id: 0, name: "", kor: "", eng: "", description: "" }],
+});
 
 export const navigateIndex = atom({
   key: "navigateIndex",
@@ -176,10 +200,13 @@ export interface MedicineData {
 export interface MainInfo {
   userCode: number;
   userName: string;
+  birthday: string;
   height: number;
   weight: number;
   gender: string;
   age: number;
+  drinkings: number;
+  smoke: number;
   medicineInfoList: [
     {
       id: number;
@@ -198,6 +225,7 @@ export interface MainInfo {
       dinner: boolean;
     },
   ];
+  ills: [{ id: number; name: string; kor: string; eng: string; description: string }];
   monthRecordCount: number;
   todayMealCount: number;
   todayWorkOutCount: number;
