@@ -36,7 +36,7 @@ function SeniorJoinPage() {
         genderType,
         ills,
       ),
-    { enabled: !!joinStatus },
+    { cacheTime: 0, enabled: !!joinStatus },
   );
   if (data != undefined) {
     alert("회원가입이 완료되었습니다.");

@@ -22,7 +22,7 @@ function GuardianJoinPage() {
       setJoinState(true);
     }
   };
-  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors, email), { enabled: !!joinState });
+  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors, email), { cacheTime: 0, enabled: !!joinState });
   useEffect(() => {
     if (data) {
       alert("회원가입이 완료되었습니다.");
