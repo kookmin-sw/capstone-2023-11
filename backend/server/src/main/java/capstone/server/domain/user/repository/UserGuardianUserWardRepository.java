@@ -10,5 +10,9 @@ import java.util.List;
 
 @Repository
 public interface UserGuardianUserWardRepository extends JpaRepository<UserGuardianUserWard,Long> {
-  List<UserGuardianUserWard> findUserGuardianUserWardsByUserWard(UserWard userWard);
+    boolean existsByUserGuardianAndUserWard(UserGuardian userGuardian, UserWard userWard);
+
+    void deleteByUserGuardianAndUserWard(UserGuardian userGuardian, UserWard userWard);
+
+    List<UserGuardianUserWard> findUserGuardianUserWardsByUserWard(UserWard userWard);
 }
