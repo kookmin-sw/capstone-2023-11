@@ -373,6 +373,7 @@ const StBody = styled.div`
 const StPillList = styled.ul`
   border: 0.1rem solid transparent;
   border-radius: 0.5rem;
+  margin-bottom: 7rem;
 `;
 
 const StPillItem = styled.ul`

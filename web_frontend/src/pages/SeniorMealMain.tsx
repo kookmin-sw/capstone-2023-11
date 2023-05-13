@@ -199,7 +199,7 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 8rem;
 `;
 const StButtonBack = styled.img`
   width: 2rem;

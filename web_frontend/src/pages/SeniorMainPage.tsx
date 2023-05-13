@@ -130,7 +130,7 @@ function SeniorMain() {
             <motion.ul className="container" variants={items}>
               <StMainItem>
                 <StItemHeader>🗓 나의 건강 일지</StItemHeader>
-                <ItemContent
+                <StLastContainer
                   onClick={() => {
                     navigate(`/senior/summary/day`);
                   }}>
@@ -144,7 +144,7 @@ function SeniorMain() {
                       {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
                     </ItemComment>
                   </ItemTextContainer>
-                </ItemContent>
+                </StLastContainer>
               </StMainItem>
             </motion.ul>
           </MenuList>
@@ -193,6 +193,7 @@ const STContainer = styled.div`
   justify-content: center;
   margin-top: 1.6rem;
   background-color: #f8f9fe;
+  border-radius: 1rem;
 `;
 
 const StHeader = styled.header`
@@ -428,4 +429,8 @@ const StCountText = styled.div`
   font-size: 2rem;
   padding-top: 1rem;
   color: black;
+`;
+
+const StLastContainer = styled(ItemContent)`
+  margin-bottom: 5rem;
 `;

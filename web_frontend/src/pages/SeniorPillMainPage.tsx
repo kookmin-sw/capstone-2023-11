@@ -314,7 +314,7 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
-  padding: 0;
+  margin: 1rem;
 `;
 
 const StBackBtnImg = styled.img`

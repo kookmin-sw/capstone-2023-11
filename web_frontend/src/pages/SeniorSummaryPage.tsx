@@ -166,12 +166,12 @@ function SeniorSummaryPage() {
             <StText>🐶 복실이 총평!</StText>
             {SeniorAdvice(data?.data)}
           </motion.li>
-          <BlueButton
+          <StBlueBTn
             onClick={() => {
               navigate(`/senior/summary/day`);
             }}>
             일간 보고서 보기
-          </BlueButton>
+          </StBlueBTn>
         </motion.ul>
       </STContainer>
     </motion.div>
@@ -244,4 +244,8 @@ const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const StBlueBTn = styled(BlueButton)`
+  margin-bottom: 7rem;
 `;
