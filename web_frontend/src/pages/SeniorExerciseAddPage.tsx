@@ -95,11 +95,15 @@ function SeniorExercise() {
           {fixedData[0] == null ? (
             isSelected == "" ? (
               <motion.li className="item" variants={items}>
-                <GrayButton disabled={true}>운동 선택</GrayButton>
+                <GrayButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} disabled={true}>
+                  운동 선택
+                </GrayButton>
               </motion.li>
             ) : (
               <motion.li className="item" variants={items}>
-                <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+                <BlueButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => setIsOpen(true)}>
+                  운동 선택
+                </BlueButton>
               </motion.li>
             )
           ) : isSelected == "" ? (
@@ -126,8 +130,12 @@ function SeniorExercise() {
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
-                <GrayBTN disabled={true}>운동 추가</GrayBTN>
-                <BlueBTN>확인</BlueBTN>
+                <GrayBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} disabled={true}>
+                  운동 추가
+                </GrayBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                  확인
+                </BlueBTN>
               </FlexContainer>
             </motion.li>
           ) : (
@@ -154,8 +162,12 @@ function SeniorExercise() {
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
-                <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
-                <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => setIsOpen(true)}>
+                  운동 추가
+                </BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => submitClicked()}>
+                  확인
+                </BlueBTN>
               </FlexContainer>
             </motion.li>
           )}

@@ -254,8 +254,12 @@ function PillImgUpload() {
                 )}
                 <StModalContent>모든 약을 등록하셨습니까?</StModalContent>
                 <StPillComponent2>
-                  <StSetPillSubmitButton onClick={RegisterData}>네</StSetPillSubmitButton>
-                  <StSetPillSubmitButton onClick={SetUploadReset}>아니요</StSetPillSubmitButton>
+                  <StSetPillSubmitButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={RegisterData}>
+                    네
+                  </StSetPillSubmitButton>
+                  <StSetPillSubmitButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={SetUploadReset}>
+                    아니요
+                  </StSetPillSubmitButton>
                 </StPillComponent2>
               </StList>
               <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
@@ -320,6 +324,8 @@ function PillImgUpload() {
                   <StModalContent>등록하시겠습니까?</StModalContent>
                   <StPillComponent2>
                     <StSetPillSubmitButton
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                       onClick={async () => {
                         await pillInfo();
                         await setSetting(true);
@@ -338,6 +344,8 @@ function PillImgUpload() {
                       네
                     </StSetPillSubmitButton>
                     <StSetPillSubmitButton
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
                       onClick={() => {
                         setBreakfast(false);
                         setLunch(false);
@@ -355,7 +363,7 @@ function PillImgUpload() {
           ) : (
             <div className="center">
               <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
-              <StUploadButton onClick={onClickImageUpload}>
+              <StUploadButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClickImageUpload}>
                 <img src={PhotoIcn} />
                 사진 업로드
               </StUploadButton>
@@ -379,7 +387,9 @@ function PillImgUpload() {
                   인식된 약을 눌러 추가 정보를 입력한다
                 </StInfo>
               </StInfoContainer>
-              <StCheckButton onClick={() => uploadImage()}>약 확인하기</StCheckButton>
+              <StCheckButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => uploadImage()}>
+                약 확인하기
+              </StCheckButton>
             </div>
           )}
         </StBody>
@@ -509,7 +519,7 @@ const StItemChecked = styled.li`
   background-color: #eaf2ff;
 `;
 
-const StUploadButton = styled.button`
+const StUploadButton = styled(motion.button)`
   width: 25rem;
   height: 4rem;
   background-color: #006ffd;
@@ -528,7 +538,7 @@ const StUploadButton = styled.button`
   }
 `;
 
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
@@ -684,7 +694,7 @@ const StButtonBack = styled.img`
   height: 2rem;
   margin: 1rem;
 `;
-const StSetPillSubmitButton = styled.div`
+const StSetPillSubmitButton = styled(motion.div)`
   width: 8rem;
   height: 4rem;
   background: #006ffd;

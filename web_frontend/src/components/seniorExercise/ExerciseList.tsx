@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 interface IProp {
   selectedData: string[];
@@ -21,6 +22,8 @@ function ExerciseList({ selectedData, setSelected, getData }: IProp) {
       {selectedData.map((item, index) =>
         clicked != item ? (
           <StExercise
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
             key={index}
             onClick={() => {
               setclicked(item);
@@ -33,6 +36,8 @@ function ExerciseList({ selectedData, setSelected, getData }: IProp) {
           </StExercise>
         ) : (
           <StExerciseClicked
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
             key={index}
             onClick={() => {
               setclicked("");
@@ -61,7 +66,7 @@ const StContainer = styled.div`
   margin-bottom: 15rem;
 `;
 
-const StExercise = styled.div`
+const StExercise = styled(motion.div)`
   background-color: #f8f9fe;
   margin: 1rem;
   height: auto;

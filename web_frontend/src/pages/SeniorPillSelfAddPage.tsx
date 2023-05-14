@@ -150,6 +150,8 @@ function SeniorPillSelf() {
           <StPillList>
             {name?.map((value) => (
               <StPillItem
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={async () => {
                   handleOpenModal(value.toString());
                   setValue(value.toString());
@@ -237,6 +239,8 @@ function SeniorPillSelf() {
               <StModalContent>등록하시겠습니까?</StModalContent>
               <StPillComponent2>
                 <StSetPillSubmitButton
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     setDayValue(selectedValue);
                     handleCloseModal;
@@ -245,6 +249,8 @@ function SeniorPillSelf() {
                   네
                 </StSetPillSubmitButton>
                 <StSetPillSubmitButton
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     setSelectedValue(0);
                     setIsOpen(false);
@@ -376,7 +382,7 @@ const StPillList = styled.ul`
   margin-bottom: 7rem;
 `;
 
-const StPillItem = styled.ul`
+const StPillItem = styled(motion.ul)`
   padding: 1rem 1rem;
   border: 0.2rem solid #6abaff;
   width: 30rem;
@@ -486,7 +492,7 @@ const StSetPillCheckButton = styled(StSetPillButton)`
   background: #006ffd;
 `;
 
-const StSetPillSubmitButton = styled.div`
+const StSetPillSubmitButton = styled(motion.div)`
   width: 8rem;
   height: 4rem;
   background: #006ffd;

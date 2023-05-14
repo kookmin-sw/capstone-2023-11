@@ -44,16 +44,21 @@ function SeniorMypage() {
             </div>
           </div>
         </StInfoContainer>
-        <StButtonContainer onClick={() => navigate(`/modify/senior`)}>
+        <StButtonContainer
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => navigate(`/modify/senior`)}>
           <StButtonInfo>개인정보 변경하기</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>
-        <StButtonContainer>
+        <StButtonContainer whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>
         <StLogContainer>
-          <StLogoutButton onClick={() => navigate(`/login`)}>로그아웃</StLogoutButton>
+          <StLogoutButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => navigate(`/login`)}>
+            로그아웃
+          </StLogoutButton>
         </StLogContainer>
       </StSeniorMypage>
     </motion.div>
@@ -147,7 +152,7 @@ const StUserCode = styled.span`
   color: #71727a;
 `;
 
-const StButtonContainer = styled.div`
+const StButtonContainer = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   margin-left: 2.3rem;
@@ -172,7 +177,7 @@ const StLogContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-const StLogoutButton = styled.button`
+const StLogoutButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;

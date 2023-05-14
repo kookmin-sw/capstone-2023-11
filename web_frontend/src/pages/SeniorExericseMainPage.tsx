@@ -122,17 +122,28 @@ function SeniorExerciseMainPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             {today == selectedDate ? (
-              <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+              <StCheckButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={onAddClick}>
+                추가하기
+              </StCheckButton>
             ) : (
-              <GrayButton>추가하기</GrayButton>
+              <GrayButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                추가하기
+              </GrayButton>
             )}
           </motion.li>
           <StModal isOpen={showDeleteModal}>
             <StPopContainer>
               <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
               <BTNContainer>
-                <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
-                <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={onDeleteConfirm}>
+                  확인
+                </BlueBTN>
+                <BlueBTN
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
+                  onClick={() => setShowDeleteModal(false)}>
+                  취소
+                </BlueBTN>
               </BTNContainer>
             </StPopContainer>
           </StModal>
@@ -251,7 +262,7 @@ const StButtonBack = styled.img`
   height: 2rem;
   margin: 1rem;
 `;
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;

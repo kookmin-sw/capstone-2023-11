@@ -86,7 +86,9 @@ function PillDetail() {
             <StItemName>주의 사항</StItemName>
             <StItemContent dangerouslySetInnerHTML={{ __html: resultCaution }} />
           </StContentItem>
-          <BlueButton onClick={() => navigate(-1)}>돌아가기</BlueButton>
+          <BlueButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} onClick={() => navigate(-1)}>
+            돌아가기
+          </BlueButton>
         </StContentList>
       </StBody>
     </motion.div>
@@ -146,7 +148,7 @@ const StItemContent = styled.div`
   font-family: "Pretendard-Regular";
 `;
 
-const BlueButton = styled.button`
+const BlueButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;

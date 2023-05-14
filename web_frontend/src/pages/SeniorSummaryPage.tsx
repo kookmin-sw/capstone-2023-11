@@ -8,7 +8,7 @@ import { CalComment } from "../components/seniorSummary/CalComment";
 import ExerciseChart from "../components/seniorSummary/ExerciseChart";
 import { useQuery } from "react-query";
 import { getWeeklyData } from "../core/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { exampleData, navigateIndex } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,10 @@ function SeniorSummaryPage() {
   const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
   const [example, setExample] = useState(false);
   const setNameAtom = useSetRecoilState(navigateIndex);
+  const [isActive, setIsActive] = useState(false);
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
   const SCORE_WEIGHT = {
     exercise: 3,
     calorie: 2,
@@ -124,10 +128,26 @@ function SeniorSummaryPage() {
   }, [data]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <StHeader>
-        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-        <HeaderText>주간 보고서</HeaderText>
-      </StHeader>
+      {isActive ? (
+        <StHeader>
+          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <div>
+            <HeaderText2 onClick={isActiveToggle}>주간 보고서</HeaderText2>
+            <HeaderText2
+              onClick={() => {
+                navigate(`/senior/summary/day`);
+                isActiveToggle();
+              }}>
+              일간 보고서
+            </HeaderText2>
+          </div>
+        </StHeader>
+      ) : (
+        <StHeader>
+          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <HeaderText onClick={isActiveToggle}>주간 보고서 ▾</HeaderText>
+        </StHeader>
+      )}
       <STContainer>
         <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
         <ScoreChart score={score} />
@@ -168,6 +188,8 @@ function SeniorSummaryPage() {
           </motion.li>
           <div className="row">
             <StBlueBTn
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
               onClick={() => {
                 navigate(`/senior/summary/day`);
               }}>
@@ -191,8 +213,11 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 9999;
+  div {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+  }
 `;
 const HeaderText = styled.div`
   font-size: 2rem;
@@ -201,9 +226,13 @@ const HeaderText = styled.div`
   align-self: center;
   color: #71727a;
   flex: 1 1 0;
+  padding-right: 1.7rem;
+`;
+const HeaderText2 = styled(HeaderText)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding-right: 2.5rem;
 `;
-
 const ChartContainer = styled.div`
   padding: 2rem 2rem;
   justify-content: center;

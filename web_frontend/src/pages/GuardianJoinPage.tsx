@@ -51,6 +51,8 @@ function GuardianJoinPage() {
               type="tel"
               placeholder="피보호인의 유저 코드를 입력해주세요"></StNormalInput>
             <StCodeButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 if (code.length >= 8) {
                   setCode("");
@@ -91,7 +93,9 @@ function GuardianJoinPage() {
           )}
         </StCodeContainer>
         <StButtonContainer>
-          <StJoinButton onClick={() => ControllJoin()}>다음으로</StJoinButton>
+          <StJoinButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} onClick={() => ControllJoin()}>
+            다음으로
+          </StJoinButton>
         </StButtonContainer>
       </StGuardianPage>
     </motion.div>
@@ -151,7 +155,7 @@ const StInputLabel = styled.label`
   font-family: "Pretendard-Regular";
   margin-top: 1.65rem;
 `;
-const StCodeButton = styled.button`
+const StCodeButton = styled(motion.button)`
   border: none;
   background: #006ffd;
   border-radius: 12px;
@@ -202,7 +206,7 @@ const StSeniorCode2 = styled.div`
   margin-bottom: 2.2rem;
   margin-left: 15rem;
 `;
-const StJoinButton = styled.button`
+const StJoinButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;

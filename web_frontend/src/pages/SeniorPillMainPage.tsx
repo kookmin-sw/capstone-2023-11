@@ -112,7 +112,7 @@ function SeniorPillMain() {
             <StPillList>
               {pillData?.medicines.map((value, index) => (
                 <motion.li className="item" variants={items}>
-                  <StItem key={index}>
+                  <StItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} key={index}>
                     <StLink to={`/senior/pill/detail/${value.id}`}>
                       <StItemImgBox>
                         <StItemImg src={value.imageUrl} />
@@ -204,12 +204,16 @@ function SeniorPillMain() {
                           <StModalContent>수정하시겠습니까?</StModalContent>
                           <StPillComponent2>
                             <StSetPillSubmitButton
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
                               onClick={() => {
                                 handleCloseModal(selectedValue);
                               }}>
                               네
                             </StSetPillSubmitButton>
                             <StSetPillSubmitButton
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
                               onClick={() => {
                                 setSelectedValue(0);
                                 setIsOpen(false);
@@ -232,6 +236,8 @@ function SeniorPillMain() {
                           <StPopTitle className="POP">이 약을 지우시겠습니까??</StPopTitle>
                           <BTNContainer>
                             <BlueBTN
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
                               onClick={async () => {
                                 handleCloseModal2();
                                 await DeletePillData(id);
@@ -239,7 +245,9 @@ function SeniorPillMain() {
                               }}>
                               네
                             </BlueBTN>
-                            <BlueBTN onClick={handleCloseModal2}>아니요</BlueBTN>
+                            <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={handleCloseModal2}>
+                              아니요
+                            </BlueBTN>
                           </BTNContainer>
                         </StPopContainer>
                       </StPopModal>
@@ -345,7 +353,7 @@ const StPillList = styled.ul`
   border-radius: 1rem;
 `;
 
-const StItem = styled.div`
+const StItem = styled(motion.div)`
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
@@ -560,7 +568,7 @@ const StSetPillCheckButton = styled(StSetPillButton)`
   color: white;
   background: #006ffd;
 `;
-const StSetPillSubmitButton = styled.div`
+const StSetPillSubmitButton = styled(motion.div)`
   width: 8rem;
   height: 4rem;
   background: #006ffd;

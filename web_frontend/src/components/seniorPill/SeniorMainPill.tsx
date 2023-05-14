@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../../core/api";
 import { IPillInfo } from "../../core/atom";
+import { motion } from "framer-motion";
 
 function Pill() {
   const [pillData, setPillData] = useState<IPillInfo>();
@@ -22,7 +23,7 @@ function Pill() {
           return (
             <>
               <StLink to={`/senior/pill/detail/${value.id}`}>
-                <StPillItem key={index}>
+                <StPillItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} key={index}>
                   <StPillImg src={value.imageUrl} />
                   <StPillContent>{value.name.length > 12 ? value.name.slice(0, 12) + "..." : value.name}</StPillContent>
                   <StDaySwapper>
@@ -64,7 +65,7 @@ const StPillList = styled.div`
   border: 0;
 `;
 
-const StPillItem = styled.button`
+const StPillItem = styled(motion.button)`
   position: relative;
   display: flex;
   flex-direction: column;

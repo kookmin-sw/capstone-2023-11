@@ -107,6 +107,8 @@ function SeniorMealMain() {
           <motion.li className="item" variants={items}>
             {selectedDate == today ? (
               <StCheckButton
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   navigate("/senior/meal/add");
                 }}>
@@ -193,7 +195,7 @@ const StNutrient = styled.p`
   margin-top: 0.4rem;
   font-family: "Pretendard-Bold";
 `;
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
