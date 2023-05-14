@@ -104,6 +104,8 @@ function ExercisePopUp(prop: IData) {
 
       {time != 0 ? (
         <BlueBTN
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             const name = prop.selectedData;
             const newData = { name, time };
@@ -113,7 +115,9 @@ function ExercisePopUp(prop: IData) {
           운동 선택
         </BlueBTN>
       ) : (
-        <GrayBtn>운동 선택</GrayBtn>
+        <GrayBtn whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+          운동 선택
+        </GrayBtn>
       )}
     </StContainer>
   );

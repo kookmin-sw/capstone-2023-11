@@ -176,6 +176,8 @@ function SeniorModifyPage() {
           </StMedicalContainer>
           <StButtonContainer>
             <StJoinButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 if (Number(height) <= 0 || Number(weight) <= 0 || !birth) {
                   alert("정보를 모두 입력해주세요!");
@@ -321,6 +323,8 @@ function SeniorModifyPage() {
             </StIllContainer>
 
             <StJoinButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 joinWard();
               }}>
@@ -392,7 +396,7 @@ const StNormalInput = styled.input`
   font-size: 1.5rem;
   background-color: white;
 `;
-const StJoinButton = styled.button`
+const StJoinButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -417,7 +421,7 @@ const StButtonContainer = styled.div`
   align-items: center;
   margin-top: 6rem;
 `;
-const StButtonUnClicked = styled.button`
+const StButtonUnClicked = styled(motion.button)`
   height: 3rem;
   font-size: 1.8rem;
   font-family: "Pretendard-Bold";
@@ -430,7 +434,7 @@ const StButtonUnClicked = styled.button`
   margin-right: 1rem;
   margin-top: 2rem;
 `;
-const StButtonClicked = styled.button`
+const StButtonClicked = styled(motion.button)`
   height: 3rem;
   font-size: 1.8rem;
   font-family: "Pretendard-Bold";

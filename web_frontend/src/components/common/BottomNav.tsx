@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { navigateIndex } from "../../core/atom";
+import { motion } from "framer-motion";
 
 const BottomNav = () => {
   const setNameAtom = useSetRecoilState(navigateIndex);
@@ -12,7 +13,9 @@ const BottomNav = () => {
     <>
       <Outlet />
       <StNavigation className="wrapper">
-        <div
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             navigate("/senior/main");
             setNameAtom(0);
@@ -23,8 +26,10 @@ const BottomNav = () => {
           ) : (
             <img src={require("../../assets/icons/icon_home_off.png")} />
           )}
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             navigate("/senior/summary/day");
             setNameAtom(1);
@@ -35,8 +40,10 @@ const BottomNav = () => {
           ) : (
             <img src={require("../../assets/icons/icon_report_off.png")} />
           )}
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             navigate("/senior/meal");
             setNameAtom(2);
@@ -47,8 +54,10 @@ const BottomNav = () => {
           ) : (
             <img src={require("../../assets/icons/icon_food_off.png")} />
           )}
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             navigate("/senior/exercise");
             setNameAtom(3);
@@ -59,8 +68,10 @@ const BottomNav = () => {
           ) : (
             <img src={require("../../assets/icons/icon_exercise_off.png")} />
           )}
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
           onClick={() => {
             navigate("/senior/pill");
             setNameAtom(4);
@@ -71,7 +82,7 @@ const BottomNav = () => {
           ) : (
             <img src={require("../../assets/icons/icon_pill_off.png")} />
           )}
-        </div>
+        </motion.div>
       </StNavigation>
     </>
   );

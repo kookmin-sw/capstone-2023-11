@@ -188,6 +188,8 @@ function SeniorSummaryPage() {
           </motion.li>
           <div className="row">
             <StBlueBTn
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
               onClick={() => {
                 navigate(`/senior/summary/day`);
               }}>

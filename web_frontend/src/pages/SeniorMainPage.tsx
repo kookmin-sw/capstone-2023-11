@@ -84,7 +84,10 @@ function SeniorMain() {
             onClick={() => {
               navigate(`/senior/myPage`);
             }}>
-            <StUser src={require("../assets/images/img_avatar.png")}></StUser>
+            <StUser
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
+              src={require("../assets/images/img_avatar.png")}></StUser>
             <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
           </StUserContent>
         </StHeader>
@@ -121,6 +124,8 @@ function SeniorMain() {
                 <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
                 <StCountSwapper>
                   <StCount
+                    whileTap={{ scale: 0.8 }}
+                    whileHover={{ scale: 1.2 }}
                     onClick={() => {
                       navigate(`/senior/meal`);
                     }}>
@@ -129,6 +134,8 @@ function SeniorMain() {
                     <StCountText>{info?.todayMealCount ? info?.todayMealCount : 0} 번</StCountText>
                   </StCount>
                   <StCount
+                    whileTap={{ scale: 0.8 }}
+                    whileHover={{ scale: 1.2 }}
                     onClick={() => {
                       navigate(`/senior/exercise`);
                     }}>
@@ -143,6 +150,8 @@ function SeniorMain() {
               <StMainItem>
                 <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
                 <ItemContent
+                  whileTap={{ scale: 0.8 }}
+                  whileHover={{ scale: 1.2 }}
                   onClick={() => {
                     navigate(`/senior/summary`);
                   }}>
@@ -162,6 +171,8 @@ function SeniorMain() {
               <StMainItem>
                 <StItemHeader>🗓 나의 건강 일지</StItemHeader>
                 <StLastContainer
+                  whileTap={{ scale: 0.8 }}
+                  whileHover={{ scale: 1.2 }}
                   onClick={() => {
                     navigate(`/senior/summary/day`);
                   }}>
@@ -233,7 +244,7 @@ const StHeader = styled.header`
   padding: 0rem 2rem 0 2rem;
 `;
 
-const StUser = styled.img`
+const StUser = styled(motion.img)`
   width: 5rem;
   height: 5rem;
   display: flex;
@@ -316,7 +327,7 @@ const ItemImg = styled.img`
   height: 4.5rem;
 `;
 
-const ItemContent = styled.button`
+const ItemContent = styled(motion.button)`
   display: flex;
   position: relative;
   padding: 3.5rem 2rem;
@@ -437,7 +448,7 @@ const StCountSwapper = styled.div`
   width: 100%;
 `;
 
-const StCount = styled.div`
+const StCount = styled(motion.div)`
   font-size: 2.5rem;
   width: 14rem;
   height: 10rem;

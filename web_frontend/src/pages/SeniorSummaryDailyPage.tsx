@@ -91,8 +91,11 @@ function SeniorSummaryDailyPage() {
         <StHeader>
           <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
           <div>
-            <HeaderText2 onClick={isActiveToggle}>일간 보고서</HeaderText2>
+            <HeaderText2 whileTap={{ scale: 0.8 }} onClick={isActiveToggle}>
+              일간 보고서
+            </HeaderText2>
             <HeaderText2
+              whileTap={{ scale: 0.8 }}
               onClick={() => {
                 navigate(`/senior/summary`);
                 isActiveToggle();
@@ -104,7 +107,9 @@ function SeniorSummaryDailyPage() {
       ) : (
         <StHeader>
           <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-          <HeaderText onClick={isActiveToggle}>일간 보고서 ▾</HeaderText>
+          <HeaderText whileTap={{ scale: 0.8 }} onClick={isActiveToggle}>
+            일간 보고서 ▾
+          </HeaderText>
         </StHeader>
       )}
       <STContainer>
@@ -136,7 +141,11 @@ function SeniorSummaryDailyPage() {
                       <StMealImage src={item.imageUrl} />
                       {item.detail.map((mealList, index2) => (
                         <motion.li key={index} className="item" variants={items}>
-                          <StFoodBox id={mealList.name} onClick={() => foodClicked(index, index2)}>
+                          <StFoodBox
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.8 }}
+                            id={mealList.name}
+                            onClick={() => foodClicked(index, index2)}>
                             <StIcon src={require(`../assets/icons/icon_food1.png`)} />
                             <div>
                               <StFoodName>{mealList.name}</StFoodName>
@@ -211,6 +220,8 @@ function SeniorSummaryDailyPage() {
         )}
         <div className="row">
           <StBlueBTn
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
             onClick={() => {
               navigate(`/senior/summary`);
             }}>
@@ -249,7 +260,7 @@ const StHeader = styled.header`
     width: inherit;
   }
 `;
-const HeaderText = styled.div`
+const HeaderText = styled(motion.div)`
   font-size: 2rem;
   text-align: center;
   font-family: "Pretendard-Regular";
@@ -323,7 +334,7 @@ const StText = styled.div`
   font-family: "Pretendard-Bold";
   padding: 1rem 1rem;
 `;
-const StFoodBox = styled.div`
+const StFoodBox = styled(motion.div)`
   display: flex;
   align-items: center;
   width: 32rem;

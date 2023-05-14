@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function NoPill() {
   return (
-    <StPill>
+    <StPill whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
       <StLink to={`/senior/pill`}>
         <StNoPill>
           <StContent1>현재 복용중인 약이 없습니다</StContent1>
@@ -17,7 +18,7 @@ function NoPill() {
   );
 }
 
-const StPill = styled.div`
+const StPill = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
