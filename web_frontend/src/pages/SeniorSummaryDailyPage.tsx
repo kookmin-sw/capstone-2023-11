@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -35,7 +35,12 @@ function SeniorSummaryDailyPage() {
   const [clickedFood, setClickedFood] = useState(0);
   const navigate = useNavigate();
   const setNameAtom = useSetRecoilState(navigateIndex);
+  const [isActive, setIsActive] = useState(false);
   // const RANDOM_NUMBER = Math.floor(Math.random() * 4) + 1;
+
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
 
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -82,10 +87,26 @@ function SeniorSummaryDailyPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <StHeader>
-        <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-        <HeaderText>일간 보고서</HeaderText>
-      </StHeader>
+      {isActive ? (
+        <StHeader>
+          <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <div>
+            <HeaderText2 onClick={isActiveToggle}>일간 보고서</HeaderText2>
+            <HeaderText2
+              onClick={() => {
+                navigate(`/senior/summary`);
+                isActiveToggle();
+              }}>
+              주간 보고서
+            </HeaderText2>
+          </div>
+        </StHeader>
+      ) : (
+        <StHeader>
+          <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <HeaderText onClick={isActiveToggle}>일간 보고서 ▾</HeaderText>
+        </StHeader>
+      )}
       <STContainer>
         <StTitle className="indent">
           {year + "년 " + month + "월 " + date + "일 " + week[now.getDay()] + "요일"}
@@ -222,7 +243,11 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
-  justify-content: center;
+  div {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+  }
 `;
 const HeaderText = styled.div`
   font-size: 2rem;
@@ -231,6 +256,11 @@ const HeaderText = styled.div`
   align-self: center;
   color: #71727a;
   flex: 1 1 0;
+  padding-right: 1.7rem;
+`;
+const HeaderText2 = styled(HeaderText)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding-right: 2.5rem;
 `;
 const STContainer = styled.div`
