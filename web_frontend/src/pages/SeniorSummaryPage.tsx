@@ -13,7 +13,7 @@ import { exampleData, navigateIndex } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { SeniorAdvice } from "../components/seniorSummary/Advice";
+// import { SeniorAdvice } from "../components/seniorSummary/Advice";
 import { useSetRecoilState } from "recoil";
 
 function SeniorSummaryPage() {
@@ -125,7 +125,9 @@ function SeniorSummaryPage() {
         setExample(true);
       }
     }
+    console.log(data);
   }, [data]);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {isActive ? (
@@ -158,6 +160,13 @@ function SeniorSummaryPage() {
           <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
         )}
         <ScoreChart score={score} />
+        <div className="indent">
+          <StText>양호</StText>
+          <StText>위험</StText>
+        </div>
+        <Progress>
+          <Dealt dealt={100 - score} />
+        </Progress>
         <motion.ul className="container" variants={container} initial="hidden" animate="visible">
           <motion.li className="item" variants={items}>
             <StText>주간 영양소 분석</StText>
@@ -193,7 +202,7 @@ function SeniorSummaryPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
-            {SeniorAdvice(data?.data)}
+            {/* {SeniorAdvice(data?.data)} */}
           </motion.li>
           <div className="row">
             <StBlueBTn
@@ -286,6 +295,11 @@ const STContainer = styled.div`
     width: 100%;
     justify-content: center;
   }
+  .indent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 const StButtonBack = styled.img`
   width: 2rem;
@@ -295,4 +309,20 @@ const StButtonBack = styled.img`
 
 const StBlueBTn = styled(BlueButton)`
   margin-bottom: 7rem;
+`;
+
+const Progress = styled.div`
+  height: 2rem;
+  background-image: linear-gradient(to left, #ff616d, #6fbaff);
+  border-radius: 1rem;
+  margin-bottom: 3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+`;
+const Dealt = styled.div<{ dealt: number }>`
+  background-color: #f8f9fe;
+  border-radius: 1rem;
+  width: 0.7rem;
+  margin-left: ${(props) => props.dealt + "%"};
+  height: 100%;
 `;
