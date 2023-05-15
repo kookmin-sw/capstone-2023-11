@@ -259,7 +259,7 @@ public class UserGuardianController {
     }
 
     @DeleteMapping(value = "/connect/{userWardId}")
-    public ResponseEntity<?> disconnectWard(Authentication authentication, @PathVariable Long userWardId) {
+    public ResponseEntity<?> disconnectWard(Authentication authentication, @RequestParam(value = "wardId") Long userWardId) {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
             String result = userGuardianService.disconnectWard(kaKaoAccountIdAndUserType, userWardId);
@@ -290,7 +290,7 @@ public class UserGuardianController {
     }
 
     @GetMapping(value = "/calendar")
-    public ResponseEntity<?> getRecordsDate(Authentication authentication, @PathVariable Long userWardId) {
+    public ResponseEntity<?> getRecordsDate(Authentication authentication, @RequestParam(value = "wardId") Long userWardId) {
         try {
             GetRecordsDateResponseDto result = userGuardianService.getRecordsDate(userWardId);
 
