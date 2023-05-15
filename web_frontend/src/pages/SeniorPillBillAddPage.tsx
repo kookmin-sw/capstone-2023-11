@@ -100,10 +100,6 @@ function PillImgUpload() {
     setIsOpen(false);
   };
 
-  // const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setDayValue(parseInt(e.target.value));
-  // };
-
   const parser = new DOMParser();
 
   const effectParse = async (xmlString: string) => {
@@ -146,7 +142,9 @@ function PillImgUpload() {
   };
 
   const pillInfo = async () => {
-    setPillName(pillData?.data?.body.items[0].ITEM_NAME);
+    const itemName = pillData?.data?.body.items[0].ITEM_NAME;
+    const extractedName = itemName?.match(/^([^(]+)/)?.[1];
+    setPillName(extractedName);
     setCompany(pillData?.data?.body.items[0].ENTP_NAME);
     setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
@@ -306,7 +304,6 @@ function PillImgUpload() {
                         <></>
                       )}
                     </DropdownContainer>
-                    {/* <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} /> */}
                   </StPillComponent>
                   <StPillComponent>
                     <StModalContent>복용 시간</StModalContent>
@@ -332,14 +329,16 @@ function PillImgUpload() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={async () => {
-                        await pillInfo();
-                        await setSetting(true);
-                        handleCloseModal();
+                        await pillInfo().then(() => {
+                          setSetting(true);
+                          handleCloseModal();
+                        });
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);
                         selectItem(0);
                         setDayValue(0);
+                        setIsActive(false);
                         setSelected((prev: boolean[]) => {
                           const newSelected = [...prev];
                           newSelected[selectedIndex] = true;
@@ -652,14 +651,6 @@ const StModalContent = styled.div`
   margin: 2rem;
   align-self: center;
 `;
-
-// const StModalSearch = styled.input`
-//   height: 4rem;
-//   border: 0.2rem solid gray;
-//   border-radius: 1rem;
-//   font-family: "Pretendard-Regular";
-//   padding: 2rem;
-// `;
 
 const StPillComponent = styled.div`
   align-items: center;
