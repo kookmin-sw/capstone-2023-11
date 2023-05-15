@@ -142,7 +142,9 @@ function PillImgUpload() {
   };
 
   const pillInfo = async () => {
-    setPillName(pillData?.data?.body.items[0].ITEM_NAME);
+    const itemName = pillData?.data?.body.items[0].ITEM_NAME;
+    const extractedName = itemName?.match(/^([^(]+)/)?.[1];
+    setPillName(extractedName);
     setCompany(pillData?.data?.body.items[0].ENTP_NAME);
     setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
     const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
