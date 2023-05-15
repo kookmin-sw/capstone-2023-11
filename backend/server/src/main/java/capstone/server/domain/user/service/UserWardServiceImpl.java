@@ -86,9 +86,9 @@ public class UserWardServiceImpl implements UserWardService{
         for (UserGuardian userGuardian : connectedGuardians) {
             result.add(
                     ConnectedGuardian.builder()
-                            .name(userWard.getName())
-                            .email(userWard.getEmail())
-                            .kakaoAccountId(userWard.getKakaoAccountId())
+                            .name(userGuardian.getName())
+                            .email(userGuardian.getEmail())
+                            .kakaoAccountId(userGuardian.getKakaoAccountId())
                             .build()
             );
         }

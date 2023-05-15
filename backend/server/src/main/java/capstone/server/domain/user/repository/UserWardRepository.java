@@ -13,6 +13,6 @@ public interface UserWardRepository extends JpaRepository<UserWard,Long> {
   boolean existsByKakaoAccountId(Long kakaoAccountId);
   Optional<UserWard> findUserWardByKakaoAccountId(Long kakaoAccountId);
 
-  @Query("SELECT ug FROM UserGuardianUserWard uguw JOIN uguw.userWard uw JOIN uguw.userGuardina ug WHERE uw.userId = :userId")
+  @Query("SELECT ug FROM UserGuardianUserWard uguw JOIN uguw.userGuardian ug JOIN uguw.userWard uw WHERE uw.userId = :userId")
   List<UserGuardian> findUserGuardianByUserWardUserId(Long userId);
 }
