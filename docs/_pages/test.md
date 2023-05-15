@@ -63,7 +63,7 @@ We aim to provide a health information sharing service to check and manage the h
 |Programming Language|<img alt="RED" src ="https://img.shields.io/badge/JAVA-004027.svg?&style=for-the-badge&logo=Jameson&logoColor=white"/>|
 |API|![REST](https://img.shields.io/badge/Rest-4B3263?style=for-the-badge&logo=rest&logoColor=white)                                     
 |Version Control|![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) |
-|CI/CD|![Jenkins](https://img.shields.io/badge/Jenkins-%D24939.svg?style=for-the-badge&logo=Jenkins&logoColor=white)|
+|CI/CD|![GihubAction](https://img.shields.io/badge/GithubAction-181717?style=for-the-badge&logo={githubactions}&logoColor={white}) ![AmazonS3](https://img.shields.io/badge/AmazonS3-FF9900?style=for-the-badge&logo={AmazonS3}&logoColor={white}) ![CodeDeploy](https://img.shields.io/badge/AmazonCodeDeploy-FF9900?style=for-the-badge&logo={AmazonCodeDeploy}&logoColor={white}) |
 
 ## 팀원 소개
 <div>
