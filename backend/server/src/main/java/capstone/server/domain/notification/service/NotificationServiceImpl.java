@@ -49,6 +49,8 @@ public class NotificationServiceImpl implements NotificationService {
 
 	  // 메일을 받을 보호자 명단 추리기
 	  for (UserGuardianUserWard guardianWard : guardianWards) {
+		if(guardianWard.getUserGuardian().getEmail() == null ) continue; //Email이 없으면 넘김
+		if(guardianWard.getUserGuardian().getEmail().isBlank()) continue; // 공백일시도 넘김
 		emailReceivers.add(
 				EmailName.builder()
 						.email(guardianWard.getUserGuardian().getEmail())
