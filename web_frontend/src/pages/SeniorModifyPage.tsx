@@ -72,6 +72,7 @@ function SeniorModifyPage() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <Helmet>
           <title>회원가입</title>
+          <link rel="canonical" href="https://capstone-2023-11.vercel.app/modify/senior/" />
         </Helmet>
         <StSeniorPage>
           <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>

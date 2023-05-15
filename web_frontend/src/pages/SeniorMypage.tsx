@@ -22,6 +22,7 @@ function SeniorMypage() {
     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
       <Helmet>
         <title>개인정보 수정</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/mypage" />
       </Helmet>
       <StSeniorMypage>
         <StHeader>

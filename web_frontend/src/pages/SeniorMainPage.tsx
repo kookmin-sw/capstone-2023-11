@@ -81,6 +81,7 @@ function SeniorMain() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Helmet>
         <title>복실이에 오신 것을 환영합니다</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/main" />
       </Helmet>
       <STContainer>
         <StHeader>

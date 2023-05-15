@@ -14,6 +14,7 @@ function LoginPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
       <Helmet>
         <title>복실이에 오신 것을 환영합니다.</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/login" />
       </Helmet>
       <StLoginPage>
         <StLogo src={require("../../src/assets/images/img_logo.jpeg")} />

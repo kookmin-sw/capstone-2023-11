@@ -79,6 +79,7 @@ function SeniorExercise() {
     <motion.ul className="container" variants={container} initial="hidden" animate="visible">
       <Helmet>
         <title>운동 추가</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/exercise/add" />
       </Helmet>
       <StContainer>
         <StHeader>

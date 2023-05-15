@@ -131,6 +131,7 @@ function SeniorSummaryPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Helmet>
         <title>주간 보고서</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/summary" />
       </Helmet>
       {isActive ? (
         <StHeader>
