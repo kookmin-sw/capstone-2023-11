@@ -31,7 +31,15 @@ export default function App() {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper">
         <SwiperSlide>
-          <StSeniorCard></StSeniorCard>
+          <StSeniorCard>
+            <StSeniorName>김딸기</StSeniorName>
+            <StSeniorDate>1973.01.01</StSeniorDate>
+            <StCardText>73살</StCardText>
+            <StCardText>남성</StCardText>
+            <StCardText>키: 183cm</StCardText>
+            <StCardText>현재 체중: 73kg</StCardText>
+            <StCheckButton>자세히 보기</StCheckButton>
+          </StSeniorCard>
         </SwiperSlide>
         <SwiperSlide>
           <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
@@ -80,6 +88,9 @@ const StGuardianMainPage = styled.div`
 `;
 
 const StSeniorCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #f8f9fe;
   width: 30rem;
   height: 55rem;
@@ -91,4 +102,24 @@ const StTitle = styled.div`
   text-align: center;
   align-self: center;
   margin-top: 2rem;
+`;
+
+const StSeniorName = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 2rem;
+`;
+const StSeniorDate = styled.p``;
+const StCardText = styled.p``;
+const StCheckButton = styled.button`
+  width: 25rem;
+  height: 3.8rem;
+  background-color: #006ffd;
+  border: none;
+  border-radius: 1.2rem;
+  color: white;
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  position: relative;
+  bottom: 0rem;
+  margin-bottom: 2rem;
 `;
