@@ -10,6 +10,7 @@ import capstone.server.domain.workout.dto.WorkOutRecordResponse;
 import capstone.server.entity.Food;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,11 +30,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @Slf4j
 public class FoodController {
-
-    @Autowired
-    private FoodService foodService;
+    private final FoodService foodService;
 
     @PostMapping(value = "/food/detect")
     public ResponseEntity<?> detectFoodImage(Authentication authentication, @RequestParam(value = "image")MultipartFile image) {

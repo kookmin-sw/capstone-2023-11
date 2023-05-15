@@ -5,6 +5,7 @@ import capstone.server.domain.calendar.service.CalendarService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,10 +16,10 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class CalendarController {
 
-    @Autowired
-    CalendarService calendarService;
+    private final CalendarService calendarService;
     @GetMapping(value = "/calendar")
     public ResponseEntity<?> getRecordsDate(Authentication authentication) {
         try {

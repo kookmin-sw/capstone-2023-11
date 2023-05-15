@@ -13,6 +13,7 @@ import capstone.server.entity.Image;
 import capstone.server.entity.Meal;
 import capstone.server.entity.UserWard;
 import capstone.server.utils.S3Util;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -35,23 +37,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class FoodServiceImpl implements FoodService{
 
-    @Autowired
-    private MealRepository mealRepository;
-    @Autowired
-    private FoodRepository foodRepository;
+    private final MealRepository mealRepository;
+    private final FoodRepository foodRepository;
+    private final ImageRepository imageRepository;
+    private final UserWardRepository userWardRepository;
+    private final NotificationService notificationService;
 
-    @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
-    private UserWardRepository userWardRepository;
-    @Autowired
-    private NotificationService notificationService;
-
-    @Autowired
-    private S3Util s3Util;
+    private final S3Util s3Util;
 
     @Value("${kakao.food-detection.url}")
     private String FOOD_DETECTION_API_URL;

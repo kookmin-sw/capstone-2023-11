@@ -5,6 +5,7 @@ import capstone.server.domain.user.dto.*;
 import capstone.server.domain.user.service.UserWardService;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,10 +15,11 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/userward")
 public class UserWardController {
-    @Autowired
-    UserWardService userWardService;
+
+    private final UserWardService userWardService;
 
     @GetMapping(value = "/main")
     public ResponseEntity<?> getUserWardMainInfo(Authentication authentication) {
