@@ -3,6 +3,8 @@ package capstone.server.domain.user.service;
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
+import capstone.server.domain.medicine.service.MedicineService;
 import capstone.server.domain.user.dto.ConnectedWard;
 import capstone.server.domain.user.dto.GetDailySummaryDto;
 import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
@@ -37,9 +39,11 @@ public class UserGuardianServiceImpl implements UserGuardianService {
     private final UserService userService;
     private final FoodService foodService;
     private final WorkOutService workOutService;
+    private final MedicineService medicineService;
     private final UserGuardianRepository userGuardianRepository;
     private final UserWardRepository userWardRepository;
     private final UserGuardianUserWardRepository userGuardianUserWardRepository;
+
     @Override
     public GetUserWardMainInfoResponseDto getUserWardMainInfo(Long userWardKakaoAccountId) throws HttpClientErrorException {
         KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
@@ -138,6 +142,16 @@ public class UserGuardianServiceImpl implements UserGuardianService {
                 .build();
 
         return workOutService.getWorkOutRecordsByYearMonth(kaKaoAccountIdAndUserType, startDate, lastDate);
+    }
+
+    @Override
+    public GetMedicineInfoResponseDto getMedicineInfo(Long userWardKakaoAccountId) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return medicineService.getMedicineInfo(kaKaoAccountIdAndUserType);
     }
 
     @Override
