@@ -348,3 +348,13 @@ export const getGuardianDaily = async (wardId: number) => {
   });
   return data;
 };
+
+export const getGuardianWeekly = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/summary/weekly`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
