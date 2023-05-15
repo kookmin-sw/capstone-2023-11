@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/app/deploy
+    overwrite : yes # 파일이 이미 있을 경우 덮어씌우기
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+
+hooks:
+  AfterInstall: # 설치 후에 기존에 돌아가던 서버 중단 시키기
+    - location: stop.sh
+      timeout: 60
+      runas: ec2-user
+  ApplicationStart: # 새로운 서버 가동을 위한 스크립트
+    - location: start.sh
+      timeout: 60
+      runas: ec2-user

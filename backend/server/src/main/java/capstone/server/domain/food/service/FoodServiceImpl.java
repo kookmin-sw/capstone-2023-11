@@ -5,12 +5,15 @@ import capstone.server.domain.food.repository.FoodRepository;
 import capstone.server.domain.food.repository.MealRepository;
 import capstone.server.domain.image.repository.ImageRepository;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.notification.dto.MealInfoMailDto;
+import capstone.server.domain.notification.service.NotificationService;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Food;
 import capstone.server.entity.Image;
 import capstone.server.entity.Meal;
 import capstone.server.entity.UserWard;
 import capstone.server.utils.S3Util;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,11 +22,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ErrorHandler;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,21 +37,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class FoodServiceImpl implements FoodService{
 
-    @Autowired
-    private MealRepository mealRepository;
-    @Autowired
-    private FoodRepository foodRepository;
+    private final MealRepository mealRepository;
+    private final FoodRepository foodRepository;
+    private final ImageRepository imageRepository;
+    private final UserWardRepository userWardRepository;
+    private final NotificationService notificationService;
 
-    @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
-    private UserWardRepository userWardRepository;
-
-    @Autowired
-    private S3Util s3Util;
+    private final S3Util s3Util;
 
     @Value("${kakao.food-detection.url}")
     private String FOOD_DETECTION_API_URL;
@@ -75,7 +74,7 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
+    public String registerFood(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, MultipartFile image, RegisterFoodDto registerFoodDto) throws IOException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
         int times = 0;
         Meal prevData = mealRepository.findTopByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
@@ -92,6 +91,15 @@ public class FoodServiceImpl implements FoodService{
 
         log.info(title);
         log.info(url);
+
+        //mail에 전송하기 위한 객체
+        MealInfoMailDto mealInfoMailDto = MealInfoMailDto.builder()
+                .dateTime(LocalDateTime.now())
+                .times(times)
+                .imageUrl(url)
+                .details(new ArrayList<>())
+                .wardId(userWard.getUserId())
+                .build();
 
         // S3에 업로드한 이미지 DB에 저장
         Image savedImage = Image.builder()
@@ -123,17 +131,20 @@ public class FoodServiceImpl implements FoodService{
                     .servingSize(info.getServingSize())
                     .meal(meal).build();
 
+            // MailDto에 음식 상세정보 추가
+            mealInfoMailDto.getDetails().add(info);
+
             foodRepository.save(food);
         }
-
-        return ResponseEntity.ok().body("success");
+        notificationService.sendFoodMail(mealInfoMailDto);
+        return "식사 등록에 성공하였습니다.";
     }
 
     @Override
     public GetFoodInfoResponseDto getFoodInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
 
-        List<Meal> mealList = mealRepository.findAllByUserWardUserId(userWard.getUserId());
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdOrderByCreatedAtDesc(userWard.getUserId());
         if (mealList == null) {
             throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
         }
@@ -169,8 +180,47 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ResponseEntity deleteMeal(Long mealId) {
+    public GetFoodInfoResponseDto getFoodInfoByYearMonth(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, LocalDateTime startDate, LocalDateTime lastDate) {
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+
+        List<Meal> mealList = mealRepository.findAllByUserWardUserIdAndCreatedAtBetweenOrderByCreatedAtDesc(userWard.getUserId(), startDate, lastDate);
+        if (mealList == null) {
+            throw new RuntimeException("해당 유저에 대한 식사정보가 없습니다.");
+        }
+
+        GetFoodInfoResponseDto getFoodInfoResponseDto = GetFoodInfoResponseDto.builder().mealInfos(new ArrayList<>()).build();
+        for (Meal meal : mealList) {
+            List<Food> foods = foodRepository.findAllByMealId(meal.getId());
+            List<FoodInfo> details = new ArrayList<>();
+            for (Food food : foods) {
+                details.add(FoodInfo.builder()
+                        .calorie(food.getCalorie())
+                        .carbohyborateTotal(food.getCarbohyborateTotal())
+                        .carbohyborateSugar(food.getCarbohyborateSugar())
+                        .carbohyborateDietaryFiber(food.getCarbohyborateDietaryFiber())
+                        .fatTotal(food.getFatTotal())
+                        .fatSaturatedfat(food.getFatSaturatedfat())
+                        .fatTransFat(food.getFatTransFat())
+                        .cholesterol(food.getCholesterol())
+                        .protein(food.getProtein())
+                        .natrium(food.getNatrium())
+                        .name(food.getName())
+                        .servingSize(food.getServingSize()).build());
+            }
+            getFoodInfoResponseDto.getMealInfos().add(MealInfo.builder()
+                    .id(meal.getId())
+                    .dateTime(meal.getCreatedAt())
+                    .times(meal.getTimes())
+                    .imageUrl(meal.getImage().getUrl())
+                    .detail(details).build());
+        }
+
+        return getFoodInfoResponseDto;
+    }
+
+    @Override
+    public String deleteMeal(Long mealId) {
         mealRepository.deleteById(mealId);
-        return ResponseEntity.ok().body("success");
+        return mealId + "번 식사 삭제에 성공하였습니다.";
     }
 }

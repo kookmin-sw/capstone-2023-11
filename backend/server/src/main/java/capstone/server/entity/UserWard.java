@@ -54,4 +54,6 @@ public class UserWard extends BaseTimeEntity {
   private Integer drinkings;
   @Column(name = "smoke")
   private Integer smoke;
+  @Column(name = "email")
+  private String email;
 }

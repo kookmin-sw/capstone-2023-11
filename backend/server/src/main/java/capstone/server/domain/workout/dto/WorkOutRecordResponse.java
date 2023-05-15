@@ -15,4 +15,6 @@ public class WorkOutRecordResponse {
   private LocalDate createdAt;
   private String kor;
   private String eng;
+
+  private Integer hour;
 }

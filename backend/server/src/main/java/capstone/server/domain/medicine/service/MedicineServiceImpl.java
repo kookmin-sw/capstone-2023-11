@@ -1,15 +1,13 @@
 package capstone.server.domain.medicine.service;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
-import capstone.server.domain.medicine.dto.RequestMedicineInfo;
-import capstone.server.domain.medicine.dto.RegisterMedicineDto;
-import capstone.server.domain.medicine.dto.ResponseMedicineInfo;
+import capstone.server.domain.medicine.dto.*;
 import capstone.server.domain.medicine.repository.MedicineRepository;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
-import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.utils.DateTimeUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import org.json.JSONArray;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,24 +32,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class MedicineServiceImpl implements MedicineService {
 
-    @Autowired
-    private MedicineRepository medicineRepository;
-    @Autowired
-    private UserWardRepository userWardRepository;
+    private final MedicineRepository medicineRepository;
+    private final UserWardRepository userWardRepository;
 
-    @Value("${kakao.ocr.url")
+    @Value("${kakao.ocr.url}")
     private String OCR_API_URL;
-    @Value("${kakao.ocr.key")
+    @Value("${kakao.ocr.key}")
     private String OCR_API_KEY;
 
     @Override
-    @Transactional
-    public ResponseEntity registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
-        // TODO
-        // user Token으로 id뽑아오기
+    public String registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
 
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(registerMedicineDto.getKaKaoAccountIdAndUserType().getKakaoAccountId());
 
@@ -71,11 +68,11 @@ public class MedicineServiceImpl implements MedicineService {
             medicineRepository.save(medicine);
         }
 
-        return ResponseEntity.ok().body("Success");
+        return "등록이 완료되었습니다.";
     }
 
     @Override
-    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException {
+    public List<String> recognizeImage(MultipartFile image) throws HttpClientErrorException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -88,7 +85,8 @@ public class MedicineServiceImpl implements MedicineService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.postForEntity(OCR_API_URL, requestEntity, String.class);
+        URI uri = new URI(OCR_API_URL);
+        ResponseEntity<String> response = restTemplate.postForEntity(uri, requestEntity, String.class);
         log.info(response.getBody());
         List<String> infos = new ArrayList<>();
         JSONObject object = new JSONObject(response.getBody());
@@ -122,8 +120,6 @@ public class MedicineServiceImpl implements MedicineService {
 
     @Override
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
-        // TODO
-        // userWardRepository FindByToken;
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId());
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
                 .medicines(new ArrayList<>()).build();
@@ -133,11 +129,11 @@ public class MedicineServiceImpl implements MedicineService {
         for (Medicine medicine : medicineList) {
             int remainDay = DateTimeUtils.getDaysBetween(LocalDateTime.now(), medicine.getDueAt());
             if (remainDay < 0) {
-                medicineRepository.deleteById(medicine.getId());
                 continue;
             }
 
             medicineInfos.getMedicines().add(ResponseMedicineInfo.builder()
+                    .id(medicine.getId())
                     .name(medicine.getName())
                     .companyName(medicine.getCompanyName())
                     .caution(medicine.getCaution())
@@ -147,7 +143,7 @@ public class MedicineServiceImpl implements MedicineService {
                     .imageUrl(medicine.getImageUrl())
                     .createdAt(medicine.getCreatedAt())
                     .dueAt(medicine.getDueAt())
-                    .remainDay(remainDay)
+                    .remainDay((remainDay))
                     .breakfast(medicine.getBreakfast())
                     .lunch(medicine.getLunch())
                     .dinner(medicine.getDinner())
@@ -158,9 +154,38 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public ResponseEntity deleteMedicine(Long medicineId) throws HttpClientErrorException{
+    public String deleteMedicine(Long medicineId) throws HttpClientErrorException{
         medicineRepository.deleteById(medicineId);
-        return ResponseEntity.ok().body("success");
+        return "삭제가 완료되었습니다.";
+    }
+
+    @Override
+    public String modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto) {
+        Medicine medicine = medicineRepository.findById(id).orElse(null);
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
+        if (medicine == null) {
+            throw new NullPointerException();
+        }
+
+        Medicine modifiedMedicine = Medicine.builder()
+                .id(medicine.getId())
+                .name(medicine.getName())
+                .companyName(medicine.getCompanyName())
+                .caution(medicine.getCaution())
+                .useMethod(medicine.getUseMethod())
+                .depositMethod(medicine.getDepositMethod())
+                .effect(medicine.getEffect())
+                .imageUrl(medicine.getImageUrl())
+                .userWard(userWard)
+                .dueAt(medicine.getCreatedAt().plusDays(modifyMedicineDto.getDaysToTake()))
+                .breakfast(modifyMedicineDto.isBreakfast())
+                .lunch(modifyMedicineDto.isLunch())
+                .dinner(modifyMedicineDto.isDinner())
+                .build();
+
+
+        medicineRepository.save((modifiedMedicine));
+        return "수정이 완료되었습니다.";
     }
 
 }

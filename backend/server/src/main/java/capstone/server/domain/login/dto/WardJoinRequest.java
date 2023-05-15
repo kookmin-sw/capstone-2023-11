@@ -17,6 +17,7 @@ public class WardJoinRequest {
   private int year;
   private int month;
   private int day;
+  private String email;
   private GenderType genderType;
   private String kakaoAccesstoken;
   private ArrayList<MedicalCategory> ills; // 병 태그들
