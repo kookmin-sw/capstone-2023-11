@@ -100,10 +100,6 @@ function PillImgUpload() {
     setIsOpen(false);
   };
 
-  // const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setDayValue(parseInt(e.target.value));
-  // };
-
   const parser = new DOMParser();
 
   const effectParse = async (xmlString: string) => {
@@ -332,8 +328,8 @@ function PillImgUpload() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={async () => {
-                        await pillInfo();
-                        await setSetting(true);
+                        pillInfo();
+                        setSetting(true);
                         handleCloseModal();
                         setBreakfast(false);
                         setLunch(false);
@@ -652,14 +648,6 @@ const StModalContent = styled.div`
   margin: 2rem;
   align-self: center;
 `;
-
-// const StModalSearch = styled.input`
-//   height: 4rem;
-//   border: 0.2rem solid gray;
-//   border-radius: 1rem;
-//   font-family: "Pretendard-Regular";
-//   padding: 2rem;
-// `;
 
 const StPillComponent = styled.div`
   align-items: center;
