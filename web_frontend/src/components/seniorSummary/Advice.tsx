@@ -79,7 +79,7 @@ export function SeniorAdvice(prop: IWeeklyData) {
       이 사람의 한줄평 및 추천하는 식사의 예, 추천하는 운동을 아래의 예시처럼 보여주세요.
       "${prop.name}님의 종합평가는 같은 연령대${
         prop.age
-      }에 비해 ~~합니다.<br> ~~와 같은 이유 때문에 ~~와 같은 음식을 추천드립니다.<br> ~~와 같은 이유 때문에 ~~와 같은 운동을 추천드립니다." A:`,
+      }에 비해 ~~합니다. 추천하는 음식 : xx, xx, xx 추천하는 운동 : xx, xx, xx" A:`,
       temperature: 0,
       max_tokens: 2000,
       top_p: 1,
@@ -95,7 +95,9 @@ export function SeniorAdvice(prop: IWeeklyData) {
         },
       })
       .then((response) => {
-        setAnswer(response?.data?.choices[0]?.text);
+        const text = response?.data?.choices[0]?.text;
+        const modifyText = text.replace(/\./g, ".\n\n");
+        setAnswer(modifyText);
         setAdviceAtom(response?.data?.choices[0]?.text);
       })
       .catch((error) => {
