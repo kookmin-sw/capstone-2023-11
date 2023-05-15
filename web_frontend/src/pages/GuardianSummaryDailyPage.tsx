@@ -92,10 +92,7 @@ function GuardianSummaryDailyPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {isActive ? (
         <StHeader>
-          <StButton
-            src={require("../assets/images/img_left.png")}
-            onClick={() => navigate(`/guardian/${Number(id)}/main`)}
-          />
+          <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/guardian/${id}/main`)} />
           <div>
             <HeaderText2 whileTap={{ scale: 0.8 }} onClick={isActiveToggle}>
               일간 보고서
@@ -103,7 +100,8 @@ function GuardianSummaryDailyPage() {
             <HeaderText2
               whileTap={{ scale: 0.8 }}
               onClick={() => {
-                navigate(`/guardian/${Number(id)}/summary`);
+                navigate(`/guardian/${id}/summary/`);
+                window.location.reload();
                 isActiveToggle();
               }}>
               주간 보고서
@@ -112,10 +110,7 @@ function GuardianSummaryDailyPage() {
         </StHeader>
       ) : (
         <StHeader>
-          <StButton
-            src={require("../assets/images/img_left.png")}
-            onClick={() => navigate(`/guardian/${Number(id)}/main`)}
-          />
+          <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/guardian/${id}/main`)} />
           <HeaderText whileTap={{ scale: 0.8 }} onClick={isActiveToggle}>
             일간 보고서 ▾
           </HeaderText>
@@ -232,7 +227,8 @@ function GuardianSummaryDailyPage() {
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
             onClick={() => {
-              navigate(`/guardian/${Number(id)}/summary`);
+              navigate(`/guardian/${id}/summary`);
+              window.location.reload();
             }}>
             주간 보고서 보기
           </StBlueBTn>

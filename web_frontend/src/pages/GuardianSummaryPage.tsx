@@ -136,13 +136,14 @@ function GuardianSummaryPage() {
         <StHeader>
           <StButtonBack
             src={require("../assets/images/img_left.png")}
-            onClick={() => navigate(`/guardian/${Number(id)}/main`)}
+            onClick={() => navigate(`/guardian/${id}/main`)}
           />
           <div>
             <HeaderText2 onClick={isActiveToggle}>주간 보고서</HeaderText2>
             <HeaderText2
               onClick={() => {
-                navigate(`/guardian/${Number(id)}/summary/day`);
+                navigate(`/guardian/${id}/summary/day`);
+                window.location.reload();
                 isActiveToggle();
               }}>
               일간 보고서
@@ -153,7 +154,7 @@ function GuardianSummaryPage() {
         <StHeader>
           <StButtonBack
             src={require("../assets/images/img_left.png")}
-            onClick={() => navigate(`/guardian/${Number(id)}/main`)}
+            onClick={() => navigate(`/guardian/${id}/main`)}
           />
           <HeaderText onClick={isActiveToggle}>주간 보고서 ▾</HeaderText>
         </StHeader>
@@ -208,16 +209,17 @@ function GuardianSummaryPage() {
               </CommentContainer>
             </ChartContainer>
           </motion.li>
-          <motion.li className="item" variants={items}>
+          {/* <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
-            {/* {SeniorAdvice(data?.data)} */}
-          </motion.li>
+            {SeniorAdvice(data?.data)}
+          </motion.li> */}
           <div className="row">
             <StBlueBTn
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.8 }}
               onClick={() => {
-                navigate(`/guardian/${Number(id)}/summary/day`);
+                navigate(`/guardian/${id}/summary/day`);
+                window.location.reload();
               }}>
               일간 보고서 보기
             </StBlueBTn>
