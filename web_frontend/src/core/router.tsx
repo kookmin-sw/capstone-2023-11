@@ -23,6 +23,8 @@ import SeniorModifyPage from "../pages/SeniorModifyPage";
 
 import GuardianMain from "../pages/GuardianMainPage";
 import BottomNavGuardian from "../components/common/BottomNavGuardian";
+import GuardianExerciseViewPage from "../pages/GuardianExerciseMainViewPage";
+import GuardianMealMainViewPage from "../pages/GuardianMealMainViewPage";
 function Router() {
   return (
     <BrowserRouter>
@@ -51,6 +53,8 @@ function Router() {
           </Route>
           <Route element={<BottomNavGuardian />}>
             <Route path="/guardian/main" element={<GuardianMain />} />
+            <Route path="/guardian/:id/exercise" element={<GuardianExerciseViewPage />} />
+            <Route path="/guardian/:id/meal" element={<GuardianMealMainViewPage />} />
           </Route>
         </Routes>
       </AnimatePresence>
