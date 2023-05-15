@@ -8,6 +8,7 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.MedicalHistoryCategory;
 import capstone.server.entity.MedicalHistoryUserWardHas;
+import capstone.server.entity.UserGuardian;
 import capstone.server.entity.UserWard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -69,6 +72,28 @@ public class UserWardServiceImpl implements UserWardService{
         }
 
         return "회원정보가 정상적으로 수정되었습니다.";
+    }
+
+    @Override
+    public List<ConnectedGuardian> getConnectedGuardians(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
+        UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
+
+        // 유저와드과 연결된 유저가디언들의 정보를 모두 가져온다.
+        List<UserGuardian> connectedGuardians = userWardRepository.findUserGuardianByUserWardUserId(userWard.getUserId());
+
+        List<ConnectedGuardian> result = new ArrayList<>();
+
+        for (UserGuardian userGuardian : connectedGuardians) {
+            result.add(
+                    ConnectedGuardian.builder()
+                            .name(userWard.getName())
+                            .email(userWard.getEmail())
+                            .kakaoAccountId(userWard.getKakaoAccountId())
+                            .build()
+            );
+        }
+
+        return result;
     }
 
 }

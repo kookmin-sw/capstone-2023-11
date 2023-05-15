@@ -1,11 +1,10 @@
 package capstone.server.domain.user.service;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
-import capstone.server.domain.user.dto.GetDailySummaryDto;
-import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
-import capstone.server.domain.user.dto.GetWeeklySummaryDto;
-import capstone.server.domain.user.dto.UserWardInfoDto;
+import capstone.server.domain.user.dto.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface UserWardService {
@@ -13,4 +12,5 @@ public interface UserWardService {
     public GetDailySummaryDto getDailySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
     public GetWeeklySummaryDto getWeeklySummary(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
     public String modifyUserWardInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, UserWardInfoDto userWardInfoDto);
+    public List<ConnectedGuardian> getConnectedGuardians(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType);
 }
