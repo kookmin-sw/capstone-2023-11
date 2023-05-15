@@ -18,21 +18,23 @@ import { AnimatePresence } from "framer-motion";
 import GuardianJoinPage from "../pages/GuardianJoinPage";
 import SeniorJoinPage from "../pages/SeniorJoinPage";
 import SplashPage from "../pages/SplashPage";
-import BottomNav from "../components/common/BottomNav";
+import BottomNavSenior from "../components/common/BottomNavSenior";
 import SeniorModifyPage from "../pages/SeniorModifyPage";
 
 import GuardianMain from "../pages/GuardianMainPage";
+import BottomNavGuardian from "../components/common/BottomNavGuardian";
 function Router() {
   return (
     <BrowserRouter>
       <AnimatePresence>
         <Routes>
+          <Route path="" element={<SplashPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/join/guardian" element={<GuardianJoinPage />} />
           <Route path="/auth/kakao" element={<KakaoAuthPage />} />
           <Route path="/join/senior" element={<SeniorJoinPage />} />
           <Route path="/modify/senior" element={<SeniorModifyPage />} />
-          <Route element={<BottomNav />}>
+          <Route element={<BottomNavSenior />}>
             <Route path="/senior/main" element={<SeniorMain />} />
             <Route path="/senior/myPage" element={<SeniorMypage />} />
             <Route path="/senior/pill" element={<SeniorPillMain />} />
@@ -47,9 +49,9 @@ function Router() {
             <Route path="/senior/exercise/add" element={<SeniorExercise />} />
             <Route path="/senior/meal" element={<SeniorMealMain />} />
           </Route>
-          <Route path="" element={<SplashPage />} />
-          <Route path="test" element={<BottomNav />} />
-        <Route path="/guardian/main" element={<GuardianMain />} />
+          <Route element={<BottomNavGuardian />}>
+            <Route path="/guardian/main" element={<GuardianMain />} />
+          </Route>
         </Routes>
       </AnimatePresence>
     </BrowserRouter>
