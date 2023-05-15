@@ -1,5 +1,6 @@
 package capstone.server.domain.user.controller;
 
+import capstone.server.domain.calendar.dto.GetRecordsDateResponseDto;
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
@@ -283,6 +284,23 @@ public class UserGuardianController {
                             .status(HttpStatus.BAD_REQUEST.value())
                             .message("등록되어있지 않은 유저이거나 이미 삭제되었습니다.")
                             .success(false)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping(value = "/calendar")
+    public ResponseEntity<?> getRecordsDate(Authentication authentication, @PathVariable Long userWardId) {
+        try {
+            GetRecordsDateResponseDto result = userGuardianService.getRecordsDate(userWardId);
+
+            return ResponseEntity.ok().body(result);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
                             .build()
             );
         }
