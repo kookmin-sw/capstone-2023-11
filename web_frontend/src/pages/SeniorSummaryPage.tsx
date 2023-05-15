@@ -149,7 +149,14 @@ function SeniorSummaryPage() {
         </StHeader>
       )}
       <STContainer>
-        <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        {example ? (
+          <StTitle>
+            데이터가 부족하여 <br />
+            예시 보고서를 보여드립니다!!😃
+          </StTitle>
+        ) : (
+          <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        )}
         <ScoreChart score={score} />
         <motion.ul className="container" variants={container} initial="hidden" animate="visible">
           <motion.li className="item" variants={items}>
@@ -158,15 +165,17 @@ function SeniorSummaryPage() {
               {example
                 ? NutrientChart(fatExample, proExample, carExample, dateStrings)
                 : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
-              <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
-              <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 영양소는?</StText>
+              <CommentContainer>
+                {NutComment(example ? "홍길동" : data?.data.name, fatPercent, proPercent, carPercent)}
+              </CommentContainer>
             </ChartContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>주간 칼로리 분석</StText>
             <ChartContainer>
               {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
-              <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 칼로리는?</StText>
               <CommentContainer>
                 {example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}
               </CommentContainer>
@@ -176,7 +185,7 @@ function SeniorSummaryPage() {
             <StText>운동 기록 분석</StText>
             <ChartContainer>
               {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
-              <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 운동은?</StText>
               <CommentContainer>
                 {example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}
               </CommentContainer>
@@ -213,6 +222,7 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
+  z-index: 9999;
   div {
     display: flex;
     flex-direction: column;
