@@ -1,10 +1,7 @@
 package capstone.server.domain.user.controller;
 
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
-import capstone.server.domain.user.dto.GetDailySummaryDto;
-import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
-import capstone.server.domain.user.dto.GetWeeklySummaryDto;
-import capstone.server.domain.user.dto.UserWardInfoDto;
+import capstone.server.domain.user.dto.*;
 import capstone.server.domain.user.service.UserWardService;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
@@ -13,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/userward")
@@ -90,6 +89,24 @@ public class UserWardController {
                                     .message(e.getMessage())
                                     .build()
                     );
+        }
+    }
+
+    @GetMapping(value = "/connected-guardians")
+    public ResponseEntity<?> getConnectedGuardians(Authentication authentication) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            List<ConnectedGuardian> result = userWardService.getConnectedGuardians(kaKaoAccountIdAndUserType);
+            return ResponseEntity.ok().body(result);
+
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .message(e.getResponseBodyAsString())
+                            .status(500)
+                            .build()
+            );
         }
     }
 

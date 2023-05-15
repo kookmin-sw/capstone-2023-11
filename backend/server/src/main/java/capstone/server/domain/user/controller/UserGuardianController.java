@@ -3,6 +3,7 @@ package capstone.server.domain.user.controller;
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
+import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
 import capstone.server.domain.user.dto.ConnectedWard;
 import capstone.server.domain.user.dto.GetDailySummaryDto;
 import capstone.server.domain.user.dto.GetUserWardMainInfoResponseDto;
@@ -191,6 +192,31 @@ public class UserGuardianController {
                     DefaultResponse.builder()
                             .success(false)
                             .status(204)
+                            .message(e.getMessage())
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping(value = "/medicine")
+    public ResponseEntity<?> getMedicineInfo(Authentication authentication, @RequestParam(value = "wardId") Long userWardKakaoAccountId) {
+        try {
+            KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
+            GetMedicineInfoResponseDto result = userGuardianService.getMedicineInfo(userWardKakaoAccountId);
+            return ResponseEntity.ok().body(result);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getMessage())
+                            .build()
+            );
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(400)
                             .message(e.getMessage())
                             .build()
             );
