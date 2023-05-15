@@ -8,6 +8,7 @@ import capstone.server.domain.medicine.dto.RegisterMedicineDto;
 import capstone.server.domain.medicine.service.MedicineService;
 import capstone.server.global.dto.DefaultResponse;
 import capstone.server.utils.KaKaoUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @Slf4j
 public class MedicineController {
 
-    @Autowired
-    private MedicineService medicineService;
+    private final MedicineService medicineService;
 
     @PostMapping(value = "/medicine")
     public ResponseEntity<?> registerMedicine(Authentication authentication, @RequestBody List<RequestMedicineInfo> requestMedicineInfos) {

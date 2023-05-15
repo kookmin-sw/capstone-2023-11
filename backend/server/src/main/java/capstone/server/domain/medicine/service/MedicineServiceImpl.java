@@ -7,6 +7,7 @@ import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.entity.Medicine;
 import capstone.server.entity.UserWard;
 import capstone.server.utils.DateTimeUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,21 +32,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class MedicineServiceImpl implements MedicineService {
 
-    @Autowired
-    private MedicineRepository medicineRepository;
-    @Autowired
-    private UserWardRepository userWardRepository;
+    private final MedicineRepository medicineRepository;
+    private final UserWardRepository userWardRepository;
 
     @Value("${kakao.ocr.url}")
-    private String OCR_API_URL;
+    private final String OCR_API_URL;
     @Value("${kakao.ocr.key}")
-    private String OCR_API_KEY;
+    private final String OCR_API_KEY;
 
     @Override
-    @Transactional
     public ResponseEntity registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
         // TODO
         // user Token으로 id뽑아오기
@@ -121,10 +121,7 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    @Transactional
     public GetMedicineInfoResponseDto getMedicineInfo(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) {
-        // TODO
-        // userWardRepository FindByToken;
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId());
         GetMedicineInfoResponseDto medicineInfos = GetMedicineInfoResponseDto.builder()
                 .medicines(new ArrayList<>()).build();
@@ -159,14 +156,12 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity deleteMedicine(Long medicineId) throws HttpClientErrorException{
         medicineRepository.deleteById(medicineId);
         return ResponseEntity.ok().body("success");
     }
 
     @Override
-    @Transactional
     public ResponseEntity modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto) {
         Medicine medicine = medicineRepository.findById(id).orElse(null);
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);

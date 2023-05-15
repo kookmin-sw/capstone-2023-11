@@ -47,7 +47,7 @@ public class FoodServiceImpl implements FoodService{
     private final ImageRepository imageRepository;
     private final UserWardRepository userWardRepository;
     private final NotificationService notificationService;
-    
+
     private final S3Util s3Util;
 
     @Value("${kakao.food-detection.url}")
