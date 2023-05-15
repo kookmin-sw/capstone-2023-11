@@ -17,7 +17,7 @@ const BottomNavGuardian = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/main");
+            navigate("/guardian/main");
             setNameAtom(0);
           }}
           className={index === 0 ? "active" : "inactive"}>

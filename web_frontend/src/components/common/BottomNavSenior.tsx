@@ -99,6 +99,7 @@ const StNavigation = styled.nav`
   height: 7rem;
   border-top: 0.2rem solid #eaf2ff;
   background-color: #ffffff;
+  z-index: 9999;
   div {
     text-align: center;
     float: left;
