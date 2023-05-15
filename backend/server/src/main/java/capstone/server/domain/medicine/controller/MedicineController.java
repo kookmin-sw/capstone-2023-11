@@ -34,13 +34,19 @@ public class MedicineController {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
 
-
-            return medicineService.registerMedicine(RegisterMedicineDto.builder()
+            String result = medicineService.registerMedicine(RegisterMedicineDto.builder()
                     .kaKaoAccountIdAndUserType(kaKaoAccountIdAndUserType)
                     .requestMedicineInfos(requestMedicineInfos)
                     .build());
+
+            return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build());
         }
 
     }
@@ -51,19 +57,23 @@ public class MedicineController {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
 
-            Object result = medicineService.recognizeImage(image);
+            List<String> result = medicineService.recognizeImage(image);
 
-            if (result instanceof List) {
-                return ResponseEntity.ok().body(result);
-            } else {
-                ResponseEntity<?> response = (ResponseEntity<?>) result;
-                log.info(String.valueOf(response.getStatusCode()));
-                return response;
-            }
+            return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build());
         } catch (URISyntaxException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(400).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(400)
+                            .message("유효하지않은 URI")
+                            .build());
         }
     }
 
@@ -74,9 +84,19 @@ public class MedicineController {
             GetMedicineInfoResponseDto result = medicineService.getMedicineInfo(kaKaoAccountIdAndUserType);
             return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build());
         } catch (NullPointerException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID_USER");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(400)
+                            .message("INVALID_USER")
+                            .build());
         }
     }
 
@@ -85,10 +105,15 @@ public class MedicineController {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
 
-            ResponseEntity result = medicineService.deleteMedicine(id);
-            return result;
+            String result = medicineService.deleteMedicine(id);
+            return ResponseEntity.ok().body(result);
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    DefaultResponse.builder()
+                            .success(false)
+                            .status(e.getStatusCode().value())
+                            .message(e.getResponseBodyAsString())
+                            .build());
         }
     }
 
@@ -97,7 +122,7 @@ public class MedicineController {
     {
         try {
             KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoUtil.authConvertIdAndTypeDto(authentication);
-            ResponseEntity result =  medicineService.modifyMedicine(kaKaoAccountIdAndUserType, id, modifyMedicineDto);
+            String  result =  medicineService.modifyMedicine(kaKaoAccountIdAndUserType, id, modifyMedicineDto);
             return ResponseEntity.ok()
                     .body(
                             DefaultResponse.builder()

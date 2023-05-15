@@ -46,9 +46,7 @@ public class MedicineServiceImpl implements MedicineService {
     private final String OCR_API_KEY;
 
     @Override
-    public ResponseEntity registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
-        // TODO
-        // user Token으로 id뽑아오기
+    public String registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
 
         Optional<UserWard> userWard = userWardRepository.findUserWardByKakaoAccountId(registerMedicineDto.getKaKaoAccountIdAndUserType().getKakaoAccountId());
 
@@ -70,11 +68,11 @@ public class MedicineServiceImpl implements MedicineService {
             medicineRepository.save(medicine);
         }
 
-        return ResponseEntity.ok().body("Success");
+        return "등록이 완료되었습니다.";
     }
 
     @Override
-    public Object recognizeImage(MultipartFile image) throws HttpClientErrorException, URISyntaxException {
+    public List<String> recognizeImage(MultipartFile image) throws HttpClientErrorException, URISyntaxException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -156,13 +154,13 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public ResponseEntity deleteMedicine(Long medicineId) throws HttpClientErrorException{
+    public String deleteMedicine(Long medicineId) throws HttpClientErrorException{
         medicineRepository.deleteById(medicineId);
-        return ResponseEntity.ok().body("success");
+        return "삭제가 완료되었습니다.";
     }
 
     @Override
-    public ResponseEntity modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto) {
+    public String modifyMedicine(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long id, ModifyMedicineDto modifyMedicineDto) {
         Medicine medicine = medicineRepository.findById(id).orElse(null);
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).orElse(null);
         if (medicine == null) {
@@ -187,7 +185,7 @@ public class MedicineServiceImpl implements MedicineService {
 
 
         medicineRepository.save((modifiedMedicine));
-        return ResponseEntity.ok().body("success");
+        return "수정이 완료되었습니다.";
     }
 
 }
