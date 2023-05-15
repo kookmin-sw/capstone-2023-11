@@ -7,6 +7,7 @@ import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.user.repository.UserWardRepository;
 import capstone.server.domain.workout.repository.WorkOutCategoryUserWardHasRepository;
 import capstone.server.entity.UserWard;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +17,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService{
 
-    @Autowired
-    UserWardRepository userWardRepository;
-    @Autowired
-    WorkOutCategoryUserWardHasRepository workOutCategoryUserWardHasRepository;
-    @Autowired
-    MealRepository mealRepository;
+
+    private final UserWardRepository userWardRepository;
+
+    private final WorkOutCategoryUserWardHasRepository workOutCategoryUserWardHasRepository;
+
+    private final MealRepository mealRepository;
     @Override
-    @Transactional
     public GetRecordsDateResponseDto getRecordsDate(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType) throws HttpClientErrorException {
         UserWard userWard = userWardRepository.findUserWardByKakaoAccountId(kaKaoAccountIdAndUserType.getKakaoAccountId()).get();
 
