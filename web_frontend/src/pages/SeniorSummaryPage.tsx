@@ -13,7 +13,7 @@ import { exampleData, navigateIndex } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-// import { SeniorAdvice } from "../components/seniorSummary/Advice";
+import { SeniorAdvice } from "../components/seniorSummary/Advice";
 import { useSetRecoilState } from "recoil";
 
 function SeniorSummaryPage() {
@@ -125,7 +125,6 @@ function SeniorSummaryPage() {
         setExample(true);
       }
     }
-    console.log(data);
   }, [data]);
 
   return (
@@ -202,7 +201,7 @@ function SeniorSummaryPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
-            {/* {SeniorAdvice(data?.data)} */}
+            {SeniorAdvice(data?.data)}
           </motion.li>
           <div className="row">
             <StBlueBTn
