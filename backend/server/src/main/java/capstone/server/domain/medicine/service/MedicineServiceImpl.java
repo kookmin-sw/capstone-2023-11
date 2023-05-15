@@ -41,9 +41,9 @@ public class MedicineServiceImpl implements MedicineService {
     private final UserWardRepository userWardRepository;
 
     @Value("${kakao.ocr.url}")
-    private final String OCR_API_URL;
+    private String OCR_API_URL;
     @Value("${kakao.ocr.key}")
-    private final String OCR_API_KEY;
+    private String OCR_API_KEY;
 
     @Override
     public String registerMedicine(RegisterMedicineDto registerMedicineDto) throws HttpClientErrorException{
