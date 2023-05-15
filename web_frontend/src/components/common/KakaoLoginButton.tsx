@@ -1,18 +1,19 @@
 import styled from "styled-components";
 import { KakaoLogin } from "../../assets/icons";
 import { DOMAIN } from "../../constants/domain";
+import { motion } from "framer-motion";
 function KakaoLoginButton() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAOKEY}&redirect_uri=${DOMAIN}/auth/kakao&response_type=code`;
 
   return (
-    <StKakaoLoginButton href={KAKAO_AUTH_URL}>
+    <StKakaoLoginButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href={KAKAO_AUTH_URL}>
       <StKakaoLogo src={KakaoLogin} />
       <StLoginText>카카오 계정으로 시작하기</StLoginText>
     </StKakaoLoginButton>
   );
 }
 
-const StKakaoLoginButton = styled.a`
+const StKakaoLoginButton = styled(motion.a)`
   display: flex;
   align-items: center;
   width: 28.2rem;

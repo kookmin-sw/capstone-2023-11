@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../../core/api";
+import { IPillInfo } from "../../core/atom";
+import { motion } from "framer-motion";
 
 function Pill() {
-  const [pillData, setPillData] = useState<pillInfo>();
+  const [pillData, setPillData] = useState<IPillInfo>();
 
   useEffect(() => {
     async function fetchData() {
@@ -21,7 +23,7 @@ function Pill() {
           return (
             <>
               <StLink to={`/senior/pill/detail/${value.id}`}>
-                <StPillItem key={index}>
+                <StPillItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} key={index}>
                   <StPillImg src={value.imageUrl} />
                   <StPillContent>{value.name.length > 12 ? value.name.slice(0, 12) + "..." : value.name}</StPillContent>
                   <StDaySwapper>
@@ -38,41 +40,6 @@ function Pill() {
       </StPillList>
     </StPill>
   );
-}
-
-interface pillInfo {
-  medicines: [
-    {
-      createdAt: string;
-      modifiedAt: string;
-      id: number;
-      name: string;
-      companyName: string;
-      effect: string;
-      useMethod: string;
-      caution: string;
-      depositMethod: string;
-      imageUrl: string;
-      dueAt: string;
-      breakfast: boolean;
-      lunch: boolean;
-      dinner: boolean;
-      remainDay: number;
-      userWard: {
-        createdAt: string;
-        modifiedAt: string;
-        userId: number;
-        kakaoAccountId: number;
-        name: string;
-        birthday: string;
-        gender: string;
-        weight: number;
-        height: number;
-        drinkings: number;
-        smoke: number;
-      };
-    },
-  ];
 }
 
 const StPill = styled.div`
@@ -98,7 +65,7 @@ const StPillList = styled.div`
   border: 0;
 `;
 
-const StPillItem = styled.button`
+const StPillItem = styled(motion.button)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -142,7 +109,7 @@ const StPillRemainday = styled.div`
 `;
 
 const StPillContent = styled.div`
-  font-family: "retendard-Bold";
+  font-family: "Pretendard-Bold";
   font-size: 1.6rem;
   padding: 0.5rem 1rem 0rem 1rem;
   width: 20rem;
@@ -165,12 +132,12 @@ const StDaySwapper = styled.div`
 `;
 
 const StPillTake = styled.div`
-  width: 4rem;
+  width: 5rem;
   height: 2.5rem;
   background: #006ffd;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: white;
   display: flex;
   justify-content: space-evenly;

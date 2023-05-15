@@ -8,16 +8,23 @@ import { CalComment } from "../components/seniorSummary/CalComment";
 import ExerciseChart from "../components/seniorSummary/ExerciseChart";
 import { useQuery } from "react-query";
 import { getWeeklyData } from "../core/api";
-import { useEffect, useState } from "react";
-import { exampleData } from "../core/atom";
+import { useCallback, useEffect, useState } from "react";
+import { exampleData, navigateIndex } from "../core/atom";
 import { ExerciseComment } from "../components/seniorSummary/ExerciseComment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { SeniorAdvice } from "../components/seniorSummary/Advice";
+import { useSetRecoilState } from "recoil";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
   const { data } = useQuery("weeklyData", () => getWeeklyData(), { enabled: !!firstApi });
   const [example, setExample] = useState(false);
+  const setNameAtom = useSetRecoilState(navigateIndex);
+  const [isActive, setIsActive] = useState(false);
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
   const SCORE_WEIGHT = {
     exercise: 3,
     calorie: 2,
@@ -104,8 +111,10 @@ function SeniorSummaryPage() {
     dateStrings.push(dateString);
   }
   useEffect(() => {
+    setNameAtom(1);
+  }, []);
+  useEffect(() => {
     if (data) {
-      console.log(data);
       setFirstApi(false);
       if (
         data.data.weeklyFoodNutrientSum.reduce(
@@ -117,15 +126,46 @@ function SeniorSummaryPage() {
       }
     }
   }, [data]);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <StHeader>
-        <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
-        <HeaderText>주간 보고서</HeaderText>
-      </StHeader>
+      {isActive ? (
+        <StHeader>
+          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <div>
+            <HeaderText2 onClick={isActiveToggle}>주간 보고서</HeaderText2>
+            <HeaderText2
+              onClick={() => {
+                navigate(`/senior/summary/day`);
+                isActiveToggle();
+              }}>
+              일간 보고서
+            </HeaderText2>
+          </div>
+        </StHeader>
+      ) : (
+        <StHeader>
+          <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+          <HeaderText onClick={isActiveToggle}>주간 보고서 ▾</HeaderText>
+        </StHeader>
+      )}
       <STContainer>
-        <StTitle>{example ? "예시" : data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        {example ? (
+          <StTitle>
+            데이터가 부족하여 <br />
+            예시 보고서를 보여드립니다!!😃
+          </StTitle>
+        ) : (
+          <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
+        )}
         <ScoreChart score={score} />
+        <div className="indent">
+          <StText>양호</StText>
+          <StText>위험</StText>
+        </div>
+        <Progress>
+          <Dealt dealt={100 - score} />
+        </Progress>
         <motion.ul className="container" variants={container} initial="hidden" animate="visible">
           <motion.li className="item" variants={items}>
             <StText>주간 영양소 분석</StText>
@@ -133,15 +173,17 @@ function SeniorSummaryPage() {
               {example
                 ? NutrientChart(fatExample, proExample, carExample, dateStrings)
                 : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
-              <StText className="summary">{data?.data.name}님의 이번주 영양소는?</StText>
-              <CommentContainer>{NutComment(data?.data.name, fatPercent, proPercent, carPercent)}</CommentContainer>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 영양소는?</StText>
+              <CommentContainer>
+                {NutComment(example ? "홍길동" : data?.data.name, fatPercent, proPercent, carPercent)}
+              </CommentContainer>
             </ChartContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>주간 칼로리 분석</StText>
             <ChartContainer>
               {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
-              <StText className="summary">{data?.data.name}님의 이번주 칼로리는?</StText>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 칼로리는?</StText>
               <CommentContainer>
                 {example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}
               </CommentContainer>
@@ -151,7 +193,7 @@ function SeniorSummaryPage() {
             <StText>운동 기록 분석</StText>
             <ChartContainer>
               {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
-              <StText className="summary">{data?.data.name}님의 이번주 운동은?</StText>
+              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 운동은?</StText>
               <CommentContainer>
                 {example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}
               </CommentContainer>
@@ -159,16 +201,18 @@ function SeniorSummaryPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
-            <ChartContainer>
-              <CommentContainer>굿</CommentContainer>
-            </ChartContainer>
+            {SeniorAdvice(data?.data)}
           </motion.li>
-          <BlueButton
-            onClick={() => {
-              navigate(`/senior/summary/day`);
-            }}>
-            일간 보고서 보기
-          </BlueButton>
+          <div className="row">
+            <StBlueBTn
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
+              onClick={() => {
+                navigate(`/senior/summary/day`);
+              }}>
+              일간 보고서 보기
+            </StBlueBTn>
+          </div>
         </motion.ul>
       </STContainer>
     </motion.div>
@@ -186,18 +230,27 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
-  justify-content: center;
   z-index: 9999;
+  div {
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+  }
 `;
 const HeaderText = styled.div`
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-align: center;
   font-family: "Pretendard-Regular";
   align-self: center;
   color: #71727a;
   flex: 1 1 0;
+  padding-right: 1.7rem;
 `;
-
+const HeaderText2 = styled(HeaderText)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-right: 2.5rem;
+`;
 const ChartContainer = styled.div`
   padding: 2rem 2rem;
   justify-content: center;
@@ -235,9 +288,40 @@ const STContainer = styled.div`
   padding: 3rem 2rem;
   justify-content: center;
   margin: 1rem auto;
+  .row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
+  .indent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const StBlueBTn = styled(BlueButton)`
+  margin-bottom: 7rem;
+`;
+
+const Progress = styled.div`
+  height: 2rem;
+  background-image: linear-gradient(to left, #ff616d, #6fbaff);
+  border-radius: 1rem;
+  margin-bottom: 3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+`;
+const Dealt = styled.div<{ dealt: number }>`
+  background-color: #f8f9fe;
+  border-radius: 1rem;
+  width: 0.7rem;
+  margin-left: ${(props) => props.dealt + "%"};
+  height: 100%;
 `;

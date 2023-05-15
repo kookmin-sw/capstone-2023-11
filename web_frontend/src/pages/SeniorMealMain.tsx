@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import SeniorCalendar from "../components/common/SeniorCalendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import { useQuery } from "react-query";
 import { getRecordMeal } from "../core/api";
 import { useNavigate } from "react-router-dom";
-import { IMealDetail } from "../core/atom";
+import { IMeal, IMealDetail, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
+import Modal from "react-modal";
+import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 
 interface IMealData {
   id: number;
@@ -19,8 +22,14 @@ interface IMealData {
 function SeniorMealMain() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [isOpen, setIsOpen] = useState(false);
+  const [clickedData, setClickedData] = useState<IMeal[]>([]);
+  const [clickedMeal, setClickedMeal] = useState(0);
+  const [clickedFood, setClickedFood] = useState(0);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   let mode = true;
   const { data } = useQuery("mealData", getRecordMeal);
+  const today = moment(new Date()).format("YYYY-MM-DD");
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -33,6 +42,9 @@ function SeniorMealMain() {
     },
   };
 
+  useEffect(() => {
+    setNameAtom(2);
+  }, []);
   const items = {
     hidden: { y: 20, opacity: 0 },
     visible: {
@@ -40,6 +52,11 @@ function SeniorMealMain() {
       opacity: 1,
     },
   };
+  function foodClicked(index: number, index2: number) {
+    setIsOpen(true);
+    setClickedMeal(index);
+    setClickedFood(index2);
+  }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -59,13 +76,24 @@ function SeniorMealMain() {
             <StFoodContainer>
               {data?.data?.mealInfos
                 .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
-                .map((mealCon: IMealData) => {
-                  return mealCon?.detail.map((meal: IMealDetail) => {
+                .map((mealCon: IMealData, index: number) => {
+                  return mealCon?.detail.map((meal: IMealDetail, index2) => {
                     if (mode) {
                       mode = !mode;
                       return (
                         <motion.li className="item" variants={items}>
-                          <StFoodBox1>
+                          <StFoodBox1
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.8 }}
+                            id={meal.name}
+                            onClick={() => {
+                              foodClicked(index, index2);
+                              setClickedData(
+                                data?.data?.mealInfos.filter((mealCon: IMealData) =>
+                                  mealCon.dateTime.includes(selectedDate),
+                                ),
+                              );
+                            }}>
                             <img src={mealCon.imageUrl}></img>
                             <div>
                               <StFoodName>{meal.name}</StFoodName>
@@ -81,7 +109,11 @@ function SeniorMealMain() {
                       mode = !mode;
                       return (
                         <motion.li className="item" variants={items}>
-                          <StFoodBox2>
+                          <StFoodBox2
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.8 }}
+                            id={meal.name}
+                            onClick={() => foodClicked(index, index2)}>
                             <img src={mealCon.imageUrl}></img>
                             <div>
                               <StFoodName>{meal.name}</StFoodName>
@@ -99,8 +131,27 @@ function SeniorMealMain() {
             </StFoodContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
-            <StCheckButton onClick={() => navigate("/senior/meal/add")}>추가하기</StCheckButton>
+            {selectedDate == today ? (
+              <StCheckButton
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  navigate("/senior/meal/add");
+                }}>
+                추가하기
+              </StCheckButton>
+            ) : (
+              <GrayButton>추가하기</GrayButton>
+            )}
           </motion.li>
+          <StModal isOpen={isOpen}>
+            <FoodDetailPopUp
+              clickedMeal={clickedMeal}
+              clickedFood={clickedFood}
+              data={clickedData}
+              setIsOpen={setIsOpen}
+            />
+          </StModal>
         </StSeniorMealMain>
       </motion.ul>
     </motion.div>
@@ -138,7 +189,7 @@ const StFoodContainer = styled.div`
   max-height: 30rem;
   margin-top: 1.6rem;
 `;
-const StFoodBox1 = styled.div`
+const StFoodBox1 = styled(motion.div)`
   display: flex;
   align-items: center;
   width: 32rem;
@@ -178,7 +229,7 @@ const StNutrient = styled.p`
   margin-top: 0.4rem;
   font-family: "Pretendard-Bold";
 `;
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
@@ -189,10 +240,21 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
-  margin-bottom: 1rem;
+  margin-bottom: 8rem;
 `;
 const StButtonBack = styled.img`
   width: 2rem;
   height: 2rem;
   margin: 1rem;
+`;
+
+const GrayButton = styled(StCheckButton)`
+  background-color: #e8e9f1;
+  border: none;
+`;
+const StModal = styled(Modal)`
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
 `;

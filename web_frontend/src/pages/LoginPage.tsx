@@ -10,32 +10,38 @@ function LoginPage() {
     localStorage.setItem("userStatus", userStatus);
   }, [userStatus]);
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
       <StLoginPage>
-        <StLogo src={require("../../src/assets/images/img_logo.png")} />
+        <StLogo src={require("../../src/assets/images/img_logo.jpeg")} />
         <StTitle>사용할 서비스를 선택하세요</StTitle>
         <StSelectContainer>
           {userStatus == "userGuardian" ? (
-            <StClickedButton>
+            <StClickedButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <StIcon src={RadioButton} />
               <StButtonText>보호자 서비스</StButtonText>
               <StUserIcon src={GuardianIcn} />
             </StClickedButton>
           ) : (
-            <StUnclickedButton onClick={() => setUserStatus("userGuardian")}>
+            <StUnclickedButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setUserStatus("userGuardian")}>
               <StIcon src={RadioUnclickedButton} />
               <StButtonText>보호자 서비스</StButtonText>
               <StUserIcon src={GuardianIcn} />
             </StUnclickedButton>
           )}
           {userStatus == "userWard" ? (
-            <StClickedButton>
+            <StClickedButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <StIcon src={RadioButton} />
               <StButtonText>시니어 서비스</StButtonText>
               <StUserIcon src={SeniorIcn} />
             </StClickedButton>
           ) : (
-            <StUnclickedButton onClick={() => setUserStatus("userWard")}>
+            <StUnclickedButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setUserStatus("userWard")}>
               <StIcon src={RadioUnclickedButton} />
               <StButtonText>시니어 서비스</StButtonText>
               <StUserIcon src={SeniorIcn} />
@@ -63,7 +69,7 @@ const StSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StUnclickedButton = styled.button`
+const StUnclickedButton = styled(motion.button)`
   border: none;
   border-radius: 1.6rem;
   background-color: white;
@@ -92,7 +98,7 @@ const StUserIcon = styled.img`
   width: 4rem;
   height: 4rem;
 `;
-const StClickedButton = styled.button`
+const StClickedButton = styled(motion.button)`
   border: none;
   border-radius: 1.6rem;
   background-color: #eaf2ff;
@@ -103,5 +109,6 @@ const StClickedButton = styled.button`
   margin-bottom: 2.3rem;
 `;
 const StLogo = styled.img`
-  max-width: 100vw;
+  max-width: 39rem;
+  margin-top: 5rem;
 `;

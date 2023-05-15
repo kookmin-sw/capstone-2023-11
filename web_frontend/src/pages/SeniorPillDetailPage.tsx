@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getPillInfo } from "../core/api";
-import { IpillData } from "../core/atom";
+import { IPillData } from "../core/atom";
 import { motion } from "framer-motion";
+import BackButton from "../components/common/BackButton";
 
 function PillDetail() {
-  const [pillData, setPillData] = useState<IpillData>();
+  const [pillData, setPillData] = useState<IPillData>();
 
   const { id } = useParams();
 
@@ -55,7 +56,8 @@ function PillDetail() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StHeader>
-        <StPillTitle>약 세부정보</StPillTitle>
+        <BackButton />
+        <StTitle>약 세부정보</StTitle>
       </StHeader>
       <StBody>
         <StContentList>
@@ -84,7 +86,9 @@ function PillDetail() {
             <StItemName>주의 사항</StItemName>
             <StItemContent dangerouslySetInnerHTML={{ __html: resultCaution }} />
           </StContentItem>
-          <BlueButton onClick={() => navigate(-1)}>돌아가기</BlueButton>
+          <BlueButton whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} onClick={() => navigate(-1)}>
+            돌아가기
+          </BlueButton>
         </StContentList>
       </StBody>
     </motion.div>
@@ -92,21 +96,27 @@ function PillDetail() {
 }
 
 const StHeader = styled.header`
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
 `;
 
-const StPillTitle = styled.h1`
+const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
+  padding-right: 2.5rem;
 `;
 
 const StBody = styled.div`
   font-size: 2rem;
   padding: 0 2rem 0 2rem;
-  margin-bottom: 3rem;
+  margin: 3rem 0rem;
+  padding-bottom: 7rem;
 `;
 
 const StImg = styled.img`
@@ -117,7 +127,7 @@ const StImg = styled.img`
 `;
 
 const StContentList = styled.ul`
-  padding: 2rem;
+  padding: 1rem;
   border: 0.2rem solid #006ffd;
   border-radius: 2rem;
   margin-bottom: 3rem;
@@ -138,7 +148,7 @@ const StItemContent = styled.div`
   font-family: "Pretendard-Regular";
 `;
 
-const BlueButton = styled.button`
+const BlueButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;

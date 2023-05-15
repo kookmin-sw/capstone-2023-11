@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PillAddModal from "../components/seniorPill/PillAddModal";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { deletePillData, getPillInfo, modifyPillData } from "../core/api/index";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
+import { BlueButton } from "../components/common/BlueButton";
+import { navigateIndex } from "../core/atom";
+import { useSetRecoilState } from "recoil";
 
 Modal.setAppElement("#root");
 
@@ -28,17 +31,28 @@ function SeniorPillMain() {
   const [breakfast, setBreakfast] = useState(false);
   const [lunch, setLunch] = useState(false);
   const [dinner, setDinner] = useState(false);
-  const [dayValue, setDayValue] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(0);
+  const setNameAtom = useSetRecoilState(navigateIndex);
+  const dropdownItems = [1, 3, 5, 7, 10, 14, 30];
 
-  const onChangeDayValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDayValue(parseInt(e.target.value));
+  useEffect(() => {
+    setNameAtom(4);
+  }, []);
+  const isActiveToggle = useCallback(() => {
+    setIsActive((prev) => !prev);
+  }, []);
+
+  const selectItem = (prop: number) => {
+    setSelectedValue(prop);
+    setIsActive((prev) => !prev);
   };
-
   const handleOpenModal = () => {
     setIsOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (prop: number) => {
+    ModifyPillData(id, prop, breakfast, lunch, dinner);
     setIsOpen(false);
   };
 
@@ -53,6 +67,8 @@ function SeniorPillMain() {
   const ModifyPillData = async (id: number, dayToTake: number, breakfast: boolean, lunch: boolean, dinner: boolean) => {
     await modifyPillData(id, dayToTake, breakfast, lunch, dinner);
     alert("수정되었습니다.");
+
+    window.location.reload();
   };
 
   const DeletePillData = async (id: number) => {
@@ -96,7 +112,7 @@ function SeniorPillMain() {
             <StPillList>
               {pillData?.medicines.map((value, index) => (
                 <motion.li className="item" variants={items}>
-                  <StItem key={index}>
+                  <StItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} key={index}>
                     <StLink to={`/senior/pill/detail/${value.id}`}>
                       <StItemImgBox>
                         <StItemImg src={value.imageUrl} />
@@ -107,7 +123,7 @@ function SeniorPillMain() {
                         <StDaySwapper>
                           {value.breakfast ? <StPillTake>아침</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
                           {value.lunch ? <StPillTake>점심</StPillTake> : <StPillNoTake>점심</StPillNoTake>}
-                          {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>아침</StPillNoTake>}
+                          {value.dinner ? <StPillTake>저녁</StPillTake> : <StPillNoTake>저녁</StPillNoTake>}
                         </StDaySwapper>
                       </StItemContent>
                     </StLink>
@@ -119,18 +135,56 @@ function SeniorPillMain() {
                           setBreakfast(value.breakfast);
                           setLunch(value.lunch);
                           setDinner(value.dinner);
-                          setDayValue(value.remainDay);
+                          // setDayValue(value.remainDay);
                           handleOpenModal();
                         }}>
                         <StModifyButtonImg src={require("../assets/images/edit.png")} />
                       </StModifyButton>
-                      <StModal isOpen={isOpen} onRequestClose={handleCloseModal}>
+                      <StModal isOpen={isOpen}>
                         <StButtonList>
+                          <StButtonBack
+                            src={require("../assets/images/img_esc.png")}
+                            onClick={() => {
+                              setIsOpen(false);
+                              setIsActive(false);
+                              setSelectedValue(0);
+                            }}></StButtonBack>
                           <StModalTitle>{name.length >= 10 ? name.slice(0, 10) + "..." : name}</StModalTitle>
-                          <StModalTitle>복용하는 일 수</StModalTitle>
-                          <StModalSearch placeholder="몇 일치?" onChange={onChangeDayValue} />
-                          <StModalTitle>복용하는 시간대</StModalTitle>
+                          <div className="line" />
                           <StPillComponent>
+                            <StModalContent>복용 일수</StModalContent>
+                            <DropdownContainer>
+                              <DropdownBody onClick={isActiveToggle}>
+                                {selectedValue ? (
+                                  <>
+                                    <ItemName>{selectedValue}</ItemName>
+                                  </>
+                                ) : (
+                                  <>
+                                    <DropdownSelect>선택해주세요.</DropdownSelect>
+                                  </>
+                                )}
+                              </DropdownBody>
+                              {isActive ? (
+                                <DropdownMenuActive>
+                                  {dropdownItems.map((item) => (
+                                    <DropdownItemContainer
+                                      id="item"
+                                      key={item}
+                                      onClick={() => {
+                                        selectItem(item);
+                                      }}>
+                                      <ItemName id="item">{item} 일</ItemName>
+                                    </DropdownItemContainer>
+                                  ))}
+                                </DropdownMenuActive>
+                              ) : (
+                                <></>
+                              )}
+                            </DropdownContainer>
+                          </StPillComponent>
+                          <StPillComponent>
+                            <StModalContent>복용 시간</StModalContent>
                             {breakfast == false ? (
                               <StSetPillButton onClick={() => setBreakfast(true)}>아침</StSetPillButton>
                             ) : (
@@ -147,17 +201,26 @@ function SeniorPillMain() {
                               <StSetPillCheckButton onClick={() => setDinner(false)}>저녁</StSetPillCheckButton>
                             )}
                           </StPillComponent>
-                          <StModalTitle>수정하시겠습니까?</StModalTitle>
+                          <StModalContent>수정하시겠습니까?</StModalContent>
                           <StPillComponent2>
-                            <StSetPillCheckButton
-                              onClick={async () => {
-                                handleCloseModal();
-                                await ModifyPillData(id, dayValue, breakfast, lunch, dinner);
-                                window.location.reload();
+                            <StSetPillSubmitButton
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
+                              onClick={() => {
+                                handleCloseModal(selectedValue);
                               }}>
                               네
-                            </StSetPillCheckButton>
-                            <StSetPillCheckButton onClick={handleCloseModal}>아니요</StSetPillCheckButton>
+                            </StSetPillSubmitButton>
+                            <StSetPillSubmitButton
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
+                              onClick={() => {
+                                setSelectedValue(0);
+                                setIsOpen(false);
+                                setIsActive(false);
+                              }}>
+                              아니요
+                            </StSetPillSubmitButton>
                           </StPillComponent2>
                         </StButtonList>
                       </StModal>
@@ -168,30 +231,34 @@ function SeniorPillMain() {
                         }}>
                         <StDeleteButtonImg src={require("../assets/images/delete.png")} />
                       </StDeleteButton>
-                      <StModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
-                        <StButtonList>
-                          <StModalTitle>이 약을 지우시겠습니까??</StModalTitle>
-                          <StPillComponent2>
-                            <StSetPillCheckButton
+                      <StPopModal isOpen={isOpen2} onRequestClose={handleCloseModal2}>
+                        <StPopContainer>
+                          <StPopTitle className="POP">이 약을 지우시겠습니까??</StPopTitle>
+                          <BTNContainer>
+                            <BlueBTN
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.8 }}
                               onClick={async () => {
                                 handleCloseModal2();
                                 await DeletePillData(id);
                                 window.location.replace("/senior/pill/");
                               }}>
                               네
-                            </StSetPillCheckButton>
-                            <StSetPillCheckButton onClick={handleCloseModal2}>아니요</StSetPillCheckButton>
-                          </StPillComponent2>
-                        </StButtonList>
-                      </StModal>
+                            </BlueBTN>
+                            <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={handleCloseModal2}>
+                              아니요
+                            </BlueBTN>
+                          </BTNContainer>
+                        </StPopContainer>
+                      </StPopModal>
                     </StSetComponent>
                   </StItem>
                 </motion.li>
               ))}
             </StPillList>
-            <motion.li className="item" variants={items}>
+            <StBtnContainer className="item" variants={items}>
               <PillAddModal />
-            </motion.li>
+            </StBtnContainer>
           </StBody>
         </StContainer>
       </motion.ul>
@@ -233,18 +300,21 @@ interface pillInfo {
     },
   ];
 }
+export default SeniorPillMain;
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StHeader = styled.header`
-  padding-bottom: 2rem;
   display: flex;
-  font-size: 2rem;
-  border-bottom: 0.1rem solid #006ffd;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const StBackBtn = styled.button`
@@ -252,7 +322,7 @@ const StBackBtn = styled.button`
   border: transparent;
   font-family: "Pretendard-Bold";
   width: 5%;
-  padding: 0;
+  margin: 1rem;
 `;
 
 const StBackBtnImg = styled.img`
@@ -262,10 +332,11 @@ const StBackBtnImg = styled.img`
 `;
 
 const StTitle = styled.h1`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
   text-align: center;
-  width: 100%;
-  padding-right: 5%;
+  padding-right: 2.5rem;
 `;
 
 const StBody = styled.div`
@@ -282,7 +353,7 @@ const StPillList = styled.ul`
   border-radius: 1rem;
 `;
 
-const StItem = styled.div`
+const StItem = styled(motion.div)`
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
@@ -328,9 +399,9 @@ const StPillNoTake = styled.div`
   width: 6rem;
   height: 2.7rem;
   background: #eaf2ff;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: #006ffd;
   display: flex;
   justify-content: space-evenly;
@@ -342,9 +413,9 @@ const StPillTake = styled.div`
   width: 6rem;
   height: 2.7rem;
   background: #006ffd;
-  border-radius: 1.2rem;
+  border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: white;
   display: flex;
   justify-content: space-evenly;
@@ -382,58 +453,107 @@ const StDeleteButtonImg = styled.img`
   height: 3rem;
 `;
 
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
+`;
 const StButtonList = styled.div`
-  border: 0.2rem solid #0066ff;
+  padding: 1rem 2rem;
+  justify-content: center;
+  margin: auto;
+  background-color: #f8f9fe;
   border-radius: 1rem;
-  background-color: white;
-  padding-bottom: 3rem;
+  align-items: center;
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .right {
+    text-align: end;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+`;
+
+const StPopContainer = styled.div`
+  padding: 1rem 1rem;
+  justify-content: center;
+  background-color: #f8f9fe;
+  border-radius: 1rem;
+  width: 30rem;
+  .POP {
+    padding: 2rem;
+  }
 `;
 
 const StModal = styled(Modal)`
-  position: relative;
-  top: 30%;
-  bottom: auto;
-  left: 18%;
-  right: auto;
-  width: 25rem;
-  height: 50rem;
-  font-family: "Pretendard-Regular";
+  padding: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+`;
+
+const StPopModal = styled(Modal)`
+  padding: 5rem;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  margin-top: 25rem;
 `;
 
 const StModalTitle = styled.h1`
   font-family: "Pretendard-Bold";
+  font-size: 2.3rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  align-self: center;
+`;
+const StModalContent = styled.div`
+  font-family: "Pretendard-Bold";
   font-size: 2rem;
   text-align: center;
-  width: 100%;
-  margin: 2rem 0rem;
+  margin: 2rem;
+  align-self: center;
 `;
-
-const StModalSearch = styled.input`
-  width: 80%;
-  height: 4rem;
-  border: 0.2rem solid gray;
-  border-radius: 1rem;
-  font-family: "Pretendard-Regular";
-  margin: 0rem 10%;
-  padding: 2rem;
+const StPopTitle = styled.p`
+  font-size: 2rem;
+  font-family: "Pretendard-Bold";
+  border-bottom: 0rem solid #ffffff;
 `;
 
 const StPillComponent = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
-  padding: 0rem 3rem;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const StPillComponent2 = styled.div`
   align-items: center;
   display: flex;
-  gap: 2rem;
+  justify-content: space-evenly;
+  gap: 3rem;
   padding: 0rem 6rem;
 `;
 
+const BTNContainer = styled.div`
+  justify-content: space-evenly;
+  display: flex;
+  gap: 1rem;
+`;
 const StSetPillButton = styled.div`
-  width: 6rem;
+  width: 5rem;
   height: 3.5rem;
   background: #eaf2ff;
   border-radius: 1.2rem;
@@ -444,17 +564,84 @@ const StSetPillButton = styled.div`
   justify-content: space-evenly;
   align-items: center;
 `;
-const StSetPillCheckButton = styled.div`
-  width: 6rem;
-  height: 3.5rem;
+const StSetPillCheckButton = styled(StSetPillButton)`
+  color: white;
   background: #006ffd;
-  border-radius: 1.2rem;
+`;
+const StSetPillSubmitButton = styled(motion.div)`
+  width: 8rem;
+  height: 4rem;
+  background: #006ffd;
+  border-radius: 1rem;
   font-family: "Pretendard-Bold";
   font-size: 1.8rem;
   color: white;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 1rem;
+`;
+const BlueBTN = styled(BlueButton)`
+  width: 10rem;
+  margin-right: 0.4rem;
+  font-family: "Pretendard-Regular";
 `;
 
-export default SeniorPillMain;
+const DropdownContainer = styled.div`
+  width: fit-content;
+  margin-top: 0.5rem;
+`;
+
+const DropdownBody = styled.div`
+  display: flex;
+  width: 15rem;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  background: white;
+  border-radius: 1rem;
+  border: 0.2rem solid #d4d6dd;
+`;
+
+const DropdownSelect = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
+  text-align: center;
+`;
+
+const DropdownMenuActive = styled.ul`
+  display: block;
+  width: 15rem;
+  background-color: white;
+  position: absolute;
+  border: 0.2rem solid #d4d6dd;
+  border-radius: 1rem;
+`;
+
+const DropdownItemContainer = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 0.2rem solid #d4d6dd;
+  border-top: none;
+  border-radius: 0.1rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const ItemName = styled.p`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Pretendard-Bold";
+  font-size: 1.3rem;
+`;
+
+const StBtnContainer = styled(motion.li)`
+  display: flex;
+  justify-content: center;
+`;

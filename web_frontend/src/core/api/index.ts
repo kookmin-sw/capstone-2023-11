@@ -148,10 +148,10 @@ export const getUserStatus = async (userStatus: string | null, accessToken: stri
   return data;
 };
 
-export const guardianJoin = async (wardCodes: number[]) => {
+export const guardianJoin = async (wardCodes: number[], email: string) => {
   const data = axios.post(
     `${process.env.REACT_APP_SERVER}/api/join/guardian`,
-    { wardCodes: wardCodes, kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken") },
+    { wardCodes: wardCodes, email: email, kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken") },
     {},
   );
 
@@ -184,6 +184,36 @@ export const wardJoin = async (
       ills: ills,
     },
     {},
+  );
+  return data;
+};
+
+export const wardModify = async (
+  height: number,
+  weight: number,
+  drinkings: number,
+  smoke: number,
+  year: number,
+  month: number,
+  day: number,
+  genderType: string,
+  ills: string[],
+) => {
+  const data = axios.patch(
+    `${process.env.REACT_APP_SERVER}/api/userward/modify`,
+    {
+      height: height,
+      weight: weight,
+      drinkings: drinkings,
+      smoke: smoke,
+      year: year,
+      month: month,
+      day: day,
+      genderType: genderType,
+      kakaoAccesstoken: localStorage.getItem("kakaoAccesstoken"),
+      ills: ills,
+    },
+    { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } },
   );
   return data;
 };
@@ -268,5 +298,13 @@ export const getWeeklyData = async () => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/summary/weekly`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
   });
+  return data;
+};
+
+export const getGuardianData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/connected-guardians`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
   return data;
 };

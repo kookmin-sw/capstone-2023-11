@@ -1,3 +1,47 @@
+import { atom } from "recoil";
+
+export const nameAtom = atom({
+  key: "name",
+  default: "홍길동",
+});
+export const heightAtom = atom({
+  key: "height",
+  default: 0,
+});
+export const weightAtom = atom({
+  key: "weight",
+  default: 0,
+});
+export const birthdayAtom = atom({
+  key: "birthday",
+  default: "2000-01-01",
+});
+export const drinkingsAtom = atom({
+  key: "drinkings",
+  default: 0,
+});
+export const smokeAtom = atom({
+  key: "smoke",
+  default: 0,
+});
+export const illAtom = atom({
+  key: "ill",
+  default: [{ id: 0, name: "", kor: "", eng: "", description: "" }],
+});
+export const genderAtom = atom({
+  key: "gender",
+  default: "MALE",
+});
+export const adviceAtom = atom({
+  key: "advice",
+  default: "",
+});
+
+export const navigateIndex = atom({
+  key: "navigateIndex",
+  default: 0,
+});
+
 export interface IWeeklyData {
   name: string;
   gender: string;
@@ -92,7 +136,7 @@ export interface ExerciseForm {
   hour: number;
 }
 
-export interface IpillData {
+export interface IPillData {
   medicines: [
     {
       id: number;
@@ -112,10 +156,65 @@ export interface IpillData {
     },
   ];
 }
+export interface IPillInfo {
+  medicines: [
+    {
+      createdAt: string;
+      modifiedAt: string;
+      id: number;
+      name: string;
+      companyName: string;
+      effect: string;
+      useMethod: string;
+      caution: string;
+      depositMethod: string;
+      imageUrl: string;
+      dueAt: string;
+      breakfast: boolean;
+      lunch: boolean;
+      dinner: boolean;
+      remainDay: number;
+      userWard: {
+        createdAt: string;
+        modifiedAt: string;
+        userId: number;
+        kakaoAccountId: number;
+        name: string;
+        birthday: string;
+        gender: string;
+        weight: number;
+        height: number;
+        drinkings: number;
+        smoke: number;
+      };
+    },
+  ];
+}
+
+export interface MedicineData {
+  name: string;
+  companyName: string;
+  depositMethod: string;
+  effect: string;
+  useMethod: string;
+  caution: string;
+  imageUrl: string;
+  breakfast: boolean;
+  lunch: boolean;
+  dinner: boolean;
+  daysToTake: number;
+}
 
 export interface MainInfo {
   userCode: number;
   userName: string;
+  birthday: string;
+  height: number;
+  weight: number;
+  gender: string;
+  age: number;
+  drinkings: number;
+  smoke: number;
   medicineInfoList: [
     {
       id: number;
@@ -134,9 +233,16 @@ export interface MainInfo {
       dinner: boolean;
     },
   ];
+  ills: [{ id: number; name: string; kor: string; eng: string; description: string }];
   monthRecordCount: number;
   todayMealCount: number;
   todayWorkOutCount: number;
+}
+
+export interface IGuardianList {
+  email: string;
+  kakaoAccountId: number;
+  name: string;
 }
 
 export const exampleData: IWeeklyData = {

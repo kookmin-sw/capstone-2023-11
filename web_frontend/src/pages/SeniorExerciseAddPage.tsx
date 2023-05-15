@@ -8,8 +8,9 @@ import ExercisePopUp from "../components/seniorExercise/ExercisePopUp";
 import { useQuery } from "react-query";
 import { getExerciseList, postExerciseList } from "../core/api";
 import { useNavigate } from "react-router-dom";
-import { ExerciseFixedData, GetExerciseData } from "../core/atom";
+import { ExerciseFixedData, GetExerciseData, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
@@ -18,6 +19,7 @@ function SeniorExercise() {
   const [isSelected, setIsSelected] = useState("");
   const [fixedData, setFixedData] = useState<ExerciseFixedData[]>([]);
   const [firstApi, setFirstApi] = useState(true);
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const navigate = useNavigate();
 
   const searched = exerciseName.filter((item) => item.includes(userInput));
@@ -26,11 +28,12 @@ function SeniorExercise() {
   };
 
   const { data } = useQuery("exerciseList", () => getExerciseList(), {
+    cacheTime: 0,
     enabled: !!firstApi,
   });
 
   useEffect(() => {
-    setExerciseName([]);
+    setNameAtom(3);
   }, []);
   useEffect(() => {
     data?.data.map((item: GetExerciseData) => {
@@ -75,11 +78,15 @@ function SeniorExercise() {
     <motion.ul className="container" variants={container} initial="hidden" animate="visible">
       <StContainer>
         <StHeader>
-          <BackButton />
-          <StTitle>운동 추가</StTitle>
-          <StCenterContainer>
-            <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="운동을 입력해주세요" />
-          </StCenterContainer>
+          <div className="col">
+            <div className="row">
+              <BackButton />
+              <StTitle>운동 추가</StTitle>
+            </div>
+            <StCenterContainer>
+              <StInput onChange={(prop) => setUserInput(prop.target.value)} placeholder="🔎 운동을 입력해주세요" />
+            </StCenterContainer>
+          </div>
         </StHeader>
         <motion.li className="item" variants={items}>
           <ExerciseList selectedData={searched} setSelected={setIsSelected} getData={data?.data} />
@@ -88,65 +95,79 @@ function SeniorExercise() {
           {fixedData[0] == null ? (
             isSelected == "" ? (
               <motion.li className="item" variants={items}>
-                <GrayButton disabled={true}>운동 선택</GrayButton>
+                <GrayButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} disabled={true}>
+                  운동 선택
+                </GrayButton>
               </motion.li>
             ) : (
               <motion.li className="item" variants={items}>
-                <BlueButton onClick={() => setIsOpen(true)}>운동 선택</BlueButton>
+                <BlueButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => setIsOpen(true)}>
+                  운동 선택
+                </BlueButton>
               </motion.li>
             )
           ) : isSelected == "" ? (
             <motion.li className="item" variants={items}>
               <CalContainer>
-                <StTitle className="title">선택한 운동</StTitle>
+                <StText className="title">선택한 운동</StText>
                 <FlexContainer>
-                  {fixedData.map(({ name, time }) => (
-                    <motion.li className="item" variants={items}>
-                      <FlexContainer key={name}>
+                  <div className="col">
+                    {fixedData.map(({ name, time }) => (
+                      <StListContainer key={name}>
+                        <CalList>
+                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                          Kcal 소모
+                        </CalList>
                         <StButtonBack
                           src={require("../assets/images/img_esc.png")}
                           onClick={() => {
                             onRemove(name);
                           }}
                         />
-                        <CalList>
-                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
-                          Kcal 소모
-                        </CalList>
-                      </FlexContainer>
-                    </motion.li>
-                  ))}
+                      </StListContainer>
+                    ))}
+                  </div>
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
-                <GrayBTN disabled={true}>운동 추가</GrayBTN>
-                <BlueBTN>확인</BlueBTN>
+                <GrayBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} disabled={true}>
+                  운동 추가
+                </GrayBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                  확인
+                </BlueBTN>
               </FlexContainer>
             </motion.li>
           ) : (
             <motion.li className="item" variants={items}>
               <CalContainer>
-                <StTitle className="title">선택한 운동</StTitle>
+                <StText className="title">선택한 운동</StText>
                 <FlexContainer>
-                  {fixedData.map(({ name, time }) => (
-                    <FlexContainer key={name}>
-                      <StButtonBack
-                        src={require("../assets/images/img_esc.png")}
-                        onClick={() => {
-                          onRemove(name);
-                        }}
-                      />
-                      <CalList>
-                        {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
-                        Kcal 소모
-                      </CalList>
-                    </FlexContainer>
-                  ))}
+                  <div className="col">
+                    {fixedData.map(({ name, time }) => (
+                      <StListContainer key={name}>
+                        <CalList>
+                          {name}로 {time * data?.data.find((item: GetExerciseData) => item.kor === name)?.kcalPerHour}{" "}
+                          Kcal 소모
+                        </CalList>
+                        <StButtonBack
+                          src={require("../assets/images/img_esc.png")}
+                          onClick={() => {
+                            onRemove(name);
+                          }}
+                        />
+                      </StListContainer>
+                    ))}
+                  </div>
                 </FlexContainer>
               </CalContainer>
               <FlexContainer>
-                <BlueBTN onClick={() => setIsOpen(true)}>운동 추가</BlueBTN>
-                <BlueBTN onClick={() => submitClicked()}>확인</BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => setIsOpen(true)}>
+                  운동 추가
+                </BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={() => submitClicked()}>
+                  확인
+                </BlueBTN>
               </FlexContainer>
             </motion.li>
           )}
@@ -180,7 +201,6 @@ const StInput = styled.input`
   align-self: center;
 
   ::placeholder {
-    background-image: url(https://cdn1.iconfinder.com/fixedData/icons/hawcons/32/698627-icon-111-search-256.png);
     background-size: contain;
     background-position: 0.1rem center;
     background-repeat: no-repeat;
@@ -188,25 +208,44 @@ const StInput = styled.input`
 `;
 
 const StContainer = styled.div`
-  padding: 1rem 2rem;
-  justify-content: center;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const StTitle = styled.div`
+  width: 100%;
+  font-size: 3rem;
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
   text-align: center;
-  margin-bottom: 2rem;
-  align-self: center;
+  padding-right: 2.5rem;
+  margin-top: 0.5rem;
 `;
 
-const StHeader = styled.div`
-  display: block;
+const StText = styled.div`
+  font-size: 2.5rem;
+  font-family: "Pretendard-Bold";
+  text-align: center;
+  margin-top: 0.5rem;
+`;
+
+const StHeader = styled.header`
+  align-items: center;
+  margin-top: 1.6rem;
+  width: 100%;
   border-bottom: 0.1rem solid #006ffd;
   position: sticky;
   top: 0rem;
   background-color: white;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.3rem;
+  }
 `;
 
 const StCenterContainer = styled.div`
@@ -219,6 +258,7 @@ const STButtonContainer = styled.div`
   bottom: 0rem;
   padding-top: 1rem;
   padding-bottom: 3rem;
+  margin-bottom: 6rem;
 `;
 
 const GrayButton = styled(BlueButton)`
@@ -248,9 +288,10 @@ const CalContainer = styled.div`
 const CalList = styled.li`
   font-family: "Pretendard-Regular";
   font-size: 1.7rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   list-style: none;
   margin-left: 2rem;
+  margin-top: 0.2rem;
 `;
 
 const StButtonBack = styled.img`
@@ -262,6 +303,21 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   display: fixed;
   flex-wrap: wrap;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const StListContainer = styled.div`
+  display: flex;
+  width: 30rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const BlueBTN = styled(BlueButton)`

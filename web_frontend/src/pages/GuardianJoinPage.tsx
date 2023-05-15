@@ -1,15 +1,19 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrandFather, GrandMother } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { guardianJoin } from "../core/api";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
+import { useRecoilValue } from "recoil";
+import { nameAtom } from "../core/atom";
 
 function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<number[]>([]);
   const [code, setCode] = useState("");
   const [joinState, setJoinState] = useState(false);
+  const [email, setEmail] = useState("");
+  const getNameAtom = useRecoilValue(nameAtom);
   const navigate = useNavigate();
   const ControllJoin = () => {
     if (seniors.length < 1) {
@@ -18,16 +22,24 @@ function GuardianJoinPage() {
       setJoinState(true);
     }
   };
-  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors), { enabled: !!joinState });
-  if (data != undefined) {
-    alert("회원가입이 완료되었습니다.");
-    navigate("/login");
-  }
+  const { data } = useQuery("joinGuardian", () => guardianJoin(seniors, email), { cacheTime: 0, enabled: !!joinState });
+  useEffect(() => {
+    if (data) {
+      alert("회원가입이 완료되었습니다.");
+      navigate("/login");
+    }
+  }, [data]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StGuardianPage>
-        <StWelcomMessage>어서오세요 김딸기님</StWelcomMessage>
+        <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
         <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
+        <StMedicalContainer>
+          <div>
+            <StInfoInput>📨 이메일을 알려주세요!</StInfoInput>
+            <StEmailInput placeholder="이메일을 알려주세요" onChange={(e) => setEmail(e.target.value)} type="email" />
+          </div>
+        </StMedicalContainer>
         <StContainer>
           <StCodeInfo>👨‍👩‍👧‍👦 복실이를 사용중인 피보호인이 있으신가요?</StCodeInfo>
           <StInputContainer>
@@ -39,6 +51,8 @@ function GuardianJoinPage() {
               type="tel"
               placeholder="피보호인의 유저 코드를 입력해주세요"></StNormalInput>
             <StCodeButton
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 if (code.length >= 8) {
                   setCode("");
@@ -79,7 +93,9 @@ function GuardianJoinPage() {
           )}
         </StCodeContainer>
         <StButtonContainer>
-          <StJoinButton onClick={() => ControllJoin()}>다음으로</StJoinButton>
+          <StJoinButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.8 }} onClick={() => ControllJoin()}>
+            다음으로
+          </StJoinButton>
         </StButtonContainer>
       </StGuardianPage>
     </motion.div>
@@ -139,7 +155,7 @@ const StInputLabel = styled.label`
   font-family: "Pretendard-Regular";
   margin-top: 1.65rem;
 `;
-const StCodeButton = styled.button`
+const StCodeButton = styled(motion.button)`
   border: none;
   background: #006ffd;
   border-radius: 12px;
@@ -190,7 +206,7 @@ const StSeniorCode2 = styled.div`
   margin-bottom: 2.2rem;
   margin-left: 15rem;
 `;
-const StJoinButton = styled.button`
+const StJoinButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -207,4 +223,28 @@ const StButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+const StMedicalContainer = styled.div`
+  display: flex;
+  margin-left: 2.5rem;
+  margin-bottom: 1rem;
+`;
+const StInfoInput = styled.p`
+  font-size: 1.8rem;
+  font-family: "Pretendard-Bold";
+  margin-top: 2.7rem;
+  padding-left: 0.1rem;
+  margin-bottom: 1.5rem;
+`;
+const StEmailInput = styled.input`
+  width: 29.5rem;
+  height: 4.8rem;
+  border: 0.15rem solid;
+  border-radius: 1.2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 1.5rem;
+  background-color: white;
+  border: 0.15rem solid #006ffd;
+  font-family: "Pretendard-Regular";
 `;

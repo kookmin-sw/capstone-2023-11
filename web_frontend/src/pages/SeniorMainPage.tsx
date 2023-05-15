@@ -5,8 +5,20 @@ import styled, { css } from "styled-components";
 import { getSeniorInfo } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
-import { MainInfo } from "../core/atom";
+import {
+  birthdayAtom,
+  drinkingsAtom,
+  genderAtom,
+  heightAtom,
+  illAtom,
+  MainInfo,
+  nameAtom,
+  navigateIndex,
+  smokeAtom,
+  weightAtom,
+} from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 interface IBTN {
   open: boolean;
@@ -14,14 +26,36 @@ interface IBTN {
 function SeniorMain() {
   const [info, setInfo] = useState<MainInfo>();
   const [open, setOpen] = useState(false);
+  const setNavigateAtom = useSetRecoilState(navigateIndex);
+  const setNameAtom = useSetRecoilState(nameAtom);
+  const setHeightAtom = useSetRecoilState(heightAtom);
+  const setWeightAtom = useSetRecoilState(weightAtom);
+  const setBirthdayAtom = useSetRecoilState(birthdayAtom);
+  const setDrinkingsAtom = useSetRecoilState(drinkingsAtom);
+  const setSmokeAtom = useSetRecoilState(smokeAtom);
+  const setIllAtom = useSetRecoilState(illAtom);
+  const setGenderAtom = useSetRecoilState(genderAtom);
   const navigate = useNavigate();
   useEffect(() => {
+    setNavigateAtom(0);
     async function fetchData() {
       const data = await getSeniorInfo();
       setInfo(data);
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    if (info) {
+      setNameAtom(info.userName);
+      setHeightAtom(info.height);
+      setWeightAtom(info.weight);
+      setBirthdayAtom(info.birthday);
+      setDrinkingsAtom(info.drinkings);
+      setSmokeAtom(info.smoke);
+      setIllAtom(info.ills);
+      setGenderAtom(info.gender);
+    }
+  }, [info]);
   const onToggle = () => setOpen(!open);
   const container = {
     hidden: { opacity: 1, scale: 0 },
@@ -29,8 +63,8 @@ function SeniorMain() {
       opacity: 1,
       scale: 1,
       transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.2,
+        delayChildren: 0.1,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -50,7 +84,10 @@ function SeniorMain() {
             onClick={() => {
               navigate(`/senior/myPage`);
             }}>
-            <StUser src={require("../assets/images/img_avatar.png")}></StUser>
+            <StUser
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
+              src={require("../assets/images/img_avatar.png")}></StUser>
             <StUsercode>{info?.userName ? info?.userName : "xxx"}</StUsercode>
           </StUserContent>
         </StHeader>
@@ -69,8 +106,52 @@ function SeniorMain() {
             </motion.ul>
             <motion.ul className="container" variants={items}>
               <StMainItem>
+                <StItemHeader>🍽 ⛳️ 식사 및 운동</StItemHeader>
+                {/* <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/meal`);
+                  }}>
+                  <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
+                  오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
+                </WhiteButton2>
+                <WhiteButton2
+                  onClick={() => {
+                    navigate(`/senior/exercise`);
+                  }}>
+                  <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
+                  오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
+                </WhiteButton2> */}
+                <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
+                <StCountSwapper>
+                  <StCount
+                    whileTap={{ scale: 0.8 }}
+                    whileHover={{ scale: 1.2 }}
+                    onClick={() => {
+                      navigate(`/senior/meal`);
+                    }}>
+                    식사
+                    <div className="line" />
+                    <StCountText>{info?.todayMealCount ? info?.todayMealCount : 0} 번</StCountText>
+                  </StCount>
+                  <StCount
+                    whileTap={{ scale: 0.8 }}
+                    whileHover={{ scale: 1.2 }}
+                    onClick={() => {
+                      navigate(`/senior/exercise`);
+                    }}>
+                    운동
+                    <div className="line" />
+                    <StCountText>{info?.todayWorkOutCount ? info?.todayWorkOutCount : 0} 번</StCountText>
+                  </StCount>
+                </StCountSwapper>
+              </StMainItem>
+            </motion.ul>
+            <motion.ul className="container" variants={items}>
+              <StMainItem>
                 <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
                 <ItemContent
+                  whileTap={{ scale: 0.8 }}
+                  whileHover={{ scale: 1.2 }}
                   onClick={() => {
                     navigate(`/senior/summary`);
                   }}>
@@ -80,7 +161,7 @@ function SeniorMain() {
                   <ItemTextContainer>
                     <ItemTitle>건강 분석하러 가기</ItemTitle>
                     <ItemComment>
-                      지난 7일동안 기록한 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
+                      지난 일주일간 기록된 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
                     </ItemComment>
                   </ItemTextContainer>
                 </ItemContent>
@@ -89,7 +170,9 @@ function SeniorMain() {
             <motion.ul className="container" variants={items}>
               <StMainItem>
                 <StItemHeader>🗓 나의 건강 일지</StItemHeader>
-                <ItemContent
+                <StLastContainer
+                  whileTap={{ scale: 0.8 }}
+                  whileHover={{ scale: 1.2 }}
                   onClick={() => {
                     navigate(`/senior/summary/day`);
                   }}>
@@ -103,26 +186,7 @@ function SeniorMain() {
                       {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
                     </ItemComment>
                   </ItemTextContainer>
-                </ItemContent>
-              </StMainItem>
-            </motion.ul>
-            <motion.ul className="container" variants={items}>
-              <StMainItem>
-                <StItemHeader>🍽 ⛳️ 식단 운동</StItemHeader>
-                <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/meal`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
-                  오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
-                </WhiteButton2>
-                <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/exercise`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
-                  오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
-                </WhiteButton2>
+                </StLastContainer>
               </StMainItem>
             </motion.ul>
           </MenuList>
@@ -166,9 +230,11 @@ const StLink = styled(Link)`
 `;
 
 const STContainer = styled.div`
-  padding: 3rem 2rem;
+  padding: 0.5rem;
   justify-content: center;
-  margin: 1rem auto;
+  margin-top: 1.6rem;
+  background-color: #f8f9fe;
+  border-radius: 1rem;
 `;
 
 const StHeader = styled.header`
@@ -178,7 +244,7 @@ const StHeader = styled.header`
   padding: 0rem 2rem 0 2rem;
 `;
 
-const StUser = styled.img`
+const StUser = styled(motion.img)`
   width: 5rem;
   height: 5rem;
   display: flex;
@@ -236,8 +302,9 @@ const StMainItem = styled.div`
 
 const StPillAddBtn = styled.button`
   font-family: "retendard-Bold";
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 1rem;
+  height: 1.5rem;
   color: #006ffd;
   flex: none;
   flex-grow: 0;
@@ -260,7 +327,7 @@ const ItemImg = styled.img`
   height: 4.5rem;
 `;
 
-const ItemContent = styled.button`
+const ItemContent = styled(motion.button)`
   display: flex;
   position: relative;
   padding: 3.5rem 2rem;
@@ -317,9 +384,9 @@ const IconImg = styled.img`
   border-radius: 0.8rem;
 `;
 
-const CircleButton = styled.button`
+const CircleButton = styled.div`
   background: #6abaff;
-
+  font-family: "Pretendard-Regular";
   z-index: 5;
   cursor: pointer;
   width: 5rem;
@@ -327,17 +394,16 @@ const CircleButton = styled.button`
   display: block;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 6rem;
   position: fixed;
+  padding-bottom: 1rem;
   left: 90%;
-  bottom: 5rem;
+  bottom: 10rem;
   transform: translate(-50%, 50%);
   color: white;
   border-radius: 50%;
   border: none;
-  outline: none;
   display: flex;
-  align-items: center;
   justify-content: center;
 
   transition: 0.125s all ease-in;
@@ -361,9 +427,8 @@ const InsertFormPositioner = styled.div`
   padding: 2rem;
   width: 25rem;
   height: 17rem;
-  bottom: 8rem;
+  bottom: 13rem;
   margin-right: 2rem;
-  /* left: 50%; */
   right: 1%;
   position: absolute;
   display: block;
@@ -374,4 +439,40 @@ const InsertFormPositioner = styled.div`
 
 const BtnContainer = styled(WhiteButton2)`
   margin-bottom: 1rem;
+`;
+
+const StCountSwapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-family: "Pretendard-Bold";
+  width: 100%;
+`;
+
+const StCount = styled(motion.div)`
+  font-size: 2.5rem;
+  width: 14rem;
+  height: 10rem;
+  margin: 1rem;
+  padding-top: 1rem;
+  border-radius: 1.2rem;
+  text-align: center;
+  line-height: 3rem;
+  color: #006ffd;
+  background-color: #eaf2ff;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+  .line {
+    border-bottom: 0.2rem solid #d4d6dd;
+    padding: 0.5rem;
+    margin: 0rem 1rem;
+  }
+`;
+
+const StCountText = styled.div`
+  font-size: 2rem;
+  padding-top: 1rem;
+  color: black;
+`;
+
+const StLastContainer = styled(ItemContent)`
+  margin-bottom: 5rem;
 `;

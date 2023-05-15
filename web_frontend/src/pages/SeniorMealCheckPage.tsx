@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "react-query";
 import { checkMeal, uploadMeal } from "../core/api/index";
-import BackButton from "../components/common/BackButton";
 import { BlueStarIcn, CheckedIcn, FoodIcn, PhotoIcn } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { navigateIndex } from "../core/atom";
+import { useSetRecoilState } from "recoil";
 
 interface food {
   food_name: string;
@@ -27,7 +28,7 @@ function SeniorMealCheckPage() {
   const [selectFoods] = useState<number[]>([]);
   const [image, setImage] = useState<any>();
   const [foodFormData] = useState<FormData>(new FormData());
-
+  const setNameAtom = useSetRecoilState(navigateIndex);
   const canvasRef = useRef<any>(null);
 
   useEffect(() => {
@@ -49,6 +50,9 @@ function SeniorMealCheckPage() {
     }
   }, [canvasRef, imageSrc, index]);
 
+  useEffect(() => {
+    setNameAtom(2);
+  }, []);
   const navigate = useNavigate();
   const foodUpload = () => {
     const foodBody = { food: [{}] };
@@ -152,7 +156,6 @@ function SeniorMealCheckPage() {
       const reader = new FileReader();
       formData.append("image", file);
       reader.readAsDataURL(file);
-
       return new Promise<void>((resolve) => {
         reader.onload = () => {
           if (reader.result != null) {
@@ -213,11 +216,15 @@ function SeniorMealCheckPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <StMealCheckPage>
         <StHeader>
-          <BackButton />
+          <StButtonBack
+            src={require("../assets/images/img_left.png")}
+            onClick={() => {
+              setUploadSts(false);
+              navigate(-1);
+            }}></StButtonBack>
           <StTitle>식단 등록하기</StTitle>
         </StHeader>
-
-        {index >= 0 && finishDetect == 0 && data?.data?.result[index]?.class_info ? (
+        {index >= 0 && finishDetect == 0 && data?.data?.result[index]?.class_info && uploadSts ? (
           <StBackground>
             <StCheckModal>
               <StCheckTitle>
@@ -233,12 +240,17 @@ function SeniorMealCheckPage() {
               {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
                 <>
                   {currentSelect == index ? (
-                    <StFoodSelected>
+                    <StFoodSelected whileHover={{ scale: 1.1 }}>
                       {food.food_name}
                       <img src={CheckedIcn} />
                     </StFoodSelected>
                   ) : (
-                    <StFoodUnselected onClick={() => setCurrentSelect(index)}>{food.food_name}</StFoodUnselected>
+                    <StFoodUnselected
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setCurrentSelect(index)}>
+                      {food.food_name}
+                    </StFoodUnselected>
                   )}
                 </>
               ))}
@@ -248,9 +260,22 @@ function SeniorMealCheckPage() {
                   <img src={CheckedIcn} />
                 </StFoodSelected>
               ) : (
-                <StFoodUnselected onClick={() => setCurrentSelect(-1)}>여기엔 없어요 ㅜㅜ</StFoodUnselected>
+                <StFoodUnselected
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setCurrentSelect(-1)}>
+                  여기엔 없어요 ㅜㅜ
+                </StFoodUnselected>
               )}
-              <StNextButton onClick={() => FoodDetect()}>다음으로</StNextButton>
+              <StNextButton
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  FoodDetect();
+                  setCurrentSelect(0);
+                }}>
+                다음으로
+              </StNextButton>
             </StCheckModal>
           </StBackground>
         ) : (
@@ -259,7 +284,7 @@ function SeniorMealCheckPage() {
         {finishDetect == 0 ? (
           <>
             <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
-            <StUploadButton onClick={onClickImageUpload}>
+            <StUploadButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClickImageUpload}>
               <img src={PhotoIcn} />
               사진 업로드
             </StUploadButton>
@@ -280,12 +305,11 @@ function SeniorMealCheckPage() {
                 분석된 음식의 검증을 거친 후 등록됩니다!
               </StSubInfo>
             </StInfoContainer>
-            <StCheckButton onClick={() => uploadImage()}>분석하기</StCheckButton>
+            <StCheckButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => uploadImage()}>
+              분석하기
+            </StCheckButton>
           </>
         ) : (
-          <></>
-        )}
-        {finishDetect == 1 ? (
           <div className="center">
             <StMotionContainer className="container" variants={container} initial="hidden" animate="visible">
               <StMotionlist className="item" variants={items}>
@@ -371,14 +395,19 @@ function SeniorMealCheckPage() {
               </StBoxContainer>
               <StMotionlist className="item" variants={items}>
                 <StButtonFooter>
-                  <StReupload onClick={() => window.location.replace("/senior/meal/add")}>다시 사진 올리기</StReupload>
-                  <Stupload onClick={() => foodUpload()}>등록하기</Stupload>
+                  <StReupload
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => window.location.replace("/senior/meal/add")}>
+                    다시 사진 올리기
+                  </StReupload>
+                  <Stupload whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => foodUpload()}>
+                    등록하기
+                  </Stupload>
                 </StButtonFooter>
               </StMotionlist>
             </StMotionContainer>
           </div>
-        ) : (
-          <></>
         )}
       </StMealCheckPage>
     </motion.div>
@@ -414,7 +443,7 @@ const StHeader = styled.header`
   margin-top: 1.6rem;
   width: 100%;
 `;
-const StUploadButton = styled.button`
+const StUploadButton = styled(motion.button)`
   width: 25rem;
   height: 4rem;
   background-color: #006ffd;
@@ -432,7 +461,7 @@ const StUploadButton = styled.button`
     width: 2rem;
   }
 `;
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
@@ -443,6 +472,7 @@ const StCheckButton = styled.button`
   font-family: "Pretendard-Bold";
   position: relative;
   bottom: 0rem;
+  margin-bottom: 2rem;
 `;
 const StFoodImg = styled.img`
   max-width: 80%;
@@ -514,7 +544,7 @@ const StCheckTitle = styled.p`
   line-height: 3rem;
   text-align: center;
 `;
-const StNextButton = styled.button`
+const StNextButton = styled(motion.button)`
   font-family: "Pretendard-Bold";
   width: 20rem;
   height: 4.8rem;
@@ -528,7 +558,7 @@ const StNextButton = styled.button`
   border-radius: 1.2rem;
   margin-top: 1rem;
 `;
-const StFoodSelected = styled.button`
+const StFoodSelected = styled(motion.button)`
   width: 25rem;
   height: 5.2rem;
   font-family: "Pretendard-Bold";
@@ -544,7 +574,7 @@ const StFoodSelected = styled.button`
   padding-right: 1.6rem;
   padding-left: 2rem;
 `;
-const StFoodUnselected = styled.button`
+const StFoodUnselected = styled(motion.button)`
   width: 25rem;
   height: 5.2rem;
   font-family: "Pretendard-Bold";
@@ -623,13 +653,12 @@ const StButtonFooter = styled.footer`
   display: flex;
   justify-content: space-between;
   background-color: white;
-  margin-top: 3rem;
-  position: fixed;
-  bottom: 0;
+  margin-top: 1rem;
   padding-bottom: 2vh;
   padding-top: 0.8rem;
+  margin-bottom: 7rem;
 `;
-const StReupload = styled.button`
+const StReupload = styled(motion.button)`
   width: 15rem;
   height: 4.8rem;
   border: 0.15rem solid #006ffd;
@@ -639,7 +668,7 @@ const StReupload = styled.button`
   font-size: 1.6rem;
   font-family: "Pretendard-Bold";
 `;
-const Stupload = styled.button`
+const Stupload = styled(motion.button)`
   width: 15rem;
   height: 4.8rem;
   border-radius: 1.2rem;
@@ -653,7 +682,7 @@ const StBoxContainer = styled.div`
   height: 45vh;
   overflow: scroll;
   margin-top: 2rem;
-  padding-bottom: 10rem;
+  max-height: 30rem;
 `;
 const StMotionContainer = styled(motion.ul)`
   align-items: center;
@@ -676,4 +705,9 @@ const StAiFoodContainer = styled.div`
     margin-top: 1rem;
     height: 20vh;
   }
+`;
+const StButtonBack = styled.img`
+  width: 2rem;
+  height: 2rem;
+  margin: 1rem;
 `;

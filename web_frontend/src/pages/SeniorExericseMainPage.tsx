@@ -7,15 +7,18 @@ import { deleteExerciseList, getRecordExerciseList } from "../core/api";
 import { BlueButton } from "../components/common/BlueButton";
 import SeniorCalendar from "../components/common/SeniorCalendar";
 import moment from "moment";
-import { ExerciseForm } from "../core/atom";
+import { ExerciseForm, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
 
 function SeniorExerciseMainPage() {
   const [firstApi, setFirstApi] = useState(true);
   const [deleteId, setDeleteId] = useState<number>(999);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const { data } = useQuery("exerciseList", () => getRecordExerciseList(), {
+  const today = selectedDate ? moment(new Date()).format("YYYY-MM-DD") : moment(new Date()).format("YYYY-MM-DD");
+  const setNameAtom = useSetRecoilState(navigateIndex);
+  const { data } = useQuery("exerciseHistoryList", () => getRecordExerciseList(), {
     enabled: !!firstApi,
   });
   const [selected, setSelected] = useState<ExerciseForm[]>([]);
@@ -52,6 +55,9 @@ function SeniorExerciseMainPage() {
   const { mutate } = useMutation(deleteExerciseList);
 
   useEffect(() => {
+    setNameAtom(3);
+  }, []);
+  useEffect(() => {
     setFirstApi(false);
   }, [data]);
 
@@ -59,7 +65,6 @@ function SeniorExerciseMainPage() {
 
   const onAddClick = () => {
     navigate(`/senior/exercise/add`);
-    window.location.reload();
   };
   const onDeleteClick = (id: number) => {
     setDeleteId(id);
@@ -116,14 +121,29 @@ function SeniorExerciseMainPage() {
             </StContainer>
           </motion.li>
           <motion.li className="item" variants={items}>
-            <StCheckButton onClick={onAddClick}>추가하기</StCheckButton>
+            {today == selectedDate ? (
+              <StCheckButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={onAddClick}>
+                추가하기
+              </StCheckButton>
+            ) : (
+              <GrayButton whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                추가하기
+              </GrayButton>
+            )}
           </motion.li>
           <StModal isOpen={showDeleteModal}>
             <StPopContainer>
               <StDate className="POP">정말로 삭제하시겠습니까?</StDate>
               <BTNContainer>
-                <BlueBTN onClick={onDeleteConfirm}>확인</BlueBTN>
-                <BlueBTN onClick={() => setShowDeleteModal(false)}>취소</BlueBTN>
+                <BlueBTN whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} onClick={onDeleteConfirm}>
+                  확인
+                </BlueBTN>
+                <BlueBTN
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
+                  onClick={() => setShowDeleteModal(false)}>
+                  취소
+                </BlueBTN>
               </BTNContainer>
             </StPopContainer>
           </StModal>
@@ -212,15 +232,15 @@ const StModal = styled(Modal)`
   align-items: center;
   justify-content: center;
   display: flex;
-  margin-top: 5rem;
+  text-align: center;
+  margin-top: 25rem;
 `;
 const StPopContainer = styled.div`
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   justify-content: center;
-  margin-top: 50%;
   background-color: #f8f9fe;
   border-radius: 1rem;
-  width: 80%;
+  width: 30rem;
   .POP {
     padding: 2rem;
   }
@@ -228,11 +248,13 @@ const StPopContainer = styled.div`
 const BTNContainer = styled.div`
   justify-content: space-evenly;
   display: flex;
+  gap: 1rem;
 `;
 
 const BlueBTN = styled(BlueButton)`
   width: 10rem;
   margin-right: 0.4rem;
+  font-family: "Pretendard-Regular";
 `;
 
 const StButtonBack = styled.img`
@@ -240,7 +262,7 @@ const StButtonBack = styled.img`
   height: 2rem;
   margin: 1rem;
 `;
-const StCheckButton = styled.button`
+const StCheckButton = styled(motion.button)`
   width: 32.7rem;
   height: 4.8rem;
   background-color: #006ffd;
@@ -252,4 +274,9 @@ const StCheckButton = styled.button`
   position: relative;
   bottom: 0rem;
   margin-bottom: 1rem;
+`;
+
+const GrayButton = styled(StCheckButton)`
+  background-color: #e8e9f1;
+  border: none;
 `;
