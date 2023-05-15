@@ -1,5 +1,7 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.calendar.dto.GetRecordsDateResponseDto;
+import capstone.server.domain.calendar.service.CalendarService;
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.food.service.FoodService;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
@@ -43,6 +45,7 @@ public class UserGuardianServiceImpl implements UserGuardianService {
     private final UserGuardianRepository userGuardianRepository;
     private final UserWardRepository userWardRepository;
     private final UserGuardianUserWardRepository userGuardianUserWardRepository;
+    private final CalendarService calendarService;
 
     @Override
     public GetUserWardMainInfoResponseDto getUserWardMainInfo(Long userWardKakaoAccountId) throws HttpClientErrorException {
@@ -188,5 +191,15 @@ public class UserGuardianServiceImpl implements UserGuardianService {
         userGuardianUserWardRepository.deleteByUserGuardianAndUserWard(userGuardian, userWard);
 
         return "해당 연결이 정상적으로 삭제되었습니다.";
+    }
+
+    @Override
+    public GetRecordsDateResponseDto getRecordsDate(Long userWardKakaoAccountId) {
+        KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType = KaKaoAccountIdAndUserType.builder()
+                .userType("ward")
+                .kakaoAccountId(userWardKakaoAccountId)
+                .build();
+
+        return calendarService.getRecordsDate(kaKaoAccountIdAndUserType);
     }
 }

@@ -1,5 +1,6 @@
 package capstone.server.domain.user.service;
 
+import capstone.server.domain.calendar.dto.GetRecordsDateResponseDto;
 import capstone.server.domain.food.dto.GetFoodInfoResponseDto;
 import capstone.server.domain.login.dto.KaKaoAccountIdAndUserType;
 import capstone.server.domain.medicine.dto.GetMedicineInfoResponseDto;
@@ -25,4 +26,5 @@ public interface UserGuardianService {
     public GetMedicineInfoResponseDto getMedicineInfo(Long userWardKakaoAccountId);
     public String connectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId);
     public String disconnectWard(KaKaoAccountIdAndUserType kaKaoAccountIdAndUserType, Long userWardKakaoAccountId);
+    public GetRecordsDateResponseDto getRecordsDate(Long userWardKakaoAccountId);
 }
