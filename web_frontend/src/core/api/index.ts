@@ -300,3 +300,11 @@ export const getWeeklyData = async () => {
   });
   return data;
 };
+
+export const getGuardianData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userward/connected-guardians`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
+  return data;
+};

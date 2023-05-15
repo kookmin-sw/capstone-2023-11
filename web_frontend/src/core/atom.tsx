@@ -239,6 +239,12 @@ export interface MainInfo {
   todayWorkOutCount: number;
 }
 
+export interface IGuardianList {
+  email: string;
+  kakaoAccountId: number;
+  name: string;
+}
+
 export const exampleData: IWeeklyData = {
   name: "홍길동",
   gender: "male",
