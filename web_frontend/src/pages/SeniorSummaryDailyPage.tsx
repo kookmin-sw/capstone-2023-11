@@ -254,6 +254,7 @@ const StHeader = styled.header`
   border-bottom: 0.1rem solid #f8f9fe;
   display: flex;
   align-items: center;
+  z-index: 9999;
   div {
     display: flex;
     flex-direction: column;
