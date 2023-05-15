@@ -9,6 +9,7 @@ import BackButton from "../components/common/BackButton";
 import { BlueStarIcn, PhotoIcn, CheckedIcn } from "../assets/icons";
 import { MedicineData } from "../core/atom";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -218,6 +219,9 @@ function PillImgUpload() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>약봉투 인식하기</title>
+      </Helmet>
       <StContainer>
         <StHeader>
           <BackButton />

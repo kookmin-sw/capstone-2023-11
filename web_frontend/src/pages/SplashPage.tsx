@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Helmet } from "react-helmet-async";
 
 function SplashPage() {
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ function SplashPage() {
   }, 2000);
   return (
     <StSplashPage>
+      <Helmet>
+        <title>복실이에 오신 것을 환영합니다.</title>
+      </Helmet>
       <motion.img
         key={require("../assets/images/img_splash.jpeg")}
         src={require("../assets/images/img_splash.jpeg")}

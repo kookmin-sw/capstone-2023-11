@@ -5,6 +5,7 @@ import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import { getSeniorInfo } from "../core/api";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 function SeniorMypage() {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ function SeniorMypage() {
 
   return (
     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+      <Helmet>
+        <title>개인정보 수정</title>
+      </Helmet>
       <StSeniorMypage>
         <StHeader>
           <BackButton />

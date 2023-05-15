@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { ExerciseFixedData, GetExerciseData, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function SeniorExercise() {
   const [userInput, setUserInput] = useState("");
@@ -76,6 +77,9 @@ function SeniorExercise() {
 
   return (
     <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+      <Helmet>
+        <title>운동 추가</title>
+      </Helmet>
       <StContainer>
         <StHeader>
           <div className="col">

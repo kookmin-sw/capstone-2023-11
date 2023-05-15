@@ -6,6 +6,7 @@ import { wardJoin } from "../core/api/index";
 import { motion } from "framer-motion";
 import { nameAtom } from "../core/atom";
 import { useRecoilValue } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function SeniorJoinPage() {
   const [process, setProcess] = useState(1);
@@ -45,6 +46,9 @@ function SeniorJoinPage() {
   if (process == 1) {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <Helmet>
+          <title>회원가입</title>
+        </Helmet>
         <StSeniorPage>
           <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>

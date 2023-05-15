@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
+import { Helmet } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -133,11 +134,14 @@ function SeniorPillSelf() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>직접 등록하기</title>
+      </Helmet>
       <StContainer>
         <StHeader>
           <StHederContent>
             <BackButton />
-            <StTitle>약 직접입력</StTitle>
+            <StTitle>직접 등록하기</StTitle>
           </StHederContent>
           <StHederContent>
             <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={(prop) => setSearch(prop.target.value)} />

@@ -5,6 +5,7 @@ import { getPillInfo } from "../core/api";
 import { IPillData } from "../core/atom";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
+import { Helmet } from "react-helmet-async";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IPillData>();
@@ -55,6 +56,9 @@ function PillDetail() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>약 세부정보</title>
+      </Helmet>
       <StHeader>
         <BackButton />
         <StTitle>약 세부정보</StTitle>

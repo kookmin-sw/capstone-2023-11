@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import { useRecoilValue } from "recoil";
 import { nameAtom } from "../core/atom";
+import { Helmet } from "react-helmet-async";
 
 function GuardianJoinPage() {
   const [seniors, setSeniors] = useState<number[]>([]);
@@ -31,6 +32,9 @@ function GuardianJoinPage() {
   }, [data]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>회원가입</title>
+      </Helmet>
       <StGuardianPage>
         <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
         <StInfoText>피보호인(부모님)의 유저코드를 확인해주세요!</StInfoText>
