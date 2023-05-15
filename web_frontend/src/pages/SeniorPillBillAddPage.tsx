@@ -328,14 +328,16 @@ function PillImgUpload() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={async () => {
-                        pillInfo();
-                        setSetting(true);
-                        handleCloseModal();
+                        await pillInfo().then(() => {
+                          setSetting(true);
+                          handleCloseModal();
+                        });
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);
                         selectItem(0);
                         setDayValue(0);
+                        setIsActive(false);
                         setSelected((prev: boolean[]) => {
                           const newSelected = [...prev];
                           newSelected[selectedIndex] = true;
