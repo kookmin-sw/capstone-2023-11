@@ -1,3 +1,10 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
+User-Agent : Googlebot
+User-Agent : Yeti
+User-Agent : Daumoa
+User-Agent : Bingbot
+Allow : /
+
+User-Agent : *
+Disallow : /
+
+Sitemap: https://capstone-2023-11.vercel.app/sitemap.xml
