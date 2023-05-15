@@ -14,7 +14,6 @@ function SeniorCheckGuardian() {
   });
   useEffect(() => {
     setFirstApi(false);
-    console.log(data);
   }, [data]);
   const toggleModal = () => {
     setIsOpen((prev) => !prev);
