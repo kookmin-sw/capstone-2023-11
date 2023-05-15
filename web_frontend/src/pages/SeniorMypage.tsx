@@ -6,6 +6,7 @@ import BackButton from "../components/common/BackButton";
 import { getSeniorInfo } from "../core/api";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import SeniorCheckGuardian from "./SeniorCheckGuardian";
 
 function SeniorMypage() {
   const navigate = useNavigate();
@@ -56,10 +57,7 @@ function SeniorMypage() {
           <StButtonInfo>개인정보 변경하기</StButtonInfo>
           <StButtonIcon src={require("../assets/images/img_right.png")} />
         </StButtonContainer>
-        <StButtonContainer whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
-          <StButtonIcon src={require("../assets/images/img_right.png")} />
-        </StButtonContainer>
+        <SeniorCheckGuardian />
         <StLogContainer>
           <StLogoutButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => navigate(`/login`)}>
             로그아웃

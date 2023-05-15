@@ -142,6 +142,7 @@ const StContainer = styled.div`
   .cal {
     font-family: "Pretendard-Bold";
     font-size: 1.7rem;
+    text-align: center;
   }
 `;
 const StButtonBack = styled.img`
@@ -173,8 +174,10 @@ const GrayBtn = styled(BlueBTN)`
 const StContent = styled.div`
   font-family: "Pretendard-Regular";
   font-size: 1.5rem;
-  padding: 1rem;
-  text-align: center;
+  padding: 0.3rem;
+  white-space: pre-line;
+  letter-spacing: 0.1rem;
+  line-height: 1.5;
 `;
 
 const WhiteContainer = styled(StContainer)`
