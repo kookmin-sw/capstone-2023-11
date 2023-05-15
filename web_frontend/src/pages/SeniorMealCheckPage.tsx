@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { navigateIndex } from "../core/atom";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 interface food {
   food_name: string;
@@ -214,6 +215,10 @@ function SeniorMealCheckPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>식단 등록하기</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/meal/add" />
+      </Helmet>
       <StMealCheckPage>
         <StHeader>
           <StButtonBack

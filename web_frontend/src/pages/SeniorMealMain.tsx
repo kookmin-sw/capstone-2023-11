@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { IMeal, IMealDetail, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 import Modal from "react-modal";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 
@@ -60,6 +61,10 @@ function SeniorMealMain() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>식단 기록</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/meal" />
+      </Helmet>
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StSeniorMealMain>
           <StHeader>

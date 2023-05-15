@@ -10,6 +10,7 @@ import { IExercise, IMeal, navigateIndex } from "../core/atom";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function formatTime(timeString: string) {
   const date = moment(`2000-01-01 ${timeString}`);
@@ -87,6 +88,10 @@ function SeniorSummaryDailyPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>일간 보고서</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/summary/day" />
+      </Helmet>
       {isActive ? (
         <StHeader>
           <StButton src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />

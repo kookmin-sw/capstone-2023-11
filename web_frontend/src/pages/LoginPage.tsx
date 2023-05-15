@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { GuardianIcn, RadioButton, RadioUnclickedButton, SeniorIcn } from "../assets/icons";
 import KakaoLoginButton from "../components/common/KakaoLoginButton";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 function LoginPage() {
   const [userStatus, setUserStatus] = useState("userGuardian");
@@ -11,6 +12,10 @@ function LoginPage() {
   }, [userStatus]);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
+      <Helmet>
+        <title>복실이에 오신 것을 환영합니다.</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/login" />
+      </Helmet>
       <StLoginPage>
         <StLogo src={require("../../src/assets/images/img_logo.jpeg")} />
         <StTitle>사용할 서비스를 선택하세요</StTitle>

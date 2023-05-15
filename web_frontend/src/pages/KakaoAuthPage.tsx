@@ -4,6 +4,7 @@ import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { adviceAtom, nameAtom } from "../core/atom";
+import { Helmet } from "react-helmet-async";
 
 function KakaoAuthPage() {
   const navigate = useNavigate();
@@ -53,6 +54,13 @@ function KakaoAuthPage() {
       }
     }
   });
-  return <></>;
+  return (
+    <>
+      <Helmet>
+        <title>로그인 중...</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/auth/kakao" />
+      </Helmet>
+    </>
+  );
 }
 export default KakaoAuthPage;

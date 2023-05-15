@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SeniorAdvice } from "../components/seniorSummary/Advice";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function SeniorSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -129,6 +130,10 @@ function SeniorSummaryPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>주간 보고서</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/summary" />
+      </Helmet>
       {isActive ? (
         <StHeader>
           <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
