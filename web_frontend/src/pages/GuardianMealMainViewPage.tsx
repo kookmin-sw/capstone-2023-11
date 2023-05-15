@@ -69,7 +69,10 @@ function GuardianMealMainViewPage() {
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StSeniorMealMain>
           <StHeader>
-            <StButtonBack src={require("../assets/images/img_left.png")} onClick={() => navigate(`/senior/main`)} />
+            <StButtonBack
+              src={require("../assets/images/img_left.png")}
+              onClick={() => navigate(`/${Number(id)}/main`)}
+            />
             <StTitle>식단 기록</StTitle>
           </StHeader>
           <motion.li className="item" variants={items}>
