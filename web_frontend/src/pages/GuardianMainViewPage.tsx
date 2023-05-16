@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { getSeniorTotalWatched } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
@@ -19,12 +19,8 @@ import {
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
 
-interface IBTN {
-  open: boolean;
-}
 function GuardianTotal() {
   const [info, setInfo] = useState<any>();
-  const [open, setOpen] = useState(false);
   const setNavigateAtom = useSetRecoilState(navigateIndex);
   const setNameAtom = useSetRecoilState(nameAtom);
   const setHeightAtom = useSetRecoilState(heightAtom);
@@ -57,7 +53,7 @@ function GuardianTotal() {
       setGenderAtom(info.gender);
     }
   }, [info]);
-  const onToggle = () => setOpen(!open);
+
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -149,7 +145,7 @@ function GuardianTotal() {
             </motion.ul>
             <motion.ul className="container" variants={items}>
               <StMainItem>
-                <StItemHeader>💯 내 건강 점수는 몇점?</StItemHeader>
+                <StItemHeader>💯 시니어의 건강 점수는 몇점?</StItemHeader>
                 <ItemContent
                   whileTap={{ scale: 0.8 }}
                   whileHover={{ scale: 1.2 }}
@@ -170,7 +166,7 @@ function GuardianTotal() {
             </motion.ul>
             <motion.ul className="container" variants={items}>
               <StMainItem>
-                <StItemHeader>🗓 나의 건강 일지</StItemHeader>
+                <StItemHeader>🗓 시니어의 건강 일지</StItemHeader>
                 <StLastContainer
                   whileTap={{ scale: 0.8 }}
                   whileHover={{ scale: 1.2 }}
@@ -192,31 +188,6 @@ function GuardianTotal() {
             </motion.ul>
           </MenuList>
         </motion.ul>
-        {open ? (
-          <InsertFormPositioner>
-            <motion.ul className="container" variants={items} initial="hidden" animate="visible">
-              <BtnContainer
-                onClick={() => {
-                  navigate(`/senior/meal/add`);
-                }}>
-                <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#f8f9fe" }} />
-                <StText>식사 입력</StText>
-              </BtnContainer>
-              <BtnContainer
-                onClick={() => {
-                  navigate(`/senior/exercise/add`);
-                }}>
-                <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#f8f9fe" }} />
-                <StText>운동 입력</StText>
-              </BtnContainer>
-            </motion.ul>
-          </InsertFormPositioner>
-        ) : (
-          <></>
-        )}
-        <CircleButton onClick={onToggle} open={open}>
-          +
-        </CircleButton>
       </STContainer>
     </motion.div>
   );
@@ -361,85 +332,6 @@ const ItemComment = styled.div`
   color: #71727a;
   font-family: "Pretendard-Regular";
   font-size: 1.3rem;
-`;
-
-const WhiteButton2 = styled.div`
-  display: flex;
-  padding: 3rem 1.2rem 3rem 1.2rem;
-  align-items: center;
-  width: 100%;
-  height: 2rem;
-  color: black;
-  font-family: "Pretendard-Regular";
-  font-size: 1.6rem;
-  background-color: white;
-  border: 0.15rem solid #f1f5f9;
-  border-radius: 1.2rem;
-`;
-
-const IconImg = styled.img`
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-right: 0.8rem;
-  padding: 0.5rem;
-  border-radius: 0.8rem;
-`;
-
-const CircleButton = styled.div`
-  background: #6abaff;
-  font-family: "Pretendard-Regular";
-  z-index: 5;
-  cursor: pointer;
-  width: 5rem;
-  height: 5rem;
-  display: block;
-  align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-  position: fixed;
-  padding-bottom: 1rem;
-  left: 90%;
-  bottom: 10rem;
-  transform: translate(-50%, 50%);
-  color: white;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  justify-content: center;
-
-  transition: 0.125s all ease-in;
-  ${(props: IBTN) =>
-    props.open &&
-    css`
-      background: #ff6b6b;
-      &:active {
-        background: #fa5252;
-      }
-      transform: translate(-50%, 50%) rotate(45deg);
-    `}
-`;
-
-const StText = styled.div`
-  font-size: 2rem;
-  font-family: "Pretendard-Bold";
-  padding: 1.5rem;
-`;
-const InsertFormPositioner = styled.div`
-  padding: 2rem;
-  width: 25rem;
-  height: 17rem;
-  bottom: 13rem;
-  margin-right: 2rem;
-  right: 1%;
-  position: absolute;
-  display: block;
-  position: fixed;
-  background-color: #f8f9fe;
-  border-radius: 2rem;
-`;
-
-const BtnContainer = styled(WhiteButton2)`
-  margin-bottom: 1rem;
 `;
 
 const StCountSwapper = styled.div`
