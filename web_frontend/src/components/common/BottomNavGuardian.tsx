@@ -1,14 +1,15 @@
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { navigateIndex } from "../../core/atom";
+import { navigateIndex2 } from "../../core/atom";
 import { motion } from "framer-motion";
 
-const BottomNav = () => {
-  const setNameAtom = useSetRecoilState(navigateIndex);
-  const index = useRecoilValue(navigateIndex);
+const BottomNavGuardian = () => {
+  const setNameAtom = useSetRecoilState(navigateIndex2);
+  const index = useRecoilValue(navigateIndex2);
   const navigate = useNavigate();
+  const params = useParams();
   return (
     <>
       <Outlet />
@@ -17,7 +18,7 @@ const BottomNav = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/main");
+            navigate("/guardian/main");
             setNameAtom(0);
           }}
           className={index === 0 ? "active" : "inactive"}>
@@ -31,7 +32,7 @@ const BottomNav = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/summary/day");
+            navigate(`/guardian/${String(params?.id)}/summary/day`);
             setNameAtom(1);
           }}
           className={index === 1 ? "active" : "inactive"}>
@@ -45,7 +46,7 @@ const BottomNav = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/meal");
+            navigate(`/guardian/${String(params?.id)}/meal`);
             setNameAtom(2);
           }}
           className={index === 2 ? "active" : "inactive"}>
@@ -59,7 +60,7 @@ const BottomNav = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/exercise");
+            navigate(`/guardian/${String(params?.id)}/exercise`);
             setNameAtom(3);
           }}
           className={index === 3 ? "active" : "inactive"}>
@@ -73,7 +74,7 @@ const BottomNav = () => {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.8 }}
           onClick={() => {
-            navigate("/senior/pill");
+            navigate(`/guardian/${String(params?.id)}/pill`);
             setNameAtom(4);
           }}
           className={index === 4 ? "active" : "inactive"}>
@@ -88,7 +89,7 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default BottomNavGuardian;
 
 const StNavigation = styled.nav`
   overflow: hidden;
@@ -99,6 +100,7 @@ const StNavigation = styled.nav`
   height: 7rem;
   border-top: 0.2rem solid #eaf2ff;
   background-color: #ffffff;
+  z-index: 9999;
   div {
     text-align: center;
     float: left;

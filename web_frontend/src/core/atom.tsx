@@ -41,6 +41,10 @@ export const navigateIndex = atom({
   key: "navigateIndex",
   default: 0,
 });
+export const navigateIndex2 = atom({
+  key: "navigateIndex2",
+  default: 0,
+});
 
 export interface IWeeklyData {
   name: string;
