@@ -79,7 +79,7 @@ function GuardianTotal() {
         <StHeader>
           <StUserContent
             onClick={() => {
-              navigate(`/senior/myPage`);
+              navigate(`/guardian/main`);
             }}>
             <StUser
               whileHover={{ scale: 1.2 }}
@@ -94,7 +94,7 @@ function GuardianTotal() {
               <StMainItem>
                 <StPillHeader>
                   <StItemHeader>💊 복용하는 약</StItemHeader>
-                  <StLink to={`/senior/pill`}>
+                  <StLink to={`/guardian/pill`}>
                     <StPillAddBtn>자세히 보기</StPillAddBtn>
                   </StLink>
                 </StPillHeader>
@@ -104,27 +104,14 @@ function GuardianTotal() {
             <motion.ul className="container" variants={items}>
               <StMainItem>
                 <StItemHeader>🍽 ⛳️ 식사 및 운동</StItemHeader>
-                {/* <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/meal`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_meal.png`)} style={{ backgroundColor: "#feecdc" }} />
-                  오늘, {info?.todayMealCount}번의 식사를 기록했습니다!
-                </WhiteButton2>
-                <WhiteButton2
-                  onClick={() => {
-                    navigate(`/senior/exercise`);
-                  }}>
-                  <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
-                  오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
-                </WhiteButton2> */}
+
                 <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
                 <StCountSwapper>
                   <StCount
                     whileTap={{ scale: 0.8 }}
                     whileHover={{ scale: 1.2 }}
                     onClick={() => {
-                      navigate(`/senior/meal`);
+                      navigate(`/guardian/${String(params?.id)}/meal`);
                     }}>
                     식사
                     <div className="line" />
@@ -134,7 +121,7 @@ function GuardianTotal() {
                     whileTap={{ scale: 0.8 }}
                     whileHover={{ scale: 1.2 }}
                     onClick={() => {
-                      navigate(`/senior/exercise`);
+                      navigate(`/guardian/${String(params?.id)}/exercise`);
                     }}>
                     운동
                     <div className="line" />
@@ -150,7 +137,7 @@ function GuardianTotal() {
                   whileTap={{ scale: 0.8 }}
                   whileHover={{ scale: 1.2 }}
                   onClick={() => {
-                    navigate(`/senior/summary`);
+                    navigate(`/guardian/${String(params?.id)}/summary`);
                   }}>
                   <ItemImgWrapper>
                     <ItemImg src={require(`../assets/icons/icon_score.png`)} />
@@ -171,13 +158,13 @@ function GuardianTotal() {
                   whileTap={{ scale: 0.8 }}
                   whileHover={{ scale: 1.2 }}
                   onClick={() => {
-                    navigate(`/senior/summary/day`);
+                    navigate(`/guardian/${String(params?.id)}/summary/day`);
                   }}>
                   <ItemImgWrapper>
                     <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
                   </ItemImgWrapper>
                   <ItemTextContainer>
-                    <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
+                    <ItemTitle>보호자의 건강 기록 보러가기</ItemTitle>
                     <ItemComment>
                       이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
                       {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.

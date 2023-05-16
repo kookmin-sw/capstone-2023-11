@@ -1,7 +1,7 @@
 import React from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import { motion } from "framer-motion";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -19,49 +19,51 @@ export default function GuardianMainPage() {
   console.log(data);
   const navigate = useNavigate();
   return (
-    <StGuardianMainPage>
-      <StTitle>관리중인 시니어</StTitle>
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        coverflowEffect={{
-          rotate: 0,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-        }}
-        pagination={true}
-        modules={[EffectCoverflow, Pagination]}
-        className="mySwiper">
-        {data?.data.map((senior: any) => (
-          <SwiperSlide>
-            <StSeniorCard>
-              <StTag>관제중</StTag>
-              <StInfoContainer>
-                {senior.gender === "MALE" ? (
-                  <img src={require("../assets/images/img_old-man.png")} alt="senior" />
-                ) : (
-                  <img src={require("../assets/images/img_old-woman.png")} alt="senior" />
-                )}
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <StGuardianMainPage>
+        <StTitle>관리중인 시니어</StTitle>
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+          }}
+          pagination={true}
+          modules={[EffectCoverflow, Pagination]}
+          className="mySwiper">
+          {data?.data.map((senior: any) => (
+            <SwiperSlide>
+              <StSeniorCard>
+                <StTag>관제중</StTag>
+                <StInfoContainer>
+                  {senior.gender === "MALE" ? (
+                    <img src={require("../assets/images/img_old-man.png")} alt="senior" />
+                  ) : (
+                    <img src={require("../assets/images/img_old-woman.png")} alt="senior" />
+                  )}
 
-                <StSeniorName>{senior.name}</StSeniorName>
-                <StSeniorDate>{senior.birthday} 출생</StSeniorDate>
-                <StCardText>
-                  🔐 유저 코드 : <StCardTag># {senior.kakaoAccountId}</StCardTag>
-                </StCardText>
-                <StCardText>{senior.gender === "MALE" ? <>🙆‍♂️ 남성</> : <>🙆‍♀️ 여성</>}</StCardText>
-                <StCardText>📏 키: {senior.height}cm</StCardText>
-                <StCardText>📝 현재 체중: {senior.weight}kg</StCardText>
-              </StInfoContainer>
-              <StCheckButton onClick={() => navigate("/guardian/" + senior.kakaoAccountId + "/main")}>
-                자세히 보기
-              </StCheckButton>
-            </StSeniorCard>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </StGuardianMainPage>
+                  <StSeniorName>{senior.name}</StSeniorName>
+                  <StSeniorDate>{senior.birthday} 출생</StSeniorDate>
+                  <StCardText>
+                    🔐 유저 코드 : <StCardTag># {senior.kakaoAccountId}</StCardTag>
+                  </StCardText>
+                  <StCardText>{senior.gender === "MALE" ? <>🙆‍♂️ 남성</> : <>🙆‍♀️ 여성</>}</StCardText>
+                  <StCardText>📏 키: {senior.height}cm</StCardText>
+                  <StCardText>📝 현재 체중: {senior.weight}kg</StCardText>
+                </StInfoContainer>
+                <StCheckButton onClick={() => navigate("/guardian/" + senior.kakaoAccountId + "/main")}>
+                  자세히 보기
+                </StCheckButton>
+              </StSeniorCard>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </StGuardianMainPage>
+    </motion.div>
   );
 }
 
