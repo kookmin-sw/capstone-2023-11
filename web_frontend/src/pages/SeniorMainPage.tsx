@@ -232,12 +232,12 @@ const StLink = styled(Link)`
 const STContainer = styled.div`
   padding: 0.5rem;
   justify-content: center;
-  margin-top: 1.6rem;
   background-color: #f8f9fe;
   border-radius: 1rem;
 `;
 
 const StHeader = styled.header`
+  margin-top: 1.3rem;
   font-size: 2rem;
   display: flex;
   width: 100%;

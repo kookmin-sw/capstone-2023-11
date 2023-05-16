@@ -12,10 +12,11 @@ import { EffectCoverflow, Pagination } from "swiper";
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getSeniorData } from "../core/api";
+import { useNavigate } from "react-router-dom";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
-  console.log(data?.data);
+  const navigate = useNavigate();
   return (
     <StGuardianMainPage>
       <StTitle>관리중인 시니어</StTitle>
@@ -23,13 +24,11 @@ export default function GuardianMainPage() {
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={"auto"}
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
-          depth: 50,
+          depth: 100,
           modifier: 1,
-          slideShadows: true,
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
@@ -37,16 +36,26 @@ export default function GuardianMainPage() {
         {data?.data.map((senior: any) => (
           <SwiperSlide>
             <StSeniorCard>
+              <StTag>관제중</StTag>
               <StInfoContainer>
-                <img src={require("../assets/images/img_couple.png")} alt="senior" />
+                {senior.gender === "MALE" ? (
+                  <img src={require("../assets/images/img_old-man.png")} alt="senior" />
+                ) : (
+                  <img src={require("../assets/images/img_old-woman.png")} alt="senior" />
+                )}
+
                 <StSeniorName>{senior.name}</StSeniorName>
                 <StSeniorDate>{senior.birthday} 출생</StSeniorDate>
-                <StCardText>🔐 유저 코드 : #{senior.kakaoAccountId}</StCardText>
+                <StCardText>
+                  🔐 유저 코드 : <StCardTag># {senior.kakaoAccountId}</StCardTag>
+                </StCardText>
                 <StCardText>{senior.gender === "MALE" ? <>🙆‍♂️ 남성</> : <>🙆‍♀️ 여성</>}</StCardText>
-                <StCardText>키: {senior.height}cm</StCardText>
-                <StCardText>현재 체중: {senior.weight}kg</StCardText>
+                <StCardText>📏 키: {senior.height}cm</StCardText>
+                <StCardText>📝 현재 체중: {senior.weight}kg</StCardText>
               </StInfoContainer>
-              <StCheckButton>자세히 보기</StCheckButton>
+              <StCheckButton onClick={() => navigate("/guardian/" + senior.kakaoAccountId + "/main")}>
+                자세히 보기
+              </StCheckButton>
             </StSeniorCard>
           </SwiperSlide>
         ))}
@@ -115,13 +124,47 @@ const StCheckButton = styled.button`
   font-size: 2rem;
   font-family: "Pretendard-Bold";
   position: relative;
-  bottom: 0rem;
+
   margin-bottom: 2rem;
 `;
 const StInfoContainer = styled.div`
   width: 25rem;
+  margin-top: 12rem;
+  margin-bottom: 1rem;
   img {
-    width: 10rem;
-    height: 10rem;
+    width: 13rem;
+    height: 13rem;
+    margin-bottom: 2rem;
   }
+`;
+const StCardTag = styled.span`
+  width: 5rem;
+  height: 1rem;
+  background-color: #006ffd;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: "Pretendard-Bold";
+`;
+const StTag = styled.div`
+  font-size: 1.4rem;
+  width: 7rem;
+  height: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #006ffd;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: "Pretendard-Bold";
+  position: relative;
+  left: 10rem;
+  top: 2rem;
 `;
