@@ -28,7 +28,7 @@ import GuardianMealMainViewPage from "../pages/GuardianMealMainViewPage";
 import GuardianSummaryDailyPage from "../pages/GuardianSummaryDailyPage";
 import GuardianSummaryPage from "../pages/GuardianSummaryPage";
 import GuardianPillMainViewPage from "../pages/GuardianPillMainViewPage";
-import GuardianTotal from "../pages/GuardianTotalView";
+import GuardianTotal from "../pages/GuardianMainViewPage";
 function Router() {
   return (
     <BrowserRouter>

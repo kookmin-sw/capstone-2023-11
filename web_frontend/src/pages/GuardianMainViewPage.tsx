@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { getSeniorInfo } from "../core/api";
+import { getSeniorTotalWatched } from "../core/api";
 import NoPill from "../components/seniorPill/SeniorMainNoPill";
 import Pill from "../components/seniorPill/SeniorMainPill";
 import {
@@ -11,7 +11,6 @@ import {
   genderAtom,
   heightAtom,
   illAtom,
-  MainInfo,
   nameAtom,
   navigateIndex,
   smokeAtom,
@@ -23,8 +22,8 @@ import { useSetRecoilState } from "recoil";
 interface IBTN {
   open: boolean;
 }
-function GuardianMainViewPage() {
-  const [info, setInfo] = useState<MainInfo>();
+function GuardianTotal() {
+  const [info, setInfo] = useState<any>();
   const [open, setOpen] = useState(false);
   const setNavigateAtom = useSetRecoilState(navigateIndex);
   const setNameAtom = useSetRecoilState(nameAtom);
@@ -36,11 +35,13 @@ function GuardianMainViewPage() {
   const setIllAtom = useSetRecoilState(illAtom);
   const setGenderAtom = useSetRecoilState(genderAtom);
   const navigate = useNavigate();
+  const params = useParams();
   useEffect(() => {
     setNavigateAtom(0);
     async function fetchData() {
-      const data = await getSeniorInfo();
-      setInfo(data);
+      const data = await getSeniorTotalWatched(String(params?.id));
+
+      setInfo(data.data);
     }
     fetchData();
   }, []);
@@ -221,7 +222,7 @@ function GuardianMainViewPage() {
   );
 }
 
-export default GuardianMainViewPage;
+export default GuardianTotal;
 
 const StLink = styled(Link)`
   text-decoration: none;
@@ -232,12 +233,12 @@ const StLink = styled(Link)`
 const STContainer = styled.div`
   padding: 0.5rem;
   justify-content: center;
-  margin-top: 1.6rem;
   background-color: #f8f9fe;
   border-radius: 1rem;
 `;
 
 const StHeader = styled.header`
+  margin-top: 1.3rem;
   font-size: 2rem;
   display: flex;
   width: 100%;

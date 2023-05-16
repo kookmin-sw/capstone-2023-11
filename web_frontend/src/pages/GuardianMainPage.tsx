@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
+  console.log(data);
   const navigate = useNavigate();
   return (
     <StGuardianMainPage>
