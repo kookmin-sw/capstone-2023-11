@@ -308,3 +308,11 @@ export const getGuardianData = async () => {
 
   return data;
 };
+
+export const getSeniorData = async () => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/connected-wards`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+
+  return data;
+};

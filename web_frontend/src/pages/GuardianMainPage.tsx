@@ -10,8 +10,12 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper";
 import styled from "styled-components";
+import { useQuery } from "react-query";
+import { getSeniorData } from "../core/api";
 
-export default function App() {
+export default function GuardianMainPage() {
+  const { data } = useQuery("senior", () => getSeniorData());
+  console.log(data?.data);
   return (
     <StGuardianMainPage>
       <StTitle>관리중인 시니어</StTitle>
@@ -30,41 +34,21 @@ export default function App() {
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper">
-        <SwiperSlide>
-          <StSeniorCard>
-            <StSeniorName>김딸기</StSeniorName>
-            <StSeniorDate>1973.01.01</StSeniorDate>
-            <StCardText>73살</StCardText>
-            <StCardText>남성</StCardText>
-            <StCardText>키: 183cm</StCardText>
-            <StCardText>현재 체중: 73kg</StCardText>
-            <StCheckButton>자세히 보기</StCheckButton>
-          </StSeniorCard>
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-        </SwiperSlide>
+        {data?.data.map((senior: any) => (
+          <SwiperSlide>
+            <StSeniorCard>
+              <StInfoContainer>
+                <StSeniorName>{senior.name}</StSeniorName>
+                <StSeniorDate>{senior.birthday} 출생</StSeniorDate>
+                <StCardText>🔐 유저 코드 : #{senior.kakaoAccountId}</StCardText>
+                <StCardText>{senior.gender === "MALE" ? <>🙆‍♂️ 남성</> : <>🙆‍♀️ 여성</>}</StCardText>
+                <StCardText>키: {senior.height}cm</StCardText>
+                <StCardText>현재 체중: {senior.weight}kg</StCardText>
+                <StCheckButton>자세히 보기</StCheckButton>
+              </StInfoContainer>
+            </StSeniorCard>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </StGuardianMainPage>
   );
@@ -106,9 +90,13 @@ const StTitle = styled.div`
 
 const StSeniorName = styled.p`
   font-family: "Pretendard-Bold";
-  font-size: 2rem;
+  font-size: 2.2rem;
 `;
-const StSeniorDate = styled.p``;
+const StSeniorDate = styled.p`
+  font-family: "Pretendard-Regular";
+  font-size: 1.3rem;
+  color: #71727a;
+`;
 const StCardText = styled.p``;
 const StCheckButton = styled.button`
   width: 25rem;
@@ -123,3 +111,4 @@ const StCheckButton = styled.button`
   bottom: 0rem;
   margin-bottom: 2rem;
 `;
+const StInfoContainer = styled.div``;
