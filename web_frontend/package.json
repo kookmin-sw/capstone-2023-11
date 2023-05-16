@@ -30,6 +30,7 @@
     "styled-component": "^2.8.0",
     "styled-components": "^5.3.8",
     "styled-reset": "^4.4.5",
+    "swiper": "^9.3.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
