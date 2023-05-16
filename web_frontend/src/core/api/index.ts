@@ -309,6 +309,66 @@ export const getGuardianData = async () => {
   return data;
 };
 
+export const getGuardianExerciseList = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/workout/records`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getGuardianMealList = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/food`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getGuardianCalendar = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/calendar`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getGuardianDaily = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/summary/daily`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getGuardianWeekly = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/summary/weekly`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
+export const getGuardianPill = async (wardId: number) => {
+  const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/medicine`, {
+    params: {
+      wardId: wardId,
+    },
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+  });
+  return data;
+};
+
 export const getSeniorData = async () => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/connected-wards`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
