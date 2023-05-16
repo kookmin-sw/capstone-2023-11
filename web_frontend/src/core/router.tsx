@@ -42,7 +42,7 @@ function Router() {
           <Route path="/modify/senior" element={<SeniorModifyPage />} />
           <Route element={<BottomNavSenior />}>
             <Route path="/senior/main" element={<SeniorMain />} />
-            <Route path="/senior/myPage" element={<SeniorMypage />} />
+            <Route path="/senior/mypage" element={<SeniorMypage />} />
             <Route path="/senior/pill" element={<SeniorPillMain />} />
             <Route path="/senior/pill/detail/:id" element={<SeniorPillDetail />} />
             <Route path="/senior/pill/bill" element={<SeniorPillBill />} />

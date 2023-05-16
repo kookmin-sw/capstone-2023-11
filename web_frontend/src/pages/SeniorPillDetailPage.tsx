@@ -5,6 +5,7 @@ import { getPillInfo } from "../core/api";
 import { IPillData } from "../core/atom";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
+import { Helmet } from "react-helmet-async";
 
 function PillDetail() {
   const [pillData, setPillData] = useState<IPillData>();
@@ -26,7 +27,7 @@ function PillDetail() {
   const useMethodContent = selectPill?.useMethod ? JSON.parse(selectPill.useMethod) : [];
   const cautionContent = selectPill?.caution ? JSON.parse(selectPill.caution) : [];
   const resultEffect = effectContent
-    .map((item: any, index: number, arr: any[]) => {
+    .map((item: IcontentText, index: number, arr: IcontentText[]) => {
       if (item.title === "") {
         return item.text;
       } else {
@@ -35,7 +36,7 @@ function PillDetail() {
     })
     .join("<br>");
   const resultUseMethod = useMethodContent
-    .map((item: any, index: number, arr: any[]) => {
+    .map((item: IcontentText, index: number, arr: IcontentText[]) => {
       if (item.title === "") {
         return item.text;
       } else {
@@ -44,7 +45,7 @@ function PillDetail() {
     })
     .join("<br>");
   const resultCaution = cautionContent
-    .map((item: any, index: number, arr: any[]) => {
+    .map((item: IcontentText, index: number, arr: IcontentText[]) => {
       if (item.title === "") {
         return item.text;
       } else {
@@ -55,6 +56,10 @@ function PillDetail() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>약 세부정보</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/pill/detail" />
+      </Helmet>
       <StHeader>
         <BackButton />
         <StTitle>약 세부정보</StTitle>
@@ -93,6 +98,11 @@ function PillDetail() {
       </StBody>
     </motion.div>
   );
+}
+
+interface IcontentText {
+  title: string;
+  text: string;
 }
 
 const StHeader = styled.header`

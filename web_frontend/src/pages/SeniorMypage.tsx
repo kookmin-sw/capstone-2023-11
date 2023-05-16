@@ -5,6 +5,7 @@ import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import { getSeniorInfo } from "../core/api";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import SeniorCheckGuardian from "./SeniorCheckGuardian";
 
 function SeniorMypage() {
@@ -20,6 +21,10 @@ function SeniorMypage() {
 
   return (
     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+      <Helmet>
+        <title>개인정보 수정</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/senior/mypage" />
+      </Helmet>
       <StSeniorMypage>
         <StHeader>
           <BackButton />

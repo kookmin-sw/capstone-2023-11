@@ -15,6 +15,7 @@ import {
   weightAtom,
 } from "../core/atom";
 import { useRecoilValue } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function SeniorModifyPage() {
   const getNameAtom = useRecoilValue(nameAtom);
@@ -69,6 +70,10 @@ function SeniorModifyPage() {
   if (process == 1) {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <Helmet>
+          <title>회원가입</title>
+          <link rel="canonical" href="https://capstone-2023-11.vercel.app/modify/senior/" />
+        </Helmet>
         <StSeniorPage>
           <StWelcomMessage>어서오세요! {getNameAtom}님!</StWelcomMessage>
           <StInfoText>보호자와 함께 회원가입 하는 것을 추천드립니다.</StInfoText>
