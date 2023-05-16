@@ -73,7 +73,7 @@ function GuardianSummaryDailyPage() {
   }, [data]);
 
   useEffect(() => {
-    if (data) {
+    if (data?.data.meal) {
       setMealData(data.data.meal);
       setExerciseData(data.data.exercise);
       setMealLength(data.data.meal.length);

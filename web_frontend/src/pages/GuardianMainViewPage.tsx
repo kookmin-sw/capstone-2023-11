@@ -94,7 +94,7 @@ function GuardianTotal() {
               <StMainItem>
                 <StPillHeader>
                   <StItemHeader>💊 복용하는 약</StItemHeader>
-                  <StLink to={`/guardian/pill`}>
+                  <StLink to={`/guardian/${String(params?.id)}/pill`}>
                     <StPillAddBtn>자세히 보기</StPillAddBtn>
                   </StLink>
                 </StPillHeader>

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
-  console.log(data);
+
   const navigate = useNavigate();
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -95,10 +95,10 @@ const StSeniorCard = styled.div`
 `;
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
-  font-size: 2.3rem;
+  font-size: 2.8rem;
   text-align: center;
   align-self: center;
-  margin-top: 2rem;
+  margin-top: 5rem;
 `;
 
 const StSeniorName = styled.p`

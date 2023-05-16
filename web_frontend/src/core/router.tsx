@@ -55,8 +55,8 @@ function Router() {
             <Route path="/senior/exercise/add" element={<SeniorExercise />} />
             <Route path="/senior/meal" element={<SeniorMealMain />} />
           </Route>
+          <Route path="/guardian/main" element={<GuardianMain />} />
           <Route element={<BottomNavGuardian />}>
-            <Route path="/guardian/main" element={<GuardianMain />} />
             <Route path="/guardian/:id/exercise" element={<GuardianExerciseViewPage />} />
             <Route path="/guardian/:id/meal" element={<GuardianMealMainViewPage />} />
             <Route path="/guardian/:id/summary/day" element={<GuardianSummaryDailyPage />} />

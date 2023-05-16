@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../core/api/index";
@@ -10,7 +10,7 @@ Modal.setAppElement("#root");
 
 function GuardianPillMainViewPage() {
   const [pillData, setPillData] = useState<pillInfo>();
-
+  const params = useParams();
   useEffect(() => {
     async function fetchData() {
       const data = await getPillInfo();
@@ -45,7 +45,7 @@ function GuardianPillMainViewPage() {
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StContainer>
           <StHeader>
-            <StLink to={`/senior/main`}>
+            <StLink to={`/guardian/${String(params?.id)}/main`}>
               <StBackBtn>
                 <StBackBtnImg src={require("../assets/images/img_left.png")} />
               </StBackBtn>
@@ -57,7 +57,7 @@ function GuardianPillMainViewPage() {
               {pillData?.medicines.map((value, index) => (
                 <motion.li className="item" variants={items}>
                   <StItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} key={index}>
-                    <StLink to={`/senior/pill/detail/${value.id}`}>
+                    <StLink to={`/guardian/${String(params?.id)}/pill/detail/${value.id}`}>
                       <StItemImgBox>
                         <StItemImg src={value.imageUrl} />
                       </StItemImgBox>

@@ -71,7 +71,7 @@ function GuardianMealMainViewPage() {
           <StHeader>
             <StButtonBack
               src={require("../assets/images/img_left.png")}
-              onClick={() => navigate(`/${Number(id)}/main`)}
+              onClick={() => navigate(`/guardian/${Number(id)}/main`)}
             />
             <StTitle>식단 기록</StTitle>
           </StHeader>
@@ -83,60 +83,64 @@ function GuardianMealMainViewPage() {
           </motion.li>
           <motion.li className="item" variants={items}>
             <StFoodContainer>
-              {data?.data?.mealInfos
-                .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
-                .map((mealCon: IMealData, index: number) => {
-                  return mealCon?.detail.map((meal: IMealDetail, index2) => {
-                    if (mode) {
-                      mode = !mode;
-                      return (
-                        <motion.li className="item" variants={items}>
-                          <StFoodBox1
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                            id={meal.name}
-                            onClick={() => {
-                              foodClicked(index, index2);
-                              setClickedData(
-                                data?.data?.mealInfos.filter((mealCon: IMealData) =>
-                                  mealCon.dateTime.includes(selectedDate),
-                                ),
-                              );
-                            }}>
-                            <img src={mealCon.imageUrl}></img>
-                            <div>
-                              <StFoodName>{meal.name}</StFoodName>
-                              <StNutrient>
-                                탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
-                              </StNutrient>
-                            </div>
-                            <StKcal>{meal.calorie} Kcal</StKcal>
-                          </StFoodBox1>
-                        </motion.li>
-                      );
-                    } else {
-                      mode = !mode;
-                      return (
-                        <motion.li className="item" variants={items}>
-                          <StFoodBox2
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.8 }}
-                            id={meal.name}
-                            onClick={() => foodClicked(index, index2)}>
-                            <img src={mealCon.imageUrl}></img>
-                            <div>
-                              <StFoodName>{meal.name}</StFoodName>
-                              <StNutrient>
-                                탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
-                              </StNutrient>
-                            </div>
-                            <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
-                          </StFoodBox2>
-                        </motion.li>
-                      );
-                    }
-                  });
-                })}
+              {data?.data?.mealInfos == undefined ? (
+                <></>
+              ) : (
+                data?.data?.mealInfos
+                  .filter((mealCon: IMealData) => mealCon.dateTime.includes(selectedDate))
+                  .map((mealCon: IMealData, index: number) => {
+                    return mealCon?.detail.map((meal: IMealDetail, index2) => {
+                      if (mode) {
+                        mode = !mode;
+                        return (
+                          <motion.li className="item" variants={items}>
+                            <StFoodBox1
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.8 }}
+                              id={meal.name}
+                              onClick={() => {
+                                foodClicked(index, index2);
+                                setClickedData(
+                                  data?.data?.mealInfos.filter((mealCon: IMealData) =>
+                                    mealCon.dateTime.includes(selectedDate),
+                                  ),
+                                );
+                              }}>
+                              <img src={mealCon.imageUrl}></img>
+                              <div>
+                                <StFoodName>{meal.name}</StFoodName>
+                                <StNutrient>
+                                  탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
+                                </StNutrient>
+                              </div>
+                              <StKcal>{meal.calorie} Kcal</StKcal>
+                            </StFoodBox1>
+                          </motion.li>
+                        );
+                      } else {
+                        mode = !mode;
+                        return (
+                          <motion.li className="item" variants={items}>
+                            <StFoodBox2
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.8 }}
+                              id={meal.name}
+                              onClick={() => foodClicked(index, index2)}>
+                              <img src={mealCon.imageUrl}></img>
+                              <div>
+                                <StFoodName>{meal.name}</StFoodName>
+                                <StNutrient>
+                                  탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
+                                </StNutrient>
+                              </div>
+                              <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
+                            </StFoodBox2>
+                          </motion.li>
+                        );
+                      }
+                    });
+                  })
+              )}
             </StFoodContainer>
           </motion.li>
           <StModal isOpen={isOpen}>

@@ -65,7 +65,7 @@ function GuardianExerciseViewPage() {
           <StHeader>
             <StButtonBack
               src={require("../assets/images/img_left.png")}
-              onClick={() => navigate(`/${Number(id)}/main`)}
+              onClick={() => navigate(`/guardian/${Number(id)}/main`)}
             />
             <StTitle>운동 기록</StTitle>
           </StHeader>
