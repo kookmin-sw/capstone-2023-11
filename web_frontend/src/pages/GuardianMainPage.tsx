@@ -38,14 +38,15 @@ export default function GuardianMainPage() {
           <SwiperSlide>
             <StSeniorCard>
               <StInfoContainer>
+                <img src={require("../assets/images/img_couple.png")} alt="senior" />
                 <StSeniorName>{senior.name}</StSeniorName>
                 <StSeniorDate>{senior.birthday} 출생</StSeniorDate>
                 <StCardText>🔐 유저 코드 : #{senior.kakaoAccountId}</StCardText>
                 <StCardText>{senior.gender === "MALE" ? <>🙆‍♂️ 남성</> : <>🙆‍♀️ 여성</>}</StCardText>
                 <StCardText>키: {senior.height}cm</StCardText>
                 <StCardText>현재 체중: {senior.weight}kg</StCardText>
-                <StCheckButton>자세히 보기</StCheckButton>
               </StInfoContainer>
+              <StCheckButton>자세히 보기</StCheckButton>
             </StSeniorCard>
           </SwiperSlide>
         ))}
@@ -96,8 +97,14 @@ const StSeniorDate = styled.p`
   font-family: "Pretendard-Regular";
   font-size: 1.3rem;
   color: #71727a;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
 `;
-const StCardText = styled.p``;
+const StCardText = styled.p`
+  font-size: 1.4rem;
+  font-family: "Pretendard-Bold";
+  margin-bottom: 1rem;
+`;
 const StCheckButton = styled.button`
   width: 25rem;
   height: 3.8rem;
@@ -111,4 +118,10 @@ const StCheckButton = styled.button`
   bottom: 0rem;
   margin-bottom: 2rem;
 `;
-const StInfoContainer = styled.div``;
+const StInfoContainer = styled.div`
+  width: 25rem;
+  img {
+    width: 10rem;
+    height: 10rem;
+  }
+`;
