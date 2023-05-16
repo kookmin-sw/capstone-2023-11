@@ -28,6 +28,7 @@ import GuardianMealMainViewPage from "../pages/GuardianMealMainViewPage";
 import GuardianSummaryDailyPage from "../pages/GuardianSummaryDailyPage";
 import GuardianSummaryPage from "../pages/GuardianSummaryPage";
 import GuardianPillMainViewPage from "../pages/GuardianPillMainViewPage";
+import GuardianTotal from "../pages/GuardianTotalView";
 function Router() {
   return (
     <BrowserRouter>
@@ -61,6 +62,7 @@ function Router() {
             <Route path="/guardian/:id/summary/day" element={<GuardianSummaryDailyPage />} />
             <Route path="/guardian/:id/summary" element={<GuardianSummaryPage />} />
             <Route path="/guardian/:id/pill" element={<GuardianPillMainViewPage />} />
+            <Route path="/guardian/:id/main" element={<GuardianTotal />} />
           </Route>
         </Routes>
       </AnimatePresence>
