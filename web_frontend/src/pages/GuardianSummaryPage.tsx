@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 // import { SeniorAdvice } from "../components/seniorSummary/Advice";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function GuardianSummaryPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -132,6 +133,10 @@ function GuardianSummaryPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>주간 보고서</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/summary" />
+      </Helmet>
       {isActive ? (
         <StHeader>
           <StButtonBack

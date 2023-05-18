@@ -8,6 +8,7 @@ import moment from "moment";
 import { ExerciseForm, navigateIndex } from "../core/atom";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function GuardianExerciseViewPage() {
   const [firstApi, setFirstApi] = useState(true);
@@ -60,6 +61,10 @@ function GuardianExerciseViewPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>운동 기록</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/exercise" />
+      </Helmet>
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StSeniorExerciseMain>
           <StHeader>

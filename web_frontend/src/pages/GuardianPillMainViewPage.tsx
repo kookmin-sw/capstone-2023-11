@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getPillInfo } from "../core/api/index";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -41,6 +42,10 @@ function GuardianPillMainViewPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>복용하는 약 목록</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/pill" />
+      </Helmet>
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StContainer>
           <StHeader>

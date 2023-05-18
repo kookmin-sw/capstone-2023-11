@@ -10,6 +10,7 @@ import { useSetRecoilState } from "recoil";
 import Modal from "react-modal";
 import FoodDetailPopUp from "../components/seniorSummary/FoodDetailPopUp";
 import GuardianCalendar from "../components/common/GuardianCalendar";
+import { Helmet } from "react-helmet-async";
 
 interface IMealData {
   id: number;
@@ -66,6 +67,10 @@ function GuardianMealMainViewPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>식단 기록</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/meal" />
+      </Helmet>
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StSeniorMealMain>
           <StHeader>
