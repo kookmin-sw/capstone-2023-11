@@ -531,6 +531,7 @@ const StBackground = styled.main`
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(0.2rem);
   z-index: 2;
+  padding-bottom: 6rem;
 `;
 const StCheckModal = styled.section`
   width: 30rem;
