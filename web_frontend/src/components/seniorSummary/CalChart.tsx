@@ -3,9 +3,9 @@ import { IWeeklyData } from "../../core/atom";
 
 function CalChart(prop: IWeeklyData, BMR: number, dateStrings: string[]) {
   const calories = [];
-  if (prop) {
+  if (prop?.weeklyFoodNutrientSum) {
     for (let i = 0; i < 7; i++) {
-      const calData = Math.round(prop.weeklyFoodNutrientSum[i].calorie);
+      const calData = Math.round(prop?.weeklyFoodNutrientSum[i]?.calorie);
       calories.push(calData);
     }
   }

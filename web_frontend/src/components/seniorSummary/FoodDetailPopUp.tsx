@@ -12,54 +12,55 @@ interface IData {
 function FoodDetailPopUp(prop: IData) {
   const index = prop.clickedMeal;
   const index2 = prop.clickedFood;
-  const food = prop?.data[index].detail[index2];
+  const food = prop?.data[index]?.detail[index2];
+
   return (
     <StContainer>
       <StButtonBack
         src={require("../../assets/images/img_esc.png")}
         onClick={() => prop.setIsOpen(false)}></StButtonBack>
-      <StTitle>{food.name}</StTitle>
+      <StTitle>{food?.name}</StTitle>
       <div className="row">
-        <StText>1회 제공량 ({food.servingSize} g)</StText>
+        <StText>1회 제공량 ({food?.servingSize} g)</StText>
 
-        <StText>{food.calorie} kcal</StText>
+        <StText>{food?.calorie} kcal</StText>
       </div>
       <div className="line" />
       <div className="row">
         <StText>총 탄수화물 : </StText>
-        <StText>{food.carbohyborateTotal} g</StText>
+        <StText>{food?.carbohyborateTotal} g</StText>
       </div>
       <div className="row">
         <StText>당류 : </StText>
-        <StText>{food.carbohyborateSugar} g</StText>
+        <StText>{food?.carbohyborateSugar} g</StText>
       </div>
       <div className="row">
         <StText>식이섬유 : </StText>
-        <StText>{food.carbohyborateDietaryFiber} g</StText>
+        <StText>{food?.carbohyborateDietaryFiber} g</StText>
       </div>
       <div className="row">
         <StText>단백질 : </StText>
-        <StText>{food.protein} g</StText>
+        <StText>{food?.protein} g</StText>
       </div>
       <div className="row">
         <StText>총 지방량 : </StText>
-        <StText>{food.fatTotal} g</StText>
+        <StText>{food?.fatTotal} g</StText>
       </div>
       <div className="row">
         <StText>트랜스지방 : </StText>
-        <StText>{food.fatTransFat} g</StText>
+        <StText>{food?.fatTransFat} g</StText>
       </div>
       <div className="row">
         <StText>포화지방 : </StText>
-        <StText>{food.fatSaturatedfat} g</StText>
+        <StText>{food?.fatSaturatedfat} g</StText>
       </div>
       <div className="row">
         <StText>콜레스테롤 : </StText>
-        <StText>{food.cholesterol} mg</StText>
+        <StText>{food?.cholesterol} mg</StText>
       </div>
       <div className="row">
         <StText>나트륨 : </StText>
-        <StText>{food.natrium} mg</StText>
+        <StText>{food?.natrium} mg</StText>
       </div>
     </StContainer>
   );
