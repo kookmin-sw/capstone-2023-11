@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
-import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../core/api/index";
 import Modal from "react-modal";
@@ -77,9 +76,6 @@ function GuardianPillMainViewPage() {
                 </motion.li>
               ))}
             </StPillList>
-            <StBtnContainer className="item" variants={items}>
-              <PillAddModal />
-            </StBtnContainer>
           </StBody>
         </StContainer>
       </motion.ul>
@@ -248,9 +244,4 @@ const StLink = styled(Link)`
   text-decoration: none;
   color: black;
   display: flex;
-`;
-
-const StBtnContainer = styled(motion.li)`
-  display: flex;
-  justify-content: center;
 `;
