@@ -2,11 +2,16 @@ import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getKakaoAccessToken, getUserStatus } from "../core/api/index";
 import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { adviceAtom, nameAtom } from "../core/atom";
+import { Helmet } from "react-helmet-async";
 
 function KakaoAuthPage() {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const router = useLocation();
+  const setNameAtom = useSetRecoilState(nameAtom);
+  const setAdviceAtom = useSetRecoilState(adviceAtom);
   const authenticationCode = router.search.split("=")[1];
   const { data } = useQuery("accessToken", () => getKakaoAccessToken(authenticationCode), {
     enabled: !!authenticationCode,
@@ -24,25 +29,38 @@ function KakaoAuthPage() {
   }, [data, accessToken]);
   useEffect(() => {
     if (loginData) {
-      if (loginData.data.result == "login") {
+      if (loginData.data.result == "login" && localStorage.getItem("userStatus") == "userWard") {
         localStorage.setItem("accessToken", loginData.data.jwt);
-        navigate("/main");
+        navigate("/senior/main");
+      } else if (loginData.data.result == "login" && localStorage.getItem("userStatus") == "userGuardian") {
+        localStorage.setItem("accessToken", loginData.data.jwt);
+        navigate("/guardian/main");
       } else {
+        setAdviceAtom("");
         if (loginData.data.userType == "userGuardian") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
+          setNameAtom(loginData.data.name);
           navigate("/join/guardian");
         }
         if (loginData.data.userType == "userWard") {
           if (accessToken) {
             localStorage.setItem("kakaoAccesstoken", accessToken);
           }
+          setNameAtom(loginData.data.name);
           navigate("/join/senior");
         }
       }
     }
   });
-  return <></>;
+  return (
+    <>
+      <Helmet>
+        <title>로그인 중...</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/auth/kakao" />
+      </Helmet>
+    </>
+  );
 }
 export default KakaoAuthPage;

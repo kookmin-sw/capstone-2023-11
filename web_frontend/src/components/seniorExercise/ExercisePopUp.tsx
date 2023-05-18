@@ -4,97 +4,121 @@ import { BlueButton } from "../common/BlueButton";
 
 type ExerciseData = { name: string; time: number };
 
+interface GetData {
+  eng: string;
+  kor: string;
+  type: string;
+  kcalPerHour: number;
+  description: string;
+}
+
 interface IData {
   selectedData: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setData: React.Dispatch<React.SetStateAction<ExerciseData[]>>;
+  setFixedData: React.Dispatch<React.SetStateAction<ExerciseData[]>>;
+  getData: GetData[];
 }
-
-const discription =
-  "미안하다 이거 보여주려고 어그로끌었다.. 나루토 사스케 싸움수준 ㄹㅇ실화냐? 진짜 세계관최강자들의 싸움이다.. 그찐따같던 나루토가 맞나? 진짜 나루토는 전설이다..진짜옛날에 맨날나루토봘는데 왕같은존재인 호카게 되서 세계최강 전설적인 영웅이된나루토보면 진짜내가다 감격스럽고 나루토 노래부터 명장면까지 가슴울리는장면들이 뇌리에 스치면서 가슴이 웅장해진다.. ";
-
-const kal = [100, 150, 200, 250, 300, 400];
 
 function ExercisePopUp(prop: IData) {
   const [time, setTime] = useState(0);
+  const discription = prop.getData.find((item) => item.kor === prop.selectedData)?.description;
+  const kcalPerHour = prop.getData.find((item) => item.kor === prop.selectedData)?.kcalPerHour;
+  const eng = prop.getData.find((item) => item.kor === prop.selectedData)?.eng;
   return (
     <StContainer>
       <StButtonBack
         src={require("../../assets/images/img_esc.png")}
         onClick={() => prop.setIsOpen(false)}></StButtonBack>
-      <StImage src={require("../../assets/images/img_kakao.png")} />
+      <StImage src={require(`../../assets/images/exerciseImg/img_${eng}.png`)} />
       <StTitle>{prop.selectedData}</StTitle>
       <WhiteContainer>
         <StContent>{discription}</StContent>
       </WhiteContainer>
       <StContainer>
-        <StContent className="cal">{kal[time]} Kcal 소모</StContent>
+        <StContent className="cal">{kcalPerHour == null ? 0 : time * kcalPerHour} Kcal 소모</StContent>
       </StContainer>
-      {time == 0 ? (
+      {time == 1 ? (
         <StIllContainer>
-          <StButtonClicked onClick={() => setTime(0)}>30분</StButtonClicked>
-          <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
+          <StButtonClicked onClick={() => setTime(0)}>1시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
-        </StIllContainer>
-      ) : time == 1 ? (
-        <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>30분</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(1)}>1시간</StButtonClicked>
-          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
-          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
       ) : time == 2 ? (
         <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>30분</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(2)}>2시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>2시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
       ) : time == 3 ? (
         <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>30분</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(3)}>3시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>3시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
       ) : time == 4 ? (
         <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>30분</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(4)}>4시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>4시간</StButtonClicked>
           <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
-      ) : (
+      ) : time == 5 ? (
         <StIllContainer>
-          <StButtonUnClicked onClick={() => setTime(0)}>30분</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
           <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
-          <StButtonClicked onClick={() => setTime(5)}>5시간</StButtonClicked>
+          <StButtonClicked onClick={() => setTime(0)}>5시간</StButtonClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
+        </StIllContainer>
+      ) : time == 6 ? (
+        <StIllContainer>
+          <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonClicked onClick={() => setTime(0)}>6시간</StButtonClicked>
+        </StIllContainer>
+      ) : (
+        <StIllContainer>
+          <StButtonUnClicked onClick={() => setTime(1)}>1시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(2)}>2시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(3)}>3시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(4)}>4시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(5)}>5시간</StButtonUnClicked>
+          <StButtonUnClicked onClick={() => setTime(6)}>6시간</StButtonUnClicked>
         </StIllContainer>
       )}
 
-      <BlueBTN
-        onClick={() => {
-          const name = prop.selectedData;
-          const newData = { name, time };
-          prop.setData((prevData) => [newData, ...prevData]);
-          prop.setIsOpen(false);
-        }}>
-        운동 선택
-      </BlueBTN>
+      {time != 0 ? (
+        <BlueBTN
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
+          onClick={() => {
+            const name = prop.selectedData;
+            const newData = { name, time };
+            prop.setFixedData((prevData) => [newData, ...prevData]);
+            prop.setIsOpen(false);
+          }}>
+          운동 선택
+        </BlueBTN>
+      ) : (
+        <GrayBtn whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+          운동 선택
+        </GrayBtn>
+      )}
     </StContainer>
   );
 }
@@ -118,6 +142,7 @@ const StContainer = styled.div`
   .cal {
     font-family: "Pretendard-Bold";
     font-size: 1.7rem;
+    text-align: center;
   }
 `;
 const StButtonBack = styled.img`
@@ -130,6 +155,8 @@ const StImage = styled.img`
   margin: auto;
   display: block;
   margin-bottom: 3rem;
+  width: 10rem;
+  height: 10rem;
 `;
 
 const BlueBTN = styled(BlueButton)`
@@ -139,11 +166,18 @@ const BlueBTN = styled(BlueButton)`
   height: 100%;
 `;
 
+const GrayBtn = styled(BlueBTN)`
+  background-color: #e8e9f1;
+  border: none;
+`;
+
 const StContent = styled.div`
   font-family: "Pretendard-Regular";
   font-size: 1.5rem;
-  padding: 1rem;
-  text-align: center;
+  padding: 0.3rem;
+  white-space: pre-line;
+  letter-spacing: 0.1rem;
+  line-height: 1.5;
 `;
 
 const WhiteContainer = styled(StContainer)`
@@ -177,5 +211,5 @@ const StIllContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 `;

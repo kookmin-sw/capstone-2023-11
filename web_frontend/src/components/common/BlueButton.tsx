@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export const BlueButton = styled.button`
+export const BlueButton = styled(motion.button)`
   display: flex;
   justify-content: center;
   align-items: center;
