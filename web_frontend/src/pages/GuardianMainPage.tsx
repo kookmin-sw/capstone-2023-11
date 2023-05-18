@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { useQuery } from "react-query";
 import { getSeniorData } from "../core/api";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
@@ -20,6 +21,10 @@ export default function GuardianMainPage() {
   const navigate = useNavigate();
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>복실이</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/main" />
+      </Helmet>
       <StGuardianMainPage>
         <StTitle>관리중인 시니어</StTitle>
         <Swiper

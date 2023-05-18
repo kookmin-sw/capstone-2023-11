@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
-import PillAddModal from "../components/seniorPill/PillAddModal";
 import { useEffect, useState } from "react";
 import { getPillInfo } from "../core/api/index";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -42,6 +42,10 @@ function GuardianPillMainViewPage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>복용하는 약 목록</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/pill" />
+      </Helmet>
       <motion.ul className="container" variants={container} initial="hidden" animate="visible">
         <StContainer>
           <StHeader>
@@ -77,9 +81,6 @@ function GuardianPillMainViewPage() {
                 </motion.li>
               ))}
             </StPillList>
-            <StBtnContainer className="item" variants={items}>
-              <PillAddModal />
-            </StBtnContainer>
           </StBody>
         </StContainer>
       </motion.ul>
@@ -181,6 +182,8 @@ const StItem = styled(motion.div)`
   background-color: #f8f9fe;
   border-radius: 1.6rem;
   padding: 1.4rem 2.4rem;
+  width: 30rem;
+  height: 10rem;
 `;
 
 const StItemImgBox = styled.div`
@@ -190,13 +193,13 @@ const StItemImgBox = styled.div`
 `;
 
 const StItemImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 7rem;
+  height: 7rem;
   border-radius: 1rem;
 `;
 
 const StItemContent = styled.div`
-  width: 55%;
+  width: 70%;
 `;
 
 const StItemName = styled.p`
@@ -217,8 +220,8 @@ const StDaySwapper = styled.div`
 `;
 
 const StPillNoTake = styled.div`
-  width: 6rem;
-  height: 2.7rem;
+  width: 4.5rem;
+  height: 3rem;
   background: #eaf2ff;
   border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
@@ -231,8 +234,8 @@ const StPillNoTake = styled.div`
 `;
 
 const StPillTake = styled.div`
-  width: 6rem;
-  height: 2.7rem;
+  width: 4.5rem;
+  height: 3rem;
   background: #006ffd;
   border-radius: 0.8rem;
   font-family: "Pretendard-Bold";
@@ -248,9 +251,4 @@ const StLink = styled(Link)`
   text-decoration: none;
   color: black;
   display: flex;
-`;
-
-const StBtnContainer = styled(motion.li)`
-  display: flex;
-  justify-content: center;
 `;

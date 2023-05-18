@@ -10,72 +10,78 @@ function CalChart(prop: IWeeklyData, BMR: number, dateStrings: string[]) {
     }
   }
   return (
-    <ApexChart
-      type="line"
-      series={[
-        {
-          name: "칼로리",
-          data: calories,
-        },
-      ]}
-      options={{
-        theme: {
-          mode: "light",
-        },
-        chart: {
-          toolbar: {
-            show: false,
-          },
-        },
-        grid: {
-          show: true,
-          xaxis: {
-            lines: {
-              show: true,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: false,
-            },
-          },
-        },
-        yaxis: { show: false },
-        xaxis: {
-          axisBorder: { show: false },
-          axisTicks: { show: true },
-          labels: { show: true },
-          categories: dateStrings,
-        },
-        stroke: {
-          curve: "smooth",
-          width: 5,
-        },
-        dataLabels: {
-          enabled: true,
-          offsetY: -7,
-          background: {
-            enabled: false,
-          },
-        },
-        annotations: {
-          yaxis: [
+    <>
+      {prop ? (
+        <></>
+      ) : (
+        <ApexChart
+          type="line"
+          series={[
             {
-              y: BMR,
-              borderColor: "#ff616d",
+              name: "칼로리",
+              data: calories,
             },
-          ],
-        },
-        fill: {
-          type: "gradient",
-          gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
-        },
-        colors: ["#0fbcf9"],
-        tooltip: {
-          enabled: false,
-        },
-      }}
-    />
+          ]}
+          options={{
+            theme: {
+              mode: "light",
+            },
+            chart: {
+              toolbar: {
+                show: false,
+              },
+            },
+            grid: {
+              show: true,
+              xaxis: {
+                lines: {
+                  show: true,
+                },
+              },
+              yaxis: {
+                lines: {
+                  show: false,
+                },
+              },
+            },
+            yaxis: { show: false },
+            xaxis: {
+              axisBorder: { show: false },
+              axisTicks: { show: true },
+              labels: { show: true },
+              categories: dateStrings,
+            },
+            stroke: {
+              curve: "smooth",
+              width: 5,
+            },
+            dataLabels: {
+              enabled: true,
+              offsetY: -7,
+              background: {
+                enabled: false,
+              },
+            },
+            annotations: {
+              yaxis: [
+                {
+                  y: BMR,
+                  borderColor: "#ff616d",
+                },
+              ],
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["#0fbcf9"],
+            tooltip: {
+              enabled: false,
+            },
+          }}
+        />
+      )}
+    </>
   );
 }
 

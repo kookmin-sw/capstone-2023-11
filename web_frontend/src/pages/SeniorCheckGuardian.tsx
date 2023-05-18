@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getGuardianData } from "../core/api";
 import { IGuardianList } from "../core/atom";
+import { Helmet } from "react-helmet-async";
 
 function SeniorCheckGuardian() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,10 @@ function SeniorCheckGuardian() {
   };
   return (
     <>
+      <Helmet>
+        <title>등록되어 있는 보호자</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/exercise" />
+      </Helmet>
       <StButtonContainer whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={toggleModal}>
         <StButtonInfo>등록되어 있는 보호자</StButtonInfo>
         <StButtonIcon src={require("../assets/images/img_right.png")} />

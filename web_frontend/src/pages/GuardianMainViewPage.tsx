@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorTotalWatched } from "../core/api";
-import NoPill from "../components/seniorPill/SeniorMainNoPill";
-import Pill from "../components/seniorPill/SeniorMainPill";
+import NoPill from "../components/guardianPill/GuardianMainNoPill";
+import Pill from "../components/guardianPill/GuardianMainPill";
 import {
   birthdayAtom,
   drinkingsAtom,
@@ -18,6 +18,7 @@ import {
 } from "../core/atom";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 function GuardianTotal() {
   const [info, setInfo] = useState<any>();
@@ -75,6 +76,10 @@ function GuardianTotal() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <Helmet>
+        <title>복실이</title>
+        <link rel="canonical" href="https://capstone-2023-11.vercel.app/guardian/:id/main" />
+      </Helmet>
       <STContainer>
         <StHeader>
           <StUserContent
@@ -98,7 +103,7 @@ function GuardianTotal() {
                     <StPillAddBtn>자세히 보기</StPillAddBtn>
                   </StLink>
                 </StPillHeader>
-                {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
+                {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : NoPill(info?.userName)}
               </StMainItem>
             </motion.ul>
             <motion.ul className="container" variants={items}>

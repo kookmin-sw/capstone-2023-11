@@ -357,6 +357,7 @@ const StSearch = styled.input`
   letter-spacing: 0.3rem;
 
   ::placeholder {
+    font-family: "Pretendard-Bold";
     background-size: contain;
     background-position: 0.1rem center;
     background-repeat: no-repeat;
@@ -364,8 +365,8 @@ const StSearch = styled.input`
 `;
 
 const StSearchButton = styled.button`
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   background-color: transparent;
   border: 0;
   margin-top: 2.5rem;
