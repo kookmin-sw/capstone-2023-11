@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getSeniorTotalWatched } from "../core/api";
-import NoPill from "../components/seniorPill/SeniorMainNoPill";
-import Pill from "../components/seniorPill/SeniorMainPill";
+import NoPill from "../components/guardianPill/GuardianMainNoPill";
+import Pill from "../components/guardianPill/GuardianMainPill";
 import {
   birthdayAtom,
   drinkingsAtom,
@@ -103,7 +103,7 @@ function GuardianTotal() {
                     <StPillAddBtn>자세히 보기</StPillAddBtn>
                   </StLink>
                 </StPillHeader>
-                {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : <NoPill />}
+                {info?.medicineInfoList?.length ?? 0 >= 1 ? <Pill /> : NoPill(info?.userName)}
               </StMainItem>
             </motion.ul>
             <motion.ul className="container" variants={items}>
