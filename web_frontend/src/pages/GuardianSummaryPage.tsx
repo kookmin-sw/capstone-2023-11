@@ -22,6 +22,7 @@ function GuardianSummaryPage() {
   const { id } = useParams();
   const { data } = useQuery("guardianExerciseHistoryList", () => getGuardianWeekly(Number(id)), {
     enabled: !!firstApi,
+    staleTime: 0,
   });
   const [example, setExample] = useState(false);
   const setNameAtom = useSetRecoilState(navigateIndex);
@@ -74,18 +75,21 @@ function GuardianSummaryPage() {
   const proExample = [78, 125, 98, 143, 125, 62, 79];
   const carExample = [96, 58, 66, 129, 55, 96, 94];
 
-  for (let i = 0; i < 7; i++) {
-    const fat = Math.round((data?.data.weeklyFoodNutrientSum[i].fat / goals.fat) * 100);
-    const protein = Math.round((data?.data.weeklyFoodNutrientSum[i].protein / goals.protein) * 100);
-    const carbohydrate = Math.round((data?.data.weeklyFoodNutrientSum[i].carbohydrate / goals.carbohydrate) * 100);
-    const exerciseData = data?.data.weeklyExerciseInfo[i].calorie;
-    const foodData = data?.data.weeklyFoodNutrientSum[i].calorie;
-    foodCal.push(foodData);
-    exerciseCal.push(exerciseData);
-    fatPercent.push(fat);
-    proPercent.push(protein);
-    carPercent.push(carbohydrate);
+  if (data && data.data && data.data.weeklyFoodNutrientSum && data.data.weeklyExerciseInfo) {
+    for (let i = 0; i < 7; i++) {
+      const fat = Math.round((data?.data.weeklyFoodNutrientSum[i].fat / goals.fat) * 100);
+      const protein = Math.round((data?.data.weeklyFoodNutrientSum[i].protein / goals.protein) * 100);
+      const carbohydrate = Math.round((data?.data.weeklyFoodNutrientSum[i].carbohydrate / goals.carbohydrate) * 100);
+      const exerciseData = data?.data.weeklyExerciseInfo[i].calorie;
+      const foodData = data?.data.weeklyFoodNutrientSum[i].calorie;
+      foodCal.push(foodData);
+      exerciseCal.push(exerciseData);
+      fatPercent.push(fat);
+      proPercent.push(protein);
+      carPercent.push(carbohydrate);
+    }
   }
+
   const exerciseDeduction = exerciseCal.filter((num) => num === 0).length;
   const calDeduction = foodCal.filter((num) => num < BMR).length;
   const carDeduction = carPercent.filter((num) => num < 100).length;
@@ -118,10 +122,10 @@ function GuardianSummaryPage() {
     setNameAtom(1);
   }, []);
   useEffect(() => {
-    if (data) {
+    if (data?.data?.weeklyFoodNutrientSum) {
       setFirstApi(false);
       if (
-        data.data.weeklyFoodNutrientSum.reduce(
+        data?.data?.weeklyFoodNutrientSum.reduce(
           (total: number, currentValue: { calorie: number }) => (total = total + currentValue.calorie),
           0,
         ) == 0
@@ -148,7 +152,6 @@ function GuardianSummaryPage() {
             <HeaderText2
               onClick={() => {
                 navigate(`/guardian/${id}/summary/day`);
-                window.location.reload();
                 isActiveToggle();
               }}>
               일간 보고서
@@ -164,73 +167,78 @@ function GuardianSummaryPage() {
           <HeaderText onClick={isActiveToggle}>주간 보고서 ▾</HeaderText>
         </StHeader>
       )}
-      <STContainer>
-        {example ? (
-          <StTitle>
-            데이터가 부족하여 <br />
-            예시 보고서를 보여드립니다!!😃
-          </StTitle>
-        ) : (
-          <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
-        )}
-        <ScoreChart score={score} />
-        <div className="indent">
-          <StText>양호</StText>
-          <StText>위험</StText>
-        </div>
-        <Progress>
-          <Dealt dealt={100 - score} />
-        </Progress>
-        <motion.ul className="container" variants={container} initial="hidden" animate="visible">
-          <motion.li className="item" variants={items}>
-            <StText>주간 영양소 분석</StText>
-            <ChartContainer>
-              {example
-                ? NutrientChart(fatExample, proExample, carExample, dateStrings)
-                : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
-              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 영양소는?</StText>
-              <CommentContainer>
-                {NutComment(example ? "홍길동" : data?.data.name, fatPercent, proPercent, carPercent)}
-              </CommentContainer>
-            </ChartContainer>
-          </motion.li>
-          <motion.li className="item" variants={items}>
-            <StText>주간 칼로리 분석</StText>
-            <ChartContainer>
-              {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
-              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 칼로리는?</StText>
-              <CommentContainer>
-                {example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}
-              </CommentContainer>
-            </ChartContainer>
-          </motion.li>
-          <motion.li className="item" variants={items}>
-            <StText>운동 기록 분석</StText>
-            <ChartContainer>
-              {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
-              <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 운동은?</StText>
-              <CommentContainer>
-                {example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}
-              </CommentContainer>
-            </ChartContainer>
-          </motion.li>
-          {/* <motion.li className="item" variants={items}>
+      {data == undefined ? (
+        <STContainer>
+          <StTitle>Loading...</StTitle>
+        </STContainer>
+      ) : (
+        <STContainer>
+          {example ? (
+            <StTitle>
+              데이터가 부족하여 <br />
+              예시 보고서를 보여드립니다!!😃
+            </StTitle>
+          ) : (
+            <StTitle>{data?.data.name}님의 건강 점수는?? 😃</StTitle>
+          )}
+          <ScoreChart score={score} />
+          <div className="indent">
+            <StText>양호</StText>
+            <StText>위험</StText>
+          </div>
+          <Progress>
+            <Dealt dealt={100 - score} />
+          </Progress>
+          <motion.ul className="container" variants={container} initial="hidden" animate="visible">
+            <motion.li className="item" variants={items}>
+              <StText>주간 영양소 분석</StText>
+              <ChartContainer>
+                {example
+                  ? NutrientChart(fatExample, proExample, carExample, dateStrings)
+                  : NutrientChart(fatPercent, proPercent, carPercent, dateStrings)}{" "}
+                <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 영양소는?</StText>
+                <CommentContainer>
+                  {NutComment(example ? "홍길동" : data?.data.name, fatPercent, proPercent, carPercent)}
+                </CommentContainer>
+              </ChartContainer>
+            </motion.li>
+            <motion.li className="item" variants={items}>
+              <StText>주간 칼로리 분석</StText>
+              <ChartContainer>
+                {example ? CalChart(exampleData, 2015, dateStrings) : CalChart(data?.data, BMR, dateStrings)}
+                <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 칼로리는?</StText>
+                <CommentContainer>
+                  {example ? CalComment(exampleData, 2015) : CalComment(data?.data, BMR)}
+                </CommentContainer>
+              </ChartContainer>
+            </motion.li>
+            <motion.li className="item" variants={items}>
+              <StText>운동 기록 분석</StText>
+              <ChartContainer>
+                {example ? ExerciseChart(exampleData, dateStrings) : ExerciseChart(data?.data, dateStrings)}
+                <StText className="summary">{example ? "홍길동" : data?.data.name}님의 이번주 운동은?</StText>
+                <CommentContainer>
+                  {example ? ExerciseComment(exampleData) : ExerciseComment(data?.data)}
+                </CommentContainer>
+              </ChartContainer>
+            </motion.li>
+            {/* <motion.li className="item" variants={items}>
             <StText>🐶 복실이 총평!</StText>
             {SeniorAdvice(data?.data)}
           </motion.li> */}
-          <div className="row">
-            <StBlueBTn
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.8 }}
-              onClick={() => {
-                navigate(`/guardian/${id}/summary/day`);
-                window.location.reload();
-              }}>
-              일간 보고서 보기
-            </StBlueBTn>
-          </div>
-        </motion.ul>
-      </STContainer>
+            <div className="row">
+              <StBlueBTn
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.8 }}
+                onClick={() => {
+                  navigate(`/guardian/${id}/summary/day`);
+                }}>
+                일간 보고서 보기
+              </StBlueBTn>
+            </div>
+          </motion.ul>
+        </STContainer>
+      )}
     </motion.div>
   );
 }

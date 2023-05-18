@@ -4,9 +4,9 @@ import { IWeeklyData } from "../../core/atom";
 export function CalComment(prop: IWeeklyData, BMR: number) {
   const score: number[] = [];
   const calories = [];
-  if (prop) {
+  if (prop?.weeklyFoodNutrientSum) {
     for (let i = 0; i < 7; i++) {
-      const calData = prop.weeklyFoodNutrientSum[i].calorie;
+      const calData = prop?.weeklyFoodNutrientSum[i].calorie;
       calories.push(calData);
     }
   }

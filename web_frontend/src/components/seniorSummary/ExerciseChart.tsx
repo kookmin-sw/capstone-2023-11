@@ -4,10 +4,10 @@ import { IWeeklyData } from "../../core/atom";
 function ExerciseChart(prop: IWeeklyData, dateStrings: string[]) {
   const calories = [];
   const times = [];
-  if (prop) {
+  if (prop?.weeklyExerciseInfo) {
     for (let i = 0; i < 7; i++) {
-      const calData = prop.weeklyExerciseInfo[i].calorie;
-      const timeData = prop.weeklyExerciseInfo[i].hour;
+      const calData = prop?.weeklyExerciseInfo[i].calorie;
+      const timeData = prop?.weeklyExerciseInfo[i].hour;
       calories.push(calData);
       times.push(timeData);
     }

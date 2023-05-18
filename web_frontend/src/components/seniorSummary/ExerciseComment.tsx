@@ -3,9 +3,9 @@ import { IWeeklyData } from "../../core/atom";
 
 export function ExerciseComment(prop: IWeeklyData) {
   const calories = [];
-  if (prop) {
+  if (prop?.weeklyExerciseInfo) {
     for (let i = 0; i < 7; i++) {
-      const calData = prop.weeklyExerciseInfo[i].calorie;
+      const calData = prop?.weeklyExerciseInfo[i].calorie;
       calories.push(calData);
     }
   }
