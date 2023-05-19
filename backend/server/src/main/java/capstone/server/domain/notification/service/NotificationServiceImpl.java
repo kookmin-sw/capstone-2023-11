@@ -90,7 +90,7 @@ public class NotificationServiceImpl implements NotificationService {
 		for (FoodInfo detail : details) {
 		  totalkcal += detail.getCalorie();
 		}
-		context.setVariable("totalKcal", totalkcal);
+		context.setVariable("totalKcal", roundDouble(totalkcal));
 
 		String html = springTemplateEngine.process("food-mail", context);
 		helper.setText(html, true);
