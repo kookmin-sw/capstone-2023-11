@@ -594,10 +594,10 @@
                         <tbody >
                             <tr th:each=" foodinfo: ${meals}">
                                 <td align="center" th:text="${foodinfo.getName()}"><p style="font-size: 14px; line-height: 140%;"><strong>돈까쓰</strong></p></td>
-                                <td align="center" th:text="${foodinfo.getCarbohyborateTotal()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${foodinfo.getFatTotal()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${foodinfo.getProtein()}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
-                                <td align="center" th:text="${foodinfo.getCalorie()}"><p style="font-size: 14px; line-height: 140%;"><strong>100</strong> kcal</p></td>
+                                <td align="center" th:text="${#numbers.formatDecimal(foodinfo.getCarbohyborateTotal(),1,2)}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${#numbers.formatDecimal(foodinfo.getFatTotal(),1,2)}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${#numbers.formatDecimal(foodinfo.getProtein(),1,2)}"><p style="font-size: 14px; line-height: 140%;"><strong>10</strong> g</p></td>
+                                <td align="center" th:text="${#numbers.formatDecimal(foodinfo.getCalorie(),1,2)}"><p style="font-size: 14px; line-height: 140%;"><strong>100</strong> kcal</p></td>
                             </tr>
                         </tbody>
                     </table>
