@@ -92,7 +92,7 @@ public class NotificationServiceImpl implements NotificationService {
 		for (FoodInfo detail : details) {
 		  totalkcal += detail.getCalorie();
 		}
-		context.setVariable("totalKcal", totalkcal);
+		context.setVariable("totalKcal", roundDouble(totalkcal));
 
 		String html = springTemplateEngine.process("food-mail", context);
 		helper.setText(html, true);
@@ -117,6 +117,12 @@ public class NotificationServiceImpl implements NotificationService {
 	  log.error(e.toString());
 	}
   }
+  
+  // double을 소수점 두째자리에서 반올림하게 하는 함수
+  private double roundDouble(double num){
+	return Math.round(num*100) / 100.0;
+  }
+
 
   @Override
   public void sendMedicineMail() {
