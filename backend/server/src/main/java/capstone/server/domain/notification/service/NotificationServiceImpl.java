@@ -116,9 +116,9 @@ public class NotificationServiceImpl implements NotificationService {
 	}
   }
   
-  // double을 소수점ㅈ 두째자리에서 반올림하게 하는 함수
+  // double을 소수점 두째자리에서 반올림하게 하는 함수
   private double roundDouble(double num){
-	return Math.round(num*100) * 100.0;
+	return Math.round(num*100) / 100.0;
   }
 
 
