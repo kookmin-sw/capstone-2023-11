@@ -126,7 +126,7 @@ function SeniorMain() {
                   <IconImg src={require(`../assets/icons/icon_exercise.png`)} style={{ backgroundColor: "#87dd79" }} />
                   오늘, {info?.todayWorkOutCount}번의 운동을 기록했습니다!
                 </WhiteButton2> */}
-                <ItemComment>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment>
+                <ItemComment2>오늘 {info?.userName}님이 입력하신 기록입니다.</ItemComment2>
                 <StCountSwapper>
                   <StCount
                     whileTap={{ scale: 0.8 }}
@@ -164,10 +164,8 @@ function SeniorMain() {
                     <ItemImg src={require(`../assets/icons/icon_score.png`)} />
                   </ItemImgWrapper>
                   <ItemTextContainer>
-                    <ItemTitle>건강 분석하러 가기</ItemTitle>
-                    <ItemComment>
-                      지난 일주일간 기록된 {info?.userName}님의 <br /> 건강 리포트를 확인해보세요
-                    </ItemComment>
+                    <ItemTitle>주간 보고서 확인</ItemTitle>
+                    <ItemComment>일주일동안의 건강 리포트 보러가기</ItemComment>
                   </ItemTextContainer>
                 </ItemContent>
               </StMainItem>
@@ -185,11 +183,8 @@ function SeniorMain() {
                     <ItemImg src={require(`../assets/icons/icon_calendar.png`)} />
                   </ItemImgWrapper>
                   <ItemTextContainer>
-                    <ItemTitle>나의 건강 기록 보러가기</ItemTitle>
-                    <ItemComment>
-                      이번달에 {info?.userName ? info?.userName : "xx"}님은 <br />
-                      {info?.monthRecordCount ? info?.monthRecordCount : "0"}개의 기록을 남기셨습니다.
-                    </ItemComment>
+                    <ItemTitle>일간 보고서 확인</ItemTitle>
+                    <ItemComment>오늘 입력한 {info?.userName ? info?.userName : "xx"}님의 기록 보러가기</ItemComment>
                   </ItemTextContainer>
                 </StLastContainer>
               </StMainItem>
@@ -356,12 +351,20 @@ const ItemTextContainer = styled.div`
 
 const ItemTitle = styled.div`
   color: black;
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-family: "Pretendard-Bold";
-  margin-bottom: 0.5rem;
+  margin-left: 2rem;
+  /* margin-bottom: 0.5rem; */
 `;
 
 const ItemComment = styled.div`
+  color: #71727a;
+  font-family: "Pretendard-Regular";
+  font-size: 1.3rem;
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+`;
+const ItemComment2 = styled.div`
   color: #71727a;
   font-family: "Pretendard-Regular";
   font-size: 1.3rem;
