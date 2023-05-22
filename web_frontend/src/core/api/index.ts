@@ -376,6 +376,16 @@ export const getSeniorData = async () => {
 
   return data;
 };
+export const postSeniorCode = async (code: number) => {
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/userguardian/connect`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    body: {
+      code,
+    },
+  });
+
+  return data;
+};
 export const getSeniorTotalWatched = async (wardId: string) => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/main?wardId=${wardId}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
