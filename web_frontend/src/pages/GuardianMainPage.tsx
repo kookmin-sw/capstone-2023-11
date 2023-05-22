@@ -11,23 +11,34 @@ import "swiper/css/pagination";
 import { EffectCoverflow, Pagination } from "swiper";
 import styled from "styled-components";
 import { useMutation, useQuery } from "react-query";
-import { getSeniorData, postSeniorCode } from "../core/api";
+import { deleteSenior, getSeniorData, postSeniorCode } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
-  const { mutate } = useMutation(postSeniorCode);
+  const { mutate: postSeniorCodeMutation } = useMutation(postSeniorCode);
+  const { mutate: deleteSeniorMutation } = useMutation(deleteSenior);
   const [isOpen, setIsOpen] = useState(false);
   const [code, setCode] = useState("");
 
   const navigate = useNavigate();
   const onAddSubmit = () => {
-    mutate(Number(code), {
+    postSeniorCodeMutation(Number(code), {
       onSuccess: () => {
         alert("성공적으로 추가했습니다!");
         setIsOpen(false);
         setCode("");
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    });
+  };
+  const onDeleteSubmit = (id: number) => {
+    deleteSeniorMutation(id, {
+      onSuccess: () => {
+        alert("성공적으로 삭제했습니다!");
       },
       onError: (error: any) => {
         alert(error.response.data.message);
@@ -59,8 +70,16 @@ export default function GuardianMainPage() {
           {data?.data.map((senior: any) => (
             <SwiperSlide>
               <StSeniorCard>
-                <StTag>관제중</StTag>
                 <StInfoContainer>
+                  <div className="row2">
+                    <img
+                      src={require("../assets/images/img_esc.png")}
+                      onClick={() => onDeleteSubmit(senior.kakaoAccountId)}
+                      className="delete"
+                    />
+                    <StTag>관제중</StTag>
+                  </div>
+
                   {senior.gender === "MALE" ? (
                     <img src={require("../assets/images/img_old-man.png")} alt="senior" className="image" />
                   ) : (
@@ -164,6 +183,7 @@ const StSeniorName = styled.p`
 `;
 
 const StAddTitle = styled(StSeniorName)`
+  margin-top: 10rem;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -194,7 +214,7 @@ const StCheckButton = styled.button`
 `;
 const StInfoContainer = styled.div`
   width: 25rem;
-  margin-top: 12rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   .image {
     width: 13rem;
@@ -206,12 +226,23 @@ const StInfoContainer = styled.div`
     height: 11rem;
     margin-bottom: 2rem;
   }
+  .delete {
+    width: 2rem;
+    height: 2rem;
+    margin: 1rem;
+  }
   .row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 5rem;
-    /* margin-bottom: 5rem; */
+  }
+  .row2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    margin-top: 1rem;
   }
 `;
 const StCardTag = styled.span`
@@ -242,8 +273,8 @@ const StTag = styled.div`
   color: white;
   font-family: "Pretendard-Bold";
   position: relative;
-  left: 10rem;
-  top: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
 `;
 const StCenterContainer = styled.div`
   display: flex;
@@ -259,8 +290,10 @@ const StCodeInfo = styled.p`
 const StInputContainer = styled.div`
   width: 100%;
   display: flex;
+  align-self: center;
   margin-top: 1.8rem;
   margin-bottom: 2.2rem;
+  margin-right: 1rem;
 `;
 const StInputLabel = styled.label`
   position: relative;
