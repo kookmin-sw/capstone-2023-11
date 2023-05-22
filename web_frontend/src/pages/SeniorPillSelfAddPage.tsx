@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
 import { Helmet } from "react-helmet-async";
+import Loading from "../components/common/Loading";
 
 Modal.setAppElement("#root");
 
@@ -163,10 +164,7 @@ function SeniorPillSelf() {
         </StHeader>
         <StBody>
           {isLoading ? (
-            <StLoadingContainer>
-              <StLoadingText>잠시만 기다려주세요.</StLoadingText>
-              <StLoadingImg src={require("../assets/images/spinner.gif")} />
-            </StLoadingContainer>
+            <Loading />
           ) : (
             <StPillList>
               {name?.map((value) => (
@@ -202,7 +200,6 @@ function SeniorPillSelf() {
               ))}
             </StPillList>
           )}
-
           <StModal isOpen={isOpen}>
             <StButtonList>
               <StButtonBack
@@ -588,24 +585,4 @@ const ItemName = styled.p`
   text-align: center;
   font-family: "Pretendard-Bold";
   font-size: 1.3rem;
-`;
-
-const StLoadingText = styled.div`
-  text-align: center;
-  font-family: "Pretendard-Bold";
-  font-size: 2rem;
-  margin-top: 3rem;
-`;
-
-const StLoadingImg = styled.img`
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 2rem;
-`;
-
-const StLoadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 `;
