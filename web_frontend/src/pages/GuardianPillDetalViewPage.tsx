@@ -154,7 +154,7 @@ const StItemName = styled.div`
 `;
 
 const StItemContent = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.8rem !important;
   font-family: "Pretendard-Regular";
 `;
 
