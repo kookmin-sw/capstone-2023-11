@@ -145,4 +145,5 @@ const StLoadingImg = styled.img`
 
 const StLoadingText = styled.div`
   text-align: center;
+  font-family: "Pretendard-Regular";
 `;

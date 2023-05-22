@@ -1,30 +1,31 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPillInfo } from "../../core/api";
-import { IPillInfo } from "../../core/atom";
+import { getGuardianPill } from "../../core/api";
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
 
 function Pill() {
-  const [pillData, setPillData] = useState<IPillInfo>();
+  const [firstApi, setFirstApi] = useState(true);
+  const { id } = useParams();
+  const { data } = useQuery("guardianGuardianPill", () => getGuardianPill(Number(id)), {
+    enabled: !!firstApi,
+    staleTime: 0,
+  });
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getPillInfo();
-      setPillData(data);
-    }
+    setFirstApi(false);
+  }, [data]);
 
-    fetchData();
-  }, []);
   return (
     <StPill>
       <StPillList>
-        {pillData?.medicines.map((value, index) => {
+        {data?.data?.medicines.map((value: any, index: number) => {
           return (
             <>
-              <StLink to={`/senior/pill/detail/${value.id}`}>
+              <StLink to={`/guardian/${Number(id)}/pill/detail/${value.id}`}>
                 <StPillItem whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.8 }} key={index}>
-                  <StPillImg src={value.imageUrl} />
+                  <StPillImg src={value?.imageUrl} />
                   <StPillContent>{value.name.length > 5 ? value.name.slice(0, 4) + "..." : value.name}</StPillContent>
                   {/* <StDaySwapper>
                     {value.breakfast ? <StPillTake>아침</StPillTake> : null}

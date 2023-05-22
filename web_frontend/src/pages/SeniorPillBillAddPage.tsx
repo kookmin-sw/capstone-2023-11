@@ -331,8 +331,8 @@ function PillImgUpload() {
                       onClick={async () => {
                         await pillInfo().then(() => {
                           setSetting(true);
-                          handleCloseModal();
                         });
+                        handleCloseModal();
                         setBreakfast(false);
                         setLunch(false);
                         setDinner(false);

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchPillImg, fetchPillInfo, pillInfoData } from "../core/api";
 import Modal from "react-modal";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import BackButton from "../components/common/BackButton";
 import { Helmet } from "react-helmet-async";
+import Loading from "../components/common/Loading";
 
 Modal.setAppElement("#root");
 
@@ -71,6 +72,7 @@ function SeniorPillSelf() {
     }
   }, [data, navigate]);
   const { data: pillData } = useQuery<PillData>(["info", search], () => fetchPillInfo(search));
+  const { mutate, isLoading } = useMutation(fetchPillInfo);
   const { data: imgData } = useQuery<ImgData>(["img", search], () => fetchPillImg(search));
   const [name, setName] = useState<string[] | undefined>([]);
   const onClickButton = () => {
@@ -78,7 +80,16 @@ function SeniorPillSelf() {
       setName(pillData?.data?.body?.items?.map((item) => (item.ITEM_NAME.match(/^([^(]+)/) || [])[1].trim()));
     }
   };
-
+  const onSubmitClicked = () => {
+    mutate(search, {
+      onSuccess: (data) => {
+        setName(data?.data?.body?.items?.map((item: any) => (item.ITEM_NAME.match(/^([^(]+)/) || [])[1].trim()));
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    });
+  };
   const [isOpen, setIsOpen] = useState(false);
   const [pillName, setPillName] = useState("");
 
@@ -146,45 +157,49 @@ function SeniorPillSelf() {
           </StHederContent>
           <StHederContent>
             <StSearch placeholder="🔎 약 이름을 입력해주세요." onChange={(prop) => setSearch(prop.target.value)} />
-            <StSearchButton onClick={onClickButton}>
+            <StSearchButton onClick={onSubmitClicked}>
               <StSearchBtnImg src={require("../assets/images/search.png")} />
             </StSearchButton>
           </StHederContent>
         </StHeader>
         <StBody>
-          <StPillList>
-            {name?.map((value) => (
-              <StPillItem
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={async () => {
-                  handleOpenModal(value.toString());
-                  setValue(value.toString());
-                  onClickButton();
-                  setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
-                  setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
-                  const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
-                  const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
-                  const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
-                  const [effect, useMethod, caution] = await Promise.all([
-                    effectParse(eeDocData),
-                    useMethodParse(nbDocData),
-                    cautionParse(udDocData),
-                  ]);
-                  setEffect(effect);
-                  setUseMethod(useMethod);
-                  setCaution(caution);
-                  setImgUrl(
-                    imgData?.data?.body.items
-                      ? imgData?.data?.body.items[0].ITEM_IMAGE
-                      : require(`../assets/images/pillPhoto.png`),
-                  );
-                }}>
-                💊
-                <StPillText>{value.length < 20 ? value : value.slice(0, 20) + "..."}</StPillText>
-              </StPillItem>
-            ))}
-          </StPillList>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <StPillList>
+              {name?.map((value) => (
+                <StPillItem
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={async () => {
+                    handleOpenModal(value.toString());
+                    setValue(value.toString());
+                    onClickButton();
+                    setCompany(pillData?.data?.body?.items[0].ENTP_NAME);
+                    setDepositMethod(pillData?.data?.body?.items[0].STORAGE_METHOD);
+                    const eeDocData = String(pillData?.data?.body?.items[0].EE_DOC_DATA);
+                    const nbDocData = String(pillData?.data?.body?.items[0].NB_DOC_DATA);
+                    const udDocData = String(pillData?.data?.body?.items[0].UD_DOC_DATA);
+                    const [effect, useMethod, caution] = await Promise.all([
+                      effectParse(eeDocData),
+                      useMethodParse(nbDocData),
+                      cautionParse(udDocData),
+                    ]);
+                    setEffect(effect);
+                    setUseMethod(useMethod);
+                    setCaution(caution);
+                    setImgUrl(
+                      imgData?.data?.body.items
+                        ? imgData?.data?.body.items[0].ITEM_IMAGE
+                        : require(`../assets/images/pillPhoto.png`),
+                    );
+                  }}>
+                  💊
+                  <StPillText>{value.length < 20 ? value : value.slice(0, 20) + "..."}</StPillText>
+                </StPillItem>
+              ))}
+            </StPillList>
+          )}
           <StModal isOpen={isOpen}>
             <StButtonList>
               <StButtonBack
@@ -364,7 +379,7 @@ const StSearch = styled.input`
   }
 `;
 
-const StSearchButton = styled.button`
+const StSearchButton = styled.div`
   width: 4rem;
   height: 4rem;
   background-color: transparent;
@@ -375,7 +390,6 @@ const StSearchButton = styled.button`
 const StSearchBtnImg = styled.img`
   width: 3rem;
   height: 3rem;
-  padding: 0.3rem;
 `;
 
 const StBody = styled.div`

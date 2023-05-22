@@ -350,6 +350,7 @@ const StMedicalInput = styled.input`
   border: 0.15rem solid;
   border-radius: 1.2rem;
   padding-left: 1.5rem;
+  font-family: "Pretendard-Regular";
 `;
 const StNormalInput = styled.input`
   width: 29.5rem;
@@ -361,6 +362,7 @@ const StNormalInput = styled.input`
   padding-right: 1.5rem;
   font-size: 1.5rem;
   background-color: white;
+  font-family: "Pretendard-Regular";
 `;
 const StJoinButton = styled(motion.button)`
   display: flex;
