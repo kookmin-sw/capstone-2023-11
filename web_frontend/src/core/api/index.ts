@@ -377,19 +377,29 @@ export const getSeniorData = async () => {
   return data;
 };
 export const postSeniorCode = async (code: number) => {
-  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/userguardian/connect`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-    body: {
-      code,
+  const data = axios.post(`${process.env.REACT_APP_SERVER}/api/userguardian/connect`, code, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json",
     },
   });
-
   return data;
 };
+
 export const getSeniorTotalWatched = async (wardId: string) => {
   const data = axios.get(`${process.env.REACT_APP_SERVER}/api/userguardian/main?wardId=${wardId}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
   });
 
   return data;
+};
+
+export const deleteSenior = async (id: number) => {
+  const response = await axios.delete(
+    `${process.env.REACT_APP_SERVER}/api/userguardian/connect/{userWardId}?wardId=${id}`,
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    },
+  );
+  return response;
 };

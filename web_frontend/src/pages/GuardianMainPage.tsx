@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
@@ -10,15 +10,31 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper";
 import styled from "styled-components";
-import { useQuery } from "react-query";
-import { getSeniorData } from "../core/api";
+import { useMutation, useQuery } from "react-query";
+import { getSeniorData, postSeniorCode } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
+  const { mutate } = useMutation(postSeniorCode);
+  const [isOpen, setIsOpen] = useState(false);
+  const [code, setCode] = useState("");
 
   const navigate = useNavigate();
+  const onAddSubmit = () => {
+    mutate(Number(code), {
+      onSuccess: () => {
+        alert("성공적으로 추가했습니다!");
+        setIsOpen(false);
+        setCode("");
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    });
+  };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Helmet>
@@ -74,7 +90,28 @@ export default function GuardianMainPage() {
                   <img src={require("../assets/images/img_old-man.png")} className="image2" />
                   <img src={require("../assets/images/img_old-woman.png")} className="image2" />
                 </div>
-                <StCheckButton onClick={() => navigate("/login")}>추가하기</StCheckButton>
+                {isOpen ? (
+                  <StCenterContainer>
+                    <StCodeInfo>유저 코드를 입력해주세요</StCodeInfo>
+                    <StInputContainer>
+                      <StInputLabel htmlFor="jb-input-text"> # </StInputLabel>
+                      <StNormalInput
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        id="jb-input-text"
+                        type="number"
+                        placeholder="8자리 숫자 코드"></StNormalInput>
+                    </StInputContainer>
+                    <StCheckButton
+                      onClick={() => {
+                        onAddSubmit();
+                      }}>
+                      추가하기
+                    </StCheckButton>
+                  </StCenterContainer>
+                ) : (
+                  <StCheckButton onClick={() => setIsOpen(true)}>추가하기</StCheckButton>
+                )}
               </StInfoContainer>
             </StSeniorCard>
           </SwiperSlide>
@@ -89,6 +126,8 @@ const StGuardianMainPage = styled.div`
     width: 30rem;
     height: 55rem;
     border-radius: 1rem;
+    z-index: 1;
+    position: relative;
   }
   img {
     width: 30rem;
@@ -109,6 +148,7 @@ const StSeniorCard = styled.div`
   width: 30rem;
   height: 55rem;
   border-radius: 2rem;
+  z-index: 1;
 `;
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
@@ -150,7 +190,6 @@ const StCheckButton = styled.button`
   font-size: 2rem;
   font-family: "Pretendard-Bold";
   position: relative;
-
   margin-bottom: 2rem;
 `;
 const StInfoContainer = styled.div`
@@ -172,7 +211,7 @@ const StInfoContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin-top: 5rem;
-    margin-bottom: 5rem;
+    /* margin-bottom: 5rem; */
   }
 `;
 const StCardTag = styled.span`
@@ -205,4 +244,40 @@ const StTag = styled.div`
   position: relative;
   left: 10rem;
   top: 2rem;
+`;
+const StCenterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const StCodeInfo = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  line-height: 3.2rem;
+  text-align: center;
+`;
+const StInputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 1.8rem;
+  margin-bottom: 2.2rem;
+`;
+const StInputLabel = styled.label`
+  position: relative;
+  left: 2.5rem;
+  font-size: 1.5rem;
+  font-family: "Pretendard-Regular";
+  margin-top: 1.65rem;
+`;
+const StNormalInput = styled.input`
+  width: 29.5rem;
+  height: 4.8rem;
+  border: 0.15rem solid;
+  border-radius: 1.2rem;
+  padding-left: 3rem;
+  padding-right: 1.5rem;
+  font-size: 1.5rem;
+  background-color: white;
+  border: 0.15rem solid #006ffd;
+  font-family: "Pretendard-Regular";
 `;
