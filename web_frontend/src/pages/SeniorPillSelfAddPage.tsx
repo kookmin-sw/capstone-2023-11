@@ -364,7 +364,7 @@ const StSearch = styled.input`
   }
 `;
 
-const StSearchButton = styled.button`
+const StSearchButton = styled.div`
   width: 4rem;
   height: 4rem;
   background-color: transparent;
@@ -375,7 +375,6 @@ const StSearchButton = styled.button`
 const StSearchBtnImg = styled.img`
   width: 3rem;
   height: 3rem;
-  padding: 0.3rem;
 `;
 
 const StBody = styled.div`
