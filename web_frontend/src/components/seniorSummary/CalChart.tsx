@@ -11,7 +11,7 @@ function CalChart(prop: IWeeklyData, BMR: number, dateStrings: string[]) {
   }
   return (
     <>
-      {prop ? (
+      {!prop ? (
         <></>
       ) : (
         <ApexChart

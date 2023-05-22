@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
@@ -10,15 +10,42 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper";
 import styled from "styled-components";
-import { useQuery } from "react-query";
-import { getSeniorData } from "../core/api";
+import { useMutation, useQuery } from "react-query";
+import { deleteSenior, getSeniorData, postSeniorCode } from "../core/api";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 export default function GuardianMainPage() {
   const { data } = useQuery("senior", () => getSeniorData());
+  const { mutate: postSeniorCodeMutation } = useMutation(postSeniorCode);
+  const { mutate: deleteSeniorMutation } = useMutation(deleteSenior);
+  const [isOpen, setIsOpen] = useState(false);
+  const [code, setCode] = useState("");
 
   const navigate = useNavigate();
+  const onAddSubmit = () => {
+    postSeniorCodeMutation(Number(code), {
+      onSuccess: () => {
+        alert("성공적으로 추가했습니다!");
+        setIsOpen(false);
+        setCode("");
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    });
+  };
+  const onDeleteSubmit = (id: number) => {
+    deleteSeniorMutation(id, {
+      onSuccess: () => {
+        alert("성공적으로 삭제했습니다!");
+      },
+      onError: (error: any) => {
+        alert(error.response.data.message);
+      },
+    });
+  };
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Helmet>
@@ -43,12 +70,20 @@ export default function GuardianMainPage() {
           {data?.data.map((senior: any) => (
             <SwiperSlide>
               <StSeniorCard>
-                <StTag>관제중</StTag>
                 <StInfoContainer>
+                  <div className="row2">
+                    <img
+                      src={require("../assets/images/img_esc.png")}
+                      onClick={() => onDeleteSubmit(senior.kakaoAccountId)}
+                      className="delete"
+                    />
+                    <StTag>관제중</StTag>
+                  </div>
+
                   {senior.gender === "MALE" ? (
-                    <img src={require("../assets/images/img_old-man.png")} alt="senior" />
+                    <img src={require("../assets/images/img_old-man.png")} alt="senior" className="image" />
                   ) : (
-                    <img src={require("../assets/images/img_old-woman.png")} alt="senior" />
+                    <img src={require("../assets/images/img_old-woman.png")} alt="senior" className="image" />
                   )}
 
                   <StSeniorName>{senior.name}</StSeniorName>
@@ -66,6 +101,39 @@ export default function GuardianMainPage() {
               </StSeniorCard>
             </SwiperSlide>
           ))}
+          <SwiperSlide>
+            <StSeniorCard>
+              <StInfoContainer>
+                <StAddTitle>시니어 추가하기</StAddTitle>
+                <div className="row">
+                  <img src={require("../assets/images/img_old-man.png")} className="image2" />
+                  <img src={require("../assets/images/img_old-woman.png")} className="image2" />
+                </div>
+                {isOpen ? (
+                  <StCenterContainer>
+                    <StCodeInfo>유저 코드를 입력해주세요</StCodeInfo>
+                    <StInputContainer>
+                      <StInputLabel htmlFor="jb-input-text"> # </StInputLabel>
+                      <StNormalInput
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        id="jb-input-text"
+                        type="number"
+                        placeholder="8자리 숫자 코드"></StNormalInput>
+                    </StInputContainer>
+                    <StCheckButton
+                      onClick={() => {
+                        onAddSubmit();
+                      }}>
+                      추가하기
+                    </StCheckButton>
+                  </StCenterContainer>
+                ) : (
+                  <StCheckButton onClick={() => setIsOpen(true)}>추가하기</StCheckButton>
+                )}
+              </StInfoContainer>
+            </StSeniorCard>
+          </SwiperSlide>
         </Swiper>
       </StGuardianMainPage>
     </motion.div>
@@ -77,6 +145,8 @@ const StGuardianMainPage = styled.div`
     width: 30rem;
     height: 55rem;
     border-radius: 1rem;
+    z-index: 1;
+    position: relative;
   }
   img {
     width: 30rem;
@@ -97,6 +167,7 @@ const StSeniorCard = styled.div`
   width: 30rem;
   height: 55rem;
   border-radius: 2rem;
+  z-index: 1;
 `;
 const StTitle = styled.div`
   font-family: "Pretendard-Bold";
@@ -109,6 +180,13 @@ const StTitle = styled.div`
 const StSeniorName = styled.p`
   font-family: "Pretendard-Bold";
   font-size: 2.2rem;
+`;
+
+const StAddTitle = styled(StSeniorName)`
+  margin-top: 10rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 `;
 const StSeniorDate = styled.p`
   font-family: "Pretendard-Regular";
@@ -132,17 +210,39 @@ const StCheckButton = styled.button`
   font-size: 2rem;
   font-family: "Pretendard-Bold";
   position: relative;
-
   margin-bottom: 2rem;
 `;
 const StInfoContainer = styled.div`
   width: 25rem;
-  margin-top: 12rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
-  img {
+  .image {
     width: 13rem;
     height: 13rem;
     margin-bottom: 2rem;
+  }
+  .image2 {
+    width: 11rem;
+    height: 11rem;
+    margin-bottom: 2rem;
+  }
+  .delete {
+    width: 2rem;
+    height: 2rem;
+    margin: 1rem;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5rem;
+  }
+  .row2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    margin-top: 1rem;
   }
 `;
 const StCardTag = styled.span`
@@ -173,6 +273,44 @@ const StTag = styled.div`
   color: white;
   font-family: "Pretendard-Bold";
   position: relative;
-  left: 10rem;
-  top: 2rem;
+  margin-top: auto;
+  margin-bottom: auto;
+`;
+const StCenterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const StCodeInfo = styled.p`
+  font-family: "Pretendard-Bold";
+  font-size: 1.8rem;
+  line-height: 3.2rem;
+  text-align: center;
+`;
+const StInputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-self: center;
+  margin-top: 1.8rem;
+  margin-bottom: 2.2rem;
+  margin-right: 1rem;
+`;
+const StInputLabel = styled.label`
+  position: relative;
+  left: 2.5rem;
+  font-size: 1.5rem;
+  font-family: "Pretendard-Regular";
+  margin-top: 1.65rem;
+`;
+const StNormalInput = styled.input`
+  width: 29.5rem;
+  height: 4.8rem;
+  border: 0.15rem solid;
+  border-radius: 1.2rem;
+  padding-left: 3rem;
+  padding-right: 1.5rem;
+  font-size: 1.5rem;
+  background-color: white;
+  border: 0.15rem solid #006ffd;
+  font-family: "Pretendard-Regular";
 `;
