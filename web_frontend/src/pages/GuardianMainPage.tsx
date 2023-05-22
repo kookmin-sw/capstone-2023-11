@@ -46,9 +46,9 @@ export default function GuardianMainPage() {
                 <StTag>관제중</StTag>
                 <StInfoContainer>
                   {senior.gender === "MALE" ? (
-                    <img src={require("../assets/images/img_old-man.png")} alt="senior" />
+                    <img src={require("../assets/images/img_old-man.png")} alt="senior" className="image" />
                   ) : (
-                    <img src={require("../assets/images/img_old-woman.png")} alt="senior" />
+                    <img src={require("../assets/images/img_old-woman.png")} alt="senior" className="image" />
                   )}
 
                   <StSeniorName>{senior.name}</StSeniorName>
@@ -66,6 +66,18 @@ export default function GuardianMainPage() {
               </StSeniorCard>
             </SwiperSlide>
           ))}
+          <SwiperSlide>
+            <StSeniorCard>
+              <StInfoContainer>
+                <StAddTitle>시니어 추가하기</StAddTitle>
+                <div className="row">
+                  <img src={require("../assets/images/img_old-man.png")} className="image2" />
+                  <img src={require("../assets/images/img_old-woman.png")} className="image2" />
+                </div>
+                <StCheckButton onClick={() => navigate("/login")}>추가하기</StCheckButton>
+              </StInfoContainer>
+            </StSeniorCard>
+          </SwiperSlide>
         </Swiper>
       </StGuardianMainPage>
     </motion.div>
@@ -110,6 +122,12 @@ const StSeniorName = styled.p`
   font-family: "Pretendard-Bold";
   font-size: 2.2rem;
 `;
+
+const StAddTitle = styled(StSeniorName)`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+`;
 const StSeniorDate = styled.p`
   font-family: "Pretendard-Regular";
   font-size: 1.3rem;
@@ -139,10 +157,22 @@ const StInfoContainer = styled.div`
   width: 25rem;
   margin-top: 12rem;
   margin-bottom: 1rem;
-  img {
+  .image {
     width: 13rem;
     height: 13rem;
     margin-bottom: 2rem;
+  }
+  .image2 {
+    width: 11rem;
+    height: 11rem;
+    margin-bottom: 2rem;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
   }
 `;
 const StCardTag = styled.span`
