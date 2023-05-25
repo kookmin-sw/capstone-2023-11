@@ -35,7 +35,7 @@ We aim to provide a health information sharing service to check and manage the h
 
 
 ## 소개 영상
-<iframe width="1280" height="720" src="https://www.youtube.com/embed/9K0HCgiJkeI" title="캡스톤 11조_ 복실이 발표영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="1140" height="639" src="https://www.youtube.com/embed/9K0HCgiJkeI" title="캡스톤 11조_ 복실이 발표영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## 기술 스택
 
