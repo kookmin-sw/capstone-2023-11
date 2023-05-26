@@ -179,7 +179,7 @@ function SeniorMealCheckPage() {
   useEffect(() => {
     if (data != undefined) {
       setIndex(0);
-      if (!data.data?.result[0]?.class_info) {
+      if (!data?.data?.result[0]?.class_info) {
         alert("사진에서 음식을 인식하지 못했습니다! 음식사진을 올려주세요!");
         window.location.replace("/senior/meal/add");
       }
@@ -470,6 +470,7 @@ const StUploadButton = styled(motion.button)`
     margin-right: 0.5rem;
     width: 2rem;
   }
+  padding-bottom: 5rem;
 `;
 const StCheckButton = styled(motion.button)`
   width: 32.7rem;
