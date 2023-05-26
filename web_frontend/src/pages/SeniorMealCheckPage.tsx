@@ -147,7 +147,7 @@ function SeniorMealCheckPage() {
     },
     onSuccess: () => {
       alert("등록이 완료되었습니다!");
-      navigate("/senior/meal");
+      window.location.replace("/senior/meal");
     },
   });
 
