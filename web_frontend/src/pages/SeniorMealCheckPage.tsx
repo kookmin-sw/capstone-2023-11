@@ -556,7 +556,7 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 80vh;
+  height: 85vh;
   padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
@@ -564,6 +564,7 @@ const StCheckModal = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 7rem;
 `;
 const StCheckTitle = styled.p`
   width: 25.2rem;
