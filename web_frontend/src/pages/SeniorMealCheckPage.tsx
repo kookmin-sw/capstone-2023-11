@@ -564,7 +564,7 @@ const StCheckModal = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 7rem;
+  padding-bottom: 8.5rem;
 `;
 const StCheckTitle = styled.p`
   width: 25.2rem;
