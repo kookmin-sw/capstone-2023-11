@@ -289,7 +289,7 @@ function SeniorMealCheckPage() {
         )}
         {finishDetect == 0 ? (
           <>
-            <input accept="image/*" multiple type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
+            <input accept="image/*" type="file" onChange={(e) => onUpload(e)} ref={imageInput} />
             <StUploadButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClickImageUpload}>
               <img src={PhotoIcn} />
               사진 업로드
