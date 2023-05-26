@@ -66,10 +66,12 @@ function SeniorMealCheckPage() {
             data?.data?.result[i]?.class_info[selectFoods[i]].food_name === "-"
               ? "0"
               : data?.data?.result[i]?.class_info[selectFoods[i]].food_name,
-          servingSize:
+          servingSize: parseFloat(
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["1회제공량(g/ml)"],
-          calorie:
+          ).toFixed(1),
+          calorie: parseFloat(
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["열량(kcal)"],
+          ).toFixed(1),
           carbohyborateTotal:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
               "총량(g)"
@@ -83,52 +85,68 @@ function SeniorMealCheckPage() {
               "당류(g)"
             ] === "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-                  "당류(g)"
-                ],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                    "당류(g)"
+                  ],
+                ).toFixed(1),
           carbohyborateDietaryFiber:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
               "식이섬유(g)"
             ] === "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
-                  "식이섬유(g)"
-                ],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["탄수화물"][
+                    "식이섬유(g)"
+                  ],
+                ).toFixed(1),
           protein:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"] ===
             "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["단백질(g)"],
+                ).toFixed(1),
           fatTotal:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
               "총량(g)"
             ] === "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-                  "총량(g)"
-                ],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                    "총량(g)"
+                  ],
+                ).toFixed(1),
           fatTransFat: "0",
           fatSaturatedfat:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
               "포화지방(g)"
             ] === "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
-                  "포화지방(g)"
-                ],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["지방"][
+                    "포화지방(g)"
+                  ],
+                ).toFixed(1),
           cholesterol:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
               "콜레스테롤(mg)"
             ] === "-"
               ? 0
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
-                  "콜레스테롤(mg)"
-                ],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
+                    "콜레스테롤(mg)"
+                  ],
+                ).toFixed(1),
           natrium:
             data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"] ===
             "-"
               ? "0"
-              : data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"]["나트륨(mg)"],
+              : parseFloat(
+                  data?.data?.result[i]?.class_info[selectFoods[i]].food_nutrients["1회제공량당_영양성분"][
+                    "나트륨(mg)"
+                  ],
+                ).toFixed(1),
         });
       }
     }
@@ -339,13 +357,13 @@ function SeniorMealCheckPage() {
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
                                     ]["탄수화물"]["총량(g)"],
-                                  ).toFixed(2)}
+                                  ).toFixed(1)}
                                   g 단백질:{" "}
                                   {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
                                     ]["단백질(g)"],
-                                  ).toFixed(2)}
+                                  ).toFixed(1)}
                                   g
                                 </StNutrient>
                               </div>
@@ -373,13 +391,13 @@ function SeniorMealCheckPage() {
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
                                     ]["탄수화물"]["총량(g)"],
-                                  ).toFixed(2)}
+                                  ).toFixed(1)}
                                   g 단백질:{" "}
                                   {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex].food_nutrients[
                                       "1회제공량당_영양성분"
                                     ]["단백질(g)"],
-                                  ).toFixed(2)}
+                                  ).toFixed(1)}
                                   g
                                 </StNutrient>
                               </div>
