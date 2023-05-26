@@ -335,17 +335,17 @@ function SeniorMealCheckPage() {
                                 <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
                                 <StNutrient>
                                   탄수화물:
-                                  {
+                                  {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
-                                    ]["탄수화물"]["총량(g)"]
-                                  }
+                                    ]["탄수화물"]["총량(g)"],
+                                  ).toFixed(2)}
                                   g 단백질:{" "}
-                                  {
+                                  {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
-                                    ]["단백질(g)"]
-                                  }
+                                    ]["단백질(g)"],
+                                  ).toFixed(2)}
                                   g
                                 </StNutrient>
                               </div>
@@ -369,17 +369,17 @@ function SeniorMealCheckPage() {
                                 <StFoodName>{data?.data?.result[index]?.class_info[numdex]?.food_name}</StFoodName>
                                 <StNutrient>
                                   탄수화물:
-                                  {
+                                  {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex]?.food_nutrients[
                                       "1회제공량당_영양성분"
-                                    ]["탄수화물"]["총량(g)"]
-                                  }
+                                    ]["탄수화물"]["총량(g)"],
+                                  ).toFixed(2)}
                                   g 단백질:{" "}
-                                  {
+                                  {parseFloat(
                                     data?.data?.result[index]?.class_info[numdex].food_nutrients[
                                       "1회제공량당_영양성분"
-                                    ]["단백질(g)"]
-                                  }
+                                    ]["단백질(g)"],
+                                  ).toFixed(2)}
                                   g
                                 </StNutrient>
                               </div>
@@ -470,7 +470,6 @@ const StUploadButton = styled(motion.button)`
     margin-right: 0.5rem;
     width: 2rem;
   }
-  padding-bottom: 5rem;
 `;
 const StCheckButton = styled(motion.button)`
   width: 32.7rem;
