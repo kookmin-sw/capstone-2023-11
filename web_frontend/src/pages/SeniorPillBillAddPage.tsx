@@ -366,7 +366,7 @@ function PillImgUpload() {
             </>
           ) : (
             <div className="center">
-              <input multiple type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
+              <input type="file" accept="image/*" onChange={(e) => uploadImg(e)} ref={imageInput} />
               <StUploadButton whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={onClickImageUpload}>
                 <img src={PhotoIcn} />
                 사진 업로드
@@ -457,6 +457,7 @@ const StContainer = styled.div`
     align-items: center;
     display: flex;
     flex-direction: column;
+    padding-bottom: 10rem;
   }
 `;
 
