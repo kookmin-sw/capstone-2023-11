@@ -415,7 +415,7 @@ const StPillItem = styled(motion.ul)`
 
 const StPillText = styled.div`
   line-height: 2rem;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-family: "Pretendard-Bold";
   margin-left: 1rem;
 `;
