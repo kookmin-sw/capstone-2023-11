@@ -556,7 +556,7 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 85vh;
+  height: 80vh;
   padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
