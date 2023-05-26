@@ -103,10 +103,10 @@ function SeniorMealMain() {
                             <div>
                               <StFoodName>{meal.name}</StFoodName>
                               <StNutrient>
-                                탄수화물: {meal.carbohyborateTotal}g, 지방:{meal.fatTotal}g
+                                탄수화물: {meal.carbohyborateTotal.toFixed(1)}g, 지방:{meal.fatTotal.toFixed(1)}g
                               </StNutrient>
                             </div>
-                            <StKcal>{meal.calorie} Kcal</StKcal>
+                            <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
                           </StFoodBox1>
                         </motion.li>
                       );
@@ -123,7 +123,7 @@ function SeniorMealMain() {
                             <div>
                               <StFoodName>{meal.name}</StFoodName>
                               <StNutrient>
-                                탄수화물: {Math.round(meal.carbohyborateTotal)}g, 지방:{Math.ceil(meal.fatTotal)}g
+                                탄수화물: {meal.carbohyborateTotal.toFixed(1)}g, 지방:{meal.fatTotal.toFixed(1)}g
                               </StNutrient>
                             </div>
                             <StKcal>{Math.round(meal.calorie)} Kcal</StKcal>
