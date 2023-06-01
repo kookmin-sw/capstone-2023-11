@@ -261,36 +261,38 @@ function SeniorMealCheckPage() {
                 <canvas ref={canvasRef}></canvas>
                 {/* <StWhereFood style={{ left: data?.data?.result[index]?.x + 57, top: data?.data?.result[index]?.y }} /> */}
               </StAiFoodContainer>
-              {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
-                <>
-                  {currentSelect == index ? (
-                    <StFoodSelected whileHover={{ scale: 1.1 }}>
-                      {food.food_name}
-                      <img src={CheckedIcn} />
-                    </StFoodSelected>
-                  ) : (
-                    <StFoodUnselected
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setCurrentSelect(index)}>
-                      {food.food_name}
-                    </StFoodUnselected>
-                  )}
-                </>
-              ))}
-              {currentSelect == -1 ? (
-                <StFoodSelected>
-                  여기엔 없어요 ㅜㅜ
-                  <img src={CheckedIcn} />
-                </StFoodSelected>
-              ) : (
-                <StFoodUnselected
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setCurrentSelect(-1)}>
-                  여기엔 없어요 ㅜㅜ
-                </StFoodUnselected>
-              )}
+              <StScrollZone>
+                {data?.data?.result[index]?.class_info?.map((food: food, index: number) => (
+                  <>
+                    {currentSelect == index ? (
+                      <StFoodSelected whileHover={{ scale: 1.1 }}>
+                        {food.food_name}
+                        <img src={CheckedIcn} />
+                      </StFoodSelected>
+                    ) : (
+                      <StFoodUnselected
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => setCurrentSelect(index)}>
+                        {food.food_name}
+                      </StFoodUnselected>
+                    )}
+                  </>
+                ))}
+                {currentSelect == -1 ? (
+                  <StFoodSelected>
+                    여기엔 없어요 ㅜㅜ
+                    <img src={CheckedIcn} />
+                  </StFoodSelected>
+                ) : (
+                  <StFoodUnselected
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setCurrentSelect(-1)}>
+                    여기엔 없어요 ㅜㅜ
+                  </StFoodUnselected>
+                )}
+              </StScrollZone>
               <StNextButton
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -457,6 +459,11 @@ const StMealCheckPage = styled.div`
     display: none;
   }
 `;
+const StScrollZone = styled.div`
+  overflow: scroll;
+  width: 100%;
+  height: 40vh;
+`;
 const StTitle = styled.p`
   width: 100%;
   font-size: 3rem;
@@ -556,7 +563,7 @@ const StBackground = styled.main`
 `;
 const StCheckModal = styled.section`
   width: 30rem;
-  height: 83vh;
+  height: 85vh;
   padding: 1.6rem 2.5rem 1.1rem 2.5rem;
   border-radius: 1.4rem;
   background-color: white;
@@ -726,7 +733,7 @@ const StAiFoodContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 28rem;
+  width: 25rem;
 
   canvas {
     max-width: 100%;
